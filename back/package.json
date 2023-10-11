@@ -1,11 +1,12 @@
 {
-  "name": "santex-academy-api",
+  "name": "valecaffarato-api",
   "version": "1.0.0",
   "private": true,
   "config": {},
   "scripts": {
     "prod": "node ./bin/www",
     "start": "node ./bin/www",
+    "start:dev": "nodemon app.js",
     "clean": "rimraf ./node_modules",
     "lint-staged": "npx lint-staged",
     "live": "nodemon server.js",

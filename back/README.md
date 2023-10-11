@@ -1,7 +1,10 @@
+Este proyecto esta creado en  :
 
-# Proyecto NodeJs + Express Academy 
+[NodeJs](https://nodejs.org/en/)
 
-Este proyecto en [NodeJs](https://nodejs.org/en/), [Express](https://expressjs.com/) y [Sequelize](https://sequelize.org/) esta pensado para empezar como base para los desarrollos del curso.
+[Express](https://expressjs.com/) 
+
+[Sequelize](https://sequelize.org/) 
 
 ## Levantar proyecto
 
