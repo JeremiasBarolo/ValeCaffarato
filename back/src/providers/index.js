@@ -3,5 +3,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable eol-last */
 const empleadosProvider = require("./empleados");
+const clientesProvider = require("./clientes");
 
-module.exports = { empleadosProvider };
+module.exports = { empleadosProvider, clientesProvider };

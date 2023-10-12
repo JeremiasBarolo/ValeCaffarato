@@ -4,7 +4,9 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 const empleadosService = require('./empleados');
+const clientesService = require('./clientes');
 
 module.exports = {
-    empleadosService
+    empleadosService,
+    clientesService
 };
