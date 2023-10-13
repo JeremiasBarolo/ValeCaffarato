@@ -4,5 +4,6 @@
 const empleadosController = require('./empleados');
 const clientesController = require('./clientes');
 const proveedoresController = require('./proveedores');
+const productentityController = require('./productentity');
 
-module.exports = { empleadosController, clientesController, proveedoresController };
+module.exports = { empleadosController, clientesController, proveedoresController,productentityController };
