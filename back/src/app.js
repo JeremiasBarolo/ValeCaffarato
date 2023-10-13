@@ -1,7 +1,7 @@
 
 // Requires
 const express = require("express")
-const { empleadosRouter, clientesRouter } = require('./routes')
+const { empleadosRouter, clientesRouter, proveedoresRouter } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const { verifyMailerConn } = require('./config/mailer.js');
 const cors = require("cors");
@@ -19,6 +19,7 @@ app.use(cors());
 // Routes
 app.use("/empleados", empleadosRouter)
 app.use("/clientes", clientesRouter)
+app.use("/proveedores", proveedoresRouter)
 
 
 

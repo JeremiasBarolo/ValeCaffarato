@@ -3,5 +3,6 @@
 // Index of routes
 const empleadosController = require('./empleados');
 const clientesController = require('./clientes');
+const proveedoresController = require('./proveedores');
 
-module.exports = { empleadosController, clientesController };
+module.exports = { empleadosController, clientesController, proveedoresController };

@@ -3,5 +3,7 @@
 // Index of routes
 const empleadosRouter = require('./empleados');
 const clientesRouter = require('./clientes');
+const proveedoresRouter = require('./proveedores');
 
-module.exports = { empleadosRouter , clientesRouter };
+
+module.exports = { empleadosRouter , clientesRouter, proveedoresRouter };
