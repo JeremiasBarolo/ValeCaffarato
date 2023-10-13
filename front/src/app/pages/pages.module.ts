@@ -10,6 +10,9 @@ import { InsumosComponent } from './insumos/insumos.component';
 import { CrearEditarInsumoComponent } from './insumos/crear-editar-insumo/crear-editar-insumo.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CrearEditarProveedorComponent } from './proveedores/crear-editar-proveedor/crear-editar-proveedor.component';
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-editar.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -26,12 +29,16 @@ import { CrearEditarProveedorComponent } from './proveedores/crear-editar-provee
     InsumosComponent,
     ProveedoresComponent,
     CrearEditarProveedorComponent,
+    EmpleadosComponent,
+    CrearEditarEmpleadosComponent,
+    
     
   ],
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   exports: [
     DashboardComponent,

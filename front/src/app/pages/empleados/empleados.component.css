@@ -1,0 +1,15 @@
+.button-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .table-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  

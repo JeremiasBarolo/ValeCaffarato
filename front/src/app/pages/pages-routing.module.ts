@@ -8,6 +8,8 @@ import { InsumosComponent } from './insumos/insumos.component';
 import { CrearEditarInsumoComponent } from './insumos/crear-editar-insumo/crear-editar-insumo.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CrearEditarProveedorComponent } from './proveedores/crear-editar-proveedor/crear-editar-proveedor.component';
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-editar.component';
 
 const routes: Routes = [
   {
@@ -20,7 +22,11 @@ const routes: Routes = [
       { path: 'proveedores', component: ProveedoresComponent },
       { path: 'proveedores/crear-editar', component: CrearEditarProveedorComponent },
       { path: 'productos', component: ProductosComponent },
-      { path: '**', redirectTo: 'dashboard' },
+      {path : 'empleados', component : EmpleadosComponent},
+      { path: 'empleados/crear-editar', component: CrearEditarEmpleadosComponent },
+      { path: 'empleados/crear-editar/:id', component: CrearEditarEmpleadosComponent },
+       {path: '**', redirectTo: 'dashboard' },
+
     ]
   }
 

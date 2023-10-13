@@ -1,6 +1,8 @@
 <div class="container mt-5">
     <div class="card mb-3 border border-0 mx-auto">
-        <div class="card-body">
+      <div class="card-body">
+        <!-- Agrega un div contenedor que rodee al formulario -->
+        <div class="form-container">
             <form method="post" enctype="multipart/form-data">
                 <span>
                     <div class="form-group text-center">
@@ -9,7 +11,7 @@
                     </div>
                 
             
-
+            
                     <div class="form-group text-center">
                         <label class="text-center" for="price">Precio</label>
                         <input formControlName="price" type="number" class="form-control mt-2" placeholder="Precio">
@@ -27,14 +29,14 @@
                         <input formControlName="category" type="text" class="form-control" placeholder="Categoria">
                     </div>
                 
-
+            
                     <span>
                         <div class="form-group text-center">
                             <label for="image">Imagen</label>
                             <input formControlName="image" type="file" class="form-control mt-2">
                         </div>
                     
-
+            
                         <div class="d-flex flex-column align-items-center">
                             <label>Imágenes Actual:</label>
                             <div  class="d-flex flex-wrap">
@@ -50,9 +52,9 @@
                                     class="btn btn-success">Accept</button>
                             </div>
                             <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button [routerLink]="['/dashboard']" type="button" class="btn btn-info">Return</button>
+                                <button type="button" class="btn btn-info">Return</button>
                             </div>
-
+            
                             <div class="col-xs-12 col-md-6 col-lg-6">
                                 
                             </div>
@@ -61,5 +63,7 @@
                 </span>
             </form>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  

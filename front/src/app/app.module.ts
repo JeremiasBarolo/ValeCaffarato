@@ -7,6 +7,8 @@ import { NopageFoundComponent } from './nopage-found/nopage-found.component';
 import { AuthModule } from './auth/auth.module';
 import { PagesModule } from './pages/pages.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppRoutingModule,
     AuthModule,
     PagesModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ToastrModule.forRoot(),
+    HttpClientModule
     
   ],
   providers: [],
