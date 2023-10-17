@@ -12,6 +12,8 @@ import { EmpleadosComponent } from './empleados/empleados.component';
 import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-editar.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
+import { InsumosEntityComponent } from './insumos-entity/insumos-entity.component';
+import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 
 const routes: Routes = [
   {
@@ -25,13 +27,16 @@ const routes: Routes = [
       { path: 'proveedores/crear-editar', component: CrearEditarProveedorComponent },
       { path: 'proveedores/crear-editar/:id', component: CrearEditarProveedorComponent },
       { path: 'productos', component: ProductosComponent },
-      {path : 'empleados', component : EmpleadosComponent},
+      { path : 'empleados', component : EmpleadosComponent},
       { path: 'empleados/crear-editar', component: CrearEditarEmpleadosComponent },
       { path: 'empleados/crear-editar/:id', component: CrearEditarEmpleadosComponent },
-      {path : 'clientes', component : ClientesComponent},
+      { path : 'clientes', component : ClientesComponent},
       { path: 'clientes/crear-editar', component: CrearEditarClientesComponent },
       { path: 'clientes/crear-editar/:id', component: CrearEditarClientesComponent },
-       {path: '**', redirectTo: 'dashboard' },
+      { path : 'insumo-entity', component : InsumosEntityComponent},
+      { path: 'insumo-entity/crear-editar', component: CrearEditarInsumoEntityComponent },
+      { path: 'insumo-entity/crear-editar/:id', component: CrearEditarInsumoEntityComponent },
+      { path: '**', redirectTo: 'dashboard' },
 
     ]
   }

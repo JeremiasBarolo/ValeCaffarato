@@ -1,0 +1,27 @@
+<section class="section-with-margin">
+    <div class="text-right">
+      <button type="button" class="btn btn-outline-success add" [routerLink]="['crear-editar']"> Agregar Entidad</button>
+    </div>
+  </section>
+  <section class="section-with-margin">
+    <div class="cards-container">
+      <div class="card" style="width: 18rem;" *ngFor="let card of entidades">
+        <h5 class="card-header text-center">{{card.name}}</h5>
+        <div class="card-body">
+          <p class="card-text text-center">{{card.description}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-right ml-6">
+            <a routerLink="crear-editar/{{card.id}}" routerLinkActive="router-link-active" class="btn btn-outline-primary mr-2">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <a class="btn btn-outline-danger" (click)="deleteEntidad(card.id)">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  

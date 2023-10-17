@@ -15,6 +15,8 @@ import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-ed
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClientesComponent } from './clientes/clientes.component';
 import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
+import { InsumosEntityComponent } from './insumos-entity/insumos-entity.component';
+import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 
 
 
@@ -35,6 +37,8 @@ import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-edit
     CrearEditarEmpleadosComponent,
     ClientesComponent,
     CrearEditarClientesComponent,
+    InsumosEntityComponent,
+    CrearEditarInsumoEntityComponent,
     
     
   ],

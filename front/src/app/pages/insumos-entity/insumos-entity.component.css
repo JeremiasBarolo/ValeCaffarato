@@ -1,0 +1,12 @@
+.section-with-margin {
+    margin: 20px; /* Adjust the margin size as needed */
+  }
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    margin-right: 16px; /* Adjust the spacing between cards as needed */
+  }
+  
