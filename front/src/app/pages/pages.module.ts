@@ -13,6 +13,8 @@ import { CrearEditarProveedorComponent } from './proveedores/crear-editar-provee
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-editar.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ClientesComponent } from './clientes/clientes.component';
+import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
 
 
 
@@ -31,6 +33,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CrearEditarProveedorComponent,
     EmpleadosComponent,
     CrearEditarEmpleadosComponent,
+    ClientesComponent,
+    CrearEditarClientesComponent,
     
     
   ],

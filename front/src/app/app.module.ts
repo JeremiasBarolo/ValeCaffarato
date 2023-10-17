@@ -9,6 +9,8 @@ import { PagesModule } from './pages/pages.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     PagesModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
     
   ],
   providers: [],

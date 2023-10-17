@@ -10,6 +10,8 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CrearEditarProveedorComponent } from './proveedores/crear-editar-proveedor/crear-editar-proveedor.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-editar.component';
+import { ClientesComponent } from './clientes/clientes.component';
+import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,9 @@ const routes: Routes = [
       {path : 'empleados', component : EmpleadosComponent},
       { path: 'empleados/crear-editar', component: CrearEditarEmpleadosComponent },
       { path: 'empleados/crear-editar/:id', component: CrearEditarEmpleadosComponent },
+      {path : 'clientes', component : ClientesComponent},
+      { path: 'clientes/crear-editar', component: CrearEditarClientesComponent },
+      { path: 'clientes/crear-editar/:id', component: CrearEditarClientesComponent },
        {path: '**', redirectTo: 'dashboard' },
 
     ]
