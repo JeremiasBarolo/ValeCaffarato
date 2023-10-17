@@ -1,15 +1,17 @@
-
-<div class="text-right">
-    <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar Entidad</button>
-</div>
-  
-
-<section style="margin: 16px">
+<section>
+    <div class="text-right">
+      <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar Entidad</button>
+    </div>
+  </section>
+  <section class="section-with-margin">
     <div class="cards-container">
       <div class="card" style="width: 18rem;" *ngFor="let card of entidades">
         <h5 class="card-header text-center">{{card.name}}</h5>
         <div class="card-body">
-          <p class="card-text text-center">{{card.description}}</p>
+          <p class="card-text text-center text-strong">Medidas: </p>
+          <p class="card-text text-left">Alto: {{card.measurement_height}}cm</p>
+          <p class="card-text text-left">Largo: {{card.measurement_length}}cm</p>
+          <p class="card-text text-left">Profundidad: {{card.measurement_depth}}cm</p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item text-right ml-6">

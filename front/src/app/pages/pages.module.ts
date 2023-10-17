@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ProductosComponent } from './productos/productos.component';
 import { PagesComponent } from './pages.component';
@@ -17,6 +16,9 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
 import { InsumosEntityComponent } from './insumos-entity/insumos-entity.component';
 import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
+import { ProductEntityComponent } from './product-entity/product-entity.component';
+import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
 
 
 
@@ -25,7 +27,6 @@ import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-
 
 @NgModule({
   declarations: [
-    DashboardComponent,
     UsuariosComponent,
     ProductosComponent,
     PagesComponent,
@@ -39,6 +40,9 @@ import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-
     CrearEditarClientesComponent,
     InsumosEntityComponent,
     CrearEditarInsumoEntityComponent,
+    ProductEntityComponent,
+    CrearEditarProductEntityComponent,
+    PedidosComponent,
     
     
   ],
@@ -49,7 +53,6 @@ import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-
     ReactiveFormsModule
   ],
   exports: [
-    DashboardComponent,
     UsuariosComponent,
     ProductosComponent,
     PagesComponent

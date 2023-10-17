@@ -1,46 +1,49 @@
-<div>
-  <button type="button" class="btn btn-outline-success add" [routerLink]="['crear-editar']"> Agregar
+<div class="text-right">
+  <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar
       Empleado</button>
 </div>
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Rol</th>
-        <th scope="col">Direccion</th>
-        <th scope="col">Localidad</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Email</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let empleado of empleados">
-        <th scope="row">{{empleado.id}}</th>
-        <td>{{empleado.name}}</td>
-        <td>{{empleado.lastname}}</td>
-        <td>{{empleado.role}}</td>
-        <td>{{empleado.adress}}, {{empleado.adressNumber}}</td>
-        <td>{{empleado.city}}</td>
-        <td>{{empleado.phone}}</td>
-        <td>{{empleado.email}}</td>
-        <td>
-            <div class="wrapper d-flex justify-content-end">
-                <button routerLink="crear-editar/{{empleado.id}}" routerLinkActive="router-link-active"
-                    type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
 
-                <button type="button" (click)="deleteEmpleado(empleado.id)"
-                    class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
-                        class="fa-solid fa-trash"></i></button>
-            </div>
-        </td>
+<section style="margin: 16px">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Rol</th>
+          <th scope="col">Direccion</th>
+          <th scope="col">Localidad</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Email</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empleado of empleados">
+          <th scope="row">{{empleado.id}}</th>
+          <td>{{empleado.name}}</td>
+          <td>{{empleado.lastname}}</td>
+          <td>{{empleado.role}}</td>
+          <td>{{empleado.adress}}, {{empleado.adressNumber}}</td>
+          <td>{{empleado.city}}</td>
+          <td>{{empleado.phone}}</td>
+          <td>{{empleado.email}}</td>
+          <td>
+              <div class="wrapper d-flex justify-content-end">
+                  <button routerLink="crear-editar/{{empleado.id}}" routerLinkActive="router-link-active"
+                      type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
 
-      </tr>
-      
-    </tbody>
-  </table>
+                  <button type="button" (click)="deleteEmpleado(empleado.id)"
+                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                          class="fa-solid fa-trash"></i></button>
+              </div>
+          </td>
 
+        </tr>
+        
+      </tbody>
+    </table>
+
+</section>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
 import { ProductosComponent } from './productos/productos.component';
 import { InsumosComponent } from './insumos/insumos.component';
@@ -14,13 +13,17 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
 import { InsumosEntityComponent } from './insumos-entity/insumos-entity.component';
 import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
+import { ProductEntityComponent } from './product-entity/product-entity.component';
+import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
+
 
 const routes: Routes = [
   {
     path: 'dashboard', component: PagesComponent,
     children: [
-      { path: '', component: DashboardComponent },
-      { path: 'usuarios', component: DashboardComponent },
+      { path: '', component: PedidosComponent },
+      { path: 'pedidos', component: PedidosComponent },
       { path: 'insumos', component: InsumosComponent },
       { path: 'insumos/crear-editar', component: CrearEditarInsumoComponent },
       { path: 'proveedores', component: ProveedoresComponent },
@@ -36,6 +39,9 @@ const routes: Routes = [
       { path : 'insumo-entity', component : InsumosEntityComponent},
       { path: 'insumo-entity/crear-editar', component: CrearEditarInsumoEntityComponent },
       { path: 'insumo-entity/crear-editar/:id', component: CrearEditarInsumoEntityComponent },
+      { path : 'product-entity', component : ProductEntityComponent},
+      { path: 'product-entity/crear-editar', component: CrearEditarProductEntityComponent },
+      { path: 'product-entity/crear-editar/:id', component: CrearEditarProductEntityComponent },
       { path: '**', redirectTo: 'dashboard' },
 
     ]

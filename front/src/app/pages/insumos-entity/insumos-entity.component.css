@@ -1,9 +1,8 @@
-.section-with-margin {
-    margin: 20px; /* Adjust the margin size as needed */
-  }
-  .cards-container {
+.cards-container {
     display: flex;
     flex-wrap: wrap;
+    overflow-x: auto; /* Enable horizontal scrolling when overflowing */
+    max-height: 300px; /* Set a maximum height for vertical scrolling */
   }
   
   .card {
