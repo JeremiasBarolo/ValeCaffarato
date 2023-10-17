@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/newline-after-import */
 const {
   Model,
 } = require('sequelize');
@@ -11,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // this.belongsToMany( models.Material, {
+      //   through: 'ProductMaterial', 
+      //   foreignKey: 'productEntityId', 
+      //   otherKey: 'materialId', 
+      // });
     }
   }
   ProductEntity.init({
@@ -26,5 +28,5 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'ProductEntity',
   });
   return ProductEntity;
-// eslint-disable-next-line eol-last
+
 };

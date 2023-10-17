@@ -1,7 +1,7 @@
-/* eslint-disable quotes */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable eol-last */
 const empleadosProvider = require("./empleados");
+const clientesProvider = require("./clientes");
+const proveedoresProvider = require("./proveedores");
+const productentityProvider = require("./productentity");
+const insumosentityProvider = require("./insumosentity");
 
-module.exports = { empleadosProvider };
+module.exports = { empleadosProvider, clientesProvider, proveedoresProvider, productentityProvider, insumosentityProvider};

@@ -25,15 +25,7 @@ const listOneEmpleado = async (req, res) => {
 const createEmpleado = async (req, res) => {
 
   try {
-
-    const {
-        name, lastname, adress, adressNumber, dni, city, phone, cuit, email, role
-    } = req.body;
-
-    // if (name || lastname || adress || adressNumber || dni || city || phone || cuit || email || role == undefined) {
-    //   return res.status(400).json({ message: 'Faltan campos requeridos' });
-    // }
-
+    
     const newEmpleado = await empleadosService.createEmpleado(req.body);
 
     console.log(`✅ Empleado "${newEmpleado.name}" was created  `);

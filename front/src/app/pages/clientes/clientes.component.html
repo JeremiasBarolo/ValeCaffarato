@@ -1,0 +1,47 @@
+<div class="text-right">
+    <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar
+        Cliente</button>
+</div>
+
+<section style="margin: 16px">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Empresa</th>
+          <th scope="col">Localidad</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Email</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <th scope="row">{{cliente.id}}</th>
+          <td>{{cliente.name}}</td>
+          <td>{{cliente.lastname}}</td>
+          <td>{{cliente.industry}}</td>
+          <td>{{cliente.city}}</td>
+          <td>{{cliente.phone}}</td>
+          <td>{{cliente.email}}</td>
+          <td>
+              <div class="wrapper d-flex justify-content-end">
+                  <button routerLink="crear-editar/{{cliente.id}}" routerLinkActive="router-link-active"
+                      type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+  
+                  <button type="button" (click)="deleteCliente(cliente.id)"
+                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                          class="fa-solid fa-trash"></i></button>
+              </div>
+          </td>
+  
+        </tr>
+        
+      </tbody>
+    </table>
+  
+</section>

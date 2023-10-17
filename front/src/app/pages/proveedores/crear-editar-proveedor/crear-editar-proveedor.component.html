@@ -1,65 +1,66 @@
 <div class="container mt-5">
-    <div class="card mb-3 border border-0 mx-auto">
-        <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
-                <span>
-                    <div class="form-group text-center">
-                        <label for="name">Nombre</label>
-                        <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
-                    </div>
-                
-            
+  <div class="card mb-3 border border-0 mx-auto">
+      <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="addProveedor()" method="post" enctype="multipart/form-data">
+              <span>
+                  <div class="form-group text-center">
+                      <label for="name">Nombre</label>
+                      <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
+                  </div>
 
-                    <div class="form-group text-center">
-                        <label class="text-center" for="price">Precio</label>
-                        <input formControlName="price" type="number" class="form-control mt-2" placeholder="Precio">
-                    </div>
-                
-                    
-                    <div class="form-group text-center">
-                        <label for="description">Descripcion</label>
-                        <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
-                    </div>
-                
-                    
-                    <div class="form-group text-center">
-                        <label for="category">Categoria</label>
-                        <input formControlName="category" type="text" class="form-control" placeholder="Categoria">
-                    </div>
-                
+                  <div class="form-group text-center">
+                      <label for="lastname" class="text-center" for="price">Apellido</label>
+                      <input formControlName="lastname" type="text" class="form-control mt-2" placeholder="Apellido">
+                  </div>
 
-                    <span>
-                        <div class="form-group text-center">
-                            <label for="image">Imagen</label>
-                            <input formControlName="image" type="file" class="form-control mt-2">
-                        </div>
-                    
+                  <div class="form-group text-center">
+                      <label for="email" class="text-center" for="price">Email</label>
+                      <input formControlName="email" type="email" class="form-control mt-2" placeholder="Email">
+                  </div>
+              
+                  <div class="form-group text-center">
+                      <label for="industry">Empresa</label>
+                      <input formControlName="industry" type="text" class="form-control" placeholder="Ciudad">
+                  </div>
 
-                        <div class="d-flex flex-column align-items-center">
-                            <label>Imágenes Actual:</label>
-                            <div  class="d-flex flex-wrap">
-                                <div  class="me-2 mb-2">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                         
-                        <div class="row mt-5 text-center">
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button routerLinkActive="router-link-active" type="submit"
-                                    class="btn btn-success">Accept</button>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button [routerLink]="['/dashboard']" type="button" class="btn btn-info">Return</button>
-                            </div>
+                  <div class="form-group text-center">
+                      <label for="city">Localidad</label>
+                      <input formControlName="city" type="text" class="form-control" placeholder="Ciudad">
+                  </div>
 
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                
-                            </div>
-                        </div>
-                    </span>
-                </span>
-            </form>
-        </div>
-    </div>
+                  <div class="form-group text-center">
+                      <label for="phone">Telefono</label>
+                      <input formControlName="phone" type="number" class="form-control" placeholder="Telefono">
+                  </div>
+
+                  <div class="form-group text-center">
+                      <label for="dni">DNI</label>
+                      <input formControlName="dni" type="number" class="form-control" placeholder="DNI">
+                  </div>
+
+                  <div class="form-group text-center">
+                      <label for="cuit">CUIT</label>
+                      <input formControlName="cuit" type="number" class="form-control" placeholder="CUIT">
+                  </div>
+              
+
+                  <span  class="row mt-5 text-center">     
+                      <div class="col-xs-12 col-md-6 col-lg-6">
+                          <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit"
+                              class="btn btn-success">Aceptar</button>
+                      </div>
+                      <div class="col-xs-12 col-md-6 col-lg-6">
+                          <button [routerLink]="['/dashboard/empleados']" type="button" class="btn btn-info">Volver</button>
+                      </div>
+                      <div class="col-xs-12 col-md-6 col-lg-6">
+                          <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
+                      </div>
+                  </span>
+
+              </span>
+          </form>
+      </div>
+  </div>
 </div>
+
+

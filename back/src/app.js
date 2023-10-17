@@ -1,11 +1,10 @@
 
 // Requires
 const express = require("express")
-const { empleadosRouter } = require('./routes')
+const { empleadosRouter, clientesRouter, proveedoresRouter,productentityRouter, insumosentityRouter } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
-const { verifyMailerConn } = require('./config/mailer.js');
 const cors = require("cors");
-const {checkAdmin} = require('./db/createAdminEntity')
+const {checkAdmin} = require('./db/createAdminEntity');
 
 
 // App Creation
@@ -18,6 +17,10 @@ app.use(cors());
 
 // Routes
 app.use("/empleados", empleadosRouter)
+app.use("/clientes", clientesRouter)
+app.use("/proveedores", proveedoresRouter)
+app.use('/product_entity', productentityRouter)
+app.use('/insumos_entity', insumosentityRouter)
 
 
 
