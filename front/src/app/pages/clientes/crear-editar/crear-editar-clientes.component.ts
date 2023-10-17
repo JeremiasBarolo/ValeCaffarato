@@ -2,7 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Cliente } from 'src/app/models/Cliente';
+import { Cliente } from '../../../models/cliente';
 import { ClientesService } from 'src/app/services/clientes.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -47,7 +47,6 @@ export class CrearEditarClientesComponent implements AfterViewInit {
       this.operacion = 'Editar';
       this.titleService.setTitle('Editar Cliente');
       console.log(this.id);
-      
       this.getCliente(this.id);
     } else{
       this.operacion = 'Agregar';

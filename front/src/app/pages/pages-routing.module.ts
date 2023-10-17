@@ -23,6 +23,7 @@ const routes: Routes = [
       { path: 'insumos/crear-editar', component: CrearEditarInsumoComponent },
       { path: 'proveedores', component: ProveedoresComponent },
       { path: 'proveedores/crear-editar', component: CrearEditarProveedorComponent },
+      { path: 'proveedores/crear-editar/:id', component: CrearEditarProveedorComponent },
       { path: 'productos', component: ProductosComponent },
       {path : 'empleados', component : EmpleadosComponent},
       { path: 'empleados/crear-editar', component: CrearEditarEmpleadosComponent },

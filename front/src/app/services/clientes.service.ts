@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cliente } from '../models/Cliente';
+import { Cliente } from '../models/cliente';
 import { Observable, catchError, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
