@@ -1,0 +1,16 @@
+.section-with-margin{
+    margin: 16px;
+}
+
+.presupuesto-card-header{
+    background-color: #248effd8;
+}
+
+.preparacion-card-header{
+    background-color: #373d44;
+    color: aliceblue;
+}
+
+.finalizado-card-header{
+    background-color: #96ff76ea;
+}
