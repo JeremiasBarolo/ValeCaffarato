@@ -7,5 +7,15 @@ const proveedoresController = require('./proveedores');
 const productentityController = require('./productentity');
 const insumosentityController = require('./insumosentity');
 const insumoController = require('./insumo');
+const compraPresupuestoController = require('./compraPresupuesto');
 
-module.exports = { empleadosController, clientesController, proveedoresController,productentityController, insumosentityController, insumoController };
+module.exports = { 
+    empleadosController, 
+    clientesController, 
+    proveedoresController,
+    productentityController, 
+    insumosentityController, 
+    insumoController,
+    compraPresupuestoController
+
+};
