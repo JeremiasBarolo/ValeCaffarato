@@ -3,11 +3,13 @@ const clientesService = require('./clientes');
 const proveedoresService = require('./proveedores');
 const productentityService = require('./productentity');
 const insumosentityService  = require('./insumosentity');
+const insumoService  = require('./insumo');
 
 module.exports = {
     empleadosService,
     clientesService,
     proveedoresService,
     productentityService,
-    insumosentityService
+    insumosentityService,
+    insumoService
 };

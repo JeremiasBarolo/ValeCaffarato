@@ -6,6 +6,7 @@ const clientesRouter = require('./clientes');
 const proveedoresRouter = require('./proveedores');
 const productentityRouter = require('./productentity');
 const insumosentityRouter = require('./insumosentity');
+const insumosRouter = require('./insumos');
 
 
-module.exports = { empleadosRouter , clientesRouter, proveedoresRouter,productentityRouter, insumosentityRouter };
+module.exports = { empleadosRouter , clientesRouter, proveedoresRouter,productentityRouter, insumosentityRouter, insumosRouter };

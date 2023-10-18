@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/newline-after-import */
-/* eslint-disable eol-last */
+'use strict';
 const {
-  Model,
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class InsumosEntity extends Model {
+  class Insumo extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -15,14 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  InsumosEntity.init({
+  Insumo.init({
     name: DataTypes.STRING,
-    quantity: DataTypes.INTEGER,
     description: DataTypes.STRING,
-    price: DataTypes.INTEGER,
+    quantity: DataTypes.INTEGER,
+    price: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'InsumosEntity',
+    modelName: 'Insumo',
   });
-  return InsumosEntity;
+  return Insumo;
 };

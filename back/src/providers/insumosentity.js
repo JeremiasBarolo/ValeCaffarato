@@ -50,10 +50,12 @@ const createInsumosentity= async (insumosentityData) => {
 
   try {
     transaction = await models.sequelize.transaction();
+    
     const dataInsumosentity= {
       name: insumosentityData.name,
       quantity: insumosentityData.quantity,
       description: insumosentityData.description,
+      price: insumosentityData.price,
     };
 
     // const imageUrls = insumosentityData.images;

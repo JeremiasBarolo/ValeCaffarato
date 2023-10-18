@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   ProductEntity.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
+    price: DataTypes.INTEGER,
     measurement_height: DataTypes.INTEGER,
     measurement_length: DataTypes.INTEGER,
     measurement_depth: DataTypes.INTEGER,
