@@ -8,6 +8,7 @@ const productentityController = require('./productentity');
 const insumosentityController = require('./insumosentity');
 const insumoController = require('./insumo');
 const compraPresupuestoController = require('./compraPresupuesto');
+const compraPreparacionController = require('./compraPreparacion');
 
 module.exports = { 
     empleadosController, 
@@ -16,6 +17,7 @@ module.exports = {
     productentityController, 
     insumosentityController, 
     insumoController,
-    compraPresupuestoController
+    compraPresupuestoController,
+    compraPreparacionController
 
 };
