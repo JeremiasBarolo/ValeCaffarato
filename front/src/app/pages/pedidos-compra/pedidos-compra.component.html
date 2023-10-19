@@ -1,15 +1,19 @@
+<div class="text-right">
+  <button type="button" class="btn btn-outline-success add mr-2"> Agregar
+      Pedido Compra</button>
+</div>
 <section class="text-center section-with-margin">
     <div class="row">
-      <div class="col-md-4 border-right">
-        <h4 class="mb-3">Presupuestado</h4>
+      <div class="col-md-4 border-right" >
+        <h4 class="mb-3" >Presupuestado</h4>
   
-        <div class="card">
+        <div class="card" *ngFor="let presupuesto of listPresupuesto">
           <div class="card-header presupuesto-card-header">
-            Compra
+            {{presupuesto.name}}
           </div>
   
           <div class="card-body">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit</p>
+            {{presupuesto.description}}
           </div>
   
           <div class="card-footer">
@@ -20,16 +24,16 @@
       </div>
 
 
-      <div class="col-md-4 border-right">
+      <div class="col-md-4 border-right" >
         <h4 class="mb-3">Preparacion</h4>
   
-        <div class="card">
+        <div class="card" *ngFor="let preparacion of listPreparacion">
           <div class="card-header preparacion-card-header">
-            Compra
+            {{preparacion.name}}
           </div>
   
           <div class="card-body">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit</p>
+            {{preparacion.description}}
           </div>
   
           <div class="card-footer">
@@ -40,16 +44,16 @@
       </div>
 
 
-      <div class="col-md-4 border-right">
+      <div class="col-md-4 border-right" >
         <h4 class="mb-3">Finalizado</h4>
   
-        <div class="card">
+        <div class="card" *ngFor="let finalizado of listFinalizacion">
           <div class="card-header finalizado-card-header">
-            Compra
+            {{finalizado.name}}
           </div>
   
           <div class="card-body">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit</p>
+            <p>{{finalizado.name}}</p>
           </div>
   
           <div class="card-footer">
