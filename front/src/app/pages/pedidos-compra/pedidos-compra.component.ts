@@ -1,4 +1,7 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CompraFinalizacionService } from 'src/app/services/compra-finalizacion.service';
 import { CompraPreparacionService } from 'src/app/services/compra-preparacion.service';
 import { CompraPresupuestoService } from 'src/app/services/compra-presupuesto.service';
@@ -19,7 +22,12 @@ export class PedidosCompraComponent implements OnInit {
     private titleService: TitleService,
     private compraPreparacionService: CompraPreparacionService,
     private compraPresupuestoService: CompraPresupuestoService,
-    private compraFinalizacionService: CompraFinalizacionService
+    private compraFinalizacionService: CompraFinalizacionService,
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private viewport: ViewportScroller
+
     ) { }
 
   ngOnInit(): void {
@@ -27,9 +35,38 @@ export class PedidosCompraComponent implements OnInit {
     this.compraPresupuestoService.getAll().subscribe(data => this.listPresupuesto = data);
     this.compraPreparacionService.getAll().subscribe(data => this.listPreparacion = data);
     this.compraFinalizacionService.getAll().subscribe(data => this.listFinalizacion = data);
-    console.log(this.listPresupuesto);
-    console.log(this.listPreparacion);
-    console.log(this.listFinalizacion);
+    this.route.paramMap.subscribe((params) => {
+      this.viewport.scrollToPosition([0,0]);
+    });
   }
+
+  cambiarEstado(id: number, estado: string, pedido: any) {
+    if (estado === 'PREPARACION') {
+      this.compraPreparacionService.create(pedido).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} en preparación...`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500); 
+      });
+    } else {
+      this.compraFinalizacionService.create(pedido).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} listo para finalizar `);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500); 
+      });
+    }
+  }
+
+  finalizaPedido(id: number) {
+    this.compraFinalizacionService.delete(id).subscribe(() => {
+      this.toastr.success(`Pedido finalizado`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500); 
+    });
+  }
+
+
 }
   

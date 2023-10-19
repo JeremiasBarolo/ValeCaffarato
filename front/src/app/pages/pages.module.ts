@@ -19,6 +19,7 @@ import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-
 import { ProductEntityComponent } from './product-entity/product-entity.component';
 import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
 import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
+import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-pedido-compra/crear-editar-pedido-compra.component';
 
 
 
@@ -43,6 +44,7 @@ import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.componen
     ProductEntityComponent,
     CrearEditarProductEntityComponent,
     PedidosCompraComponent,
+    CrearEditarPedidoCompraComponent,
     
     
   ],

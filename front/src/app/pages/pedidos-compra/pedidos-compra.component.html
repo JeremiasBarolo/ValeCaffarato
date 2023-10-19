@@ -1,6 +1,6 @@
 <div class="text-right">
-  <button type="button" class="btn btn-outline-success add mr-2"> Agregar
-      Pedido Compra</button>
+  <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar
+      Pedido</button>
 </div>
 <section class="text-center section-with-margin">
     <div class="row">
@@ -17,8 +17,8 @@
           </div>
   
           <div class="card-footer">
-            <a href="#" class="btn btn-outline-primary mr-1">Aprobar</a>
-            <a href="#" class="btn btn-outline-danger ml-1">Cancelar</a>
+            <a class="btn btn-outline-primary mr-1" (click)="cambiarEstado(presupuesto.id, 'PREPARACION', presupuesto )" [routerLink]="['/dashboard','pedidos-compra']">Aprobar</a>
+            <a class="btn btn-outline-danger ml-1">Cancelar</a>
           </div>
         </div>
       </div>
@@ -37,8 +37,8 @@
           </div>
   
           <div class="card-footer">
-            <a href="#" class="btn btn-outline-dark mr-1">Cerrado</a>
-            <a href="#" class="btn btn-outline-danger ml-1">Cancelado</a>
+            <a class="btn btn-outline-dark mr-1" (click)="cambiarEstado(preparacion.id, 'finalizado', preparacion )" [routerLink]="['/dashboard','pedidos-compra']">Cerrado</a>
+            <a class="btn btn-outline-danger ml-1">Cancelado</a>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
           </div>
   
           <div class="card-footer">
-            <a href="#" class="btn btn-outline-danger">Finalizado</a>
+            <button class="btn btn-outline-danger" (click)="finalizaPedido(finalizado.id)">Finalizado</button>
           </div>
         </div>
       </div>

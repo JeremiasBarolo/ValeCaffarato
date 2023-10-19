@@ -52,14 +52,16 @@ const createCompraPreparacion= async (compraPreparacionData) => {
     transaction = await models.sequelize.transaction();
     
     const dataCompraPreparacion= {
-      name: compraPreparacionData.name,
-      description: compraPreparacionData.description,
-      subtotal: compraPreparacionData.subtotal,
+        id: compraPreparacionData.id,
+        name: compraPreparacionData.name,
+        description: compraPreparacionData.description,
+        subtotal: compraPreparacionData.subtotal,
     };
 
     // const imageUrls = CompraPreparacionData.images;
 
     const newCompraPreparacion= await models.CompraPreparacion.create(dataCompraPreparacion, { transaction });
+    await models.CompraPresupuesto.destroy({ where: { id: dataCompraPreparacion.id } });
 
     // const createdImages = await Promise.all(
     //   imageUrls.map((imageUrl) => models.CompraPreparacionImages.create(

@@ -32,7 +32,6 @@ export class CompraPresupuestoService {
     create(any: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}`, any)
       .pipe(
-        tap(_ => this.toastr.success('anys creado exitosamente')),
         catchError(error => {
           this.toastr.error('Error al crear el any');
           throw error;
@@ -44,7 +43,6 @@ export class CompraPresupuestoService {
     update(id: number, any: FormData): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, any)
       .pipe(
-        tap(_ => this.toastr.success('any actualizado exitosamente')),
         catchError(error => {
           this.toastr.error('Error al actualizar el any');
           throw error;
@@ -56,7 +54,6 @@ export class CompraPresupuestoService {
     delete(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`)
       .pipe(
-        tap(_ => this.toastr.success('any eliminado exitosamente')),
         catchError(error => {
           this.toastr.error('Error al eliminar el any');
           throw error;
