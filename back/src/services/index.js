@@ -6,6 +6,7 @@ const insumosentityService  = require('./insumosentity');
 const insumoService  = require('./insumo');
 const compraPresupuestoService = require('./compraPresupuesto');
 const compraPreparacionService = require('./compraPreparacion');
+const compraFinalizacionService = require('./compraFinalizacion');
 
 module.exports = {
     empleadosService,
@@ -15,5 +16,6 @@ module.exports = {
     insumosentityService,
     insumoService,
     compraPresupuestoService,
-    compraPreparacionService
+    compraPreparacionService,
+    compraFinalizacionService
 };

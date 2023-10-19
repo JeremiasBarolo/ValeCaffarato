@@ -9,6 +9,7 @@ const insumosentityRouter = require('./insumosentity');
 const insumosRouter = require('./insumos');
 const compraPresupestoRouter = require('./compraPresupesto')
 const compraPreparacionRouter = require('./compraPreparacion')
+const compraFinalizacionRouter = require('./compraFinalizacion')
 
 
 module.exports = { empleadosRouter,
@@ -18,5 +19,6 @@ module.exports = { empleadosRouter,
     insumosentityRouter,
     insumosRouter,
     compraPresupestoRouter,
-    compraPreparacionRouter
+    compraPreparacionRouter,
+    compraFinalizacionRouter
  };
