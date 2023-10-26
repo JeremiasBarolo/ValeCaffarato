@@ -1,14 +1,12 @@
 
+
 <div class="text-right">
-  <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar Entidad</button>
+  <button type="button" class="button" [routerLink]="['crear-editar']"> Agregar Entidad</button>
 </div>
 
 
-
-
-
 <div class="parent">
-  <div class="card" *ngFor="let card of entidades">
+  <a class="card" *ngFor="let card of entidades" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">
       <div class="content-box">
           <span class="card-title">{{card.name}}</span>
       </div>
@@ -16,6 +14,33 @@
           <span class="month">{{card.price | currency}}</span>
           <span class="date">{{card.quantity}}</span>
       </div>
+  </a>
+
+
+  
+
+</div>
+
+<div class="modal fade modal" id="InsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ cardData.description }}</p>
+        <p>Precio: {{ cardData.price | currency }}</p>
+        <p>Cantidad: {{ cardData.quantity }}</p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+        
+      </div>
+    </div>
   </div>
 </div>
 

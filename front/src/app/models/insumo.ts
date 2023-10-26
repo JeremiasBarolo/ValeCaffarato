@@ -4,5 +4,6 @@ export interface Insumo{
     quantity: number;
     price: number;
     description: string;
+    createdAt?: Date
 }
 

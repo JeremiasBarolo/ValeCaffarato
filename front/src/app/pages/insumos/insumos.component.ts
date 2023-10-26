@@ -14,7 +14,16 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class InsumosComponent {
 	entidades: Insumo[] = []
-  constructor(private titleService: TitleService, private insumoService: InsumoService) {
+  cardData: Insumo = {
+    name: '',
+    description: '',
+    quantity: 0,
+    price: 0
+  }
+  constructor(
+    private titleService: TitleService, 
+    private insumoService: InsumoService,
+    ) {
     
   }
   
@@ -27,6 +36,9 @@ export class InsumosComponent {
       this.entidades = this.entidades.filter(e => e.id !== id);
     });
   } 
+  showCardDetails(card: Insumo) {
+    this.cardData = card;
+  }
 
 	
 }

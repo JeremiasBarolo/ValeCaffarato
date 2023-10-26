@@ -47,6 +47,7 @@ import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-
     CrearEditarPedidoCompraComponent,
     
     
+    
   ],
   imports: [
     CommonModule,
