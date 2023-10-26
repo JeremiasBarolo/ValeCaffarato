@@ -17,7 +17,7 @@
           </div>
   
           <div class="card-footer">
-            <a class="btn btn-outline-primary mr-1" (click)="cambiarEstado(presupuesto.id, 'PREPARACION', presupuesto )" [routerLink]="['/dashboard','pedidos-compra']">Aprobar</a>
+            <a class="btn btn-outline-primary mr-1" (click)="cambiarEstado(presupuesto.id, 'PREPARACION', presupuesto )">Aprobar</a>
             <a class="btn btn-outline-danger ml-1">Cancelar</a>
           </div>
         </div>
@@ -37,7 +37,7 @@
           </div>
   
           <div class="card-footer">
-            <a class="btn btn-outline-dark mr-1" (click)="cambiarEstado(preparacion.id, 'finalizado', preparacion )" [routerLink]="['/dashboard','pedidos-compra']">Cerrado</a>
+            <a class="btn btn-outline-dark mr-1" (click)="cambiarEstado(preparacion.id, 'finalizado', preparacion )">Cerrado</a>
             <a class="btn btn-outline-danger ml-1">Cancelado</a>
           </div>
         </div>

@@ -1,62 +1,45 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
     <div class="card mb-3 border border-0 mx-auto">
       <div class="card-body">
-        <!-- Agrega un div contenedor que rodee al formulario -->
+        
         <div class="form-container">
-            <form method="post" enctype="multipart/form-data">
+            <form [formGroup]="form" (ngSubmit)="addInsumo()">
                 <span>
                     <div class="form-group text-center">
                         <label for="name">Nombre</label>
                         <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
                     </div>
                 
-            
-            
-                    <div class="form-group text-center">
-                        <label class="text-center" for="price">Precio</label>
-                        <input formControlName="price" type="number" class="form-control mt-2" placeholder="Precio">
-                    </div>
-                
-                    
                     <div class="form-group text-center">
                         <label for="description">Descripcion</label>
                         <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
                     </div>
-                
-                    
+
                     <div class="form-group text-center">
-                        <label for="category">Categoria</label>
-                        <input formControlName="category" type="text" class="form-control" placeholder="Categoria">
+                        <label for="quantity">Cantidad</label>
+                        <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="price">Precio (ARS)</label>
+                        <input formControlName="price" type="text" class="form-control" placeholder="Precio">
                     </div>
                 
-            
+                
                     <span>
-                        <div class="form-group text-center">
-                            <label for="image">Imagen</label>
-                            <input formControlName="image" type="file" class="form-control mt-2">
-                        </div>
-                    
-            
-                        <div class="d-flex flex-column align-items-center">
-                            <label>Imágenes Actual:</label>
-                            <div  class="d-flex flex-wrap">
-                                <div  class="me-2 mb-2">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                         
+
                         <div class="row mt-5 text-center">
                             <div class="col-xs-12 col-md-6 col-lg-6">
                                 <button routerLinkActive="router-link-active" type="submit"
-                                    class="btn btn-success">Accept</button>
+                                    class="btn btn-success">Aceptar </button>
                             </div>
                             <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button type="button" class="btn btn-info">Return</button>
+                                <button type="button" class="btn btn-info"> Volver </button>
                             </div>
-            
+
+                            
                             <div class="col-xs-12 col-md-6 col-lg-6">
-                                
+                                <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
                             </div>
                         </div>
                     </span>
@@ -66,4 +49,29 @@
       </div>
     </div>
   </div>
-  
+   -->
+<section class="text-center container">
+  <div class="form">
+    <div class="title">Welcome</div>
+    <div class="subtitle">Let's create your account!</div>
+
+    <div class="input-container ic1">
+      <input placeholder="" type="text" class="input" id="firstname">
+      <div class="cut"></div>
+      <label class="iLabel" for="firstname">First name</label>
+    </div>
+
+    <div class="input-container ic2">
+      <input placeholder="" type="text" class="input" id="lastname">
+      <div class="cut"></div>
+      <label class="iLabel" for="lastname">Last name</label>
+    </div>
+    <div class="input-container ic2">
+      <input placeholder="" type="text" class="input" id="email">
+      <div class="cut cut-short"></div>
+      <label class="iLabel" for="email">Email</label>
+    </div>
+    <button class="submit" type="text">submit</button>
+  </div>
+
+</section>

@@ -30,6 +30,7 @@ app.use('/compra-finalizacion', compraFinalizacionRouter)
 
 
 
+
 app.listen(PORT, 
     async () => {
         await initializeDB();
