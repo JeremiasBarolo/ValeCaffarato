@@ -57,19 +57,16 @@ const createCompraPresupuesto= async (compraPresupuestoData) => {
       subtotal: compraPresupuestoData.subtotal,
     };
 
-    // const imageUrls = CompraPresupuestoData.images;
+    const insumos_ids= compraPresupuestoData.insumosEntity_id;
 
-    const newCompraPresupuesto= await models.CompraPresupuesto.create(dataCompraPresupuesto, { transaction });
+    const newCompraPresupuesto = await models.CompraPresupuesto.create(dataCompraPresupuesto, { transaction });
 
-    // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.CompraPresupuestoImages.create(
-    //     {
-    //       imageUrl,
-    //       CompraPresupuestoId: newCompraPresupuesto.id,
-    //     },
-    //     { transaction },
-    //   )),
-    // );
+    for (let i = 0; i < insumos_ids.length; i++) {
+      const insumoEntity = await models.InsumosEntities.findByPk(insumos_ids[i], { transaction });
+
+      
+      await newCompraPresupuesto.addInsumosEntities(insumoEntity, { transaction });
+    }
 
     // Confirma la transacción
     await transaction.commit();
