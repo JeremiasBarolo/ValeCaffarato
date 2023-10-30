@@ -20,6 +20,7 @@ import { ProductEntityComponent } from './product-entity/product-entity.componen
 import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
 import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
 import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-pedido-compra/crear-editar-pedido-compra.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -45,6 +46,7 @@ import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-
     CrearEditarProductEntityComponent,
     PedidosCompraComponent,
     CrearEditarPedidoCompraComponent,
+    DashboardComponent,
     
     
     

@@ -17,13 +17,14 @@ import { ProductEntityComponent } from './product-entity/product-entity.componen
 import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
 import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
 import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-pedido-compra/crear-editar-pedido-compra.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
   {
     path: 'dashboard', component: PagesComponent,
     children: [
-      { path: '', component: PedidosCompraComponent },
+      { path: '', component: DashboardComponent},
       { path: 'pedidos-compra', component: PedidosCompraComponent },
       { path: 'pedidos-compra/crear-editar', component: CrearEditarPedidoCompraComponent },
       { path: 'pedidos-compra/crear-editar/:id', component: CrearEditarPedidoCompraComponent },
