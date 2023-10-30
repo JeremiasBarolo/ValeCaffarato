@@ -86,21 +86,35 @@ const updateCompraPresupuesto= async (compraPresupuesto_id, dataUpdated) => {
   try {
     transaction = await models.sequelize.transaction();
 
+    const nuevaData= {
+      name: dataUpdated.name,
+      description: dataUpdated.description,
+      subtotal: dataUpdated.subtotal,
+    };
+
+    const insumos_ids= dataUpdated.insumosEntity_id;
+
     const oldCompraPresupuesto= await models.CompraPresupuesto.findByPk(compraPresupuesto_id, { include: { all: true } });
 
-    // const newImageUrls = dataUpdated.images;
-    // const oldImageUrls = oldCompraPresupuesto.images;
+    const newCompraPresupuesto= await oldCompraPresupuesto.update(nuevaData, { transaction });
 
-    // for (let i = 0; i < oldImageUrls.length; i++) {
-    //   const deletingImages = path.join(oldImageUrls[i].imageUrl);
-    //   if (fs.existsSync(deletingImages)) {
-    //     fs.unlinkSync(deletingImages);
-    //   } else {
-    //     console.log('No existe la imagen');
-    //   }
-    // }
-
-    const newCompraPresupuesto= await oldCompraPresupuesto.update(dataUpdated, { transaction });
+    for (let i = 0; i < insumos_ids.length; i++) {
+      const insumo_id = insumos_ids[i];
+    
+      
+      const exist = newCompraPresupuesto.InsumosEntities.some((element) => element.id === insumo_id);
+    
+      if (!exist) {
+        await newCompraPresupuesto.addInsumosEntities(insumo_id, { transaction });
+      }
+    }
+    
+    
+    for (const insumo of newCompraPresupuesto.InsumosEntities) {
+      if (!insumos_ids.includes(insumo.id)) {
+        await newCompraPresupuesto.removeInsumosEntities(insumo, { transaction });
+      }
+    }
 
     // const createdImages = await Promise.all(
     //   newImageUrls.map((imageUrl) => models.CompraPresupuestoImages.create(

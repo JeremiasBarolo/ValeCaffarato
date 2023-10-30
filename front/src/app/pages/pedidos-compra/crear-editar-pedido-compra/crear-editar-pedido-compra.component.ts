@@ -3,8 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { PedidoCompra } from 'src/app/models/pedidoCompra';
 import { CompraPresupuestoService } from 'src/app/services/compra-presupuesto.service';
+import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -20,10 +22,14 @@ export class CrearEditarPedidoCompraComponent {
   operacion: string = 'Agregar ';
   selectedImage: File | any;
   PedidoCompraData: PedidoCompra | any;
+  InsumosEntities: InsumoEntity[] = [];
+  selectedEntities: InsumoEntity[] = [];
+  selectedIds: any[] = [];
   
 
 
   constructor(
+    private insumosEntityService: InsumoEntityService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -44,6 +50,8 @@ export class CrearEditarPedidoCompraComponent {
     
     if (this.id !== null) {
       this.operacion = 'Editar';
+      console.log(this.operacion);
+      
       this.titleService.setTitle('Editar PedidoCompras');
       console.log(this.id);
       
@@ -52,7 +60,11 @@ export class CrearEditarPedidoCompraComponent {
       this.operacion = 'Agregar';
       this.titleService.setTitle('Crear PedidoCompras');
       
-    }   
+    } 
+    
+    
+    this.loadAllEntities()
+    this.loadSelectedProducts()
   }
 
   addPedidoCompra() {
@@ -60,13 +72,15 @@ export class CrearEditarPedidoCompraComponent {
       formData.append('name', this.form.value.name);
       formData.append('description', this.form.value.description);
       formData.append('subtotal', this.form.value.subtotal);
-      console.log(this.id);
-      console.log(formData.forEach((value, key) => console.log(`${key}: ${value}`)));
+      this.selectedEntities.forEach((entity: InsumoEntity) => {
+        return this.selectedIds.push(entity.id);
+      })
       
       this.PedidoCompra = {
         name: this.form.value.name,
         description: this.form.value.description,
         subtotal: this.form.value.subtotal,
+        insumosEntity_id:this.selectedIds
       };
       if (this.id !== 0) {
         // Es editar
@@ -82,6 +96,8 @@ export class CrearEditarPedidoCompraComponent {
       } else {
         // Es agregar
         try {
+          console.log(this.PedidoCompra);
+          
           this.compraPresupuestoService.create(this.PedidoCompra).subscribe(() => {
             this.router.navigate(['dashboard/pedidos-compra']);
             this.toastr.success('Pedido Creado Exitosamente');
@@ -100,19 +116,45 @@ export class CrearEditarPedidoCompraComponent {
         id: data.id,
         name: data.name,
         description: data.description,
-        subtotal: data.subtotal,
-      
+        subtotal: data.subtotal
       };
-  
+
+
+      data.InsumosEntities?.length === 0
+      ? data.InsumosEntities?.forEach((entity: InsumoEntity) => {
+          this.selectedEntities.push(entity);
+        })
+      :null
+
+
       this.PedidoCompraData = PedidoCompra;
 
       this.form.setValue({
-        id: data.id,
         name: data.name,
         description: data.description,
-        subtotal: data.subtotal,
+        subtotal: data.subtotal
       });
+      
     });
+  }
+
+  selectedEntity(InsumoEntity: InsumoEntity) {
+    this.selectedEntities.push(InsumoEntity);
+  
+    const index = this.InsumosEntities.findIndex(p => p.id === InsumoEntity.id);
+    if (index !== -1) {
+      this.InsumosEntities.splice(index, 1);
+    }
+  
+    localStorage.setItem('selectedEntities', JSON.stringify(this.selectedEntities));
+  }
+  
+  returnEntities(Entities: InsumoEntity) {
+    this.InsumosEntities.push(Entities);
+    const index = this.selectedEntities.findIndex(p => p.id === Entities.id);
+    if (index !== -1) {
+      this.selectedEntities.splice(index, 1);
+    }
   }
 
   rellenardatos() {
@@ -122,5 +164,26 @@ export class CrearEditarPedidoCompraComponent {
         subtotal: 12112,
         
     });
+  }
+
+  loadSelectedProducts() {
+    if (this.id) {
+      this.compraPresupuestoService.getById(this.id).subscribe(
+        (res: any) => {
+          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
+            
+            
+            this.selectedEntities = [...res.InsumosEntities];
+            this.InsumosEntities = this.InsumosEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+          }
+        }
+      )
+    }
+  }
+
+  loadAllEntities() {
+    this.insumosEntityService.getAll().subscribe((data) => {
+      this.InsumosEntities = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    })
   }
 }
