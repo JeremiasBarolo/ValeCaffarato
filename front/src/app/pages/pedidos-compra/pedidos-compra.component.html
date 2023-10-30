@@ -81,13 +81,13 @@
         </div>
         <div class="modal-body">
           <p>{{ cardData.description }}</p>
-          <p>Precio: {{ cardData.price | currency }}</p>
+          <p>Precio: {{ cardData.subtotal | currency }}</p>
           <span class="card text-center" *ngFor="let item of cardData.InsumosEntities">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">
               <p>Descripcion: {{item.description}}</p>
               <p>Cantidad: {{item.quantity}}</p>
-              <p>Precio: {{item.price}}$</p>
+              <p>Precio: {{item.price| currency}}</p>
             </div>
           </span>
           

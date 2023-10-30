@@ -25,6 +25,7 @@ export class CrearEditarPedidoCompraComponent {
   InsumosEntities: InsumoEntity[] = [];
   selectedEntities: InsumoEntity[] = [];
   selectedIds: any[] = [];
+  subtotal: any[] =[]
   
 
 
@@ -40,7 +41,6 @@ export class CrearEditarPedidoCompraComponent {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      subtotal: ['', Validators.required],
       
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -71,15 +71,20 @@ export class CrearEditarPedidoCompraComponent {
       const formData = new FormData();
       formData.append('name', this.form.value.name);
       formData.append('description', this.form.value.description);
-      formData.append('subtotal', this.form.value.subtotal);
+
       this.selectedEntities.forEach((entity: InsumoEntity) => {
-        return this.selectedIds.push(entity.id);
+        this.selectedIds.push(entity.id);
+        this.subtotal.push(entity.price);
       })
+
+      
+      
+      console.log(this.subtotal);
       
       this.PedidoCompra = {
         name: this.form.value.name,
         description: this.form.value.description,
-        subtotal: this.form.value.subtotal,
+        subtotal: this.subtotal.reduce((acc, price) => acc + price, 0),
         insumosEntity_id:this.selectedIds
       };
       if (this.id !== 0) {
@@ -132,7 +137,7 @@ export class CrearEditarPedidoCompraComponent {
       this.form.setValue({
         name: data.name,
         description: data.description,
-        subtotal: data.subtotal
+        
       });
       
     });
@@ -160,8 +165,7 @@ export class CrearEditarPedidoCompraComponent {
   rellenardatos() {
     this.form.setValue({
         name: 'Super pedido de Cajas',
-        description: 'Cajones negros',
-        subtotal: 12112,
+        description: 'Cajones negros'
         
     });
   }
