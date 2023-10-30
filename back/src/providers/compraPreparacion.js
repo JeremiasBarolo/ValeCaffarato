@@ -51,27 +51,25 @@ const createCompraPreparacion= async (compraPreparacionData) => {
   try {
     transaction = await models.sequelize.transaction();
     
-    const dataCompraPreparacion= {
+    const data= {
         id: compraPreparacionData.id,
         name: compraPreparacionData.name,
         description: compraPreparacionData.description,
         subtotal: compraPreparacionData.subtotal,
     };
 
-    // const imageUrls = CompraPreparacionData.images;
+    const insumos_ids= compraPreparacionData.InsumosEntities.map((insumo) => insumo.id);
 
-    const newCompraPreparacion= await models.CompraPreparacion.create(dataCompraPreparacion, { transaction });
-    await models.CompraPresupuesto.destroy({ where: { id: dataCompraPreparacion.id } });
+    const newCompraPreparacion= await models.CompraPreparacion.create(data, { transaction });
+    await models.CompraPresupuesto.destroy({ where: { id: data.id } });
 
-    // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.CompraPreparacionImages.create(
-    //     {
-    //       imageUrl,
-    //       CompraPreparacionId: newCompraPreparacion.id,
-    //     },
-    //     { transaction },
-    //   )),
-    // );
+    for (let i = 0; i < insumos_ids.length; i++) {
+      const insumoEntity = await models.InsumosEntities.findByPk(insumos_ids[i], { transaction });
+
+      
+      await newCompraPreparacion.addInsumosEntities(insumoEntity, { transaction });
+    }
+
 
     // Confirma la transacción
     await transaction.commit();

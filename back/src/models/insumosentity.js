@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'insumosEntityId', 
         otherKey: 'presupuestoId' 
       });
+      InsumosEntities.belongsToMany(models.CompraPreparacion, {
+        through: 'PreparacionInsumos', 
+        foreignKey: 'insumosEntityId', 
+        otherKey: 'preparacionId' 
+      });
     }
   }
   InsumosEntities.init({
