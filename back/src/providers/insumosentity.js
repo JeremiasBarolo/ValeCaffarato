@@ -53,7 +53,6 @@ const createInsumosentity= async (insumosentityData) => {
     
     const dataInsumosentity= {
       name: insumosentityData.name,
-      quantity: insumosentityData.quantity,
       description: insumosentityData.description,
       price: insumosentityData.price,
     };

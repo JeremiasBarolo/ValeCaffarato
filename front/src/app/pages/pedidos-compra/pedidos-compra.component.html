@@ -8,21 +8,16 @@
         <h4 class="mb-3" >Presupuestado</h4>
         
         
-        <a class="card" *ngFor="let presupuesto of listPresupuesto" >
+        <div class="card" *ngFor="let presupuesto of listPresupuesto" >
           <div class="card-header presupuesto-card-header" (click)="showCardDetails(presupuesto,'presu')" data-target="#InsumoModal" data-toggle="modal"  >
             {{presupuesto.name}}
           </div>
   
-          <div class="card-body" (click)="showCardDetails(presupuesto)" data-target="#Presupuesto" data-toggle="modal">
+          <div class="card-body" (click)="showCardDetails(presupuesto,'presu')" data-target="#Presupuesto" data-toggle="modal">
             {{presupuesto.description}}
           </div>
-  
-          <div class="card-footer">
-            <!-- <a class="btn btn-outline-primary mr-1" (click)="cambiarEstado(presupuesto.id, 'PREPARACION', presupuesto )">Aprobar</a>
-            <a class="btn btn-outline-danger ml-1">Cancelar</a> -->
-          </div>
       
-        </a>
+        </div>
       
       </div>
 

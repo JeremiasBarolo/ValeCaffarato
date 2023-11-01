@@ -32,7 +32,6 @@ export class CrearEditarInsumoEntityComponent {
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      quantity: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
 
@@ -56,7 +55,6 @@ export class CrearEditarInsumoEntityComponent {
   addInsumoEntity() {
       const formData = new FormData();
       formData.append('name', this.form.value.name);
-      formData.append('quantity', this.form.value.quantity);
       formData.append('description', this.form.value.description);
       formData.append('price', this.form.value.price);
       console.log(this.id);
@@ -64,7 +62,6 @@ export class CrearEditarInsumoEntityComponent {
       
       this.insumoEntity = {
         name: this.form.value.name,
-        quantity: this.form.value.quantity,
         description: this.form.value.description,
         price: this.form.value.price,
       };
@@ -98,7 +95,6 @@ export class CrearEditarInsumoEntityComponent {
       let InsumoEntity: InsumoEntity = {
         name: data.name,
         description: data.description,
-        quantity: data.quantity,
         price: data.price,
         
       };
@@ -108,7 +104,6 @@ export class CrearEditarInsumoEntityComponent {
       this.form.setValue({
         name: data.name,
         description: data.description,
-        quantity: data.quantity,
         price: data.price,
       });
     });
@@ -118,7 +113,6 @@ export class CrearEditarInsumoEntityComponent {
     this.form.setValue({
         name: 'Insumoooo',
         description: 'Super Insumo',
-        quantity: 5,
         price: 100
         
     });

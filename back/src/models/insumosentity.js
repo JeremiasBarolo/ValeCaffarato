@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   InsumosEntities.init({
     name: DataTypes.STRING,
-    quantity: DataTypes.INTEGER,
     description: DataTypes.STRING,
     price: DataTypes.INTEGER,
   }, {
