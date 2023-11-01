@@ -21,6 +21,10 @@ export class PedidosCompraComponent implements OnInit {
   cardData: any = {
     name: ''
   }
+  cardDataGeneral: any = {
+    name: ''
+  }  
+  IdsInsumosCantidad: any[] = []
 
   constructor(
     private titleService: TitleService,
@@ -48,7 +52,18 @@ export class PedidosCompraComponent implements OnInit {
 
   cambiarEstado(id: number, estado: string, pedido: any) {
     if (estado === 'PREPARACION') {
-      this.compraPreparacionService.create(pedido).subscribe(() => {
+
+      pedido.InsumosEntities.forEach((item: { id: any; quantity: any; }, index: number) => {
+        
+        this.IdsInsumosCantidad.push({
+          id: item.id,
+          quantity: item.quantity
+        })
+      });
+      console.log(this.IdsInsumosCantidad);
+      
+
+      this.compraPreparacionService.create(pedido,this.IdsInsumosCantidad ).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} en preparación...`);
         setTimeout(() => {
           window.location.reload();
@@ -65,8 +80,13 @@ export class PedidosCompraComponent implements OnInit {
   }
 
   
-showCardDetails(card: any) {
+showCardDetails(card: any, presu?:string) {
+  if(presu){
     this.cardData = card;
+  }else{
+    this.cardDataGeneral = card;
+  }
+  
 }
 
 updateEntidad(id:number){

@@ -46,11 +46,7 @@ const listOneCompraPreparacion= async (compraPreparacion_id) => {
 };
 
 const createCompraPreparacion= async (compraPreparacionData) => {
-  let transaction;
-
   try {
-    transaction = await models.sequelize.transaction();
-    
     const data= {
         id: compraPreparacionData.id,
         name: compraPreparacionData.name,
@@ -58,21 +54,25 @@ const createCompraPreparacion= async (compraPreparacionData) => {
         subtotal: compraPreparacionData.subtotal,
     };
 
-    const insumos_ids= compraPreparacionData.InsumosEntities.map((insumo) => insumo.id);
 
-    const newCompraPreparacion= await models.CompraPreparacion.create(data, { transaction });
-    await models.CompraPresupuesto.destroy({ where: { id: data.id } });
+    const newCompraPreparacion= await models.CompraPreparacion.create(data);
+    await models.CompraPresupuesto.destroy({ where: { id: data.id } })
+    .then(
+      () => {
+        compraPreparacionData.InsumosEntities.forEach(async insumoEntity => {
+          const insumoCreado = await models.InsumoEnProceso.create({
+            name: insumoEntity.name,
+            description: insumoEntity.description,
+            quantity: insumoEntity.quantity,
+            price: insumoEntity.price
+          })
+    
+          await newCompraPreparacion.addInsumoEnProceso(insumoCreado);
+        })
+      }
+    )
 
-    for (let i = 0; i < insumos_ids.length; i++) {
-      const insumoEntity = await models.InsumosEntities.findByPk(insumos_ids[i], { transaction });
-
-      
-      await newCompraPreparacion.addInsumosEntities(insumoEntity, { transaction });
-    }
-
-
-    // Confirma la transacción
-    await transaction.commit();
+     
 
     console.log(`✅ CompraPreparacion"${newCompraPreparacion.name}" was created with images`);
 
@@ -103,7 +103,7 @@ const updateCompraPreparacion= async (compraPreparacion_id, dataUpdated) => {
     //   }
     // }
 
-    const newCompraPreparacion= await oldCompraPreparacion.update(dataUpdated, { transaction });
+    const newCompraPreparacion= await oldCompraPreparacion.update(dataUpdated);
 
     // const createdImages = await Promise.all(
     //   newImageUrls.map((imageUrl) => models.CompraPreparacionImages.create(
@@ -111,7 +111,7 @@ const updateCompraPreparacion= async (compraPreparacion_id, dataUpdated) => {
     //       imageUrl,
     //       CompraPreparacionId: newCompraPreparacion.id,
     //     },
-    //     { transaction },
+    //   ,
     //   )),
     // );
 

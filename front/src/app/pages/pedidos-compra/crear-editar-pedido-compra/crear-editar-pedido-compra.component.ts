@@ -26,6 +26,7 @@ export class CrearEditarPedidoCompraComponent {
   selectedEntities: InsumoEntity[] = [];
   selectedIds: any[] = [];
   subtotal: any[] =[]
+  listPresupuesto: any;
   
 
 

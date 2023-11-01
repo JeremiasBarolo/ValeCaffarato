@@ -29,8 +29,8 @@ export class CompraPreparacionService {
   }
 
   // create
-    create(any: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, any)
+    create(data: any, IdsInsumosCantidad?: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, data, IdsInsumosCantidad)
       .pipe(
         catchError(error => {
           this.toastr.error('Error al crear el any');

@@ -11,16 +11,16 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CrearEditarProveedorComponent } from './proveedores/crear-editar-proveedor/crear-editar-proveedor.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { CrearEditarEmpleadosComponent } from './empleados/crear-editar/crear-editar.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientesComponent } from './clientes/clientes.component';
 import { CrearEditarClientesComponent } from './clientes/crear-editar/crear-editar-clientes.component';
 import { InsumosEntityComponent } from './insumos-entity/insumos-entity.component';
-import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 import { ProductEntityComponent } from './product-entity/product-entity.component';
 import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
 import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
 import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-pedido-compra/crear-editar-pedido-compra.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 
 
 
@@ -48,6 +48,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CrearEditarPedidoCompraComponent,
     DashboardComponent,
     
+
+    
     
     
   ],
@@ -55,7 +57,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CommonModule,
     RouterModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     UsuariosComponent,
