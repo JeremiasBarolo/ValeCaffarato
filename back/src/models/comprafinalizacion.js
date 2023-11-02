@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       CompraFinalizacion.belongsToMany(models.InsumoEnProceso, {
         through: 'InsumoFinalizacion', 
         foreignKey: 'CompraFinalizacionId', 
-        otherKey: 'InsumoEnProcesoId' 
+        otherKey: 'InsumoEnProcesoId',
+        onDelete: 'CASCADE'
       });
     }
   }

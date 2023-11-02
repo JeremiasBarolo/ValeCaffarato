@@ -54,8 +54,20 @@ const deleteCompraFinalizacion = async (req, res) => {
   }
 };
 
+const finalizarPedido = async (req, res) => {
+
+  try {
+    const newcompraFinalizacion = await compraFinalizacionService.finalizarPedido(req.body);
+
+    console.log(`✅ compraFinalizacion "${newcompraFinalizacion.name}" was created  `);
+    res.json(newcompraFinalizacion);
+  } catch (error) {
+    res.status(500).json({ error: 'Unable to create compraFinalizacion.' });
+  }
+};
+
 
 
 module.exports = {
-  listAllCompraFinalizacion, listOneCompraFinalizacion, createCompraFinalizacion, updateCompraFinalizacion, deleteCompraFinalizacion, 
+  listAllCompraFinalizacion, listOneCompraFinalizacion, createCompraFinalizacion, updateCompraFinalizacion, deleteCompraFinalizacion, finalizarPedido
 };

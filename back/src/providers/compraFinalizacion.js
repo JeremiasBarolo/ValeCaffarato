@@ -164,6 +164,59 @@ const deleteCompraFinalizacion= async (compraFinalizacion_id) => {
   }
 };
 
+const finalizarPedido = async (compraFinalizacionData) => {
+  try {
+    const dataCompraFinalizacion = {
+      id: compraFinalizacionData.id,
+      name: compraFinalizacionData.name,
+      description: compraFinalizacionData.description,
+      subtotal: compraFinalizacionData.subtotal,
+    };
+
+    const PedidoFinalizado = await models.CompraFinalizacion.findByPk(compraFinalizacionData.id);
+
+    if (!PedidoFinalizado) {
+      throw new Error('CompraFinalizacion not found');
+    }
+
+    const insumosPromises = [];
+
+    if (compraFinalizacionData.InsumoEnProcesos && Array.isArray(compraFinalizacionData.InsumoEnProcesos)) {
+      for (const insumoEntity of compraFinalizacionData.InsumoEnProcesos) {
+        const newInsumo = await models.Insumo.create({
+          name: insumoEntity.name,
+          description: insumoEntity.description,
+          price: insumoEntity.price,
+          quantity: insumoEntity.quantity,
+        });
+
+        // Obtener el ID del insumo creado
+        const insumoId = newInsumo.id;
+
+        // Añadir el ID del insumo a la lista de IDs a eliminar
+        insumosPromises.push(insumoId);
+      }
+    }
+
+    // Eliminar las relaciones entre CompraFinalizacion e Insumos usando los IDs
+    await PedidoFinalizado.removeInsumoEnProceso(insumosPromises);
+
+    // Elimina la CompraFinalizacion
+    await PedidoFinalizado.destroy();
+
+    console.log(`✅ CompraFinalizacion "${dataCompraFinalizacion.name}" was created with insumos`);
+    return dataCompraFinalizacion;
+  } catch (err) {
+    console.error('🛑 Error when finalizing CompraFinalizacion', err);
+    throw err;
+  }
+};
+
+
+
+
+
 module.exports = {
   listAllCompraFinalizacion, listOneCompraFinalizacion, createCompraFinalizacion, updateCompraFinalizacion, deleteCompraFinalizacion,
+  finalizarPedido
 };

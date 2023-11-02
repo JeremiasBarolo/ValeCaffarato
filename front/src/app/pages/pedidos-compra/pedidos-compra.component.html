@@ -35,7 +35,7 @@
           </div>
   
           <div class="card-footer">
-            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(preparacion.id, 'finalizado', preparacion )">Cerrado</a>
+            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(preparacion.id, preparacion, 'finalizacion')">Cerrado</a>
             <a class="btn btn-outline-danger ml-1" >Cancelado</a>
           </div>
         </div>
@@ -55,7 +55,7 @@
           </div>
   
           <div class="card-footer">
-            <button class="btn btn-outline-danger" (click)="finalizaPedido(finalizado.id)">Finalizado</button>
+            <button class="btn btn-outline-danger" (click)="finalizaPedido(finalizado)">Finalizado</button>
           </div>
         </div>
       </div>
@@ -124,7 +124,7 @@
         </div>
         <div class="modal-footer">
           
-          <button type="button" class="btn btn-primary" data-dismiss="modal"(click)="cambiarEstado(cardData.id, 'PREPARACION', cardData )">Aprobar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"(click)="cambiarEstado(cardData.id, cardData, 'PREPARACION' )">Aprobar</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
 
           

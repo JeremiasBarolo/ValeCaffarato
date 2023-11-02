@@ -18,5 +18,9 @@ router.put("/:compraFinalizacion_id", compraFinalizacionController.updateCompraF
 // delete 
 router.delete("/:compraFinalizacion_id", compraFinalizacionController.deleteCompraFinalizacion);
 
+// finalizar
+router.put("/", compraFinalizacionController.finalizarPedido);
+
+
 
 module.exports = router;

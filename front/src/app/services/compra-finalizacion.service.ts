@@ -61,4 +61,13 @@ export class CompraFinalizacionService {
       })
     );
 }
+finalizarPedido(data: any): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}`, data)
+    .pipe(
+      catchError(error => {
+        this.toastr.error('Error al eliminar el any');
+        throw error;
+      })
+    );
+}
 }

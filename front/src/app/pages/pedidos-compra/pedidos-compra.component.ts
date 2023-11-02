@@ -50,7 +50,7 @@ export class PedidosCompraComponent implements OnInit {
     
   }
 
-  cambiarEstado(id: number, estado: string, pedido: any) {
+  cambiarEstado(id: number, pedido: any, estado?: string) {
     if (estado === 'PREPARACION') {
 
       pedido.InsumosEntities.forEach((item: { id: any; quantity: any; }, index: number) => {
@@ -93,15 +93,15 @@ updateEntidad(id:number){
   this.router.navigate(['dashboard/pedidos-compra/crear-editar', id]);
 }
 
-finalizaPedido(id: number) {
-    this.compraFinalizacionService.delete(id).subscribe(() => {
+finalizaPedido(data: any){ {
+  console.log(data);
+  
+    this.compraFinalizacionService.finalizarPedido(data).subscribe(() => {
       this.toastr.success(`Pedido finalizado`);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500); 
+      this.router.navigate(['dashboard/insumos']);
     });
   }
 
-
+}
 }
   
