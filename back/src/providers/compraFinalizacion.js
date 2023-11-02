@@ -46,10 +46,10 @@ const listOneCompraFinalizacion= async (compraFinalizacion_id) => {
 };
 
 const createCompraFinalizacion= async (compraFinalizacionData) => {
-  let transaction;
+ 
 
   try {
-    transaction = await models.sequelize.transaction();
+    
     
     const dataCompraFinalizacion= {
         id: compraFinalizacionData.id,
@@ -60,21 +60,19 @@ const createCompraFinalizacion= async (compraFinalizacionData) => {
 
     // const imageUrls = CompraFinalizacionData.images;
 
-    const newCompraFinalizacion= await models.CompraFinalizacion.create(dataCompraFinalizacion, { transaction });
-    await models.CompraPreparacion.destroy({ where: { id: compraFinalizacionData.id } });
+    const newCompraFinalizacion= await models.CompraFinalizacion.create(dataCompraFinalizacion, );
+    await models.CompraPreparacion.destroy({ where: { id: compraFinalizacionData.id } })
 
-    // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.CompraFinalizacionImages.create(
-    //     {
-    //       imageUrl,
-    //       CompraFinalizacionId: newCompraFinalizacion.id,
-    //     },
-    //     { transaction },
-    //   )),
-    // );
-
-    // Confirma la transacción
-    await transaction.commit();
+    .then(
+      () => {
+        compraFinalizacionData.InsumoEnProcesos.forEach(async insumoEntity => {
+          const insumoCreado = await models.InsumoEnProceso.findByPk(insumoEntity.id);
+    
+          await newCompraFinalizacion.addInsumoEnProceso(insumoCreado);
+        })
+      }
+    )
+    
 
     console.log(`✅ CompraFinalizacion"${newCompraFinalizacion.name}" was created with images`);
 
@@ -89,7 +87,7 @@ const updateCompraFinalizacion= async (compraFinalizacion_id, dataUpdated) => {
   let transaction;
 
   try {
-    transaction = await models.sequelize.transaction();
+    
 
     const oldCompraFinalizacion= await models.CompraFinalizacion.findByPk(compraFinalizacion_id, { include: { all: true } });
 
@@ -105,7 +103,7 @@ const updateCompraFinalizacion= async (compraFinalizacion_id, dataUpdated) => {
     //   }
     // }
 
-    const newCompraFinalizacion= await oldCompraFinalizacion.update(dataUpdated, { transaction });
+    const newCompraFinalizacion= await oldCompraFinalizacion.update(dataUpdated, );
 
     // const createdImages = await Promise.all(
     //   newImageUrls.map((imageUrl) => models.CompraFinalizacionImages.create(
@@ -113,12 +111,12 @@ const updateCompraFinalizacion= async (compraFinalizacion_id, dataUpdated) => {
     //       imageUrl,
     //       CompraFinalizacionId: newCompraFinalizacion.id,
     //     },
-    //     { transaction },
+    //     ,
     //   )),
     // );
 
     // Confirma la transacción
-    await transaction.commit();
+    
 
     console.log(`✅ CompraFinalizacion"${newCompraFinalizacion.name}" was created with images`);
 

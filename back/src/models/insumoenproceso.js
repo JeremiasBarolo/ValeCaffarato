@@ -8,7 +8,15 @@ module.exports = (sequelize, DataTypes) => {
         through: 'CompraInsumoEnProceso', 
         foreignKey: 'InsumoEnProcesoId', 
         otherKey: 'CompraPreparacionId' 
-      });
+      }),
+      
+      InsumoEnProceso.belongsToMany(models.CompraFinalizacion, {
+        through: 'InsumoFinalizacion', 
+        foreignKey: 'InsumoEnProcesoId', 
+        otherKey: 'CompraFinalizacionId' 
+      })
+        
+      
     }
   }
 
