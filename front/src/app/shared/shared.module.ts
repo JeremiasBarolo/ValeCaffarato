@@ -8,12 +8,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { TitleService } from '../services/title.service';
 
 
+
 @NgModule({
   declarations: [
     HeaderComponent,
     SidebarComponent,
     BreadcrumbsComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     CommonModule

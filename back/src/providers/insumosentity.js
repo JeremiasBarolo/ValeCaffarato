@@ -5,7 +5,7 @@ const fs = require('fs');
 
 // const serveImage = async (insumosentity_id) => {
 //   try {
-//     const Insumosentity= await models.InsumosEntity.findByPk(insumosentity_id,
+//     const Insumosentity= await models.InsumosEntities.findByPk(insumosentity_id,
 //       { include: { all: true } });
 //     return Insumosentity;
 //   } catch (err) {
@@ -16,7 +16,7 @@ const fs = require('fs');
 
 const listAllInsumosentity= async () => {
   try {
-    const InsumosEntity = await models.InsumosEntity.findAll(
+    const InsumosEntity = await models.InsumosEntities.findAll(
       {
         include: { all: true },
       },
@@ -31,7 +31,7 @@ const listAllInsumosentity= async () => {
 
 const listOneInsumosentity= async (insumosentity_id) => {
   try {
-    const oneInsumosentity= await models.InsumosEntity.findByPk(insumosentity_id, {
+    const oneInsumosentity= await models.InsumosEntities.findByPk(insumosentity_id, {
       include: { all: true },
     });
     if (!oneInsumosentity) {
@@ -50,18 +50,19 @@ const createInsumosentity= async (insumosentityData) => {
 
   try {
     transaction = await models.sequelize.transaction();
+    
     const dataInsumosentity= {
       name: insumosentityData.name,
-      quantity: insumosentityData.quantity,
       description: insumosentityData.description,
+      price: insumosentityData.price,
     };
 
     // const imageUrls = insumosentityData.images;
 
-    const newInsumosentity= await models.InsumosEntity.create(dataInsumosentity, { transaction });
+    const newInsumosentity= await models.InsumosEntities.create(dataInsumosentity, { transaction });
 
     // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.InsumosEntityImages.create(
+    //   imageUrls.map((imageUrl) => models.InsumosEntitiesImages.create(
     //     {
     //       imageUrl,
     //       InsumosentityId: newInsumosentity.id,
@@ -88,7 +89,7 @@ const updateInsumosentity= async (insumosentity_id, dataUpdated) => {
   try {
     transaction = await models.sequelize.transaction();
 
-    const oldInsumosentity= await models.InsumosEntity.findByPk(insumosentity_id, { include: { all: true } });
+    const oldInsumosentity= await models.InsumosEntities.findByPk(insumosentity_id, { include: { all: true } });
 
     // const newImageUrls = dataUpdated.images;
     // const oldImageUrls = oldInsumosentity.images;
@@ -105,7 +106,7 @@ const updateInsumosentity= async (insumosentity_id, dataUpdated) => {
     const newInsumosentity= await oldInsumosentity.update(dataUpdated, { transaction });
 
     // const createdImages = await Promise.all(
-    //   newImageUrls.map((imageUrl) => models.InsumosEntityImages.create(
+    //   newImageUrls.map((imageUrl) => models.InsumosEntitiesImages.create(
     //     {
     //       imageUrl,
     //       InsumosentityId: newInsumosentity.id,
@@ -128,10 +129,10 @@ const updateInsumosentity= async (insumosentity_id, dataUpdated) => {
 
 const deleteInsumosentity= async (insumosentity_id) => {
   try {
-    const deletedInsumosentity= await models.InsumosEntity.findByPk(insumosentity_id, { include: { all: true } });
+    const deletedInsumosentity= await models.InsumosEntities.findByPk(insumosentity_id, { include: { all: true } });
     // const images = path.join(__dirname, '../public/images', deletedInsumosentity.image)
 
-    // const images = await models.InsumosEntityImages.findAll({
+    // const images = await models.InsumosEntitiesImages.findAll({
     //   where: {
     //     InsumosentityId: insumosentity_id,
     //   },
@@ -153,7 +154,7 @@ const deleteInsumosentity= async (insumosentity_id) => {
     //   });
     // }
 
-    await models.InsumosEntity.destroy({ where: { id: insumosentity_id } });
+    await models.InsumosEntities.destroy({ where: { id: insumosentity_id } });
 
     console.log(`✅ Insumosentitywith id: ${insumosentity_id} was deleted successfully`);
     return deletedInsumosentity;

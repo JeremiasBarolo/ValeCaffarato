@@ -15,15 +15,19 @@ import { InsumosEntityComponent } from './insumos-entity/insumos-entity.componen
 import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 import { ProductEntityComponent } from './product-entity/product-entity.component';
 import { CrearEditarProductEntityComponent } from './product-entity/crear-editar-product-entity/crear-editar-product-entity.component';
-import { PedidosComponent } from './pedidos/pedidos.component';
+import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
+import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-pedido-compra/crear-editar-pedido-compra.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
   {
     path: 'dashboard', component: PagesComponent,
     children: [
-      { path: '', component: PedidosComponent },
-      { path: 'pedidos', component: PedidosComponent },
+      { path: '', component: DashboardComponent},
+      { path: 'pedidos-compra', component: PedidosCompraComponent },
+      { path: 'pedidos-compra/crear-editar', component: CrearEditarPedidoCompraComponent },
+      { path: 'pedidos-compra/crear-editar/:id', component: CrearEditarPedidoCompraComponent },
       { path: 'insumos', component: InsumosComponent },
       { path: 'insumos/crear-editar', component: CrearEditarInsumoComponent },
       { path: 'proveedores', component: ProveedoresComponent },
