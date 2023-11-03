@@ -18,6 +18,8 @@ import { CrearEditarProductEntityComponent } from './product-entity/crear-editar
 import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
 import { CrearEditarPedidoCompraComponent } from './pedidos-compra/crear-editar-pedido-compra/crear-editar-pedido-compra.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
+import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 
 
 const routes: Routes = [
@@ -25,6 +27,9 @@ const routes: Routes = [
     path: 'dashboard', component: PagesComponent,
     children: [
       { path: '', component: DashboardComponent},
+      { path: 'pedidos-venta', component: PedidosVentaComponent },
+      { path: 'pedidos-venta/crear-editar', component: CrearEditarPedidoVentaComponent },
+      { path: 'pedidos-venta/crear-editar/:id', component: CrearEditarPedidoVentaComponent },
       { path: 'pedidos-compra', component: PedidosCompraComponent },
       { path: 'pedidos-compra/crear-editar', component: CrearEditarPedidoCompraComponent },
       { path: 'pedidos-compra/crear-editar/:id', component: CrearEditarPedidoCompraComponent },
