@@ -44,16 +44,23 @@ const createPedidos= async (PedidosData) => {
       state: PedidosData.state  
     };
 
-    const insumos_ids = PedidosData.insumosEntity_id;
+    const insumosData = PedidosData.insumosEntity_id.map(item => ({
+        insumoEntityId: item.id,
+        cantidad: item.cantidad
+      }));
 
     const newPedidos= await models.Pedidos.create(dataPedidos);
 
-    for (let i = 0; i < insumos_ids.length; i++) {
-        const insumoEntity = await models.InsumosEntities.findByPk(insumos_ids[i]);
-  
-        
-        await newPedidos.addInsumosEntities(insumoEntity);
-      }
+    for (const insumo of insumosData) {
+        const insumoEntity = await models.InsumosEntities.findByPk(insumo.insumoEntityId);
+        if (insumoEntity) {
+          await models.PedidosInsumos.create({
+            pedidoId: newPedidos.id,
+            insumoEntityId: insumo.insumoEntityId,
+            cantidad: insumo.cantidad
+          });
+        }
+    }
 
     console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
 
