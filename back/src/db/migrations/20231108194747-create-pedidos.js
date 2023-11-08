@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('CompraFinalizacions', {
+    await queryInterface.createTable('Pedidos', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,6 +13,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
+        type: Sequelize.STRING
+      },
+      category: {
+        type: Sequelize.STRING
+      },
+      state: {
         type: Sequelize.STRING
       },
       subtotal: {
@@ -29,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('CompraFinalizacions');
+    await queryInterface.dropTable('Pedidos');
   }
 };
