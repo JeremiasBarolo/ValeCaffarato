@@ -14,14 +14,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         references:{
           model: 'Pedidos',
-          key: 'id'
+          key: 'id',
+          onDelete: 'SET NULL'
         }
       },
       insumoEntityId: {
         type: Sequelize.INTEGER,
         references:{
           model: 'InsumosEntities',
-          key: 'id'
+          key: 'id',
+          onDelete: 'SET NULL'
         }
       },
       cantidad: {

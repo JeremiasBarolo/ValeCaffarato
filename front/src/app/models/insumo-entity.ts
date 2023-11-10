@@ -3,5 +3,6 @@ export interface InsumoEntity{
     name: string
     price: number;
     description: string;
+    cantidad?: number; 
 }
 

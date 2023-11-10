@@ -1,0 +1,67 @@
+<div class="container mt-5">
+  <div class="card mb-3 border border-0 mx-auto">
+    <div class="card-body">
+      <form [formGroup]="form">
+        <div class="form-group text-center">
+          <label for="name">Nombre:</label>
+          <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+        </div>
+        <div class="form-group text-center">
+          <label for="description">Descripción:</label>
+          <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
+        </div>
+      </form>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6 text-center">
+        <h6>Entidades Disponibles</h6>
+        <div class="card mb-" style="height: 550px; overflow-y: auto;">
+          <div class="card-body">
+            <ul class="list-group" *ngFor="let entidad of InsumosEntities">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ entidad.name }}
+                <button class="btn btn-success" (click)="selectedEntity(entidad)">Agregar al Presupuesto</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de Combos -->
+      <div class="col-md-5 text-center">
+        <h6>Entidades Seleccionadas</h6>
+        <div class="card mb-3" style="height: 550px; overflow-y: auto;">
+          <div class="card-body">
+            <ul class="list-group" *ngFor="let entidad of selectedEntities; let i = index">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <p>{{ entidad.name }}</p>
+                <input type="number" name="quantity{{ i }}" [(ngModel)]="entidad.cantidad" />
+                <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-6 offset-md-3 text-center">
+        <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6 offset-md-3 text-center">
+        <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+      </div>
+    </div>
+    <!-- <div class="row mt-3">
+      <div class="col-md-6 offset-md-3 text-center">
+        <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
+      </div>
+    </div> -->
+    
+  </div>
+</div>

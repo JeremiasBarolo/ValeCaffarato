@@ -34,12 +34,12 @@ const createPedidos= async (PedidosData) => {
   
 
   try {
-    transaction = await models.sequelize.transaction();
+    
     
     const dataPedidos= {
       name: PedidosData.name,
       description: PedidosData.description,
-      subtotal: PedidosData.price,
+      subtotal: PedidosData.subtotal,
       category: PedidosData.category,
       state: PedidosData.state  
     };
@@ -75,7 +75,6 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
   
 
   try {
-    transaction = await models.sequelize.transaction();
 
     const oldPedidos= await models.Pedidos.findByPk(pedidos_id, 
         { include: { all: true } 
@@ -94,27 +93,39 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
   }
 };
 
-const deletePedidos= async (pedidos_id) => {
+const deletePedidos = async (pedidos_id) => {
   try {
-    const deletedPedidos= await models.Pedidos.findByPk(pedidos_id,
-        { include: { all: true } 
+    const deletedPedidos = await models.Pedidos.findByPk(pedidos_id, 
+      { include: { all: true } ,
     });
-    
 
-    if (deletedPedidos=== 0) {
-      console.error(`🛑 Pedidoswith id: ${pedidos_id} not found`);
+    if (!deletedPedidos) {
+      console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
       return null;
     }
 
+    for (const insumo of deletedPedidos.insumos) {
+      
+      await models.PedidosInsumos.destroy({ where:  
+        { 
+          cantidad: insumo.PedidosInsumos.cantidad, 
+          insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
+          pedidoId: insumo.PedidosInsumos.pedidoId 
+        } });
+    }
+    
+
+    // Now you can delete the main record
     await models.Pedidos.destroy({ where: { id: pedidos_id } });
 
-    console.log(`✅ Pedidoswith id: ${pedidos_id} was deleted successfully`);
+    console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);
     return deletedPedidos;
   } catch (err) {
     console.error('🛑 Error when deleting Pedidos', err);
     throw err;
   }
 };
+
 
 module.exports = {
   listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos,
