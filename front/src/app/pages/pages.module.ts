@@ -28,6 +28,7 @@ import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar
 
 
 
+
 @NgModule({
   declarations: [
     UsuariosComponent,
@@ -48,6 +49,7 @@ import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar
     PedidosCompraComponent,
     CrearEditarPedidosCompraComponent,
     DashboardComponent,
+
     
 
     
@@ -59,7 +61,7 @@ import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     UsuariosComponent,

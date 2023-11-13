@@ -5,21 +5,30 @@
 </div>
 
 
-<div class="parent">
-  <a class="card" *ngFor="let card of entidades" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">
-      <div class="content-box">
-          <span class="card-title">{{card.name}}</span>
+<section style="margin: 16px">
+  <div class="cards-container" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px;">
+    <div class="card" style="width: calc(20% - 16px - 1px); flex: 0 0 auto; margin-right: 16px;" *ngFor="let card of entidades" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">
+
+      <h5 class="card-header text-center">{{card.name}}</h5>
+      <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
+        <p class="card-text text-center">{{card.description}}</p>
+        <p class="card-text text-left">Precio: {{card.price | currency}}</p>
+        <p class="card-text text-left">Cantidad: {{card.quantity}}</p>
       </div>
-      <div class="date-box">
-          <span class="month">{{card.price | currency}}</span>
-          <span class="date">{{card.quantity}}</span>
-      </div>
-  </a>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-right ml-6">
+          <a routerLink="crear-editar/{{card.id}}" routerLinkActive="router-link-active" class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation()">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          <a class="btn btn-outline-danger" (click)="deleteEntidad(card.id)" (click)="$event.stopPropagation()">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-
-  
-
-</div>
 
 <div class="modal fade modal" id="InsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -45,30 +54,8 @@
 </div>
 
 
-<!-- <section style="margin: 16px">
-  <div class="cards-container">
-    <div class="card" style="width: 18rem;" *ngFor="let card of entidades">
-      <h5 class="card-header text-center">{{card.name}}</h5>
-      <div class="card-body">
-        <p class="card-text text-center">{{card.description}}</p>
-        <p class="card-text text-left">Precio: {{card.price | currency}}</p>
-        <p class="card-text text-left">Cantidad: {{card.quantity}}</p>
 
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item text-right ml-6">
-          <a routerLink="crear-editar/{{card.id}}" routerLinkActive="router-link-active" class="btn btn-outline-primary mr-2">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </a>
-          <a class="btn btn-outline-danger" (click)="deleteEntidad(card.id)">
-            <i class="fa-solid fa-trash"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
- -->
+
 
   
 

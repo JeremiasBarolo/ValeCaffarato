@@ -30,6 +30,7 @@ const routes: Routes = [
       { path: 'pedidos-compra/crear-editar/:id', component: CrearEditarPedidosCompraComponent },
       { path: 'insumos', component: InsumosComponent },
       { path: 'insumos/crear-editar', component: CrearEditarInsumoComponent },
+      { path: 'insumos/crear-editar/:id', component: CrearEditarInsumoComponent },
       { path: 'proveedores', component: ProveedoresComponent },
       { path: 'proveedores/crear-editar', component: CrearEditarProveedorComponent },
       { path: 'proveedores/crear-editar/:id', component: CrearEditarProveedorComponent },

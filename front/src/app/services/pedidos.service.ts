@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from '../models/pedidos';
+import { AppSettings } from 'appsettings-json-reader';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,9 @@ import { Pedidos } from '../models/pedidos';
 export class PedidosService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
-
-  private apiUrl = 'http://localhost:8080/pedidos';
+  appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
+  private apiUrl = `${this.appSettings.url_api}/pedidos`;
+ 
   //get all
   getAll(): Observable<Pedidos[]> {
     return this.http.get<Pedidos[]>(`${this.apiUrl}`);

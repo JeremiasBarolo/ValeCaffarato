@@ -115,7 +115,7 @@ const deletePedidos = async (pedidos_id) => {
     }
     
 
-    // Now you can delete the main record
+    
     await models.Pedidos.destroy({ where: { id: pedidos_id } });
 
     console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);

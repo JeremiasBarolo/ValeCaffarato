@@ -3,15 +3,16 @@ import { Cliente } from '../models/cliente';
 import { Observable, catchError, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-
+import { AppSettings } from 'appsettings-json-reader';
+ 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientesService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
-
-  private apiUrl = 'http://localhost:8080/clientes';
+  appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
+  private apiUrl = `${this.appSettings.url_api}/clientes`;
   //get all
   getAll(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}`);

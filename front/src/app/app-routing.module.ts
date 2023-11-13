@@ -6,7 +6,7 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
 import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard/pedidos-compra', pathMatch: 'full' },
   { path: '**', component: NopageFoundComponent },
   
   {

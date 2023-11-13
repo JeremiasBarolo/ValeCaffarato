@@ -67,6 +67,7 @@ export class CrearEditarInsumoComponent {
         quantity: this.form.value.quantity,
         description: this.form.value.description,
         price: this.form.value.price,
+        admin: 'yes'
       };
 
       if (this.id !== 0) {
@@ -95,11 +96,12 @@ export class CrearEditarInsumoComponent {
 
   getInsumo(id: number) {
     this.insumoService.getById(id).subscribe((data: Insumo)=> {
-      let Insumo: Insumo = {
+      let Insumo: any = {
         name: data.name,
         description: data.description,
         quantity: data.quantity,
         price: data.price,
+        
         
       };
   

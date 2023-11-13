@@ -46,38 +46,37 @@ const listOneInsumo= async (insumo_id) => {
 };
 
 const createInsumo= async (insumoData) => {
-  let transaction;
-
   try {
-    transaction = await models.sequelize.transaction();
+
     
-    const dataInsumo= {
-      name: insumoData.name,
-      quantity: insumoData.quantity,
-      description: insumoData.description,
-      price: insumoData.price,
-    };
 
-    // const imageUrls = insumoData.images;
+    if(insumoData.admin === 'yes'){
 
-    const newInsumo= await models.Insumo.create(dataInsumo, { transaction });
+      const dataInsumo= {
+        name: insumoData.name,
+        description: insumoData.description,
+        price: insumoData.price,
+        quantity: insumoData.quantity
+      };
+      const insumoAdmin= await models.Insumo.create(dataInsumo);
+      return insumoAdmin;
 
-    // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.InsumoImages.create(
-    //     {
-    //       imageUrl,
-    //       InsumoId: newInsumo.id,
-    //     },
-    //     { transaction },
-    //   )),
-    // );
+    }else{
+      await insumoData.forEach(async (insumo) => {
 
-    // Confirma la transacción
-    await transaction.commit();
+       let insumoCreado = await models.Insumo.create({
+        quantity: insumo.PedidosInsumos.cantidad,
+        name: insumo.name,
+        description: insumo.description,
+        price: insumo.price,
+       });
+       return insumoCreado
+      })
+      
+    }
 
-    console.log(`✅ Insumo"${newInsumo.name}" was created with images`);
 
-    return newInsumo;
+    
   } catch (err) {
     console.error('🛑 Error when creating Insumo', err);
     throw err;

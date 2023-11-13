@@ -4,7 +4,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { Pedidos } from 'src/app/models/pedidos';
-import { CantidadesService } from 'src/app/services/cantidades.service';
+
+import { InsumoService } from 'src/app/services/insumo.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -36,7 +37,8 @@ export class PedidosCompraComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private cantidadesService: CantidadesService
+    private insumoService: InsumoService
+
 
     ) { }
 
@@ -73,15 +75,42 @@ export class PedidosCompraComponent implements OnInit {
     if (id){
     pedido.state = estado;
 
-    if(estado === 'APROBADO')
+
+    if(estado === 'APROBADO'){
+
       pedido.subtotal = this.calcularSubtotal(pedido);
-    
-    this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+      setTimeout(() => {
+        window.location.reload();
+      }, 600)
+    })
+
+    }
+else if(estado === 'FINALIZADO'){
+
+      this.insumoService.create(pedido.insumos).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
+
+      });
+      this.pedidosService.update(id, pedido).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+        
+      })
+      this.router.navigate(['dashboard/insumos']);
+
+
+    }else{
+
+      this.pedidosService.update(id, pedido).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
       }, 600);
-    })
+    }
+      
+    
+    )}
     }
       
   }

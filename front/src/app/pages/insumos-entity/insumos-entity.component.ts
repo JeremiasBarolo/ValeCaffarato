@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Insumo } from 'src/app/models/insumo';
 import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
 import { TitleService } from 'src/app/services/title.service';
@@ -10,12 +11,17 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class InsumosEntityComponent {
   entidades: InsumoEntity[] = []
+  cardData: InsumoEntity = {
+    name: '',
+    description: '',
+    price: 0
+  }
   constructor(private titleService: TitleService, private insumoEntityService: InsumoEntityService) {
     
   }
   
   ngOnInit(): void {
-    this.insumoEntityService.getAll().subscribe(entidades => this.entidades = entidades);
+    this.insumoEntityService.getAll().subscribe(insumos => this.entidades = insumos);
     this.titleService.setTitle('Entidades de Insumos');
   }
   deleteEntidad(id: any) {
@@ -23,4 +29,10 @@ export class InsumosEntityComponent {
       this.entidades = this.entidades.filter(e => e.id !== id);
     });
   }
+  showCardDetails(card: InsumoEntity) {
+    this.cardData = card;
+    console.log(this.cardData);
+    
+  }
+
 }

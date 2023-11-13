@@ -3,14 +3,17 @@ import { Observable, catchError, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Proveedor } from '../models/proveedor';
+import { AppSettings } from 'appsettings-json-reader';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProveedoresService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
-
-  private apiUrl = 'http://localhost:8080/proveedores';
+  appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
+  private apiUrl = `${this.appSettings.url_api}/proveedores`;
+  
   //get all
   getAll(): Observable<Proveedor[]> {
     return this.http.get<Proveedor[]>(`${this.apiUrl}`);
