@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ProductEntity } from '../models/product-entity';
+import { AppSettings } from 'appsettings-json-reader';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,8 +12,8 @@ export class ProductEntityService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
 
-    private apiUrl = 'http://localhost:8080/product_entity';
-    //get all
+  appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
+  private apiUrl = `${this.appSettings.url_api}/product_entity`;
     getAll(): Observable<ProductEntity[]> {
       return this.http.get<ProductEntity[]>(`${this.apiUrl}`);
     }

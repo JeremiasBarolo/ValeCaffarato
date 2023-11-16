@@ -4,63 +4,82 @@
 </div>
 <section class="text-center section-with-margin">
     <div class="row">
-      <div class="col-md-4 border-right" >
+      <div class="col-md-3 border-right" >
         <h4 class="mb-3" >Presupuestado</h4>
         
         
         <div class="card" *ngFor="let presupuesto of listPresupuesto" >
-          <div class="card-header presupuesto-card-header" (click)="showCardDetails(presupuesto,'presu')" data-target="#InsumoModal" data-toggle="modal"  >
+          <div class="card-header presupuesto-card-header" (click)="showCardDetails(presupuesto)" data-target="#InsumoModal" data-toggle="modal"  >
             {{presupuesto.name}}
           </div>
   
-          <div class="card-body" (click)="showCardDetails(presupuesto,'presu')" data-target="#Presupuesto" data-toggle="modal">
+          <div class="card-body" (click)="showCardDetails(presupuesto)" data-target="#InsumoModal" data-toggle="modal">
             {{presupuesto.description}}
           </div>
-      
+          <div class="card-footer">
+            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'APROBADO')">Aprobar</a>
+            <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(presupuesto.id, presupuesto, 'CANCELADO')">Cancelado</a>
+          </div>
         </div>
+        
       
       </div>
 
 
-      <div class="col-md-4 border-right" >
+      <div class="col-md-3 border-right" >
         <h4 class="mb-3">Preparacion</h4>
   
-        <div class="card" *ngFor="let preparacion of listPreparacion">
-          <div class="card-header preparacion-card-header"(click)="showCardDetails(preparacion)"data-target="#InsumoModal" data-toggle="modal">
-            {{preparacion.name}}
+        <div class="card" *ngFor="let aprobado of listAprobado">
+          <div class="card-header preparacion-card-header"(click)="showCardDetails(aprobado)"data-target="#InsumoModal" data-toggle="modal">
+            {{aprobado.name}}
           </div>
   
-          <div class="card-body"(click)="showCardDetails(preparacion)"data-target="#InsumoModal" data-toggle="modal">
-            {{preparacion.description}}
+          <div class="card-body"(click)="showCardDetails(aprobado)"data-target="#InsumoModal" data-toggle="modal">
+            {{aprobado.description}}
           </div>
   
           <div class="card-footer">
-            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(preparacion.id, preparacion, 'finalizacion')">Cerrado</a>
-            <a class="btn btn-outline-danger ml-1" >Cancelado</a>
+            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(aprobado.id, aprobado, 'FINALIZADO')">Finalizar</a>
+            <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(aprobado.id, aprobado, 'CANCELADO')" >Cancelado</a>
           </div>
         </div>
       </div>
 
 
-      <div class="col-md-4 border-right" >
+      <div class="col-md-3 border-right" >
         <h4 class="mb-3">Finalizado</h4>
   
-        <div class="card" *ngFor="let finalizado of listFinalizacion">
-          <div class="card-header finalizado-card-header"(click)="showCardDetails(finalizado)"data-target="#InsumoModal" data-toggle="modal">
+        <div class="card" *ngFor="let finalizado of listFinalizado">
+          <div class="card-header finalizado-card-header"(click)="showCardDetails(finalizado)" data-target="#InsumoModal" data-toggle="modal">
             {{finalizado.name}}
           </div>
   
           <div class="card-body"(click)="showCardDetails(finalizado)"data-target="#InsumoModal" data-toggle="modal">
             <p>{{finalizado.name}}</p>
           </div>
-  
           <div class="card-footer">
-            <button class="btn btn-outline-danger" (click)="finalizaPedido(finalizado)">Finalizado</button>
+            
+            <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(finalizado.id)" ><i class="fa-solid fa-trash"></i></a>
           </div>
+        </div>
+      </div>
+      <div class="col-md-3 border-right" >
+        <h4 class="mb-3">Cancelado</h4>
+  
+        <div class="card" *ngFor="let Cancelado of listCancelado">
+          <div class="card-header cancelado-card-header"(click)=" showCardDetails(Cancelado)" data-target="#InsumoModal" data-toggle="modal">
+            {{Cancelado.name}}
+          </div>
+  
+          <div class="card-body"(click)="showCardDetails(Cancelado)"data-target="#InsumoModal" data-toggle="modal">
+            <p>{{Cancelado.name}}</p>
+          </div>
+          
         </div>
       </div>
   
     </div>
+
   </section>
   
 
@@ -69,19 +88,19 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-center">{{ cardDataGeneral.name }}</h5>
+          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>{{ cardDataGeneral.description }}</p>
-          <p>Precio: {{ cardDataGeneral.subtotal | currency }}</p>
-          <span class="card text-center" *ngFor="let item of cardDataGeneral.InsumoEnProcesos">
+          <p>{{ cardData.description }}</p>
+          <p>Subtotal: {{ calcularSubtotal(cardData)| currency }}</p>
+          <span class="card text-center" *ngFor="let item of cardData.insumos">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">
               <p>Descripcion: {{item.description}}</p>
-              <p>Cantidad: {{item.quantity}}</p>
+              <p>Cantidad: {{item.PedidosInsumos.cantidad}}</p>
               <p>Precio: {{item.price| currency}}</p>
             </div>
           </span>
@@ -97,38 +116,3 @@
     </div>
   </div>
 
-
-  <div class="modal fade modal" id="Presupuesto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>{{ cardData.description }}</p>
-          <p>Precio: {{ cardData.subtotal | currency }}</p>
-          <span class="card text-center" *ngFor="let item of cardData.InsumosEntities; let i = index">
-            <div class="card-header"> {{item.name}}</div>
-            <div class="card-body">
-              <p>Descripcion: {{item.description}}</p>
-              <p>Cantidad: 
-                <input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" />
-              </p>
-              <p>Precio: {{item.price| currency}}</p>
-            </div>
-          </span>
-          
-        </div>
-        <div class="modal-footer">
-          
-          <button type="button" class="btn btn-primary" data-dismiss="modal"(click)="cambiarEstado(cardData.id, cardData, 'PREPARACION' )">Aprobar</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-
-          
-        </div>
-      </div>
-    </div>
-  </div>

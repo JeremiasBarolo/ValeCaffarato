@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { InsumoEntity } from 'src/app/models/insumo-entity';
-import { CompraFinalizacionService } from 'src/app/services/compra-finalizacion.service';
-import { CompraPreparacionService } from 'src/app/services/compra-preparacion.service';
-import { CompraPresupuestoService } from 'src/app/services/compra-presupuesto.service';
+import { Pedidos } from 'src/app/models/pedidos';
+
+import { InsumoService } from 'src/app/services/insumo.service';
+import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -15,9 +16,12 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class PedidosCompraComponent implements OnInit {
 
-  listPresupuesto: any[] = [];
-  listPreparacion: any[] = [];
-  listFinalizacion: any[] = [];
+  listPresupuesto: Pedidos[] = [];
+  listAprobado: Pedidos[] = [];
+  listCancelado: Pedidos[] = [];
+  listFinalizado: Pedidos[] = [];
+  subtotal: number = 0
+
   cardData: any = {
     name: ''
   }
@@ -28,21 +32,38 @@ export class PedidosCompraComponent implements OnInit {
 
   constructor(
     private titleService: TitleService,
-    private compraPreparacionService: CompraPreparacionService,
-    private compraPresupuestoService: CompraPresupuestoService,
-    private compraFinalizacionService: CompraFinalizacionService,
+    private pedidosService: PedidosService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private insumoService: InsumoService
+
 
     ) { }
 
+//     FINALIZADO
+// CANCELADO
+// PRESUPUESTADO
+
   ngOnInit(): void {
     this.titleService.setTitle('Pedidos Compra');
-    this.compraPresupuestoService.getAll().subscribe(data => this.listPresupuesto = data);
-    this.compraPreparacionService.getAll().subscribe(data => this.listPreparacion = data);
-    this.compraFinalizacionService.getAll().subscribe(data => this.listFinalizacion = data);
+    this.pedidosService.getAll().subscribe(data =>{
+      data.forEach(
+        (element: any) => {
+          if(element.state === 'PRESUPUESTADO'){
+            this.listPresupuesto.push(element);
+          }else if(element.state === 'APROBADO'){
+            this.listAprobado.push(element);
+          }else if(element.state === 'CANCELADO'){
+            this.listCancelado.push(element);
+          }else if(element.state === 'FINALIZADO'){
+            this.listFinalizado.push(element);
+          }
+        }
+      )
+    });
+    
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
     });
@@ -50,58 +71,83 @@ export class PedidosCompraComponent implements OnInit {
     
   }
 
-  cambiarEstado(id: number, pedido: any, estado?: string) {
-    if (estado === 'PREPARACION') {
+  cambiarEstado(id?: number, pedido?: any, estado?: string) {
+    if (id){
+    pedido.state = estado;
 
-      pedido.InsumosEntities.forEach((item: { id: any; quantity: any; }, index: number) => {
-        
-        this.IdsInsumosCantidad.push({
-          id: item.id,
-          quantity: item.quantity
-        })
-      });
-      console.log(this.IdsInsumosCantidad);
-      
 
-      this.compraPreparacionService.create(pedido,this.IdsInsumosCantidad ).subscribe(() => {
-        this.toastr.success(`Pedido ${pedido.name} en preparación...`);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500); 
-      });
-    } else {
-      this.compraFinalizacionService.create(pedido).subscribe(() => {
-        this.toastr.success(`Pedido ${pedido.name} listo para finalizar `);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500); 
-      });
+    if(estado === 'APROBADO'){
+
+      pedido.subtotal = this.calcularSubtotal(pedido);
+      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+      setTimeout(() => {
+        window.location.reload();
+      }, 600)
+    })
+
     }
+else if(estado === 'FINALIZADO'){
+
+      this.insumoService.create(pedido.insumos).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
+
+      });
+      this.pedidosService.update(id, pedido).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+        
+      })
+      this.router.navigate(['dashboard/insumos']);
+
+
+    }else{
+
+      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
+    }
+      
+    
+    )}
+    }
+      
   }
 
   
-showCardDetails(card: any, presu?:string) {
-  if(presu){
-    this.cardData = card;
-  }else{
-    this.cardDataGeneral = card;
-  }
-  
+showCardDetails(card: Pedidos) {  
+  this.cardData = card;  
+  console.log(this.cardData);
 }
 
 updateEntidad(id:number){
   this.router.navigate(['dashboard/pedidos-compra/crear-editar', id]);
 }
 
-finalizaPedido(data: any){ {
-  console.log(data);
-  
-    this.compraFinalizacionService.finalizarPedido(data).subscribe(() => {
-      this.toastr.success(`Pedido finalizado`);
-      this.router.navigate(['dashboard/insumos']);
-    });
+calcularSubtotal(pedido: any): number {
+  let subtotal = 0;
+
+  if (pedido.insumos && pedido.insumos.length > 0) {
+    subtotal = pedido.insumos.reduce((acc: number, insumo: { PedidosInsumos: { cantidad: number; }; price: number; }) => {
+      return acc + insumo.PedidosInsumos.cantidad * insumo.price;
+    }, 0);
   }
 
+  return subtotal;
 }
+
+eliminarPedido(id?: number){
+  this.pedidosService.delete(id!).subscribe(() => {
+    this.toastr.success('Entidad eliminado exitosamente')
+    setTimeout(() => {
+      window.location.reload();
+    }, 600)
+    
+
+  })
+}
+
+
 }
   

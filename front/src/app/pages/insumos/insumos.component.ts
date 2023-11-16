@@ -28,7 +28,7 @@ export class InsumosComponent {
   }
   
   ngOnInit(): void {
-    this.insumoService.getAll().subscribe(entidades => this.entidades = entidades);
+    this.insumoService.getAll().subscribe(insumos => this.entidades = insumos);
     this.titleService.setTitle('Insumos');
   }
   deleteEntidad(id: any) {
@@ -38,6 +38,8 @@ export class InsumosComponent {
   } 
   showCardDetails(card: Insumo) {
     this.cardData = card;
+    console.log(this.cardData);
+    
   }
 
 	

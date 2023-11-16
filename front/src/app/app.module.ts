@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FontAwesomeModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
     
   ],
   providers: [],

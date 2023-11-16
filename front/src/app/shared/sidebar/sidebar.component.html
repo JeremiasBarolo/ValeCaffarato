@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="dashboard" class="brand-link">
       <img src="../assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Valentin Caffarato</span>
+      <span class="brand-text font-weight-light">Valentin Caffaratto</span>
     </a>
 
     <!-- Sidebar -->
@@ -34,74 +34,11 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          
           <li class="nav-item">
 
 
-            <a href="#" class="nav-link">
-              <i class="fa-solid fa-cart-shopping mr-1"></i>
-              <p>
-                Compras
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
-
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="dashboard/insumos" class="nav-link">
-                  <p>Listado de Insumos</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="dashboard/proveedores" class="nav-link">
-                  <p>Listado de Proveedores</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a routerLink="/dashboard/proveedores/crear-editar" class="nav-link">
-                  <p>Crear Proveedores</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-
-            <a href="../widgets.html" class="nav-link">
-              <i class="fa-brands fa-sellsy mr-1"></i>
-              <p>
-                Ventas
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
-
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
-                <a href="/dashboard/clientes/crear-editar" class="nav-link">
-                  <p>Crear Clientes</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="/dashboard/clientes" class="nav-link">
-                  <p>Listado de Clientes</p>
-                </a>
-              </li>
-
-              
-             
-            </ul>
-          </li>
-
-        
-          <li class="nav-item">
-
-
-            <a href="#" class="nav-link">
+            <a class="nav-link">
               <i class="fa-solid fa-boxes-stacked mr-2" ></i>
               <p>
                 Stock
@@ -113,8 +50,14 @@
             <ul class="nav nav-treeview">
 
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a class="nav-link">
                   <p>Productos en Stock</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="dashboard/insumos" class="nav-link">
+                  <p>Listado de Insumos</p>
                 </a>
               </li>
 
@@ -130,23 +73,12 @@
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="dashboard/product-entity/crear-editar" class="nav-link">
-                  <p>Crear entidad de Producto</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="dashboard/insumo-entity/crear-editar" class="nav-link">
-                  <p>Crear Entidad  Insumos</p>
-                </a>
-              </li>
 
             </ul>
           </li>
           <li class="nav-item">
 
-            <a href="../widgets.html" class="nav-link">
+            <a class="nav-link">
               <i class="fa-solid fa-arrow-trend-up mr-2"></i>
               <p>
                 Costos
@@ -158,7 +90,7 @@
             <ul class="nav nav-treeview">
 
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a class="nav-link">
                   <p>Listado de Costos</p>
                 </a>
               </li>
@@ -172,10 +104,10 @@
           <li class="nav-item">
 
 
-            <a href="#" class="nav-link">
+            <a class="nav-link">
               <i class="fa-solid fa-sheet-plastic mr-2"></i>
               <p>
-                Reclamos
+                Documentos
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -185,14 +117,8 @@
 
 
               <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
+                <a class="nav-link">
                   <p>Listado de Reclamos</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
-                  <p>Crear Reclamo</p>
                 </a>
               </li>
 
@@ -201,7 +127,7 @@
           <li class="nav-item">
 
 
-            <a href="#" class="nav-link">
+            <a href="dashboard/pedidos-compra" class="nav-link">
               <i class="fa-solid fa-file-pen mr-1"></i>
               <p>
                 Pedidos
@@ -220,22 +146,11 @@
               </li>
 
               <li class="nav-item">
-                <a href="dashboard/pedidos-compra" class="nav-link">
-                  <p>Listado de Pedidos Compras</p>
+                <a  class="nav-link">
+                  <p>Listado de Pedidos ventas</p>
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
-                  <p>Crear Pedido Compra</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
-                  <p>Crear Pedidos Venta</p>
-                </a>
-              </li>
 
             </ul>
 
@@ -245,7 +160,7 @@
             <a href="#" class="nav-link">
               <i class="fa-solid fa-users mr-1"></i>
               <p>
-              Empleados
+              Personas
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -254,14 +169,26 @@
             <ul class="nav nav-treeview">
 
               <li class="nav-item">
-                <a href="dashboard/empleados/crear-editar" class="nav-link">
-                  <p>Crear Empleado</p>
+                <a href="dashboard/empleados" class="nav-link">
+                  <p>Listado de Empleados</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="dashboard/empleados" class="nav-link">
-                  <p>Listado de Empleados</p>
+                <a href="/dashboard/clientes" class="nav-link">
+                  <p>Listado de Clientes</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="dashboard/proveedores" class="nav-link">
+                  <p>Listado de Proveedores</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="dashboard/crear-personas" class="nav-link">
+                  <p>Crear Persona</p>
                 </a>
               </li>
 

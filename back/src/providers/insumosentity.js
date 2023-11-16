@@ -129,30 +129,24 @@ const updateInsumosentity= async (insumosentity_id, dataUpdated) => {
 
 const deleteInsumosentity= async (insumosentity_id) => {
   try {
-    const deletedInsumosentity= await models.InsumosEntities.findByPk(insumosentity_id, { include: { all: true } });
-    // const images = path.join(__dirname, '../public/images', deletedInsumosentity.image)
-
-    // const images = await models.InsumosEntitiesImages.findAll({
-    //   where: {
-    //     InsumosentityId: insumosentity_id,
-    //   },
-    // });
-
+    const deletedInsumosentity= await models.InsumosEntities.findByPk(insumosentity_id, {
+      include: { all: true },
+    });
+    
     if (deletedInsumosentity=== 0) {
       console.error(`🛑 Insumosentitywith id: ${insumosentity_id} not found`);
       return null;
     }
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     const deletingImages = image.imageUrl;
-    //     if (fs.existsSync(deletingImages)) {
-    //       fs.unlinkSync(deletingImages);
-    //     } else {
-    //       console.log('No existe la imagen');
-    //     }
-    //   });
-    // }
+    for (const insumo of deletedInsumosentity.Pedidos) {
+      
+      await models.PedidosInsumos.destroy({ where:  
+        { 
+          cantidad: insumo.PedidosInsumos.cantidad, 
+          insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
+          pedidoId: insumo.PedidosInsumos.pedidoId 
+        } });
+    }
 
     await models.InsumosEntities.destroy({ where: { id: insumosentity_id } });
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { InsumoEntity } from '../models/insumo-entity';
+import { AppSettings } from 'appsettings-json-reader';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,9 @@ import { InsumoEntity } from '../models/insumo-entity';
 export class InsumoEntityService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
-
-  private apiUrl = 'http://localhost:8080/insumos_entity';
+  appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
+  private apiUrl = `${this.appSettings.url_api}/insumos_entity`;
+  
   //get all
   getAll(): Observable<InsumoEntity[]> {
     return this.http.get<InsumoEntity[]>(`${this.apiUrl}`);

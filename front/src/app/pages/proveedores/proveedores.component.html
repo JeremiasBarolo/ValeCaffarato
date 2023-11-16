@@ -1,9 +1,9 @@
 <div class="text-right">
-  <button type="button" class="btn btn-outline-success add mr-2 " [routerLink]="['crear-editar']"> Agregar
-      proveedor</button>
+  <button type="button" class="btn btn-outline-success add mr-2 " [routerLink]="['/dashboard/crear-personas']"> Agregar
+      Proveedor</button>
 </div>
 <section style="margin: 16px">
-<table class="table">
+<table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -17,22 +17,31 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let proveedor of proveedores">
-        <th scope="row">{{proveedor.id}}</th>
-        <td>{{proveedor.name}}</td>
-        <td>{{proveedor.lastname}}</td>
-        <td>{{proveedor.industry}}</td>
-        <td>{{proveedor.city}}</td>
-        <td>{{proveedor.phone}}</td>
-        <td>{{proveedor.email}}</td>
+      <tr *ngFor="let persona of proveedores" class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(persona)"  >
+        <th scope="row">{{persona.id}}</th>
+        <td>{{persona.name}}</td>
+        <td>{{persona.lastname}}</td>
+        <td>
+          <div *ngFor="let proveedor of persona.proveedor">
+            {{ proveedor.industry }}
+          </div>
+        </td>
+      
+        <td>
+          <div *ngFor="let proveedor of persona.proveedor">
+            {{ proveedor.city }}
+          </div>
+        </td>
+        <td>{{persona.phone}}</td>
+        <td>{{persona.email}}</td>
         <td>
             <div class="wrapper d-flex justify-content-end">
-                <button routerLink="crear-editar/{{proveedor.id}}" routerLinkActive="router-link-active"
-                    type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
+              <button [routerLink]="['/dashboard/crear-personas', persona.id]"routerLinkActive="router-link-active"
+              type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+              <i class="fa-solid fa-pen-to-square"></i>
+          </button>
 
-                <button type="button" (click)="deleteProveedor(proveedor.id)"
+                <button type="button" (click)="deleteProveedor(persona.id)"
                     class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
                         class="fa-solid fa-trash"></i></button>
             </div>
@@ -43,3 +52,32 @@
     </tbody>
   </table>
 </section>
+
+
+<div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">{{ cardData.name }} {{ cardData.lastname }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <p>Email: {{ cardData.email }}</p>
+        <p>DNI: {{ cardData.dni }}</p>
+        <p>CUIL: {{ cardData.cuil }}</p>
+        <p>Direccion: {{ cardData.adress }}, {{ cardData.adress_number }}</p>
+        <p>Telefono: {{ cardData.phone }}</p>
+        <p>{{ cardData.description }}</p>
+        <p *ngFor="let proveedor of cardData.proveedor">
+         Empresa: {{ proveedor.industry }}
+        </p>
+      
+        <p *ngFor="let proveedor of cardData.proveedor">
+          Localidad: {{ proveedor.city }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,18 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
-      // define association here
+      Proveedores.belongsTo(models.Personas, {
+        foreignKey: 'personaId', 
+        as: 'persona',
+      })
     }
   }
   Proveedores.init({
-    name: DataTypes.STRING,
-    lastname: DataTypes.STRING,
     industry: DataTypes.STRING,
-    dni: DataTypes.INTEGER,
     city: DataTypes.STRING,
-    phone: DataTypes.INTEGER,
-    cuit: DataTypes.INTEGER,
-    email: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Proveedores',

@@ -1,18 +1,4 @@
 var models = require('../models');
-const path = require('path');
-const fs = require('fs');
-// const { sequelize } = require('../db/connection')
-
-// const serveImage = async (cliente_id) => {
-//   try {
-//     const Cliente = await models.Clientes.findByPk(cliente_id,
-//       { include: { all: true } });
-//     return Cliente;
-//   } catch (err) {
-//     console.error('🛑 Error when fetching product', err);
-//     throw err;
-//   }
-// };
 
 const listAllCliente = async () => {
   try {
