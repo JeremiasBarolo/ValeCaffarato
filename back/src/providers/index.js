@@ -1,14 +1,11 @@
-const empleadosProvider = require("./empleados");
-const clientesProvider = require("./clientes");
-const proveedoresProvider = require("./proveedores");
+const personasProvider  = require("./personas");
 const productentityProvider = require("./productentity");
 const insumosentityProvider = require("./insumosentity");
 const insumoProvider = require("./insumo");
 const pedidosProvider = require("./pedidos");
 
-module.exports = { empleadosProvider, 
-    clientesProvider, 
-    proveedoresProvider, 
+module.exports = { 
+    personasProvider, 
     productentityProvider, 
     insumosentityProvider,
     insumoProvider,

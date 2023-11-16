@@ -1,16 +1,19 @@
-export interface Empleado{
+export interface Persona{
+proveedor: any;
+cliente: any;
     id?: number;
     name: string;
     lastname: string;
     adress: string;
     adressNumber: number;
     dni: number;
-    city: string;
+    city?: string;
     phone: number;
     cuit: number;
     email: string;
-    role: number;
-
+    industry?: string;
+    categoria?: string;
+    
 
 }
 

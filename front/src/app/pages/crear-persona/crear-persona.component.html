@@ -1,0 +1,111 @@
+<div class="container mt-5">
+    <div class="card mb-3 border border-0 mx-auto">
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="form-group text-center">
+            <label for="name">Nombre:</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+          </div>
+
+          <div class="form-group text-center">
+            <label for="lastname">Apellido:</label>
+            <input formControlName="lastname" type="text" class="form-control" placeholder="Apellido">
+          </div>
+
+          <div class="form-group text-center">
+            <label for="dni">DNI:</label>
+            <input formControlName="dni" type="text" class="form-control" placeholder="DNI">
+          </div>
+
+          <div class="form-group text-center">
+            <label for="cuil">CUIL:</label>
+            <input formControlName="cuil" type="text" class="form-control" placeholder="CUIL">
+          </div>
+
+          <div class="form-group text-center">
+            <label for="address">Direccion:</label>
+            <input formControlName="address" type="text" class="form-control" placeholder="Direccion">
+          </div>
+
+          <div class="form-group text-center">
+            <label for="adress_number">Numero de Direccion:</label>
+            <input formControlName="adress_number" type="text" class="form-control" placeholder="Numero de Direccion">
+          </div>
+
+          <div class="form-group text-center">
+            <label for="phone">Telefono:</label>
+            <input formControlName="phone" type="text" class="form-control" placeholder="Telefono">
+          </div>
+
+          <div class="form-group text-center">
+            <label for="email">Email:</label>
+            <input formControlName="email" type="email" class="form-control" placeholder="Email">
+          </div>
+
+          <div class="form-group text-center">
+          <label for="email">Tipo de Persona:</label> <br>
+            <select class="form-select" aria-label="Default select example" formControlName="selectedOption">
+              <option value="CLIENTE">Cliente</option>
+              <option value="PROVEEDOR">Proveedor</option>
+              <option value="EMPLEADO">Empleado</option>
+            </select>
+
+          </div>
+        
+        <!-- Campos específicos para Cliente -->
+        <div *ngIf="form.get('selectedOption')?.value === 'CLIENTE'"
+        >
+          <div class="form-group text-center">
+            <label for="clientCompany">Empresa:</label>
+            <input formControlName="clientCompany" type="text" class="form-control" placeholder="Empresa">
+          </div>
+        
+          <div class="form-group text-center">
+            <label for="clientCity">Localidad:</label>
+            <input formControlName="clientCity" type="text" class="form-control" placeholder="Localidad">
+          </div>
+        </div>
+        
+        <!-- Campos específicos para Proveedor -->
+        <div *ngIf="form.get('selectedOption')?.value === 'PROVEEDOR'">
+          <div class="form-group text-center">
+            <label for="industry">Empresa:</label>
+            <input formControlName="industry" type="text" class="form-control" placeholder="Empresa">
+          </div>
+        
+          <div class="form-group text-center">
+            <label for="providerCity">Localidad:</label>
+            <input formControlName="providerCity" type="text" class="form-control" placeholder="Localidad">
+          </div>
+        </div>
+        
+        <!-- Campos específicos para Empleado -->
+        <div *ngIf="form.get('selectedOption')?.value === 'EMPLEADO'">
+          <div class="form-group text-center">
+            <label for="cargo">Cargo:</label>
+            <input formControlName="cargo" type="text" class="form-control" placeholder="Cargo">
+          </div>
+        </div>
+        
+        <!-- ... Botón de enviar ... -->
+        
+        <div class="row mt-5 text-center">
+          <div class="col-xs-12 col-md-6 col-lg-6">
+            <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addPersona(selectedOption)">Aceptar</button>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6">
+              <button type="button" class="btn btn-info"> Volver </button>
+          </div>
+
+          
+          <!-- <div class="col-xs-12 col-md-6 col-lg-6">
+              <button type="button" class="btn btn-danger" (click)="rellenarDatos()">RELLENAR DATOS(ELIMINAR)</button>
+          </div> -->
+      </div>
+      </form>
+      </div>
+  
+      
+    </div>
+  </div>
+  

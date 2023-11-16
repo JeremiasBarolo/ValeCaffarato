@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Empleado } from 'src/app/models/Empleado';
-import { EmpleadosServiceService } from 'src/app/services/empleados-service.service';
+import { Persona } from 'src/app/models/Persona';
+import { PersonasService } from 'src/app/services/personas.service';
+
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -10,17 +11,34 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class EmpleadosComponent implements OnInit {
 
-  empleados: Empleado[] = [];
+  empleados: any[] = [];
+  persona: any;
+  cardData: any = {
+    name: ''
+  }
   
-  constructor( private empleadosService: EmpleadosServiceService, private titleService: TitleService) { }
+  constructor( private personasService: PersonasService, private titleService: TitleService) { }
 
   ngOnInit(): void {
-  this.empleadosService.getAll().subscribe(empleados => this.empleados = empleados);
+    this.personasService.getAll().subscribe(persona => {
+      let empleados = persona.filter((persona) => persona.categoria === 'EMPLEADO');
+      this.empleados = empleados;
+      
+    })
+
+
+
   this.titleService.setTitle('Empleados');
   }
 
+  showCardDetails(card: any) {
+    
+    this.cardData = card;  
+    console.log(this.cardData);
+  }
+
   deleteEmpleado(id: any) {
-    this.empleadosService.delete(id).subscribe(() => {
+    this.personasService.delete(id).subscribe(() => {
       this.empleados = this.empleados.filter(e => e.id !== id);
     });
   }

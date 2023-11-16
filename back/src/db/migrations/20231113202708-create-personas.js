@@ -1,7 +1,8 @@
-/** @type {import('sequelize-cli').Migration} */
+// En tu archivo de migración para Personas (por ejemplo, 20230101000000-create-personas.js)
+'use strict';
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Proveedores', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('Personas', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,47 +11,43 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false,
-      },
-      industry: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
       dni: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+        type: Sequelize.BIGINT(20),
       },
-      city: {
+      adress: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       phone: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
-      cuit: {
+      adress_number: {
         type: Sequelize.INTEGER,
+      },
+      cuil: {
+        type: Sequelize.BIGINT(20),
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+      },
+      categoria: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
+
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
   },
-  // eslint-disable-next-line no-unused-vars
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Proveedores');
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('Personas');
   },
 };

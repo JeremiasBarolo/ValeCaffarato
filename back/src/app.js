@@ -2,9 +2,7 @@
 // Requires
 const express = require("express")
 const { 
-    empleadosRouter, 
-    clientesRouter, 
-    proveedoresRouter,
+    personasRouter,
     productentityRouter, 
     insumosentityRouter, 
     insumosRouter,
@@ -25,9 +23,7 @@ app.use(express.json())
 app.use(cors());
 
 // Routes
-app.use("/empleados", empleadosRouter)
-app.use("/clientes", clientesRouter)
-app.use("/proveedores", proveedoresRouter)
+app.use("/personas", personasRouter)
 app.use('/product_entity', productentityRouter)
 app.use('/insumos_entity', insumosentityRouter)
 app.use('/insumos', insumosRouter)

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Proveedor } from 'src/app/models/proveedor';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { Persona } from 'src/app/models/Persona';
+import { PersonasService } from 'src/app/services/personas.service';
+
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -10,17 +11,30 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class ProveedoresComponent {
 
-  proveedores: Proveedor[] = [];
+  proveedores: Persona[] = [];
+  cardData: any = {
+    name: ''
+  }
   
-  constructor( private proveedoreservice: ProveedoresService, private titleService: TitleService) { }
+  constructor( private personasService: PersonasService, private titleService: TitleService) { }
 
   ngOnInit(): void {
-  this.proveedoreservice.getAll().subscribe(cliente => this.proveedores = cliente);
   this.titleService.setTitle('Proveedores');
-  }
+  this.personasService.getAll().subscribe(persona => {
+    let proveedores = persona.filter((persona) => persona.categoria === 'PROVEEDOR');
+    this.proveedores = proveedores;
+    
+  })
+}
+
+showCardDetails(card: any) {
+    
+  this.cardData = card;  
+  console.log(this.cardData);
+}
 
   deleteProveedor(id: any) {
-    this.proveedoreservice.delete(id).subscribe(() => {
+    this.personasService.delete(id).subscribe(() => {
       this.proveedores = this.proveedores.filter(e => e.id !== id);
     });
   }

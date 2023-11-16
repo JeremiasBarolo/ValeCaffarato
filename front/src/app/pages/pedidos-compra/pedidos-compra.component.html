@@ -50,7 +50,7 @@
         <h4 class="mb-3">Finalizado</h4>
   
         <div class="card" *ngFor="let finalizado of listFinalizado">
-          <div class="card-header finalizado-card-header"(click)="showCardDetails(finalizado)"data-target="#InsumoModal" data-toggle="modal">
+          <div class="card-header finalizado-card-header"(click)="showCardDetails(finalizado)" data-target="#InsumoModal" data-toggle="modal">
             {{finalizado.name}}
           </div>
   
@@ -67,7 +67,7 @@
         <h4 class="mb-3">Cancelado</h4>
   
         <div class="card" *ngFor="let Cancelado of listCancelado">
-          <div class="card-header cancelado-card-header"(click)="showCardDetails(Cancelado)"data-target="#InsumoModal" data-toggle="modal">
+          <div class="card-header cancelado-card-header"(click)=" showCardDetails(Cancelado)" data-target="#InsumoModal" data-toggle="modal">
             {{Cancelado.name}}
           </div>
   
