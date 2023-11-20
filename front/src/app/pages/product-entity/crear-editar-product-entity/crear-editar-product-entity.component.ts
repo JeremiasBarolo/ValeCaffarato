@@ -82,8 +82,8 @@ export class CrearEditarProductEntityComponent {
     if (this.id !== 0) {
       try {
         this.productEntityService.update(this.id, this.presupuestoData).subscribe(() => {
-          this.router.navigate(['dashboard/pedidos-compra']);
-          this.toastr.success('Pedido Actualizado');
+          this.router.navigate(['dashboard/product-entity']);
+          this.toastr.success('Entidad Actualizada');
         });
       } catch (error) {
         console.log(error);
@@ -91,8 +91,8 @@ export class CrearEditarProductEntityComponent {
     } else {
       try {
         this.productEntityService.create(this.presupuestoData).subscribe(() => {
-          this.router.navigate(['dashboard/pedidos-compra']);
-          this.toastr.success('Pedido Creado Exitosamente');
+          this.router.navigate(['dashboard/product-entity']);
+          this.toastr.success('Entidad Creada Exitosamente');
         });
       } catch (error) {
         console.log(error);

@@ -44,23 +44,46 @@ const createPedidos= async (PedidosData) => {
       state: PedidosData.state  
     };
 
-    const insumosData = PedidosData.insumosEntity_id.map(item => ({
-        insumoEntityId: item.id,
-        cantidad: item.cantidad
-      }));
-
     const newPedidos= await models.Pedidos.create(dataPedidos);
 
-    for (const insumo of insumosData) {
-        const insumoEntity = await models.InsumosEntities.findByPk(insumo.insumoEntityId);
-        if (insumoEntity) {
-          await models.PedidosInsumos.create({
-            pedidoId: newPedidos.id,
-            insumoEntityId: insumo.insumoEntityId,
-            cantidad: insumo.cantidad
-          });
+    if(PedidosData.category === 'compra'){
+
+        const insumosData = PedidosData.insumosEntity_id.map(item => ({
+            insumoEntityId: item.id,
+            cantidad: item.cantidad
+          }));
+
+        
+
+        for (const insumo of insumosData) {
+            const insumoEntity = await models.InsumosEntities.findByPk(insumo.insumoEntityId);
+            if (insumoEntity) {
+              await models.PedidosInsumos.create({
+                pedidoId: newPedidos.id,
+                insumoEntityId: insumo.insumoEntityId,
+                cantidad: insumo.cantidad
+              });
+            }
         }
-    }
+  }else{
+
+          const productData = PedidosData.productEntity_id.map(item => ({
+            productEntityId: item.id,
+            cantidad: item.cantidad
+          }));
+
+
+          for (const product of productData) {
+            const insumoEntity = await models.ProductEntity.findByPk(product.productEntityId);
+            if (insumoEntity) {
+              await models.PedidosProductos.create({
+                pedidoId: newPedidos.id,
+                productEntityId: product.productEntityId,
+                quantity_requested: product.cantidad
+              });
+            }
+        }
+  }
 
     console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
 

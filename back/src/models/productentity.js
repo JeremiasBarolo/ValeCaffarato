@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         through: 'ProductEntityQuantities',
         foreignKey: 'productEntityId',
       });
+
+      ProductEntity.belongsToMany(models.Pedidos, {
+        through: 'PedidosProductos', 
+        foreignKey: 'productEntityId', 
+        otherKey: 'pedidoId' 
+      });
     }
   }
   ProductEntity.init({
