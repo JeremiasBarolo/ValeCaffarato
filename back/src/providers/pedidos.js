@@ -46,7 +46,7 @@ const createPedidos= async (PedidosData) => {
 
     const newPedidos= await models.Pedidos.create(dataPedidos);
 
-    if(PedidosData.category === 'compra'){
+    if(PedidosData.category === 'COMPRA'){
 
         const insumosData = PedidosData.insumosEntity_id.map(item => ({
             insumoEntityId: item.id,
@@ -67,7 +67,7 @@ const createPedidos= async (PedidosData) => {
         }
   }else{
 
-          const productData = PedidosData.productEntity_id.map(item => ({
+          const productData = PedidosData.productos.map(item => ({
             productEntityId: item.id,
             cantidad: item.cantidad
           }));
@@ -127,14 +127,26 @@ const deletePedidos = async (pedidos_id) => {
       return null;
     }
 
-    for (const insumo of deletedPedidos.insumos) {
+    if(deletedPedidos.category === 'COMPRA'){
+      for (const insumo of deletedPedidos.insumos) {
       
-      await models.PedidosInsumos.destroy({ where:  
-        { 
-          cantidad: insumo.PedidosInsumos.cantidad, 
-          insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
-          pedidoId: insumo.PedidosInsumos.pedidoId 
-        } });
+        await models.PedidosInsumos.destroy({ where:  
+          { 
+            cantidad: insumo.PedidosInsumos.cantidad, 
+            insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
+            pedidoId: insumo.PedidosInsumos.pedidoId 
+          } });
+      }
+    }else{
+      for (const producto of deletedPedidos.productos) {
+      
+        await models.PedidosProductos.destroy({ where:  
+          { 
+            quantity_requested: producto.PedidosProductos.quantity_requested, 
+            productEntityId: producto.PedidosProductos.productEntityId, 
+            pedidoId: producto.PedidosProductos.pedidoId 
+          } });
+      }
     }
     
 

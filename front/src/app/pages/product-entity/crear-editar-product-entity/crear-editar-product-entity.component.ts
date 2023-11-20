@@ -100,11 +100,11 @@ export class CrearEditarProductEntityComponent {
     }
   }
 
-  selectedEntity(Insumo: Insumo) {
-    Insumo.quantity = 1;
-    this.selectedEntities.push(Insumo);
+  selectedEntity(Product: Insumo) {
+    Product.quantity = 1;
+    this.selectedEntities.push(Product);
   
-    const index = this.Insumos.findIndex(p => p.id === Insumo.id);
+    const index = this.Insumos.findIndex(p => p.id === Product.id);
     if (index !== -1) {
       this.Insumos.splice(index, 1);
     }
@@ -114,9 +114,9 @@ export class CrearEditarProductEntityComponent {
   }
 
   
-  returnEntities(Insumo: Insumo) {
-    this.Insumos.push(Insumo);
-    const index = this.selectedEntities.findIndex(p => p.id === Insumo.id);
+  returnEntities(product: any) {
+    this.Insumos.push(product);
+    const index = this.selectedEntities.findIndex(p => p.id === product.id);
     if (index !== -1) {
       this.selectedEntities.splice(index, 1);
     }

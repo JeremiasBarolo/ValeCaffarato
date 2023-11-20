@@ -19,6 +19,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar-pedidos-compra/crear-editar-pedidos-compra.component';
 import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
+import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
+import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 
 
 
@@ -46,6 +48,8 @@ import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
     CrearEditarPedidosCompraComponent,
     DashboardComponent,
     CrearPersonaComponent,
+    PedidosVentaComponent,
+    CrearEditarPedidoVentaComponent,
     
 
     
