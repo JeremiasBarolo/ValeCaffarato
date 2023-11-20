@@ -1,11 +1,14 @@
-import { ProductEntity } from 'src/app/models/product-entity';
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-
-import { TitleService } from 'src/app/services/title.service';
+import { Insumo } from 'src/app/models/insumo';
+import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
+import { InsumoService } from 'src/app/services/insumo.service';
+import { PedidosService } from 'src/app/services/pedidos.service';
 import { ProductEntityService } from 'src/app/services/product-entity.service';
+import { TitleService } from 'src/app/services/title.service';
 
 
 
@@ -16,125 +19,133 @@ import { ProductEntityService } from 'src/app/services/product-entity.service';
   styleUrls: ['./crear-editar-product-entity.component.css']
 })
 export class CrearEditarProductEntityComponent {
-  ProductEntity: ProductEntity | any;
-  listProductEntitys: Observable<ProductEntity[]> = new Observable<ProductEntity[]>();
+  PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
-  
-  selectedImage: File | any;
-  ProductEntityData: ProductEntity | any;
-  
-
+  selectedEntities: Insumo[] = [];
+  Insumos: Insumo[] = [];
+  subtotal: number[] = [];
+  presupuestoData: any = {
+    name: '',
+    description: '',
+    measurement_height: '',
+    measurement_length: '',
+    measurement_depth: '',
+    price: '',
+    profit: '',
+    insumos: [],
+  };
 
   constructor(
+    private insumoService: InsumoService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
     private productEntityService: ProductEntityService,
-    private titleService: TitleService
+    private titleService: TitleService,
+    private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      measurement_depth: ['', Validators.required],
       measurement_height: ['', Validators.required],
       measurement_length: ['', Validators.required],
+      measurement_depth: ['', Validators.required],
       profit: ['', Validators.required],
-    
+      price: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
 
-  ngAfterViewInit(): void {
-    if (this.id !== null) {
-      this.titleService.setTitle('Editar Entidad de Insumo');
-      console.log(this.id);
-      this.getProductEntity(this.id);
-    } else{
-      this.titleService.setTitle('Crear Entidad de Insumo');
-      
-    }   
+  ngOnInit(): void {
+    this.loadAllEntities();
+    this.loadSelectedProducts();
+    this.titleService.setTitle('Entidades de Producto');
+    console.log(this.selectedEntities);
+    console.log(this.Insumos);
+
+    
+    
   }
 
-  addProductEntity() {
-      const formData = new FormData();
-      formData.append('name', this.form.value.name);
-      formData.append('description', this.form.value.description);
-      formData.append('measurement_depth', this.form.value.measurement_depth);
-      formData.append('measurement_height', this.form.value.measurement_height);
-      formData.append('measurement_length', this.form.value.measurement_length);
-      formData.append('profit', this.form.value.profit);
-      console.log(this.id);
-      console.log(formData.forEach((value, key) => console.log(`${key}: ${value}`)));
-      
-      this.ProductEntity = {
-        name: this.form.value.name,
-        description: this.form.value.description,
-        measurement_depth: this.form.value.measurement_depth,
-        measurement_height: this.form.value.measurement_height,
-        measurement_length: this.form.value.measurement_length,
-        profit: this.form.value.profit,
-      
-      };
+  addPedidoCompra() {
+    this.presupuestoData.insumos = this.selectedEntities.map(entity => ({ id: entity.id, quantity: entity.quantity }));
+    this.presupuestoData.name = this.form.value.name;
+    this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.measurement_height = this.form.value.measurement_height;
+    this.presupuestoData.measurement_length = this.form.value.measurement_length;
+    this.presupuestoData.measurement_depth = this.form.value.measurement_depth;
+    this.presupuestoData.profit = this.form.value.profit;
+    this.presupuestoData.price = this.form.value.price;
+    
 
-      if (this.id !== 0) {
-        // Es editar
-        try {
-          this.productEntityService.update(this.id, this.ProductEntity).subscribe(() => {
-            this.router.navigate(['dashboard/product-entity']);
-          });
-      
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        // Es agregar
-        try {
-          this.productEntityService.create(this.ProductEntity).subscribe(() => {
-            this.router.navigate(['dashboard/product-entity']);
-          });
-          
-        } catch (error) {
-          console.log(error);
-        }
+    if (this.id !== 0) {
+      try {
+        this.productEntityService.update(this.id, this.presupuestoData).subscribe(() => {
+          this.router.navigate(['dashboard/pedidos-compra']);
+          this.toastr.success('Pedido Actualizado');
+        });
+      } catch (error) {
+        console.log(error);
       }
+    } else {
+      try {
+        this.productEntityService.create(this.presupuestoData).subscribe(() => {
+          this.router.navigate(['dashboard/pedidos-compra']);
+          this.toastr.success('Pedido Creado Exitosamente');
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
-  
 
-  getProductEntity(id: number) {
-    this.productEntityService.getById(id).subscribe((data: ProductEntity)=> {
-      let productEntity: ProductEntity = {
-        name: data.name,
-        description: data.description,
-        measurement_depth: data.measurement_depth,
-        measurement_height: data.measurement_height,
-        measurement_length: data.measurement_length,
-        profit: data.profit,
-        
-      };
+  selectedEntity(Insumo: Insumo) {
+    Insumo.quantity = 1;
+    this.selectedEntities.push(Insumo);
   
-      this.ProductEntityData = productEntity;
+    const index = this.Insumos.findIndex(p => p.id === Insumo.id);
+    if (index !== -1) {
+      this.Insumos.splice(index, 1);
+    }
+  
+    localStorage.setItem('selectedEntities', JSON.stringify(this.selectedEntities));
+  
+  }
 
-      this.form.setValue({
-        name: data.name,
-        description: data.description,
-        measurement_depth: data.measurement_depth,
-        measurement_height: data.measurement_height,
-        measurement_length: data.measurement_length,
-        profit: data.profit
-      });
-    });
+  
+  returnEntities(Insumo: Insumo) {
+    this.Insumos.push(Insumo);
+    const index = this.selectedEntities.findIndex(p => p.id === Insumo.id);
+    if (index !== -1) {
+      this.selectedEntities.splice(index, 1);
+    }
   }
 
   rellenardatos() {
     this.form.setValue({
-        name: 'Insumoooo',
-        description: 'Super Insumo',
-        measurement_depth: 12,
-        measurement_height: 12,
-        measurement_length: 12,
-        profit: 12
+        name: 'Super pedido de Cajas',
+        description: 'Cajones negros'
         
     });
+  }
+  loadAllEntities() {
+    this.insumoService.getAll().subscribe((data) => {
+      this.Insumos = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    })
+  }
+  loadSelectedProducts() {
+    if (this.id) {
+      this.productEntityService.getById(this.id).subscribe(
+        (res: any) => {
+          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
+            
+            
+            this.selectedEntities = [...res.InsumosEntities];
+            this.Insumos = this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+          }
+        }
+      )
+    }
   }
 }

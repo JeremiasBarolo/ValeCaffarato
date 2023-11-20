@@ -6,5 +6,6 @@ export interface ProductEntity{
     measurement_length: number;
     measurement_depth: number;
     profit: number;
+    price: number;
 }
 

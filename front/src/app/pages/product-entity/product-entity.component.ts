@@ -10,9 +10,13 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class ProductEntityComponent {
   entidades: ProductEntity[] = []
+  cardData: any = {
+    name: '',
+  }
   constructor(private titleService: TitleService, private productEntityService: ProductEntityService) {
     
   }
+
   
   ngOnInit(): void {
     this.productEntityService.getAll().subscribe(entidades => this.entidades = entidades);
@@ -23,4 +27,11 @@ export class ProductEntityComponent {
       this.entidades = this.entidades.filter(e => e.id !== id);
     });
   }
+
+  showCardDetails(card: any) {
+    this.cardData = card;
+    console.log(this.cardData);
+    
+  }
+  
 }

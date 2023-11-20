@@ -1,59 +1,95 @@
 <div class="container mt-5">
     <div class="card mb-3 border border-0 mx-auto">
       <div class="card-body">
-        <!-- Agrega un div contenedor que rodee al formulario -->
-        <div class="form-container">
-            <form [formGroup]="form" (ngSubmit)="addProductEntity()">
-                <span>
-                    <div class="form-group text-center">
-                        <label for="name">Nombre</label>
-                        <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
-                    </div>
-                    
-                    <div class="form-group text-center">
-                        <label for="measurement_height">Alto (cm) :</label>
-                        <input formControlName="measurement_height" type="number" class="form-control" placeholder="Alto">
-                    </div>
+        <form [formGroup]="form">
+          <div class="form-group text-center">
+            <label for="name">Nombre:</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+          </div>
 
-                    <div class="form-group text-center">
-                        <label for="measurement_length">Largo (cm) :</label>
-                        <input formControlName="measurement_length" type="number" class="form-control" placeholder="Largo">
-                    </div>
+          <div class="form-group text-center">
+            <label for="description">Descripción:</label>
+            <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
+          </div>
 
-                    <div class="form-group text-center">
-                        <label for="measurement_depth">Profundidad (cm) :</label>
-                        <input formControlName="measurement_depth" type="number" class="form-control" placeholder="Profundidad">
-                    </div>
+          <div class="form-group text-center">
+            <label for="measurement_height">Altura (cm):</label>
+            <input formControlName="measurement_height" type="text" class="form-control" placeholder="Alto">
+          </div>
 
-                    <div class="form-group text-center">
-                        <label for="profit">Ganancia (%) :</label>
-                        <input formControlName="profit" type="number" class="form-control" placeholder="Cantidad">
-                    </div>
-                
-                
-                    <span>
+          <div class="form-group text-center">
+            <label for="measurement_length">Largo (cm):</label>
+            <input formControlName="measurement_length" type="text" class="form-control" placeholder="Largo">
+          </div>
+        
 
-                        <div class="row mt-5 text-center">
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button routerLinkActive="router-link-active" type="submit"
-                                    class="btn btn-success">Aceptar </button>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button type="button" class="btn btn-info"> Volver </button>
-                            </div>
+        <div class="form-group text-center">
+            <label for="measurement_depth">Ancho (cm):</label>
+            <input formControlName="measurement_depth" type="text" class="form-control" placeholder="Ancho">
+        </div>
 
-                            
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
-                            </div>
-                        </div>
-                    </span>
-                </span>
-            </form>
+        <div class="form-group text-center">
+            <label for="profit">Profit:</label>
+            <input formControlName="profit" type="text" class="form-control" placeholder="profit">
+        </div>
+
+        <div class="form-group text-center">
+            <label for="price">Precio:</label>
+            <input formControlName="price" type="text" class="form-control" placeholder="precio">
+        </div>
+        </form>
+      </div>
+  
+      <div class="row mt-4">
+        <div class="col-md-6 text-center">
+          <h6>Insumos Disponibles</h6>
+          <div class="card mb-" style="height: 550px; overflow-y: auto;">
+            <div class="card-body">
+              <ul class="list-group" *ngFor="let entidad of Insumos">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ entidad.name }}
+                  <button class="btn btn-success" (click)="selectedEntity(entidad)">Agregar a la Entidad</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Lista de Combos -->
+        <div class="col-md-5 text-center">
+          <h6>Entidades Seleccionadas</h6>
+          <div class="card mb-3" style="height: 550px; overflow-y: auto;">
+            <div class="card-body">
+              <ul class="list-group" *ngFor="let entidad of selectedEntities; let i = index">
+                <li class="list-group-item">
+                  <div>
+                    <p>{{ entidad.name }}</p>
+                  </div>
+                  <div>
+                    <label for="quantity{{ i }}">Cantidad:</label>
+                    <input type="number" name="quantity{{ i }}" [(ngModel)]="entidad.quantity" />
+                  </div>
+                  <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+  
+      <div class="row mt-5">
+        <div class="col-md-6 offset-md-3 text-center">
+          <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6 offset-md-3 text-center">
+          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+        </div>
+      </div>
+      
     </div>
   </div>
   
-
-
