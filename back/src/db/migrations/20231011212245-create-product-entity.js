@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       measurement_height: {
         type: Sequelize.INTEGER,
       },

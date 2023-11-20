@@ -45,36 +45,41 @@ const listOneProductentity= async (productentity_id) => {
   }
 };
 
-const createProductentity= async (ProductentityData) => {
-  let transaction;
+const createProductentity= async (productentityData) => {
+
 
   try {
-    transaction = await models.sequelize.transaction();
-    const dataProductentity= {
-      name: ProductentityData.name,
-      description: ProductentityData.description,
-      measurement_height: ProductentityData.measurement_height,
-      measurement_length: ProductentityData.measurement_length,
-      measurement_depth: ProductentityData.measurement_depth,
-      profit: ProductentityData.profit,
+    
+    const ProductentityData= {
+      name: productentityData.name,
+      description: productentityData.description,
+      measurement_height: productentityData.measurement_height,
+      measurement_length: productentityData.measurement_length,
+      measurement_depth: productentityData.measurement_depth,
+      price: productentityData.price,
+      profit: productentityData.profit,
     };
+    const insumosData = productentityData.insumos.map(item => ({
+      insumoId: item.id,
+      quantity: item.quantity
+    }));
 
-    // const imageUrls = ProductentityData.images;
+  const newProductEntity= await models.ProductEntity.create(ProductentityData);
 
-    const newProductEntity= await models.ProductEntity.create(dataProductentity, { transaction });
+  for (const insumo of insumosData) {
+      const insumoEntity = await models.Insumos.findByPk(insumo.insumoId);
+      if (insumoEntity) {
+        await models.ProductEntityQuantities.create({
+          productEntityId: newProductEntity.id,
+          insumoId: insumo.insumoId,
+          quantity_necessary: insumo.quantity
+        });
+      }
+  }
 
-    // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.PProductEntityImages.create(
-    //     {
-    //       imageUrl,
-    //       ProductentityId: newProductentity.id,
-    //     },
-    //     { transaction },
-    //   )),
-    // );
+  
 
-    // Confirma la transacción
-    await transaction.commit();
+    
 
     console.log(`✅ Productentity"${newProductEntity.name}" was created with images`);
 
@@ -86,10 +91,10 @@ const createProductentity= async (ProductentityData) => {
 };
 
 const updateProductentity= async (productentity_id, dataUpdated) => {
-  let transaction;
+
 
   try {
-    transaction = await models.sequelize.transaction();
+    
 
     const oldProductEntity= await models.ProductEntity.findByPk(productentity_id, { include: { all: true } });
 
@@ -106,7 +111,7 @@ const updateProductentity= async (productentity_id, dataUpdated) => {
     //   }
     // }
 
-    const newProductentity= await oldProductEntity.update(dataUpdated, { transaction });
+    const newProductentity= await oldProductEntity.update(dataUpdated);
 
     // const createdImages = await Promise.all(
     //   newImageUrls.map((imageUrl) => models.PProductEntityImages.create(
@@ -114,12 +119,11 @@ const updateProductentity= async (productentity_id, dataUpdated) => {
     //       imageUrl,
     //       ProductentityId: newProductentity.id,
     //     },
-    //     { transaction },
+    //   ,
     //   )),
     // );
 
-    // Confirma la transacción
-    await transaction.commit();
+    
 
     console.log(`✅ Productentity"${newProductentity.name}" was created with images`);
 
