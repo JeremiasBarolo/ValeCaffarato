@@ -21,6 +21,7 @@ import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar
 import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
 import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
+import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,9 @@ const routes: Routes = [
       { path : 'product-entity', component : ProductEntityComponent},
       { path: 'product-entity/crear-editar', component: CrearEditarProductEntityComponent },
       { path: 'product-entity/crear-editar/:id', component: CrearEditarProductEntityComponent },
+      { path : 'product', component : ProductosComponent},
+      { path: 'product/crear-editar', component: CrearEditarProductosComponent },
+      { path: 'product/crear-editar/:id', component: CrearEditarProductosComponent },
       { path: '**', redirectTo: 'dashboard' },
 
     ]

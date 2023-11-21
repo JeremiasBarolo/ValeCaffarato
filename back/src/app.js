@@ -7,7 +7,8 @@ const {
     insumosentityRouter, 
     insumosRouter,
     pedidosRouter,
-    cantidadesRouter
+    cantidadesRouter,
+    productosRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -29,6 +30,7 @@ app.use('/insumos_entity', insumosentityRouter)
 app.use('/insumos', insumosRouter)
 app.use('/pedidos', pedidosRouter)
 app.use('/cantidades', cantidadesRouter)
+app.use('/productos', productosRouter)
 
 
 

@@ -66,16 +66,33 @@ const createInsumo= async (insumoData) => {
       return insumoAdmin;
 
     }else{
-      await insumoData.forEach(async (insumo) => {
+      const createdInsumos = await Promise.all(insumoData.map(async (insumo) => {
+        const checkInsumos = await models.Insumos.findOne({
+          where: {
+            antiguo_id: insumo.id
+          }
+        });
 
-       let insumoCreado = await models.Insumos.create({
-        quantity: insumo.PedidosInsumos.cantidad,
-        name: insumo.name,
-        description: insumo.description,
-        price: insumo.price,
-       });
-       return insumoCreado
-      })
+        if (checkInsumos) {
+          const cantidadNueva = checkInsumos.quantity + insumo.PedidosInsumos.cantidad;
+          const updatedProduct = await checkInsumos.update({
+            quantity: cantidadNueva
+          });
+          return updatedProduct;
+          
+        } else {
+          const newInsumo = await models.Insumos.create({
+            quantity: insumo.PedidosInsumos.cantidad,
+            name: insumo.name,
+            description: insumo.description,
+            price: insumo.price,
+            antiguo_id: insumo.id
+          });
+          return newInsumo;
+        }
+      }));
+
+      return createdInsumos;
       
     }
 

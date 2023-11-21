@@ -42,22 +42,19 @@ export class PedidosCompraComponent implements OnInit {
 
     ) { }
 
-//     FINALIZADO
-// CANCELADO
-// PRESUPUESTADO
 
   ngOnInit(): void {
     this.titleService.setTitle('Pedidos Compra');
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {
-          if(element.state === 'PRESUPUESTADO'){
+          if(element.state === 'PRESUPUESTADO' && element.category === 'COMPRA'){
             this.listPresupuesto.push(element);
-          }else if(element.state === 'APROBADO'){
+          }else if(element.state === 'APROBADO' && element.category === 'COMPRA'){
             this.listAprobado.push(element);
-          }else if(element.state === 'CANCELADO'){
+          }else if(element.state === 'CANCELADO' && element.category === 'COMPRA'){
             this.listCancelado.push(element);
-          }else if(element.state === 'FINALIZADO'){
+          }else if(element.state === 'FINALIZADO' && element.category === 'COMPRA'){
             this.listFinalizado.push(element);
           }
         }

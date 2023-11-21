@@ -5,15 +5,16 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductEntity } from '../models/product-entity';
 import { AppSettings } from 'appsettings-json-reader';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class ProductEntityService {
+export class ProductosService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
 
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
-  private apiUrl = `${this.appSettings.url_api}/product_entity`;
+  private apiUrl = `${this.appSettings.url_api}/productos`;
     getAll(): Observable<ProductEntity[]> {
       return this.http.get<ProductEntity[]>(`${this.apiUrl}`);
     }
@@ -21,7 +22,12 @@ export class ProductEntityService {
     // get by id
     getById(id: number): Observable<ProductEntity> {
     return this.http.get<ProductEntity>(`${this.apiUrl}/${id}`)
-      
+      .pipe(
+        catchError(error => {
+          this.toastr.error('Error al obtener el ProductEntity');
+          throw error;
+        })
+      );
   }
 
   // create
@@ -41,4 +47,5 @@ export class ProductEntityService {
     return this.http.delete<ProductEntity>(`${this.apiUrl}/${id}`)
       
   }
+
 }

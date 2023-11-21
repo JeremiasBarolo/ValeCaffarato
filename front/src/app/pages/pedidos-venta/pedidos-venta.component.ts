@@ -7,6 +7,7 @@ import { Pedidos } from 'src/app/models/pedidos';
 
 import { InsumoService } from 'src/app/services/insumo.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
+import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -37,7 +38,7 @@ export class PedidosVentaComponent {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private insumoService: InsumoService
+    private productosService: ProductosService
 
 
     ) { }
@@ -94,20 +95,22 @@ export class PedidosVentaComponent {
 
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
-        
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
       })
   }
     else if(estado === 'FINALIZADO'){
 
-      // this.insumoService.create(pedido.insumos).subscribe(() => {
-      //   this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
+      this.productosService.create(pedido.productos).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
-      //});
+      });
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         
       })
-      this.router.navigate(['dashboard/insumos']);
+      this.router.navigate(['dashboard/productos']);
 
 
     }else{
