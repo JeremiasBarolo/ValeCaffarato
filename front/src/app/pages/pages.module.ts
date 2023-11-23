@@ -22,6 +22,7 @@ import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
 import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
+import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
 
 
 
@@ -52,6 +53,7 @@ import { CrearEditarProductosComponent } from './productos/crear-editar-producto
     PedidosVentaComponent,
     CrearEditarPedidoVentaComponent,
     CrearEditarProductosComponent,
+    PedidosCanceladosComponent,
     
 
     

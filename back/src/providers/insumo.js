@@ -58,7 +58,7 @@ const createInsumo= async (insumoData) => {
         price: insumoData.price,
         quantity: insumoData.quantity,
         quantity_reserved: 0,
-        
+
       };
 
       const insumoAdmin= await models.Insumos.create(dataInsumo);
@@ -88,7 +88,8 @@ const createInsumo= async (insumoData) => {
             name: insumo.name,
             description: insumo.description,
             price: insumo.price,
-            antiguo_id: insumo.id
+            antiguo_id: insumo.id,
+            quantity_reserved: 0,
           });
           return newInsumo;
         }
@@ -153,29 +154,22 @@ const updateInsumo= async (insumo_id, dataUpdated) => {
 const deleteInsumo= async (insumo_id) => {
   try {
     const deletedInsumo= await models.Insumos.findByPk(insumo_id, { include: { all: true } });
-    // const images = path.join(__dirname, '../public/images', deletedInsumo.image)
-
-    // const images = await models.InsumoImages.findAll({
-    //   where: {
-    //     InsumoId: insumo_id,
-    //   },
-    // });
+   
 
     if (deletedInsumo=== 0) {
       console.error(`🛑 Insumowith id: ${insumo_id} not found`);
       return null;
     }
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     const deletingImages = image.imageUrl;
-    //     if (fs.existsSync(deletingImages)) {
-    //       fs.unlinkSync(deletingImages);
-    //     } else {
-    //       console.log('No existe la imagen');
-    //     }
-    //   });
-    // }
+    for (const insumo of deletedInsumo.ProductEntities) {
+      
+      await models.ProductEntityQuantities.destroy({ where:  
+        { 
+          quantity_necessary: insumo.ProductEntityQuantities.quantity_necessary, 
+          productEntityId: insumo.ProductEntityQuantities.productEntityId, 
+          insumoId: insumo.ProductEntityQuantities.insumoId 
+        } });
+    }
 
     await models.Insumos.destroy({ where: { id: insumo_id } });
 

@@ -110,6 +110,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
     });
     
 
+
     if(dataUpdated.category === 'VENTA' && dataUpdated.state == 'PREPARACION'){
       
       const cantidades = dataUpdated.productos.map(pedido => ({
@@ -123,25 +124,24 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
           include: { all: true },
         });
 
-        if (entidadProducto) {
-          await entidadProducto.Insumos.map(async insumo => {
-            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary
-            const cantidadRequerida = cantidades.find(c => c.id === entidadProducto.id).cantidad
-
-            const cantidadActual = cantidadNecesaria * cantidadRequerida
-
-              await insumo.update({
-                quantity: insumo.quantity - cantidadActual,
-                quantity_reserved: insumo.quantity_reserved + cantidadActual
-              })
-          })
-        }
+          if (entidadProducto) {
+            await entidadProducto.Insumos.map(async insumo => {
+              const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary
+              const cantidadRequerida = cantidades.find(c => c.id === entidadProducto.id).cantidad    
+              const cantidadActual = cantidadNecesaria * cantidadRequerida    
+                await insumo.update({
+                  quantity: insumo.quantity - cantidadActual,
+                  quantity_reserved: insumo.quantity_reserved + cantidadActual
+                })
+            })
+          }
         return newPedidos= await oldPedidos.update(dataUpdated);
       } 
       )
      
     }
-    else if(dataUpdated.category === 'VENTA' && dataUpdated.state == 'FINALIZADO'){
+    
+    else if(dataUpdated.category === 'VENTA' && dataUpdated.state == 'FINALIZADO' || dataUpdated.category === 'VENTA' && dataUpdated.devolverInsumos){
         const cantidades = dataUpdated.productos.map(pedido => ({
           id : pedido.PedidosProductos.productEntityId,
           cantidad : pedido.PedidosProductos.quantity_requested
@@ -160,24 +160,31 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
 
             const cantidadActual = cantidadNecesaria * cantidadRequerida
 
-              await insumo.update({
-                quantity_reserved: insumo.quantity_reserved - cantidadActual
-              })
+            if(dataUpdated.devolverInsumos){
+            await insumo.update({
+              quantity_reserved: insumo.quantity_reserved - cantidadActual,
+              quantity: insumo.quantity + cantidadActual
+            })
+          }else{
+            await insumo.update({
+              quantity_reserved: insumo.quantity_reserved - cantidadActual
+            })
+          }
           })
+        
         }
       return newPedidos= await oldPedidos.update(dataUpdated);
 
 
-    })}
+    })
+  }
   
-
-    
     else{
-      return newPedidos= await oldPedidos.update(dataUpdated);
+      const newPedidos= await oldPedidos.update(dataUpdated);
+      return newPedidos;
     }
     
 
-    console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
 
   } catch (err) {
     console.error('🛑 Error when updating Pedidos', err);

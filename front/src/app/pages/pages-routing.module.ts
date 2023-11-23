@@ -22,6 +22,7 @@ import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
 import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
+import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'pedidos-venta', component: PedidosVentaComponent },
       { path: 'pedidos-venta/crear-editar', component: CrearEditarPedidoVentaComponent },
       { path: 'pedidos-venta/crear-editar/:id', component: CrearEditarPedidoVentaComponent },
+      { path: 'pedidos-cancelados', component: PedidosCanceladosComponent },
       { path: 'crear-personas', component: CrearPersonaComponent },
       { path: 'crear-personas/:id', component: CrearPersonaComponent },
       { path: 'insumos', component: InsumosComponent },

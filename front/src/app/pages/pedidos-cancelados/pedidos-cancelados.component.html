@@ -1,0 +1,73 @@
+<section style="margin: 16px">
+    <div class="cards-container" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px;">
+      <div class="card" style="width: calc(20% - 16px - 1px); flex: 0 0 auto; margin-right: 16px;" *ngFor="let card of listCancelado" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">
+  
+        <h5 class="card-header text-center">{{card.name}}</h5>
+        <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
+          <p class="card-text text-center">{{card.description}}</p>
+          <p class="card-text text-left">Subtotal: {{card.subtotal| currency}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-right ml-6">
+            <a class="btn btn-outline-danger" (click)="eliminarPedido(card.id)"  (click)="$event.stopPropagation()">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  
+  <div class="modal fade modal" id="InsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>{{ cardData.description }}</p>
+            <p>Subtotal: {{ cardData.subtotal| currency }}</p>
+            <p>Categoria: {{ cardData.category }}</p>
+            <span *ngIf="cardData.category == 'COMPRA'">
+                <span class="card text-center" *ngFor="let item of cardData.insumos">
+                    <div class="card-header"> {{item.name}}</div>
+                    <div class="card-body">
+                    <p>Descripcion: {{item.description}}</p>
+                    <p>Cantidad: {{item.PedidosInsumos.cantidad}}</p>
+                    <p>Precio: {{item.price| currency}}</p>
+                    </div>
+                </span>
+            </span>
+            <span *ngIf="cardData.category == 'VENTA'">
+                <span class="card text-center" *ngFor="let item of cardData.productos">
+                    <div class="card-header"> {{item.name}}</div>
+                    <div class="card-body">
+                    <p>Descripcion: {{item.description}}</p>
+                    <p>Cantidad: {{item.PedidosProductos.cantidad}}</p>
+                    <p>Precio: {{item.price| currency}}</p>
+                    </div>
+                </span>
+            </span>
+
+          
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+    
+  
+  

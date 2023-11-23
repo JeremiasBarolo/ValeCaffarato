@@ -51,6 +51,8 @@ export class PedidosService {
 
 // update
   update(id: number, Pedidos: FormData): Observable<Pedidos> {
+    console.log(Pedidos);
+    
   return this.http.put<Pedidos>(`${this.apiUrl}/${id}`, Pedidos)
     .pipe(
       catchError(error => {

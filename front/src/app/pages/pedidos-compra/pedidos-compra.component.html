@@ -1,10 +1,10 @@
 <div class="text-right">
-  <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar
+  <button type="button" id="agregar" class="btn btn-outline-success mr-2 agregar" [routerLink]="['crear-editar']"> Agregar
       Pedido</button>
 </div>
 <section class="text-center section-with-margin">
     <div class="row">
-      <div class="col-md-3 border-right" >
+      <div class="col-md-4 border-right" >
         <h4 class="mb-3" >Presupuestado</h4>
         
         
@@ -17,8 +17,8 @@
             {{presupuesto.description}}
           </div>
           <div class="card-footer">
-            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'APROBADO')">Aprobar</a>
-            <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(presupuesto.id, presupuesto, 'CANCELADO')">Cancelado</a>
+            <button class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'APROBADO')" [disabled]="botonDeshabilitado">Aprobar</button>
+            <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(presupuesto.id)" ><i class="fa-solid fa-trash"></i></a>
           </div>
         </div>
         
@@ -26,7 +26,7 @@
       </div>
 
 
-      <div class="col-md-3 border-right" >
+      <div class="col-md-4 border-right" >
         <h4 class="mb-3">Preparacion</h4>
   
         <div class="card" *ngFor="let aprobado of listAprobado">
@@ -39,14 +39,14 @@
           </div>
   
           <div class="card-footer">
-            <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(aprobado.id, aprobado, 'FINALIZADO')">Finalizar</a>
+            <button class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(aprobado.id, aprobado, 'FINALIZADO')" [disabled]="botonDeshabilitado">Finalizar</button>
             <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(aprobado.id, aprobado, 'CANCELADO')" >Cancelado</a>
           </div>
         </div>
       </div>
 
 
-      <div class="col-md-3 border-right" >
+      <div class="col-md-4 border-right" >
         <h4 class="mb-3">Finalizado</h4>
   
         <div class="card" *ngFor="let finalizado of listFinalizado">
@@ -63,21 +63,6 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 border-right" >
-        <h4 class="mb-3">Cancelado</h4>
-  
-        <div class="card" *ngFor="let Cancelado of listCancelado">
-          <div class="card-header cancelado-card-header"(click)=" showCardDetails(Cancelado)" data-target="#InsumoModal" data-toggle="modal">
-            {{Cancelado.name}}
-          </div>
-  
-          <div class="card-body"(click)="showCardDetails(Cancelado)"data-target="#InsumoModal" data-toggle="modal">
-            <p>{{Cancelado.name}}</p>
-          </div>
-          
-        </div>
-      </div>
-  
     </div>
 
   </section>
