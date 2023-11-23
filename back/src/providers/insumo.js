@@ -16,7 +16,7 @@ const fs = require('fs');
 
 const listAllInsumo= async () => {
   try {
-    const Insumo = await models.Insumo.findAll(
+    const Insumo = await models.Insumos.findAll(
       {
         include: { all: true },
       },
@@ -31,7 +31,7 @@ const listAllInsumo= async () => {
 
 const listOneInsumo= async (insumo_id) => {
   try {
-    const oneInsumo= await models.Insumo.findByPk(insumo_id, {
+    const oneInsumo= await models.Insumos.findByPk(insumo_id, {
       include: { all: true },
     });
     if (!oneInsumo) {
@@ -58,20 +58,41 @@ const createInsumo= async (insumoData) => {
         price: insumoData.price,
         quantity: insumoData.quantity
       };
-      const insumoAdmin= await models.Insumo.create(dataInsumo);
+
+      const insumoAdmin= await models.Insumos.create(dataInsumo);
+
+
+
       return insumoAdmin;
 
     }else{
-      await insumoData.forEach(async (insumo) => {
+      const createdInsumos = await Promise.all(insumoData.map(async (insumo) => {
+        const checkInsumos = await models.Insumos.findOne({
+          where: {
+            antiguo_id: insumo.id
+          }
+        });
 
-       let insumoCreado = await models.Insumo.create({
-        quantity: insumo.PedidosInsumos.cantidad,
-        name: insumo.name,
-        description: insumo.description,
-        price: insumo.price,
-       });
-       return insumoCreado
-      })
+        if (checkInsumos) {
+          const cantidadNueva = checkInsumos.quantity + insumo.PedidosInsumos.cantidad;
+          const updatedProduct = await checkInsumos.update({
+            quantity: cantidadNueva
+          });
+          return updatedProduct;
+          
+        } else {
+          const newInsumo = await models.Insumos.create({
+            quantity: insumo.PedidosInsumos.cantidad,
+            name: insumo.name,
+            description: insumo.description,
+            price: insumo.price,
+            antiguo_id: insumo.id
+          });
+          return newInsumo;
+        }
+      }));
+
+      return createdInsumos;
       
     }
 
@@ -89,7 +110,7 @@ const updateInsumo= async (insumo_id, dataUpdated) => {
   try {
     transaction = await models.sequelize.transaction();
 
-    const oldInsumo= await models.Insumo.findByPk(insumo_id, { include: { all: true } });
+    const oldInsumo= await models.Insumos.findByPk(insumo_id, { include: { all: true } });
 
     // const newImageUrls = dataUpdated.images;
     // const oldImageUrls = oldInsumo.images;
@@ -129,7 +150,7 @@ const updateInsumo= async (insumo_id, dataUpdated) => {
 
 const deleteInsumo= async (insumo_id) => {
   try {
-    const deletedInsumo= await models.Insumo.findByPk(insumo_id, { include: { all: true } });
+    const deletedInsumo= await models.Insumos.findByPk(insumo_id, { include: { all: true } });
     // const images = path.join(__dirname, '../public/images', deletedInsumo.image)
 
     // const images = await models.InsumoImages.findAll({
@@ -154,7 +175,7 @@ const deleteInsumo= async (insumo_id) => {
     //   });
     // }
 
-    await models.Insumo.destroy({ where: { id: insumo_id } });
+    await models.Insumos.destroy({ where: { id: insumo_id } });
 
     console.log(`✅ Insumowith id: ${insumo_id} was deleted successfully`);
     return deletedInsumo;

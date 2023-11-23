@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from '../models/pedidos';
 import { AppSettings } from 'appsettings-json-reader';
@@ -32,13 +32,21 @@ export class PedidosService {
 
 // create
   create(Pedidos: any): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}`, Pedidos)
-    .pipe(
-      catchError(error => {
-        this.toastr.error('Error al crear el Pedidos');
-        throw error;
-      })
-    );
+    if(Pedidos.category === 'COMPRA'){
+      return this.http.post<any>(`${this.apiUrl}/compra`, Pedidos)
+    }else{
+      console.log('venta',Pedidos);
+      
+      return this.http.post<any>(`${this.apiUrl}/venta`, Pedidos)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleHttpError(error);
+          return throwError(error);
+        })
+      );
+      
+      
+    }
 }
 
 // update
@@ -62,4 +70,30 @@ export class PedidosService {
       })
     );
 }
+
+private handleHttpError(error: HttpErrorResponse): void {
+  if (error.error instanceof ErrorEvent) {
+   
+    this.toastr.error('Error del lado del cliente: ' + error.error.message);
+  } else {
+    
+    const errorMessages = this.extractErrorMessage(error);
+
+    
+    errorMessages.forEach((message: string | undefined) => {
+      this.toastr.error(message, 'Error', { timeOut: 5000 });
+    });
+  }
+}
+private extractErrorMessage(error: HttpErrorResponse): string[] {
+  if (error.error && error.error.error && error.error.error.length > 0) {
+    const firstError = error.error.error[0];
+    if (firstError.msg) {
+      
+      return firstError.msg.split(' , ').filter((message: string) => message.trim() !== '');
+    }
+  }
+  return ['Error desconocido'];
+}
+
 }

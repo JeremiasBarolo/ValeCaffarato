@@ -10,17 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Insumo.belongsToMany(models.ProductEntity, {
+        through: 'ProductEntityQuantities',
+        foreignKey: 'insumoId',
+      });
     }
   }
   Insumo.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     quantity: DataTypes.INTEGER,
-    price: DataTypes.INTEGER
+    price: DataTypes.INTEGER,
+    antiguo_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Insumo',
+    modelName: 'Insumos',
   });
   return Insumo;
 };

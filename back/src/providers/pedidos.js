@@ -44,27 +44,56 @@ const createPedidos= async (PedidosData) => {
       state: PedidosData.state  
     };
 
-    const insumosData = PedidosData.insumosEntity_id.map(item => ({
-        insumoEntityId: item.id,
-        cantidad: item.cantidad
-      }));
+    
 
-    const newPedidos= await models.Pedidos.create(dataPedidos);
+    if(PedidosData.category === 'COMPRA'){
 
-    for (const insumo of insumosData) {
-        const insumoEntity = await models.InsumosEntities.findByPk(insumo.insumoEntityId);
-        if (insumoEntity) {
-          await models.PedidosInsumos.create({
-            pedidoId: newPedidos.id,
-            insumoEntityId: insumo.insumoEntityId,
-            cantidad: insumo.cantidad
-          });
+        const newPedidos= await models.Pedidos.create(dataPedidos);
+
+        const insumosData = PedidosData.insumosEntity_id.map(item => ({
+            insumoEntityId: item.id,
+            cantidad: item.cantidad
+          }));
+
+        
+
+        for (const insumo of insumosData) {
+            const insumoEntity = await models.InsumosEntities.findByPk(insumo.insumoEntityId);
+            if (insumoEntity) {
+              await models.PedidosInsumos.create({
+                pedidoId: newPedidos.id,
+                insumoEntityId: insumo.insumoEntityId,
+                cantidad: insumo.cantidad
+              });
+            }
         }
-    }
+        console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
+        return newPedidos;
+  }else{  
 
-    console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
+          const newPedidos= await models.Pedidos.create(dataPedidos);
+          const productData = PedidosData.productos.map(item => ({
+            productEntityId: item.id,
+            cantidad: item.cantidad
+          }));
 
-    return newPedidos;
+
+          for (const product of productData) {
+            const insumoEntity = await models.ProductEntity.findByPk(product.productEntityId);
+            if (insumoEntity) {
+              await models.PedidosProductos.create({
+                pedidoId: newPedidos.id,
+                productEntityId: product.productEntityId,
+                quantity_requested: product.cantidad
+              });
+            }
+        }
+        console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
+        return newPedidos;
+  }
+
+    
+    
   } catch (err) {
     console.error('🛑 Error when creating Pedidos', err);
     throw err;
@@ -79,14 +108,44 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
     const oldPedidos= await models.Pedidos.findByPk(pedidos_id, 
         { include: { all: true } 
     });
-
     
-    const newPedidos= await oldPedidos.update(dataUpdated);
+
+    if(dataUpdated.category === 'VENTA' && dataUpdated.state == 'PREPARACION'){
+      
+      const cantidades = dataUpdated.productos.map(pedido => ({
+        id : pedido.PedidosProductos.productEntityId,
+        cantidad : pedido.PedidosProductos.quantity_requested
+      } 
+      ))
+
+      await dataUpdated.productos.map(async entidad => {
+        const entidadProducto =  await models.ProductEntity.findByPk(entidad.id, {
+          include: { all: true },
+        });
+
+        if (entidadProducto) {
+          await entidadProducto.Insumos.map(async insumo => {
+            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary
+            const cantidadRequerida = cantidades.find(c => c.id === entidadProducto.id).cantidad
+
+            const cantidadActual = cantidadNecesaria * cantidadRequerida
+            await insumo.update({
+              quantity: insumo.quantity - cantidadActual
+            })
+
+            return newPedidos= await oldPedidos.update(dataUpdated);
+          })
+        }
+      } 
+      )
+     
+    }else{
+      return newPedidos= await oldPedidos.update(dataUpdated);
+    }
     
 
     console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
 
-    return newPedidos;
   } catch (err) {
     console.error('🛑 Error when updating Pedidos', err);
     throw err;
@@ -104,14 +163,26 @@ const deletePedidos = async (pedidos_id) => {
       return null;
     }
 
-    for (const insumo of deletedPedidos.insumos) {
+    if(deletedPedidos.category === 'COMPRA'){
+      for (const insumo of deletedPedidos.insumos) {
       
-      await models.PedidosInsumos.destroy({ where:  
-        { 
-          cantidad: insumo.PedidosInsumos.cantidad, 
-          insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
-          pedidoId: insumo.PedidosInsumos.pedidoId 
-        } });
+        await models.PedidosInsumos.destroy({ where:  
+          { 
+            cantidad: insumo.PedidosInsumos.cantidad, 
+            insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
+            pedidoId: insumo.PedidosInsumos.pedidoId 
+          } });
+      }
+    }else{
+      for (const producto of deletedPedidos.productos) {
+      
+        await models.PedidosProductos.destroy({ where:  
+          { 
+            quantity_requested: producto.PedidosProductos.quantity_requested, 
+            productEntityId: producto.PedidosProductos.productEntityId, 
+            pedidoId: producto.PedidosProductos.pedidoId 
+          } });
+      }
     }
     
 

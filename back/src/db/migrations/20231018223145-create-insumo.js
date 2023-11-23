@@ -18,12 +18,13 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
-      profit: {
-        type: Sequelize.INTEGER
-      },
       price: {
         type: Sequelize.INTEGER
       },
+      antiguo_id: {
+        type: Sequelize.INTEGER
+      },
+      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

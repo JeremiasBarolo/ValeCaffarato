@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
         as: 'insumos',
         through: { model: models.PedidosInsumos, unique: false },
       });
+
+      Pedidos.belongsToMany(models.ProductEntity, {
+        through: 'PedidosProductos', 
+        foreignKey: 'pedidoId', 
+        otherKey: 'productEntityId',
+        as: 'productos',
+        through: { model: models.PedidosProductos, unique: false },
+      });
       
     }
   }

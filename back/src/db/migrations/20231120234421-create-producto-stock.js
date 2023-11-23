@@ -1,14 +1,13 @@
-/* eslint-disable eol-last */
-/* eslint-disable no-unused-vars */
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ProductEntities', {
+    await queryInterface.createTable('Productos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       name: {
         type: Sequelize.STRING,
@@ -24,29 +23,39 @@ module.exports = {
       },
       measurement_height: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       measurement_length: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       measurement_depth: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       profit: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
+      antiguo_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ProductEntities');
-  },
+    await queryInterface.dropTable('Productos');
+  }
 };

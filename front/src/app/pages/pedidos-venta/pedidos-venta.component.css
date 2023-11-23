@@ -1,5 +1,23 @@
+.section-with-margin{
+    margin: 16px;
+}
 
-.button {
+.presupuesto-card-header{
+    background-color: #248effd8;
+}
+
+.preparacion-card-header{
+  background-color: #96ff76ea;
+}
+
+.finalizado-card-header{
+    background-color: #373d44;
+    color: aliceblue;
+}
+.cancelado-card-header{
+  background-color: #ff7676ea;
+}
+button {
     padding: 1.3em 3em;
     font-size: 12px;
     text-transform: uppercase;
@@ -15,14 +33,13 @@
     outline: none;
   }
   
-  .button:hover {
+  button:hover {
     background-color: #23c483;
     box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
     color: #fff;
     transform: translateY(-7px);
   }
   
-  .button:active {
+  button:active {
     transform: translateY(-1px);
   }
-

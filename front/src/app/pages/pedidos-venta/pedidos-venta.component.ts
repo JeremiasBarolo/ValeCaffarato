@@ -7,19 +7,20 @@ import { Pedidos } from 'src/app/models/pedidos';
 
 import { InsumoService } from 'src/app/services/insumo.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
+import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
-  selector: 'app-pedidos',
-  templateUrl: './pedidos-compra.component.html',
-  styleUrls: ['./pedidos-compra.component.css']
+  selector: 'app-pedidos-venta',
+  templateUrl: './pedidos-venta.component.html',
+  styleUrls: ['./pedidos-venta.component.css']
 })
-export class PedidosCompraComponent implements OnInit {
-
+export class PedidosVentaComponent {
   listPresupuesto: Pedidos[] = [];
   listAprobado: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
   listFinalizado: Pedidos[] = [];
+  listPreparacion: Pedidos[] = [];
   subtotal: number = 0
 
   cardData: any = {
@@ -37,24 +38,29 @@ export class PedidosCompraComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private insumoService: InsumoService
+    private productosService: ProductosService
 
 
     ) { }
 
+//     FINALIZADO
+// CANCELADO
+// PRESUPUESTADO
 
   ngOnInit(): void {
-    this.titleService.setTitle('Pedidos Compra');
+    this.titleService.setTitle('Pedidos Venta');
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {
-          if(element.state === 'PRESUPUESTADO' && element.category === 'COMPRA'){
+          if(element.state === 'PRESUPUESTADO' && element.category === 'VENTA'){
             this.listPresupuesto.push(element);
-          }else if(element.state === 'APROBADO' && element.category === 'COMPRA'){
+          }else if(element.state === 'APROBADO' && element.category === 'VENTA'){
             this.listAprobado.push(element);
-          }else if(element.state === 'CANCELADO' && element.category === 'COMPRA'){
+          }else if(element.state === 'CANCELADO' && element.category === 'VENTA'){
             this.listCancelado.push(element);
-          }else if(element.state === 'FINALIZADO' && element.category === 'COMPRA'){
+          }else if(element.state === 'PREPARACION' && element.category === 'VENTA'){
+            this.listPreparacion.push(element);
+          }else if(element.state === 'FINALIZADO' && element.category === 'VENTA'){
             this.listFinalizado.push(element);
           }
         }
@@ -84,9 +90,19 @@ export class PedidosCompraComponent implements OnInit {
     })
 
     }
-else if(estado === 'FINALIZADO'){
+    
+    else if(estado === 'PREPARACION'){
+      
+      this.pedidosService.update(id, pedido).subscribe(() => {
+        this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      })
+  }
+    else if(estado === 'FINALIZADO'){
 
-      this.insumoService.create(pedido.insumos).subscribe(() => {
+      this.productosService.create(pedido.productos).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
       });
@@ -94,7 +110,7 @@ else if(estado === 'FINALIZADO'){
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         
       })
-      this.router.navigate(['dashboard/insumos']);
+      this.router.navigate(['dashboard/productos']);
 
 
     }else{
@@ -125,9 +141,11 @@ updateEntidad(id:number){
 calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
-  if (pedido.insumos && pedido.insumos.length > 0) {
-    subtotal = pedido.insumos.reduce((acc: number, insumo: { PedidosInsumos: { cantidad: number; }; price: number; }) => {
-      return acc + insumo.PedidosInsumos.cantidad * insumo.price;
+  if (pedido.productos && pedido.productos.length > 0) {
+    subtotal = pedido.productos.reduce((acc: number, producto: {
+      PedidosProductos: any; PedidosInsumos: { quantity_requested: number; }; price: number; 
+}) => {
+      return acc + producto.PedidosProductos.quantity_requested * producto.price;
     }, 0);
   }
 
@@ -144,7 +162,4 @@ eliminarPedido(id?: number){
 
   })
 }
-
-
 }
-  

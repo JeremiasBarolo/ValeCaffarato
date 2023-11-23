@@ -1,1 +1,70 @@
-<p>productos works!</p>
+
+
+<div class="text-right">
+    <button type="button" class="button" [routerLink]="['crear-editar']"> Agregar Entidad</button>
+  </div>
+  
+  
+  <section style="margin: 16px">
+    <div class="cards-container" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px;">
+      <div class="card" style="width: calc(20% - 16px - 1px); flex: 0 0 auto; margin-right: 16px;" *ngFor="let card of entidades" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">
+  
+        <h5 class="card-header text-center">{{card.name}}</h5>
+        <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
+            <p class="card-text text-center">{{card.description}}</p>
+            <p class="card-text text-left">Precio: {{card.price | currency}}</p>
+            <p class="card-text text-left">Alto: {{card.measurement_height }}cm</p>
+            <p class="card-text text-left">Largo: {{card.measurement_length }}cm</p>
+            <p class="card-text text-left">Ancho: {{card.measurement_depth }}cm</p>
+            <p class="card-text text-left">Cantidad: {{card.quantity }}</p>
+
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-right ml-6">
+            <a routerLink="crear-editar/{{card.id}}" routerLinkActive="router-link-active" class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation()">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <a class="btn btn-outline-danger" (click)="deleteEntidad(card.id)" (click)="$event.stopPropagation()">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  
+  <div class="modal fade modal" id="InsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{ cardData.description }}</p>
+          <p>Precio: {{ cardData.price | currency }}</p>
+          <p>Cantidad: {{ cardData.quantity }}</p>
+          <p>Precio: {{ cardData.price | currency }}</p>
+          <p>Alto: {{cardData.measurement_height}} cm</p>
+          <p>Ancho: {{cardData.measurement_depth}} cm</p>
+          <p>Largo: {{cardData.measurement_length}}cm </p>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+    
+  
+  

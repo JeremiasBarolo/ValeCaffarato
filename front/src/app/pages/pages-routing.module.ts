@@ -19,6 +19,9 @@ import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar-pedidos-compra/crear-editar-pedidos-compra.component';
 import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
+import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
+import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
+import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 
 
 const routes: Routes = [
@@ -29,6 +32,9 @@ const routes: Routes = [
       { path: 'pedidos-compra', component: PedidosCompraComponent },
       { path: 'pedidos-compra/crear-editar', component: CrearEditarPedidosCompraComponent },
       { path: 'pedidos-compra/crear-editar/:id', component: CrearEditarPedidosCompraComponent },
+      { path: 'pedidos-venta', component: PedidosVentaComponent },
+      { path: 'pedidos-venta/crear-editar', component: CrearEditarPedidoVentaComponent },
+      { path: 'pedidos-venta/crear-editar/:id', component: CrearEditarPedidoVentaComponent },
       { path: 'crear-personas', component: CrearPersonaComponent },
       { path: 'crear-personas/:id', component: CrearPersonaComponent },
       { path: 'insumos', component: InsumosComponent },
@@ -44,6 +50,9 @@ const routes: Routes = [
       { path : 'product-entity', component : ProductEntityComponent},
       { path: 'product-entity/crear-editar', component: CrearEditarProductEntityComponent },
       { path: 'product-entity/crear-editar/:id', component: CrearEditarProductEntityComponent },
+      { path : 'product', component : ProductosComponent},
+      { path: 'product/crear-editar', component: CrearEditarProductosComponent },
+      { path: 'product/crear-editar/:id', component: CrearEditarProductosComponent },
       { path: '**', redirectTo: 'dashboard' },
 
     ]
