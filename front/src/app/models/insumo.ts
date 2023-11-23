@@ -5,5 +5,6 @@ export interface Insumo{
     price: number;
     description: string;
     createdAt?: Date
+    quantity_reserved?: number
 }
 

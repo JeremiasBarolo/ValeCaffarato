@@ -74,9 +74,10 @@ export class PedidosVentaComponent {
     
   }
 
-  cambiarEstado(id?: number, pedido?: any, estado?: string) {
+cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any) {
     if (id){
     pedido.state = estado;
+    
 
 
     if(estado === 'APROBADO'){
@@ -92,7 +93,7 @@ export class PedidosVentaComponent {
     }
     
     else if(estado === 'PREPARACION'){
-      
+
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         setTimeout(() => {
@@ -103,8 +104,6 @@ export class PedidosVentaComponent {
     else if(estado === 'FINALIZADO'){
 
       this.productosService.create(pedido.productos).subscribe(() => {
-        this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
-
       });
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
@@ -115,7 +114,7 @@ export class PedidosVentaComponent {
 
     }else{
 
-      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.update(id, {...pedido, devolverInsumos:devolverInsumos}).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
@@ -126,7 +125,7 @@ export class PedidosVentaComponent {
     )}
     }
       
-  }
+}
 
   
 showCardDetails(card: Pedidos) {  

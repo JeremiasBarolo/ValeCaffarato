@@ -15,7 +15,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./pedidos-compra.component.css']
 })
 export class PedidosCompraComponent implements OnInit {
-
+  botonDeshabilitado = false;
   listPresupuesto: Pedidos[] = [];
   listAprobado: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
@@ -69,6 +69,7 @@ export class PedidosCompraComponent implements OnInit {
   }
 
   cambiarEstado(id?: number, pedido?: any, estado?: string) {
+    this.botonDeshabilitado = true;
     if (id){
     pedido.state = estado;
 
@@ -92,7 +93,9 @@ else if(estado === 'FINALIZADO'){
       });
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
-        
+        setTimeout(() => {
+          window.location.reload();
+        }, 100)
       })
       this.router.navigate(['dashboard/insumos']);
 

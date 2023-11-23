@@ -99,31 +99,9 @@ const updateProductentity= async (productentity_id, dataUpdated) => {
     const oldProductEntity= await models.ProductEntity.findByPk(productentity_id, { include: { all: true } });
 
 
-    // const newImageUrls = dataUpdated.images;
-    // const oldImageUrls = oldProductentity.images;
-
-    // for (let i = 0; i < oldImageUrls.length; i++) {
-    //   const deletingImages = path.join(oldImageUrls[i].imageUrl);
-    //   if (fs.existsSync(deletingImages)) {
-    //     fs.unlinkSync(deletingImages);
-    //   } else {
-    //     console.log('No existe la imagen');
-    //   }
-    // }
-
     const newProductentity= await oldProductEntity.update(dataUpdated);
 
-    // const createdImages = await Promise.all(
-    //   newImageUrls.map((imageUrl) => models.PProductEntityImages.create(
-    //     {
-    //       imageUrl,
-    //       ProductentityId: newProductentity.id,
-    //     },
-    //   ,
-    //   )),
-    // );
 
-    
 
     console.log(`✅ Productentity"${newProductentity.name}" was created with images`);
 
@@ -136,37 +114,40 @@ const updateProductentity= async (productentity_id, dataUpdated) => {
 
 const deleteProductentity= async (productentity_id) => {
   try {
-    const deletedProductentity= await models.ProductEntity.findByPk(productentity_id, { include: { all: true } });
-    // const images = path.join(__dirname, '../public/images', deletedProductentity.image)
-
-    // const images = await models.PProductEntityImages.findAll({
-    //   where: {
-    //     ProductentityId: productentity_id,
-    //   },
-    // });
-
+    const deletedProductentity= await models.ProductEntity.findByPk(productentity_id, {
+      include: { all: true },
+    });
+    
     if (deletedProductentity=== 0) {
-      console.error(`🛑 Productentitywith id: ${productentity_id} not found`);
+      console.error(`🛑 Productentity with id: ${productentity_id} not found`);
       return null;
     }
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     const deletingImages = image.imageUrl;
-    //     if (fs.existsSync(deletingImages)) {
-    //       fs.unlinkSync(deletingImages);
-    //     } else {
-    //       console.log('No existe la imagen');
-    //     }
-    //   });
-    // }
+    for (const product of deletedProductentity.Pedidos) {
+      
+      await models.PedidosProductos.destroy({ where:  
+        { 
+          quantity_requested: product.PedidosProductos.quantity_requested, 
+          productEntityId: product.PedidosProductos.productEntityId, 
+          pedidoId: product.PedidosProductos.pedidoId 
+        } });
+    }
+
+    for (const insumos of deletedProductentity.Insumos) {
+      
+      await models.ProductEntityQuantities.destroy({ where:  
+        { 
+          insumoId: insumos.id,
+          productEntityId: productentity_id
+        } });
+    }
 
     await models.ProductEntity.destroy({ where: { id: productentity_id } });
 
-    console.log(`✅ Productentitywith id: ${productentity_id} was deleted successfully`);
-    return deletedProductentity;
+    
+    return console.log(`✅ Insumosentitywith id: ${productentity_id} was deleted successfully`)
   } catch (err) {
-    console.error('🛑 Error when deleting Productentity', err);
+    console.error('🛑 Error when deleting Insumosentity', err);
     throw err;
   }
 };
