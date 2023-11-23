@@ -44,9 +44,11 @@ const createPedidos= async (PedidosData) => {
       state: PedidosData.state  
     };
 
-    const newPedidos= await models.Pedidos.create(dataPedidos);
+    
 
     if(PedidosData.category === 'COMPRA'){
+
+        const newPedidos= await models.Pedidos.create(dataPedidos);
 
         const insumosData = PedidosData.insumosEntity_id.map(item => ({
             insumoEntityId: item.id,
@@ -65,8 +67,11 @@ const createPedidos= async (PedidosData) => {
               });
             }
         }
-  }else{
+        console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
+        return newPedidos;
+  }else{  
 
+          const newPedidos= await models.Pedidos.create(dataPedidos);
           const productData = PedidosData.productos.map(item => ({
             productEntityId: item.id,
             cantidad: item.cantidad
@@ -83,11 +88,12 @@ const createPedidos= async (PedidosData) => {
               });
             }
         }
+        console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
+        return newPedidos;
   }
 
-    console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
-
-    return newPedidos;
+    
+    
   } catch (err) {
     console.error('🛑 Error when creating Pedidos', err);
     throw err;

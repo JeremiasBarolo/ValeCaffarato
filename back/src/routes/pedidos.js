@@ -2,13 +2,17 @@
 const express = require("express")
 const { pedidosController } = require("../controllers");
 const router = express.Router();
+const pedidoValidator = require('../validators/quantities');
 
 
 // get all
 router.get("/", pedidosController.listAllPedidos);
 
 // create
-router.post("/", pedidosController.createPedidos);
+router.post("/compra", pedidosController.createPedidos);
+
+// create
+router.post("/venta", pedidoValidator, pedidosController.createPedidos);
 
 // get one
 router.get("/:Pedidos_id", pedidosController.listOnePedidos);
