@@ -92,7 +92,7 @@ export class PedidosVentaComponent {
     }
     
     else if(estado === 'PREPARACION'){
-      
+
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         setTimeout(() => {
@@ -103,8 +103,6 @@ export class PedidosVentaComponent {
     else if(estado === 'FINALIZADO'){
 
       this.productosService.create(pedido.productos).subscribe(() => {
-        this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
-
       });
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)

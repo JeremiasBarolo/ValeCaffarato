@@ -13,7 +13,8 @@
       <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
         <p class="card-text text-center">{{card.description}}</p>
         <p class="card-text text-left">Precio: {{card.price | currency}}</p>
-        <p class="card-text text-left">Cantidad: {{card.quantity}}</p>
+        <p class="card-text text-left">Cantidad en Stock: {{card.quantity}}</p>
+        <p class="card-text text-left"><strong>Cantidad Reservada: {{card.quantity_reserved}}</strong></p>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-right ml-6">
@@ -43,6 +44,8 @@
         <p>{{ cardData.description }}</p>
         <p>Precio: {{ cardData.price | currency }}</p>
         <p>Cantidad: {{ cardData.quantity }}</p>
+        <p>Cantidad Reservada: {{ cardData.quantity_reserved }}</p>
+
         
       </div>
       <div class="modal-footer">

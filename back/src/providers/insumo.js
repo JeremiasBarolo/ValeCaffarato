@@ -56,7 +56,9 @@ const createInsumo= async (insumoData) => {
         name: insumoData.name,
         description: insumoData.description,
         price: insumoData.price,
-        quantity: insumoData.quantity
+        quantity: insumoData.quantity,
+        quantity_reserved: 0,
+        
       };
 
       const insumoAdmin= await models.Insumos.create(dataInsumo);
