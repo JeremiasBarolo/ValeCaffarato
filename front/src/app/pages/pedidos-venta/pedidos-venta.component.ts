@@ -92,7 +92,7 @@ export class PedidosVentaComponent {
     }
     
     else if(estado === 'PREPARACION'){
-
+      
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         setTimeout(() => {
