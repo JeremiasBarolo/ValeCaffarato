@@ -14,6 +14,8 @@
         <p class="card-text text-left">Alto: {{card.measurement_height }}cm</p>
         <p class="card-text text-left">Largo: {{card.measurement_length }}cm</p>
         <p class="card-text text-left">Ancho: {{card.measurement_depth }}cm</p>
+        <p class="card-text text-left">Unidad de Medida: {{card.unidad_medida }}cm</p>
+        
         
         
       </div>
@@ -46,6 +48,7 @@
           <p>Alto: {{cardData.measurement_height}} cm</p>
           <p>Ancho: {{cardData.measurement_depth}} cm</p>
           <p>Largo: {{cardData.measurement_length}}cm </p>
+          <p>Unidad de Medida: {{ cardData.unidad_medida }}</p>
           <span class="card text-center" *ngFor="let item of cardData.Insumos">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">

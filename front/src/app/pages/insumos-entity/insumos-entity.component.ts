@@ -14,7 +14,8 @@ export class InsumosEntityComponent {
   cardData: InsumoEntity = {
     name: '',
     description: '',
-    price: 0
+    price: 0,
+    unidad_medida: '',
   }
   constructor(private titleService: TitleService, private insumoEntityService: InsumoEntityService) {
     

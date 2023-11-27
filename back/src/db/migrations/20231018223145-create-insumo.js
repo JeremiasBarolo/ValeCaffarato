@@ -32,6 +32,10 @@ module.exports = {
       antiguo_id: {
         type: Sequelize.INTEGER
       },
+      unidad_medida: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       
       createdAt: {
         allowNull: false,

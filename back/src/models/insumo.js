@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     quantity_reserved: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    antiguo_id: DataTypes.INTEGER
+    antiguo_id: DataTypes.INTEGER,
+    unidad_medida: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Insumos',

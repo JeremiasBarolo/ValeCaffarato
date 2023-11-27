@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     measurement_length: DataTypes.INTEGER,
     measurement_depth: DataTypes.INTEGER,
     profit: DataTypes.INTEGER,
+    unidad_medida: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'ProductEntity',

@@ -34,6 +34,7 @@ export class CrearEditarProductEntityComponent {
     price: '',
     profit: '',
     insumos: [],
+    unidad_medida: '',
   };
 
   constructor(
@@ -53,6 +54,7 @@ export class CrearEditarProductEntityComponent {
       measurement_depth: ['', Validators.required],
       profit: ['', Validators.required],
       price: ['', Validators.required],
+      unidad_medida: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
@@ -77,6 +79,7 @@ export class CrearEditarProductEntityComponent {
     this.presupuestoData.measurement_depth = this.form.value.measurement_depth;
     this.presupuestoData.profit = this.form.value.profit;
     this.presupuestoData.price = this.form.value.price;
+    this.presupuestoData.unidad_medida = this.form.value.unidad_medida;
     
 
     if (this.id !== 0) {
@@ -125,7 +128,13 @@ export class CrearEditarProductEntityComponent {
   rellenardatos() {
     this.form.setValue({
         name: 'Super pedido de Cajas',
-        description: 'Cajones negros'
+        description: 'Cajones negros',
+        measurement_height: '10',
+        measurement_length: '10',
+        measurement_depth: '10',
+        profit: '10',
+        price: '10',
+        unidad_medida: 'Unidad'
         
     });
   }

@@ -1,4 +1,5 @@
 export interface Insumo{
+    unidad_medida: string;
     id?: number;
     name: string;
     quantity: number;
