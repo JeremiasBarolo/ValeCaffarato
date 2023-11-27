@@ -35,7 +35,7 @@ const createDocumento= async (DocumentoData) => {
   
 
   try {
-
+    
     const dataDocumento= {
       iva: DocumentoData.iva,
       totalIva: DocumentoData.totalIva,
@@ -43,18 +43,22 @@ const createDocumento= async (DocumentoData) => {
       condicionIva: DocumentoData.condicionIva,
       tipo: DocumentoData.tipo,
     };
-  
+    
+
     const newDocumento= await models.Documentos.create(dataDocumento);
-    await models.PedidoDocumentos.create({
-      documentoId: newDocumento.id,
-      pedidoId: DocumentoData.pedido
-    })
+    await DocumentoData.pedido.forEach(async element => {
+        await models.PedidoDocumentos.create({
+            documentoId: newDocumento.id,
+            pedidoId: element.id
+          })
+    });
+
     await models.PersonaDocumentos.create({
         documentoId: newDocumento.id,
         personaId: DocumentoData.cliente
     })
     
-    console.log(`✅ Documento"${newDocumento.name}" was created with images`);
+    console.log(`✅ Documento"${newDocumento.id}" was created`);
     return newDocumento;
     
     

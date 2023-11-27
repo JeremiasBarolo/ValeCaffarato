@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { Pedidos } from 'src/app/models/pedidos';
+import { DocumentosService } from 'src/app/services/documentos.service';
 
 import { InsumoService } from 'src/app/services/insumo.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
@@ -38,14 +39,11 @@ export class PedidosVentaComponent {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private productosService: ProductosService
+    private productosService: ProductosService,
+    private documentosService: DocumentosService
 
 
     ) { }
-
-//     FINALIZADO
-// CANCELADO
-// PRESUPUESTADO
 
   ngOnInit(): void {
     this.titleService.setTitle('Pedidos Venta');
@@ -109,6 +107,10 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any)
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         
       })
+
+      
+
+
       this.router.navigate(['dashboard/productos']);
 
 

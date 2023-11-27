@@ -23,7 +23,8 @@ import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
-import { FacturasComponent } from './facturas/facturas.component';
+import { DocumentosComponent } from './documentos/documentos.component';
+import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
 
 
 
@@ -55,8 +56,8 @@ import { FacturasComponent } from './facturas/facturas.component';
     CrearEditarPedidoVentaComponent,
     CrearEditarProductosComponent,
     PedidosCanceladosComponent,
-    FacturasComponent,
-    
+    DocumentosComponent,
+    CrearEditarDocumentosComponent,
 
     
 
