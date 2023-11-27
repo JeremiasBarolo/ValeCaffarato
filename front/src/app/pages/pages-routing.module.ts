@@ -23,6 +23,7 @@ import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
+import { FacturasComponent } from './facturas/facturas.component';
 
 
 const routes: Routes = [
@@ -55,6 +56,8 @@ const routes: Routes = [
       { path : 'product', component : ProductosComponent},
       { path: 'product/crear-editar', component: CrearEditarProductosComponent },
       { path: 'product/crear-editar/:id', component: CrearEditarProductosComponent },
+      { path: 'facturas', component: FacturasComponent },
+
       { path: '**', redirectTo: 'dashboard' },
 
     ]

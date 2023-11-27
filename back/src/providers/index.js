@@ -4,6 +4,7 @@ const insumosentityProvider = require("./insumosentity");
 const insumoProvider = require("./insumo");
 const pedidosProvider = require("./pedidos");
 const productosProvider = require("./producto");
+const documentoProvider = require("./documentos");
 
 module.exports = { 
     personasProvider, 
@@ -11,5 +12,6 @@ module.exports = {
     insumosentityProvider,
     insumoProvider,
     pedidosProvider,
-    productosProvider
+    productosProvider,
+    documentoProvider
 };

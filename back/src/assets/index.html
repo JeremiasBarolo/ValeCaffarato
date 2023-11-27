@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura de Ejemplo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .firma-rectangulo {
+            border: 1px solid #000;
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        #info-empresa, #info-factura {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">Detalle de Facturación</h1>
+        <br>
+
+        <div class="row">
+            
+            <div class="col-md-6">
+                <div id="info-empresa" class="text-center">
+                    <h3> <strong>Ataudes VL S.A.</strong></h3>
+                    <p> Dirección de la Empresa 123, Las Perdices</p>
+                    <p>(123) 456-7890</p>
+                    
+                </div>
+            </div>
+
+            
+            <div class="col-md-6">
+                <p><strong>Número de Factura:</strong> 00123</p>
+                <p><strong>Fecha de Emisión:</strong> 24 de noviembre de 2023</p>
+                <p><strong>Nombre del Vendedor:</strong> Nombre Vendedor</p>
+                <p><strong>CUIT del Vendedor:</strong> 123-456789-0</p>
+                <p><strong>Teléfono del Vendedor:</strong> (987) 654-3210</p>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Detalle de Productos</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Unidad de Medida</th>
+                    <th>Subtotal</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí puedes agregar filas de la tabla con los datos de productos/servicios -->
+                <tr>
+                    <td id="nombreProducto">Producto 1</td>
+                    <td id="cantidadProducto">5</td>
+                    <td id="unidadMedidaProducto">Unidades</td>
+                    <td id="subtotalProducto">$100.00</td>
+                    
+                </tr>
+                <tr>
+                    <td id="nombreProducto">Producto 2</td>
+                    <td id="cantidadProducto">3</td>
+                    <td id="unidadMedidaProducto">Unidades</td>
+                    <td id="subtotalProducto">$75.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="firma-rectangulo">
+            <!-- Agrega la función de firma aquí -->
+            <div class="text-right">
+                <p><strong>Subtotal Neto:</strong> <span id="subtotalNeto">$175.00</span></p>
+                <p><strong>Importe Otros Tributos:</strong> <span id="otrosTributos">$0.00</span></p>
+                <p><strong>Importe Total:</strong> <span id="importeTotal">$175.00</span></p>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

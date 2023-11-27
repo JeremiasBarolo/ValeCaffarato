@@ -8,6 +8,7 @@ const insumoController = require('./insumo');
 const pedidosController = require('./pedidos');
 const cantidadesController = require('./cantidades');
 const productosController = require('./producto');
+const documentoController = require('./documentos');
 
 module.exports = { 
     personasController,
@@ -16,5 +17,6 @@ module.exports = {
     insumoController,
     pedidosController,
     cantidadesController,
-    productosController
+    productosController,
+    documentoController
 };
