@@ -34,7 +34,9 @@ export class CrearEditarProductEntityComponent {
     price: '',
     profit: '',
     insumos: [],
+    unidad_medida: '',
   };
+  ProductEntityData: any;
 
   constructor(
     private insumoService: InsumoService,
@@ -53,6 +55,7 @@ export class CrearEditarProductEntityComponent {
       measurement_depth: ['', Validators.required],
       profit: ['', Validators.required],
       price: ['', Validators.required],
+      unidad_medida: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
@@ -63,6 +66,16 @@ export class CrearEditarProductEntityComponent {
     this.titleService.setTitle('Entidades de Producto');
     console.log(this.selectedEntities);
     console.log(this.Insumos);
+    if (this.id !== null) {
+      this.titleService.setTitle('Editar Entidad de Insumo');
+      console.log(this.id);
+      this.getProductEntity(this.id);
+    } else{
+      this.titleService.setTitle('Crear Entidad de Insumo');
+      
+    }  
+
+  
 
     
     
@@ -77,6 +90,7 @@ export class CrearEditarProductEntityComponent {
     this.presupuestoData.measurement_depth = this.form.value.measurement_depth;
     this.presupuestoData.profit = this.form.value.profit;
     this.presupuestoData.price = this.form.value.price;
+    this.presupuestoData.unidad_medida = this.form.value.unidad_medida;
     
 
     if (this.id !== 0) {
@@ -125,7 +139,13 @@ export class CrearEditarProductEntityComponent {
   rellenardatos() {
     this.form.setValue({
         name: 'Super pedido de Cajas',
-        description: 'Cajones negros'
+        description: 'Cajones negros',
+        measurement_height: '10',
+        measurement_length: '10',
+        measurement_depth: '10',
+        profit: '10',
+        price: '10',
+        unidad_medida: 'Unidad'
         
     });
   }
@@ -148,4 +168,30 @@ export class CrearEditarProductEntityComponent {
       )
     }
   }
+
+  getProductEntity(id: number) {
+    this.productEntityService.getById(id).subscribe((data: any)=> {
+      let ProductEntity: any = {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        unidad_medida: data.unidad_medida
+        
+      };
+  
+      this.ProductEntityData = ProductEntity;
+
+      this.form.setValue({
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        unidad_medida: data.unidad_medida,
+        profit: data.profit,
+        measurement_height: data.measurement_height,
+        measurement_length: data.measurement_length,
+        measurement_depth: data.measurement_depth
+
+      });
+    });
+}
 }

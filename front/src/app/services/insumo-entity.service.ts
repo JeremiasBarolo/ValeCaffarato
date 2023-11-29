@@ -28,7 +28,7 @@ export class InsumoEntityService {
         throw error;
       })
     );
-}
+  }
 
 // create
   create(InsumoEntity: any): Observable<any> {

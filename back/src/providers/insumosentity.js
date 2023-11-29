@@ -55,6 +55,7 @@ const createInsumosentity= async (insumosentityData) => {
       name: insumosentityData.name,
       description: insumosentityData.description,
       price: insumosentityData.price,
+      unidad_medida: insumosentityData.unidad_medida
     };
 
     // const imageUrls = insumosentityData.images;

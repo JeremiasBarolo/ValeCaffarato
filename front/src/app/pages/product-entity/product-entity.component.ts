@@ -20,6 +20,8 @@ export class ProductEntityComponent {
   
   ngOnInit(): void {
     this.productEntityService.getAll().subscribe(entidades => this.entidades = entidades);
+    console.log(this.entidades);
+    
     this.titleService.setTitle('Entidades de Producto');
   }
   deleteEntidad(id: any) {

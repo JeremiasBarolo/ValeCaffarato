@@ -1,0 +1,102 @@
+<div class="text-right">
+    <button type="button" id="agregar" class="btn btn-outline-success mr-2 agregar" [routerLink]="['crear-editar']"> Agregar
+        Documento</button>
+  </div>
+
+
+<section class="text-center section-with-margin">
+    <div class="row">
+      <div class="col-md-6 border-right" >
+        <h4 class="mb-3">Remitos</h4>
+        
+        
+        <div class="card" *ngFor="let remito of remitos" >
+            <div class="card-header presupuesto-card-header" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(remito)" *ngFor="let persona of remito.Personas">
+              {{persona.name}},{{persona.lastname}} | {{remito.createdAt | date:'dd/MM/yyyy'}}
+            </div>
+            <div class="card-body" data-target="#Modal" data-toggle="modal"(click)="showCardDetails(remito)">
+              <p>Total: {{ remito.total | currency }}</p>
+              <p>Total + IVA: {{ remito.totalIva | currency }} </p>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-outline-danger ml-1" (click)="borrarFactura(remito.id)"><i class="fa-solid fa-trash"></i></a>
+              <a class="btn btn-outline-primary ml-1" routerLink="factura-remito/{{remito.id}}">Ver Remito</a>
+            </div>
+          </div>
+        
+        
+      </div>
+
+
+      <div class="col-md-6 border-right" >
+        <h4 class="mb-3">Facturas</h4>
+  
+        <div class="card" *ngFor="let item of facturas " (click)="showCardDetails(item)">
+          <div class="card-header preparacion-card-header"data-target="#Modal" data-toggle="modal" *ngFor="let persona of item.Personas">
+            {{persona.name}},{{persona.lastname}} | {{item.createdAt | date:'dd/MM/yyyy'}}
+          </div>
+  
+          <div class="card-body" data-target="#Modal" data-toggle="modal">
+            <p>Total: {{ item.total | currency}} </p>
+            <p>Total + IVA: {{ item.totalIva | currency}} </p>
+          </div>
+  
+          <div class="card-footer">
+            <a class="btn btn-outline-danger ml-1" (click)="borrarFactura(item.id)"><i class="fa-solid fa-trash"></i></a>
+            <a class="btn btn-outline-success ml-1" routerLink="factura-remito/{{item.id}}">Ver Factura</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</section>
+
+
+<div class="modal fade modal" #myModal id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" *ngFor="let persona of cardData.Personas">{{persona.name}},{{persona.lastname}} | {{cardData.createdAt|date:'dd/MM/yyyy'}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>IVA: {{ cardData.iva }}%</p>
+          <p>Total: {{ cardData.total}} $</p>
+          <p>Condicion de Venta: {{ cardData.condicionIva }}</p>
+          <p>Subtotal + IVA: {{ cardData.totalIva }} $</p>
+          <h5 class="text-center">Pedidos</h5>
+          <span class="card text-center" *ngFor="let item of cardData.Pedidos">
+            <div class="card-header"> {{item.name}}</div>
+            <div class="card-body">
+              <p>{{ item.description }}</p>
+              <p>Subtotal: {{ item.subtotal }}</p>
+            </div>
+          </span>
+
+          <h5 class="text-center">Datos del Cliente</h5>
+          <span class="card text-center" *ngFor="let item of cardData.Personas">
+            <div class="card-header"> {{ item.name }}, {{ item.lastname }}</div>
+            <div class="modal-body">
+                <p>Email: {{ item.email }}</p>
+                <p>DNI: {{ item.dni }}</p>
+                <p>CUIL: {{ item.cuil }}</p>
+                <p>Direccion: {{ item.adress }}, {{ item.adress_number }}</p>
+                <p>Telefono: {{ item.phone }}</p>
+                <p>{{ item.description }}</p>
+                <p *ngFor="let cliente of item.cliente">
+                 Empresa: {{ cliente.industry }}
+                </p>
+              
+                <p *ngFor="let cliente of cardData.cliente">
+                  Localidad: {{ cliente.city }}
+                </p>
+              </div>
+          </span>
+
+        </div>
+      </div>
+    </div>
+  </div>

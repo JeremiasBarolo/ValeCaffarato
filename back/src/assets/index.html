@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura de Ejemplo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .firma-rectangulo {
+    border: 1px solid #000;
+    width: 100%;
+    height: 160px;
+    margin-top: 20px;
+    padding: 10px;
+    }
+
+    .firma-rectangulo-info {
+        border: 1px solid #000;
+        width: 100%;
+        height: 200px;
+        margin-top: 20px;
+        padding: 10px;
+    }
+
+    #info-empresa, #info-factura {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+<body>
+    
+<div class="container mt-4">
+    <div class="row firma-rectangulo-info">
+        <div class="col-md-6">
+            <div id="info-empresa" class="text-center">
+                <h3><strong>Ataudes VC S.A.</strong></h3>
+                <p>Dirección de la Empresa 123, Las Perdices</p>
+                <p>(123) 456-7890</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <p><strong>Número de {{documento.type}}:</strong> 00{{documento.id}}</p>
+            <p><strong>Fecha de Emisión:</strong> {{documento.createdAt}}</p>
+            <p><strong>Nombre del Vendedor:</strong> Valentin Caffaratto</p>
+            <p><strong>CUIT del Vendedor:</strong> 123-456789-0</p>
+            <p><strong>Teléfono del Vendedor:</strong> (987) 654-3210</p>
+        </div>
+    </div>
+
+    <div class="row firma-rectangulo">
+        <div class="col-md-6">
+            <p><strong>Nombre del Cliente:</strong> {{clienteData.name}}, {{clienteData.lastname}}</p>
+            <p><strong>DNI del Cliente:</strong> {{clienteData.dni}}</p>
+            <p><strong>Empresa del Cliente:</strong> {{clienteData.industry}}</p>
+            <p><strong>Localidad del Cliente: </strong> {{clienteData.city}}</p>
+        </div>
+        <div class="col-md-6 ">
+            <p><strong>Domicilio del Cliente</strong> {{clienteData.adress}}, {{clienteData.adress_number}}</p>
+            <p><strong>Telefono del Cliente:</strong> {{clienteData.phone}}</p>
+            <p><strong>CUIL del Cliente:</strong> {{clienteData.cuil}}</p>
+            <p><strong>Email del Cliente:</strong> {{clienteData.email}}</p>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Detalles de los Productos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Unidad de Medida</th>
+                <th>Precio unit.</th>
+                <th>Subtotal</th>
+                <th>IVA</th>
+                <th>Subtotal con IVA</th>
+            </tr>
+        </thead>
+        <tbody>
+                {{productosHTML}}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <div class="firma-rectangulo">
+        <div class="text-right">
+            <p class="text-left"><strong>Firma:</strong> <span id="subtotalBruto"></span></p>
+            <p><strong>Subtotal Neto:</strong> <span id="subtotalNeto">${{subtotalReal}}</span></p>
+            <p><strong>Importe Otros Tributos:</strong> <span id="otrosTributos">$0.00</span></p>
+            <p ><strong>Importe Total:</strong> <span id="subtotalFinal">${{subtotalFinal}}</span></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

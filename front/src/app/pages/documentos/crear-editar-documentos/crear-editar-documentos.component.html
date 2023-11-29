@@ -1,0 +1,92 @@
+<div class="container mt-5">
+    <div class="card mb-3 border border-0 mx-auto">
+      <div class="card-body">
+        <form [formGroup]="form">
+
+            <div class="form-group text-center">
+                <label for="documento">Tipo de Documento:</label> <br>
+                  <select class="form-select" aria-label="Documento" formControlName="selectedOptionDocumento">
+                    <option value="REMITO">Remito</option>
+                    <option value="FACTURA">Factura</option>
+                  </select>
+            </div>
+            <br>
+            <br>
+
+            <div class="form-group text-center">
+                <label for="cliente">Cliente:</label> <br>
+                <select class="form-select" aria-label="Default select example" formControlName="selectedOptionPersona">
+                  <option *ngFor="let cliente of Clientes" [value]="cliente.id">{{ cliente.name }}, {{ cliente.lastname }}</option>
+                </select>
+              </div>
+            <br>
+            <br>
+            <div class="form-group text-center">
+                <label for="condicionIva">Condicion de venta:</label> <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" value="CONTADO" formControlName="selectedOptionCondicion">
+                    <label class="form-check-label" for="inlineRadio1">Contado</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" value="A PLAZO" formControlName="selectedOptionCondicion">
+                    <label class="form-check-label" for="inlineRadio2">A Plazo</label>
+                </div>
+            </div>
+
+        </form>
+        <br>
+        <br>
+        <div class="text-center">
+            <p><strong>NOTA:</strong> Los datos del vendedor, IVA, etc. se asignan automaticamente.</p>
+        </div>
+        
+      </div>
+
+    
+      <div class="row mt-4">
+        <div class="col-md-6 text-center">
+          <h4>Pedidos</h4>
+          <div class="card mb-" style="height: 550px; overflow-y: auto;">
+            <div class="card-body">
+              <ul class="list-group" *ngFor="let entidad of Pedidos">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ entidad.name }}
+                  <button class="btn btn-success" (click)="selectedEntity(entidad)">Agregar al Presupuesto</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Lista de Combos -->
+        <div class="col-md-5 text-center">
+          <h4>Pedidos Seleccionadas</h4>
+          <div class="card mb-3" style="height: 550px; overflow-y: auto;">
+            <div class="card-body">
+              <ul class="list-group" *ngFor="let entidad of selectedPedidos;">
+                <li class="list-group-item">
+                    <p>{{ entidad.name }}</p>
+                  <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row mt-5">
+        <div class="col-md-6 offset-md-3 text-center">
+          <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addDocumento()">Aceptar</button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6 offset-md-3 text-center">
+          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  

@@ -8,11 +8,14 @@ const {
     insumosRouter,
     pedidosRouter,
     cantidadesRouter,
-    productosRouter
+    productosRouter,
+    documentosRouter,
+    generarPdfRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
 const {checkAdmin} = require('./db/createAdminEntity');
+const { generarPdf } = require("./services/documentos");
 
 
 // App Creation
@@ -31,6 +34,8 @@ app.use('/insumos', insumosRouter)
 app.use('/pedidos', pedidosRouter)
 app.use('/cantidades', cantidadesRouter)
 app.use('/productos', productosRouter)
+app.use('/documento', documentosRouter)
+app.use('/generar-factura', generarPdfRouter)
 
 
 

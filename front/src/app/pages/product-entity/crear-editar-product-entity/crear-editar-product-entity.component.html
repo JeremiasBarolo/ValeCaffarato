@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group text-center">
-            <label for="profit">Profit:</label>
+            <label for="profit">Profit:</label> 
             <input formControlName="profit" type="text" class="form-control" placeholder="profit">
         </div>
 
@@ -37,6 +37,11 @@
             <label for="price">Precio:</label>
             <input formControlName="price" type="text" class="form-control" placeholder="precio">
         </div>
+
+        <div class="form-group text-center">
+          <label for="unidad_medida">Unidad de Medida:</label>
+          <input formControlName="unidad_medida" type="text" class="form-control" placeholder="Unidad de Medida">
+      </div>
         </form>
       </div>
   
@@ -89,6 +94,12 @@
           <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
         </div>
       </div>
+      <div class="row mt-3">
+        <div class="col-md-6 offset-md-3 text-center">
+          <button (click)="rellenardatos()" type="button" class="btn btn-info">rellenar</button>
+        </div>
+      </div>
+     
       
     </div>
   </div>

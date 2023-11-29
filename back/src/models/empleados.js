@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         as: 'persona',
       })
     }
+
+    
   }
   Empleados.init({
     cargo: DataTypes.STRING,

@@ -1,4 +1,6 @@
 export interface Persona{
+adress_number: any;
+cuil: any;
 proveedor: any;
 cliente: any;
     id?: number;

@@ -34,6 +34,7 @@ export class CrearEditarInsumoEntityComponent {
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
+      unidad_medida: ['', Validators.required],
 
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -57,6 +58,7 @@ export class CrearEditarInsumoEntityComponent {
       formData.append('name', this.form.value.name);
       formData.append('description', this.form.value.description);
       formData.append('price', this.form.value.price);
+      formData.append('unidad_medida', this.form.value.unidad_medida);
       console.log(this.id);
       console.log(formData.forEach((value, key) => console.log(`${key}: ${value}`)));
       
@@ -64,6 +66,7 @@ export class CrearEditarInsumoEntityComponent {
         name: this.form.value.name,
         description: this.form.value.description,
         price: this.form.value.price,
+        unidad_medida: this.form.value.unidad_medida
       };
 
       if (this.id !== 0) {
@@ -96,6 +99,7 @@ export class CrearEditarInsumoEntityComponent {
         name: data.name,
         description: data.description,
         price: data.price,
+        unidad_medida: data.unidad_medida
         
       };
   
@@ -105,6 +109,7 @@ export class CrearEditarInsumoEntityComponent {
         name: data.name,
         description: data.description,
         price: data.price,
+        unidad_medida: data.unidad_medida
       });
     });
   }
@@ -113,7 +118,8 @@ export class CrearEditarInsumoEntityComponent {
     this.form.setValue({
         name: 'Insumoooo',
         description: 'Super Insumo',
-        price: 100
+        price: 100,
+        unidad_medida: 'Unidad'
         
     });
   }

@@ -8,6 +8,8 @@ const insumosRouter = require('./insumos');
 const pedidosRouter = require('./pedidos');
 const cantidadesRouter = require('./cantidades');
 const productosRouter = require('./productos');
+const documentosRouter = require('./documentos');
+const generarPdfRouter = require('./generarPdf');
 
 
 module.exports = {
@@ -17,5 +19,7 @@ module.exports = {
     insumosRouter,
     pedidosRouter,
     cantidadesRouter,
-    productosRouter
+    productosRouter,
+    documentosRouter,
+    generarPdfRouter
  };

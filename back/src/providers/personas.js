@@ -85,24 +85,8 @@ const createPersonas = async (dataUpdated) => {
             industry: dataUpdated.industry,
             city: dataUpdated.city
         })
-    }
-
-
+      }
     
-
-    // const createdImages = await Promise.all(
-    //   imageUrls.map((imageUrl) => models.PersonasImages.create(
-    //     {
-    //       imageUrl,
-    //       PersonasId: newPersonas.id,
-    //     },
-    //   ,
-    //   )),
-    // );
-
-    
-    
-
     console.log(`✅ Personas "${newPersonas.name}" was created with images`);
 
     return newPersonas;

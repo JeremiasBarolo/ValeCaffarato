@@ -58,6 +58,7 @@ const createInsumo= async (insumoData) => {
         price: insumoData.price,
         quantity: insumoData.quantity,
         quantity_reserved: 0,
+        unidad_medida: insumoData.unidad_medida
 
       };
 
@@ -90,6 +91,7 @@ const createInsumo= async (insumoData) => {
             price: insumo.price,
             antiguo_id: insumo.id,
             quantity_reserved: 0,
+            unidad_medida: insumo.unidad_medida
           });
           return newInsumo;
         }

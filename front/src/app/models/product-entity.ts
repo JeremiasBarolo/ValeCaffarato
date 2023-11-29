@@ -1,4 +1,5 @@
 export interface ProductEntity{
+    unidad_medida: any;
     PedidosProductos?: any;
     PedidosInsumos?: any;
     id?: number;

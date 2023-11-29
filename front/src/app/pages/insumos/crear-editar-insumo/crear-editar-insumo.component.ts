@@ -35,6 +35,7 @@ export class CrearEditarInsumoComponent {
       quantity: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
+      unidad_medida: ['', Validators.required],
 
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -59,6 +60,7 @@ export class CrearEditarInsumoComponent {
       formData.append('quantity', this.form.value.quantity);
       formData.append('description', this.form.value.description);
       formData.append('price', this.form.value.price);
+      formData.append('unidad_medida', this.form.value.unidad_medida);
       console.log(this.id);
       console.log(formData.forEach((value, key) => console.log(`${key}: ${value}`)));
       
@@ -67,6 +69,7 @@ export class CrearEditarInsumoComponent {
         quantity: this.form.value.quantity,
         description: this.form.value.description,
         price: this.form.value.price,
+        unidad_medida: this.form.value.unidad_medida,
         admin: 'yes'
       };
 
@@ -101,6 +104,7 @@ export class CrearEditarInsumoComponent {
         description: data.description,
         quantity: data.quantity,
         price: data.price,
+        unidad_medida: data.unidad_medida
         
         
       };
@@ -112,6 +116,7 @@ export class CrearEditarInsumoComponent {
         description: data.description,
         quantity: data.quantity,
         price: data.price,
+        unidad_medida: data.unidad_medida
       });
     });
   }
@@ -121,7 +126,8 @@ export class CrearEditarInsumoComponent {
         name: 'Insumoooo',
         description: 'Super Insumo',
         quantity: 5,
-        price: 100
+        price: 100,
+        unidad_medida: 'Unidad'
         
     });
   }

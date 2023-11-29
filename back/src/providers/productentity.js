@@ -58,6 +58,7 @@ const createProductentity= async (productentityData) => {
       measurement_depth: productentityData.measurement_depth,
       price: productentityData.price,
       profit: productentityData.profit,
+      unidad_medida: productentityData.unidad_medida
     };
     const insumosData = productentityData.insumos.map(item => ({
       insumoId: item.id,

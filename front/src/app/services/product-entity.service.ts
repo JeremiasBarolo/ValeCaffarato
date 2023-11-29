@@ -15,6 +15,8 @@ export class ProductEntityService {
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
   private apiUrl = `${this.appSettings.url_api}/product_entity`;
     getAll(): Observable<ProductEntity[]> {
+      console.log('ase');
+      
       return this.http.get<ProductEntity[]>(`${this.apiUrl}`);
     }
 

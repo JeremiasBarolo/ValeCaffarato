@@ -23,6 +23,10 @@ import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
+import { DocumentosComponent } from './documentos/documentos.component';
+import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
+import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
+
 
 
 const routes: Routes = [
@@ -55,6 +59,13 @@ const routes: Routes = [
       { path : 'product', component : ProductosComponent},
       { path: 'product/crear-editar', component: CrearEditarProductosComponent },
       { path: 'product/crear-editar/:id', component: CrearEditarProductosComponent },
+      { path: 'documentos', component: DocumentosComponent },
+      { path: 'documentos/crear-editar', component: CrearEditarDocumentosComponent },
+      { path: 'documentos/crear-editar/:id', component: CrearEditarDocumentosComponent },
+      { path: 'documentos/factura-remito/:id', component: FacturaRemitoComponent },
+      
+
+
       { path: '**', redirectTo: 'dashboard' },
 
     ]
