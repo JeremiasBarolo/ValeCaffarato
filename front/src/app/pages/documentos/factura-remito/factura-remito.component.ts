@@ -17,6 +17,7 @@ export class FacturaRemitoComponent implements OnInit {
   documentoData: any = {}
   productData: any = []
   subtotal: any[] = []
+  totalFinal: number = 0
   clienteData: Persona = {
     name: '',
     id: 0,
@@ -44,7 +45,7 @@ export class FacturaRemitoComponent implements OnInit {
 
   }
   
-    
+  
   ngOnInit(): void {
     this.documentosService.getById(this.id).subscribe(data => {
         this.documentoData = data;
@@ -101,7 +102,14 @@ subtotalReal(): number {
     });
 
     const suma = subtotales.reduce((acumulador, numero) => acumulador + numero, 0);
+    this.totalFinal = suma;
     return suma;
+}
+
+generarDocumento(){
+  this.documentosService.generarPdf( this.documentoData,this.productData, this.clienteData, this.totalFinal).subscribe(data =>{
+    console.log(data);
+  })
 }
 
 

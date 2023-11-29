@@ -1,4 +1,8 @@
 
+<div class="text-right">
+    <button class="btn btn-primary button mb-3 mr-4" (click)="generarDocumento()">Generar PDF</button>
+</div>
+
 <div class="container mt-4">
     <h1 class="text-center">Detalle de Facturación</h1>
     <br>
@@ -55,7 +59,9 @@
                     <td>{{item.name}}</td>
                     <td>{{item.PedidosProductos.quantity_requested}}</td>
                     <td>{{item.unidad_medida}}</td>
-                    <td>{{item.price | currency}}</td>
+                    <td><div class="text-center mt-4 ">
+        
+                    </div>{{item.price | currency}}</td>
                     <td>{{calcularTotal(item.price, item.PedidosProductos.quantity_requested) | currency}}</td>
                     <td>{{documentoData.iva}}%</td>
                     <td>{{totalIva(item.price, item.PedidosProductos.quantity_requested, documentoData.iva) | currency}}</td>
@@ -74,7 +80,5 @@
         </div>
     </div>
 
-    <div class="text-center mt-4 ">
-        <a class="btn btn-primary mb-3">Generar PDF</a>
-    </div>
+    
 </div>

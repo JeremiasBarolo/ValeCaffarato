@@ -13,6 +13,7 @@ export class DocumentosService {
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
   private apiUrl = `${this.appSettings.url_api}/documento`;
+  private Url = `${this.appSettings.url_api}`;
   
   //get all
   getAll(): Observable<any> {
@@ -40,6 +41,13 @@ export class DocumentosService {
 // delete
   delete(id: number): Observable<any> {
   return this.http.delete<any>(`${this.apiUrl}/${id}`)
+    
+}
+
+generarPdf(documento:any, productData: any, clienteData: any, subtotal: any): Observable<any> {
+  
+  return this.http.post<any>(`${this.Url}/generar-factura`, 
+  {documento, productData, clienteData, subtotal})
     
 }
 }

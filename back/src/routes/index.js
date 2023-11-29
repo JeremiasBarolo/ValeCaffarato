@@ -9,6 +9,7 @@ const pedidosRouter = require('./pedidos');
 const cantidadesRouter = require('./cantidades');
 const productosRouter = require('./productos');
 const documentosRouter = require('./documentos');
+const generarPdfRouter = require('./generarPdf');
 
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
     pedidosRouter,
     cantidadesRouter,
     productosRouter,
-    documentosRouter
+    documentosRouter,
+    generarPdfRouter
  };

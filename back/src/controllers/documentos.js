@@ -44,6 +44,15 @@ const updateDocumento = async (req, res) => {
   }
 };
 
+const generarPdf = async (req, res) => {
+  try {
+    const DocumentoUpdate = await documentoService.generarPdf(req.body);
+    res.json(DocumentoUpdate);
+  } catch (err) {
+    res.status(500).json({ action: 'generarPdf', error: err.message });
+  }
+};
+
 const deleteDocumento = async (req, res) => {
   const id = req.params.Documento_id;
   try {
@@ -57,5 +66,5 @@ const deleteDocumento = async (req, res) => {
 
 
 module.exports = {
-  listAllDocumento, listOneDocumento, createDocumento, updateDocumento, deleteDocumento, 
+  listAllDocumento, listOneDocumento, createDocumento, updateDocumento, deleteDocumento, generarPdf
 };
