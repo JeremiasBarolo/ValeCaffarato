@@ -28,9 +28,6 @@
 <body>
     
 <div class="container mt-4">
-    <h1 class="text-center">Detalle de Facturación</h1>
-    <br>
-
     <div class="row firma-rectangulo-info">
         <div class="col-md-6">
             <div id="info-empresa" class="text-center">
@@ -41,7 +38,7 @@
         </div>
 
         <div class="col-md-6">
-            <p><strong>Número de Factura:</strong> 00{{documento.id}}</p>
+            <p><strong>Número de {{documento.type}}:</strong> 00{{documento.id}}</p>
             <p><strong>Fecha de Emisión:</strong> {{documento.createdAt}}</p>
             <p><strong>Nombre del Vendedor:</strong> Valentin Caffaratto</p>
             <p><strong>CUIT del Vendedor:</strong> 123-456789-0</p>

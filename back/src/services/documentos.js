@@ -64,6 +64,15 @@ const generarPdf = async (documento) => {
         documento.clienteData.cliente.map((item) => (
             cliente = { industry: item.industry, city: item.city }));
 
+        let tipoDocumento
+        if(documento.documento.tipo === 'REMITO'){
+            tipoDocumento = 'Remito'
+        }else{
+            tipoDocumento = 'Factura'
+        }    
+
+
+
     
         const productosHTML = documento.productData.map((productList) => {
             return productList.map((item) => {
@@ -83,6 +92,8 @@ const generarPdf = async (documento) => {
                 `;
             }).join('');
         }).join('');
+
+        
         
         
         const facturaHTML = templateContent
@@ -93,6 +104,7 @@ const generarPdf = async (documento) => {
             .replace('{{clienteData.dni}}', documento.clienteData.dni)
             .replace('{{clienteData.cuil}}', documento.clienteData.cuil)
             .replace('{{clienteData.industry}}', cliente.industry)
+            .replace('{{documento.type}}', tipoDocumento)
             .replace('{{clienteData.city}}', cliente.city)
             .replace('{{clienteData.adress}}', documento.clienteData.adress)
             .replace('{{clienteData.adress_number}}', documento.clienteData.adress_number)
@@ -100,7 +112,7 @@ const generarPdf = async (documento) => {
             .replace('{{clienteData.email}}', documento.clienteData.email)
             .replace('{{subtotalReal}}', documento.subtotal)
             .replace('{{subtotalFinal}}', documento.subtotal)
-            .replace('{{productosHTML}}', productosHTML);
+            .replace('{{productosHTML}}', productosHTML)
 
     
         const browser = await puppeteer.launch();

@@ -107,6 +107,7 @@ subtotalReal(): number {
 }
 
 generarDocumento(){
+  
   this.documentosService.generarPdf( this.documentoData,this.productData, this.clienteData, this.totalFinal).subscribe(data =>{
     console.log(data);
   })
