@@ -1,0 +1,65 @@
+
+<div class="container mt-4">
+    <h1 class="text-center">Detalle de Facturación</h1>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="info-empresa" class="text-center">
+                <h3><strong>Ataudes VC S.A.</strong></h3>
+                <p>Dirección de la Empresa 123, Las Perdices</p>
+                <p>(123) 456-7890</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <p><strong>Número de Factura:</strong> 00{{documentoData.id}}</p>
+            <p><strong>Fecha de Emisión:</strong> {{documentoData.createdAt | date:'dd/MM/yyyy'}}</p>
+            <p><strong>Nombre del Vendedor:</strong> Valentin Caffaratto</p>
+            <p><strong>CUIT del Vendedor:</strong> 123-456789-0</p>
+            <p><strong>Teléfono del Vendedor:</strong> (987) 654-3210</p>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Detalles de los Productos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Unidad de Medida</th>
+                <th>Precio unit.</th>
+                <th>Subtotal</th>
+                <th>IVA</th>
+                <th>Subtotal con IVA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let productList of productData">
+                <tr *ngFor="let item of productList">
+                    <td>{{item.name}}</td>
+                    <td>{{item.PedidosProductos.quantity_requested}}</td>
+                    <td>{{item.unidad_medida}}</td>
+                    <td>{{item.price | currency}}</td>
+                    <td>{{calcularTotal(item.price, item.PedidosProductos.quantity_requested) | currency}}</td>
+                    <td>{{documentoData.iva}}%</td>
+                    <td>{{totalIva(item.price, item.PedidosProductos.quantity_requested, documentoData.iva) | currency}}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <div class="firma-rectangulo">
+        <div class="text-right">
+            <p class="text-left"><strong>Firma:</strong> <span id="subtotalBruto"></span></p>
+            <p><strong>Subtotal Neto:</strong> <span id="subtotalNeto">{{subtotalReal() | currency}}</span></p>
+            <p><strong>Importe Otros Tributos:</strong> <span id="otrosTributos">$0.00</span></p>
+            <p><strong>Importe Total:</strong> <span id="importeTotal">{{subtotalReal() | currency}}</span></p>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a class="btn btn-primary">Generar PDF</a>
+    </div>
+</div>

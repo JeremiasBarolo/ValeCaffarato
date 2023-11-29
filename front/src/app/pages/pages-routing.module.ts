@@ -25,6 +25,7 @@ import { CrearEditarProductosComponent } from './productos/crear-editar-producto
 import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
 import { DocumentosComponent } from './documentos/documentos.component';
 import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
+import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
 
 
 
@@ -61,6 +62,9 @@ const routes: Routes = [
       { path: 'documentos', component: DocumentosComponent },
       { path: 'documentos/crear-editar', component: CrearEditarDocumentosComponent },
       { path: 'documentos/crear-editar/:id', component: CrearEditarDocumentosComponent },
+      { path: 'documentos/factura-remito/:id', component: FacturaRemitoComponent },
+      
+
 
       { path: '**', redirectTo: 'dashboard' },
 

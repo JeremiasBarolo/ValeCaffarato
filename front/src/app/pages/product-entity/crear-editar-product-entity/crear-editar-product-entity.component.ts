@@ -36,6 +36,7 @@ export class CrearEditarProductEntityComponent {
     insumos: [],
     unidad_medida: '',
   };
+  ProductEntityData: any;
 
   constructor(
     private insumoService: InsumoService,
@@ -65,6 +66,16 @@ export class CrearEditarProductEntityComponent {
     this.titleService.setTitle('Entidades de Producto');
     console.log(this.selectedEntities);
     console.log(this.Insumos);
+    if (this.id !== null) {
+      this.titleService.setTitle('Editar Entidad de Insumo');
+      console.log(this.id);
+      this.getProductEntity(this.id);
+    } else{
+      this.titleService.setTitle('Crear Entidad de Insumo');
+      
+    }  
+
+  
 
     
     
@@ -157,4 +168,30 @@ export class CrearEditarProductEntityComponent {
       )
     }
   }
+
+  getProductEntity(id: number) {
+    this.productEntityService.getById(id).subscribe((data: any)=> {
+      let ProductEntity: any = {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        unidad_medida: data.unidad_medida
+        
+      };
+  
+      this.ProductEntityData = ProductEntity;
+
+      this.form.setValue({
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        unidad_medida: data.unidad_medida,
+        profit: data.profit,
+        measurement_height: data.measurement_height,
+        measurement_length: data.measurement_length,
+        measurement_depth: data.measurement_depth
+
+      });
+    });
+}
 }

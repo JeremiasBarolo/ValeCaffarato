@@ -87,6 +87,7 @@ const updateDocumento= async (Documento_id, dataUpdated) => {
   
 };
 
+
 const deleteDocumento = async (Documento_id) => {
   try {
     const deletedDocumento = await models.Documentos.findByPk(Documento_id, 

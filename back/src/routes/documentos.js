@@ -5,11 +5,12 @@ const router = express.Router();
 
 
 
+
 // get all
 router.get("/", documentoController.listAllDocumento);
 
 // create
-router.post("/", documentoController.createDocumento);
+router.post("/" ,documentoController.createDocumento);
 
 // get one
 router.get("/:Documento_id", documentoController.listOneDocumento);

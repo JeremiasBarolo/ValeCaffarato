@@ -10,37 +10,40 @@
         <h4 class="mb-3">Remitos</h4>
         
         
-        <div class="card" *ngFor="let remito of remitos" (click)="showCardDetails(remito)">
-          <div class="card-header presupuesto-card-header"  data-target="#Modal" data-toggle="modal" >
-            {{remito.name}}
-          </div>(click)="showCardDetails(finalizado)"
-  
-          <div class="card-body" data-target="#Modal" data-toggle="modal">
-            {{remito.description}}
+        <div class="card" *ngFor="let remito of remitos" >
+            <div class="card-header presupuesto-card-header" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(remito)" *ngFor="let persona of remito.Personas">
+              {{persona.name}},{{persona.lastname}} | {{remito.createdAt | date:'dd/MM/yyyy'}}
+            </div>
+            <div class="card-body" data-target="#Modal" data-toggle="modal"(click)="showCardDetails(remito)">
+              <p>Total: {{ remito.total }}</p>
+              <p>Subtotal + IVA: {{ remito.totalIva }} $</p>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-outline-danger ml-1" (click)="borrarFactura(remito.id)"><i class="fa-solid fa-trash"></i></a>
+              <a class="btn btn-outline-primary ml-1" routerLink="factura-remito/{{remito.id}}">Ver Remito</a>
+            </div>
           </div>
-          <div class="card-footer">
-            <a class="btn btn-outline-danger ml-1" (click)="$event.stopPropagation()" ><i class="fa-solid fa-trash"></i></a>
-          </div>
-        </div>
         
-      
+        
       </div>
 
 
       <div class="col-md-6 border-right" >
         <h4 class="mb-3">Facturas</h4>
   
-        <div class="card" *ngFor="let factura of facturas " (click)="showCardDetails(factura)">
-          <div class="card-header preparacion-card-header"data-target="#Modal" data-toggle="modal">
-            {{factura.Personas[0].name}},{{factura.Personas[0].lastname}} | {{factura.createdAt|date:'dd/MM/yyyy'}}
+        <div class="card" *ngFor="let item of facturas " (click)="showCardDetails(item)">
+          <div class="card-header preparacion-card-header"data-target="#Modal" data-toggle="modal" *ngFor="let persona of item.Personas">
+            {{persona.name}},{{persona.lastname}} | {{item.createdAt | date:'dd/MM/yyyy'}}
           </div>
   
           <div class="card-body" data-target="#Modal" data-toggle="modal">
-            {{factura.description}}
+            <p>Total: {{ item.total }} $</p>
+            <p>Subtotal + IVA: {{ item.totalIva }} $</p>
           </div>
   
           <div class="card-footer">
-            <a class="btn btn-outline-danger ml-1" (click)="$event.stopPropagation()"><i class="fa-solid fa-trash"></i></a>
+            <a class="btn btn-outline-danger ml-1" (click)="borrarFactura(item.id)"><i class="fa-solid fa-trash"></i></a>
+            <a class="btn btn-outline-success ml-1" routerLink="factura-remito/{{item.id}}">Ver Factura</a>
           </div>
         </div>
       </div>
@@ -50,7 +53,7 @@
 </section>
 
 
-<div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal" #myModal id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -61,9 +64,9 @@
         </div>
         <div class="modal-body">
           <p>IVA: {{ cardData.iva }}%</p>
-          <p>Total: {{ cardData.total }}</p>
+          <p>Total: {{ cardData.total}} $</p>
           <p>Condicion de Venta: {{ cardData.condicionIva }}</p>
-          <p>Subtotal + IVA: {{ cardData.totalIva }}</p>
+          <p>Subtotal + IVA: {{ cardData.totalIva }} $</p>
           <h5 class="text-center">Pedidos</h5>
           <span class="card text-center" *ngFor="let item of cardData.Pedidos">
             <div class="card-header"> {{item.name}}</div>

@@ -52,7 +52,6 @@ export class CrearEditarDocumentosComponent {
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
     this.loadSelectedProducts();
     this.titleService.setTitle('Pedidos Compra');
     console.log(this.selectedPedidos);
