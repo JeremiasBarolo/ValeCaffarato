@@ -35,7 +35,6 @@ export class PedidosService {
     if(Pedidos.category === 'COMPRA'){
       return this.http.post<any>(`${this.apiUrl}/compra`, Pedidos)
     }else{
-      console.log('venta',Pedidos);
       
       return this.http.post<any>(`${this.apiUrl}/venta`, Pedidos)
       .pipe(
@@ -54,12 +53,12 @@ export class PedidosService {
     console.log(Pedidos);
     
   return this.http.put<Pedidos>(`${this.apiUrl}/${id}`, Pedidos)
-    .pipe(
-      catchError(error => {
-        this.toastr.error('Error al actualizar el Pedidos');
-        throw error;
-      })
-    );
+  .pipe(
+    catchError((error: HttpErrorResponse) => {
+      this.handleHttpError(error);
+      return throwError(error);
+    })
+  );
 }
 
 // delete

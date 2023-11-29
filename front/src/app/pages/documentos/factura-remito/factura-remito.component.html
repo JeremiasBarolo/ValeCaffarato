@@ -26,11 +26,11 @@
     </div>
 
     <div class="row firma-rectangulo">
-        <div class="col-md-6">
+        <div class="col-md-6" *ngFor="let cliente of clienteData.cliente">
             <p><strong>Nombre del Cliente:</strong> {{clienteData.name}}, {{clienteData.lastname}}</p>
             <p><strong>DNI del Cliente:</strong> {{clienteData.dni}}</p>
-            <p><strong>Empresa del Cliente:</strong> {{clienteData.cliente[0].industry}}</p>
-            <p><strong>Localidad del Cliente: </strong> {{clienteData.cliente[0].city}}</p>
+            <p><strong>Empresa del Cliente:</strong> {{cliente.industry}}</p>
+            <p><strong>Localidad del Cliente: </strong> {{cliente.city}}</p>
         </div>
         <div class="col-md-6 ">
             <p><strong>Domicilio del Cliente</strong> {{clienteData.adress}}, {{clienteData.adress_number}}</p>

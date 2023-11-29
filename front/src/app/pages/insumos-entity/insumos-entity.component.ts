@@ -23,7 +23,10 @@ export class InsumosEntityComponent {
   
   ngOnInit(): void {
     this.insumoEntityService.getAll().subscribe(insumos => this.entidades = insumos);
+    
+    
     this.titleService.setTitle('Entidades de Insumos');
+    console.log(this.entidades);
   }
   deleteEntidad(id: any) {
     this.insumoEntityService.delete(id).subscribe(() => {

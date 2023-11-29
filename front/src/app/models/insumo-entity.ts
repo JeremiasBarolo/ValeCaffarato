@@ -1,5 +1,5 @@
 export interface InsumoEntity{
-    unidad_medida: any;
+    unidad_medida: string;
     PedidosInsumos?: any;
     id?: number;
     name: string

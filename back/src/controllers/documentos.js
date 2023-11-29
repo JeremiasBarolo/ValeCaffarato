@@ -46,8 +46,8 @@ const updateDocumento = async (req, res) => {
 
 const generarPdf = async (req, res) => {
   try {
-    const DocumentoUpdate = await documentoService.generarPdf(req.body);
-    res.json(DocumentoUpdate);
+    const PDF = await documentoService.generarPdf(req.body);
+    res.json('PDF generado' );
   } catch (err) {
     res.status(500).json({ action: 'generarPdf', error: err.message });
   }

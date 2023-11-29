@@ -49,9 +49,13 @@ export class CrearEditarPedidosCompraComponent {
   ngOnInit(): void {
     this.loadAllEntities();
     this.loadSelectedProducts();
-    this.titleService.setTitle('Pedidos Compra');
-    console.log(this.selectedEntities);
-    console.log(this.InsumosEntities);
+    if (this.id !== null) {
+      this.titleService.setTitle('Editar Pedido de Compra');
+      console.log(this.id);
+      this.getPedido(this.id);
+    }else{
+      this.titleService.setTitle('Pedidos Compra');
+    }
 
     
     
@@ -130,6 +134,22 @@ export class CrearEditarPedidosCompraComponent {
         }
       )
     }
+  }
+
+  getPedido(id: number) {
+    this.pedidosService.getById(id).subscribe((data: any)=> {
+      let InsumoEntity: any = {
+        name: data.name,
+        description: data.description,
+      
+      };
+
+
+      this.form.setValue({
+        name: data.name,
+        description: data.description,
+      });
+    });
   }
 
   

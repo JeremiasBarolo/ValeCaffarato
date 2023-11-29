@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { Persona } from 'src/app/models/Persona';
 import { DocumentosService } from 'src/app/services/documentos.service';
@@ -39,7 +40,8 @@ export class FacturaRemitoComponent implements OnInit {
     private documentosService: DocumentosService, 
     private aRoute: ActivatedRoute, 
     private pedidosService: PedidosService,
-    private personasService: PersonasService
+    private personasService: PersonasService,
+    private toastr: ToastrService
     ) {
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
 
@@ -109,7 +111,7 @@ subtotalReal(): number {
 generarDocumento(){
   
   this.documentosService.generarPdf( this.documentoData,this.productData, this.clienteData, this.totalFinal).subscribe(data =>{
-    console.log(data);
+    this.toastr.success('Factura Creada Exitosamente');
   })
 }
 
