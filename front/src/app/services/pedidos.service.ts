@@ -4,6 +4,7 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from '../models/pedidos';
 import { AppSettings } from 'appsettings-json-reader';
+import { LoginComponent } from '../auth/login/login.component';
 
 @Injectable({
   providedIn: 'root'
@@ -49,18 +50,28 @@ export class PedidosService {
 }
 
 // update
-  update(id: number, Pedidos: FormData): Observable<Pedidos> {
+  update(id: number, Pedidos: any): Observable<Pedidos> {
     console.log(Pedidos);
     
-  return this.http.put<Pedidos>(`${this.apiUrl}/${id}`, Pedidos)
-  .pipe(
-    catchError((error: HttpErrorResponse) => {
-      this.handleHttpError(error);
-      return throwError(error);
-    })
-  );
-}
 
+    if(Pedidos.category === 'COMPRA'){
+      return this.http.put<Pedidos>(`${this.apiUrl}/${id}`, Pedidos)
+
+    } else if(Pedidos.category === 'VENTA' && Pedidos.state === 'PRESUPUESTADO'){
+      console.log(Pedidos);
+      
+      return this.http.put<Pedidos>(`${this.apiUrl}/venta/editar/${id}`, Pedidos)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleHttpError(error);
+          return throwError(error);
+        })
+
+      );
+    }else{
+      return this.http.put<Pedidos>(`${this.apiUrl}/${id}`, Pedidos)
+    }
+  }
 // delete
   delete(id: number): Observable<Pedidos> {
   return this.http.delete<Pedidos>(`${this.apiUrl}/${id}`)

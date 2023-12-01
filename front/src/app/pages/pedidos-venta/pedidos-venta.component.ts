@@ -2,11 +2,8 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { Pedidos } from 'src/app/models/pedidos';
 import { DocumentosService } from 'src/app/services/documentos.service';
-
-import { InsumoService } from 'src/app/services/insumo.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
@@ -40,7 +37,7 @@ export class PedidosVentaComponent {
     private router: Router,
     private viewport: ViewportScroller,
     private productosService: ProductosService,
-    private documentosService: DocumentosService
+
 
 
     ) { }
@@ -136,7 +133,7 @@ showCardDetails(card: Pedidos) {
 }
 
 updateEntidad(id:number){
-  this.router.navigate(['dashboard/pedidos-compra/crear-editar', id]);
+  this.router.navigate(['dashboard/pedidos-venta/crear-editar', id]);
 }
 
 calcularSubtotal(pedido: any): number {

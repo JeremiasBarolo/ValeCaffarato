@@ -108,78 +108,130 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
     const oldPedidos= await models.Pedidos.findByPk(pedidos_id, 
         { include: { all: true } 
     });
-    
 
-
-    if(dataUpdated.category === 'VENTA' && dataUpdated.state == 'PREPARACION'){
-      
+  
+    if (dataUpdated.category === 'VENTA' && dataUpdated.state === 'PREPARACION') {
       const cantidades = dataUpdated.productos.map(pedido => ({
-        id : pedido.PedidosProductos.productEntityId,
-        cantidad : pedido.PedidosProductos.quantity_requested
-      } 
-      ))
-
-      await dataUpdated.productos.map(async entidad => {
-        const entidadProducto =  await models.ProductEntity.findByPk(entidad.id, {
+        id: pedido.PedidosProductos.productEntityId,
+        cantidad: pedido.PedidosProductos.quantity_requested
+      }));
+    
+      for (const entidad of dataUpdated.productos) {
+        const entidadProducto = await models.ProductEntity.findByPk(entidad.id, {
           include: { all: true },
         });
-
-          if (entidadProducto) {
-            await entidadProducto.Insumos.map(async insumo => {
-              const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary
-              const cantidadRequerida = cantidades.find(c => c.id === entidadProducto.id).cantidad    
-              const cantidadActual = cantidadNecesaria * cantidadRequerida    
-                await insumo.update({
-                  quantity: insumo.quantity - cantidadActual,
-                  quantity_reserved: insumo.quantity_reserved + cantidadActual
-                })
-            })
+    
+        if (entidadProducto) {
+          const cantidadRequerida = cantidades.reduce((total, c) => {
+            if (c.id === entidadProducto.id) {
+              return total + c.cantidad;
+            }
+            return total;
+          }, 0);
+    
+          console.log(`Cantidad requerida para ${entidadProducto.name}: ${cantidadRequerida}`);
+    
+          for (const insumo of entidadProducto.Insumos) {
+            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary;
+            const cantidadActual = cantidadNecesaria * cantidadRequerida;
+    
+            console.log(`Insumo ${insumo.name}: Necesaria=${cantidadNecesaria}, Actual=${cantidadActual}`);
+    
+            await insumo.update({
+              quantity: insumo.quantity - cantidadActual,
+              quantity_reserved: insumo.quantity_reserved + cantidadActual
+            });
           }
-        return newPedidos= await oldPedidos.update(dataUpdated);
-      } 
-      )
-     
+        }
+      }
+    
+      // Actualizar el pedido después de realizar todas las reservas de insumos.
+      const newPedidos = await oldPedidos.update(dataUpdated);
     }
     
-    else if(dataUpdated.category === 'VENTA' && dataUpdated.state == 'FINALIZADO' || dataUpdated.category === 'VENTA' && dataUpdated.devolverInsumos){
-        const cantidades = dataUpdated.productos.map(pedido => ({
-          id : pedido.PedidosProductos.productEntityId,
-          cantidad : pedido.PedidosProductos.quantity_requested
-        } 
-        ))
+    
+    
 
-        await dataUpdated.productos.map(async entidad => {
-          const entidadProducto =  await models.ProductEntity.findByPk(entidad.id, {
-            include: { all: true },
-          })
-      
+    
+    else if (
+      (dataUpdated.category === 'VENTA' && dataUpdated.state === 'FINALIZADO') ||
+      (dataUpdated.category === 'VENTA' && dataUpdated.devolverInsumos)
+    ) {
+      const insumosToUpdate = [];
+    
+      for (const entidad of dataUpdated.productos) {
+        const entidadProducto = await models.ProductEntity.findByPk(entidad.id, {
+          include: { all: true },
+        });
+    
         if (entidadProducto) {
-          await entidadProducto.Insumos.map(async insumo => {  
-            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary
-            const cantidadRequerida = cantidades.find(c => c.id === entidadProducto.id).cantidad
+          const cantidadRequerida = entidad.PedidosProductos.quantity_requested;
+    
+          for (const insumo of entidadProducto.Insumos) {
+            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary;
+            const cantidadActual = cantidadNecesaria * cantidadRequerida;
+    
+            insumosToUpdate.push({
+              insumo,
+              cantidadActual,
+            });
+          }
+        }
+      }
+    
+      // Agrupar las actualizaciones por insumo para evitar duplicados
+      const groupedUpdates = insumosToUpdate.reduce((acc, { insumo, cantidadActual }) => {
+        const key = insumo.id;
+        if (!acc[key]) {
+          acc[key] = { insumo, total: 0 };
+        }
+        acc[key].total += cantidadActual;
+        return acc;
+      }, {});
+    
+      // Realizar actualizaciones de insumos de manera eficiente
+      const updatePromises = Object.values(groupedUpdates).map(async ({ insumo, total }) => {
+        const newReservedQuantity = Math.max(0, insumo.quantity_reserved - total);
+        const newQuantity = dataUpdated.devolverInsumos ? insumo.quantity + total : insumo.quantity;
+    
+        return insumo.update({
+          quantity_reserved: newReservedQuantity,
+          quantity: newQuantity,
+        });
+      });
+    
+      await Promise.all(updatePromises);
+    
+      // Actualizar el pedido después de realizar todas las operaciones de insumos.
+      const newPedidos = await oldPedidos.update(dataUpdated);
+    }
+    
+    
 
-            const cantidadActual = cantidadNecesaria * cantidadRequerida
 
-            if(dataUpdated.devolverInsumos){
-            await insumo.update({
-              quantity_reserved: insumo.quantity_reserved - cantidadActual,
-              quantity: insumo.quantity + cantidadActual
-            })
-          }else{
-            await insumo.update({
-              quantity_reserved: insumo.quantity_reserved - cantidadActual
+    
+
+    else {
+      
+      if(dataUpdated.editPresupuesto){
+        await dataUpdated.productos.map(async entidad => {
+          const producto = await models.PedidosProductos.findOne(
+            {
+              where: {
+                pedidoId: dataUpdated.id,
+                productEntityId: entidad.id
+              }
+            }
+          )
+  
+          if(producto){
+            await producto.update({
+              quantity_requested: entidad.cantidad
             })
           }
-          })
-        
-        }
-      return newPedidos= await oldPedidos.update(dataUpdated);
-
-
-    })
-  }
-  
-    else{
+        })
+      }
+      
       const newPedidos= await oldPedidos.update(dataUpdated);
       return newPedidos;
     }

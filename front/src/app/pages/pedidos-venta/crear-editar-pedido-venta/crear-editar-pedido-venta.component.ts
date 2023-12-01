@@ -52,9 +52,15 @@ export class CrearEditarPedidoVentaComponent {
   ngOnInit(): void {
     this.loadAllEntities();
     this.loadSelectedProducts();
-    this.titleService.setTitle('Pedidos Compra');
-    console.log(this.selectedEntities);
-    console.log(this.ProductEntities);
+    if (this.id !== 0) {
+      this.titleService.setTitle('Editar Pedidos Venta');
+      this.getPedido(this.id);
+
+    }else{
+      this.titleService.setTitle('Crear Pedidos Venta');
+    }
+    
+    
 
     
     
@@ -64,10 +70,11 @@ export class CrearEditarPedidoVentaComponent {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.quantity }));
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.id = this.id;
 
     if (this.id !== 0) {
       try {
-        this.pedidosService.update(this.id, this.presupuestoData).subscribe(() => {
+        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupesto: true}).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-venta']);
           this.toastr.success('Pedido Actualizado');
         });
@@ -133,5 +140,14 @@ export class CrearEditarPedidoVentaComponent {
         }
       )
     }
+  }
+  getPedido(id: number) {
+    this.pedidosService.getById(id).subscribe((data: any)=> {
+    
+      this.form.setValue({
+        name: data.name,
+        description: data.description,
+      });
+    });
   }
 }
