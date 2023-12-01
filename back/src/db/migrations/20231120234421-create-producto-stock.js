@@ -55,7 +55,7 @@ module.exports = {
       },
       antiguo_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       }
     });
   },

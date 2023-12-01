@@ -60,7 +60,9 @@ const createProductos= async (productosData) => {
       price: productosData.price,
       profit: productosData.profit,
       quantity: productosData.quantity,
-      unidad_medida: productosData.unidad_medida
+      unidad_medida: productosData.unidad_medida,
+      quantity: productosData.cantidad,
+      antiguo_id: 999999999
     };
     
         const newProductos= await models.Productos.create(ProductosData);
@@ -94,7 +96,9 @@ const createProductos= async (productosData) => {
                 measurement_depth: producto.measurement_depth,
                 profit: producto.profit,
                 antiguo_id: producto.id,
-                unidad_medida: producto.unidad_medida
+                unidad_medida: producto.unidad_medida,
+
+                
               });
               return newProduct;
             }
