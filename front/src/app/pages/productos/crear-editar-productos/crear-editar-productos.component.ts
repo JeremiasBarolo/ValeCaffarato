@@ -62,7 +62,7 @@ export class CrearEditarProductosComponent implements OnInit {
     else{
       this.form = this.fb.group({
         cantidad: ['', Validators.required],
-        productEntity: ['', Validators.required],
+        insumoEntity: ['', Validators.required],
       });
   }
 
@@ -118,7 +118,7 @@ export class CrearEditarProductosComponent implements OnInit {
     } else {
       try {
 
-        this.dataCreate.id = this.form.value.productEntity;
+        this.dataCreate.id = this.form.value.insumoEntity;
         this.dataCreate.cantidad = this.form.value.cantidad;
         this.dataCreate.admin = 'yes';
 

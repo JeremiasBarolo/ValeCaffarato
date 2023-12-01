@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { InsumoEntity } from '../models/insumo-entity';
 import { AppSettings } from 'appsettings-json-reader';
 
 @Injectable({
@@ -15,13 +14,13 @@ export class InsumoEntityService {
   private apiUrl = `${this.appSettings.url_api}/insumos_entity`;
   
   //get all
-  getAll(): Observable<InsumoEntity[]> {
-    return this.http.get<InsumoEntity[]>(`${this.apiUrl}`);
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`);
   }
 
   // get by id
-  getById(id: number): Observable<InsumoEntity> {
-  return this.http.get<InsumoEntity>(`${this.apiUrl}/${id}`)
+  getById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/${id}`)
     
   }
 
@@ -32,14 +31,14 @@ export class InsumoEntityService {
 }
 
 // update
-  update(id: number, InsumoEntity: FormData): Observable<InsumoEntity> {
-  return this.http.put<InsumoEntity>(`${this.apiUrl}/${id}`, InsumoEntity)
+  update(id: number, InsumoEntity: FormData): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}/${id}`, InsumoEntity)
 
 }
 
 // delete
-  delete(id: number): Observable<InsumoEntity> {
-  return this.http.delete<InsumoEntity>(`${this.apiUrl}/${id}`)
+  delete(id: number): Observable<any> {
+  return this.http.delete<any>(`${this.apiUrl}/${id}`)
     
 }
 }

@@ -50,23 +50,40 @@ const createInsumo= async (insumoData) => {
 
     
 
-    if(insumoData.admin === 'yes'){
+    if(insumoData.admin){
 
-      const dataInsumo= {
-        name: insumoData.name,
-        description: insumoData.description,
-        price: insumoData.price,
-        quantity: insumoData.quantity,
+      const newinsumoData= {
+        id: parseInt(insumoData.id, 10),
+        cantidad: parseInt(insumoData.cantidad, 10),
+
+      }
+
+      const entidad = await models.InsumosEntities.findByPk(newinsumoData.id)
+      const existe = await models.Insumos.findOne({
+      where: {
+        antiguo_id: newinsumoData.id
+      }
+    })
+
+    if(existe){
+      const suma = existe.quantity + newinsumoData.cantidad
+      await existe.update({
+        quantity: suma
+      })
+      return suma
+    }else{
+      const newProductos = await models.Insumos.create({
+        quantity: newinsumoData.cantidad,
+        name: entidad.name,
+        description: entidad.description,
+        price: entidad.price,
+        antiguo_id: newinsumoData.id,
         quantity_reserved: 0,
-        unidad_medida: insumoData.unidad_medida
-
-      };
-
-      const insumoAdmin= await models.Insumos.create(dataInsumo);
-
-
-
-      return insumoAdmin;
+        unidad_medida: entidad.unidad_medida
+       })
+            
+        return newProductos
+    }
 
     }else{
       const createdInsumos = await Promise.all(insumoData.map(async (insumo) => {

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
+import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
 import { InsumoService } from 'src/app/services/insumo.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -11,15 +12,20 @@ import { TitleService } from 'src/app/services/title.service';
   templateUrl: './crear-editar-insumo.component.html',
   styleUrls: ['./crear-editar-insumo.component.css']
 })
-export class CrearEditarInsumoComponent {
+export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   
   insumo: Insumo | any;
-  listInsumos: Observable<Insumo[]> = new Observable<Insumo[]>();
+  listInsumos: any[] = [];
   form: FormGroup;
   id: number;
   operacion: string = 'Agregar ';
-  selectedImage: File | any;
   InsumoData: Insumo | any;
+  productos: any[] = [];
+  insumoCreate:any = {
+    admin: 'yes',
+    id: 0,
+    cantidad: 0
+  }
   
 
 
@@ -28,42 +34,47 @@ export class CrearEditarInsumoComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private insumoService: InsumoService,
+    private insumosEntityService: InsumoEntityService,
     private titleService: TitleService
   ) {
+
+    if(this.aRoute.snapshot.paramMap.get('id') !== null) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       quantity: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
       unidad_medida: ['', Validators.required],
-
     });
+  }else{
+    this.form = this.fb.group({
+      cantidad: ['', Validators.required],
+      insumoEntity: ['', Validators.required],
+    });
+  }
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
+  }
+
+  ngOnInit(): void {
+    if (this.id !== null) {
+      this.loadAllEntities()
+      this.getInsumo(this.id);
+  }else{
+    this.loadAllEntities()
+  }
   }
 
   ngAfterViewInit(): void {
     if (this.id !== null) {
-      this.operacion = 'Editar';
       this.titleService.setTitle('Editar Insumo');
       console.log(this.id);
-      this.getInsumo(this.id);
-    } else{
-      this.operacion = 'Agregar';
+    }else{
       this.titleService.setTitle('Crear Insumo');
-      
-    }   
+    }
   }
 
   addInsumo() {
-      const formData = new FormData();
-      formData.append('name', this.form.value.name);
-      formData.append('quantity', this.form.value.quantity);
-      formData.append('description', this.form.value.description);
-      formData.append('price', this.form.value.price);
-      formData.append('unidad_medida', this.form.value.unidad_medida);
-      console.log(this.id);
-      console.log(formData.forEach((value, key) => console.log(`${key}: ${value}`)));
-      
+    if(this.id !== 0) {
       this.insumo = {
         name: this.form.value.name,
         quantity: this.form.value.quantity,
@@ -71,9 +82,7 @@ export class CrearEditarInsumoComponent {
         price: this.form.value.price,
         unidad_medida: this.form.value.unidad_medida,
         admin: 'yes'
-      };
-
-      if (this.id !== 0) {
+      }
         // Es editar
         try {
           this.insumoService.update(this.id, this.insumo).subscribe(() => {
@@ -84,9 +93,13 @@ export class CrearEditarInsumoComponent {
           console.log(error);
         }
       } else {
-        // Es agregar
+        this.insumoCreate = {
+          cantidad: this.form.value.cantidad,
+          id: this.form.value.insumoEntity,
+          admin: 'yes'
+        }
         try {
-          this.insumoService.create(this.insumo).subscribe(() => {
+          this.insumoService.create(this.insumoCreate).subscribe(() => {
             this.router.navigate(['dashboard/insumos']);
           });
           
@@ -99,18 +112,6 @@ export class CrearEditarInsumoComponent {
 
   getInsumo(id: number) {
     this.insumoService.getById(id).subscribe((data: Insumo)=> {
-      let Insumo: any = {
-        name: data.name,
-        description: data.description,
-        quantity: data.quantity,
-        price: data.price,
-        unidad_medida: data.unidad_medida
-        
-        
-      };
-  
-      this.InsumoData = Insumo;
-
       this.form.setValue({
         name: data.name,
         description: data.description,
@@ -118,18 +119,16 @@ export class CrearEditarInsumoComponent {
         price: data.price,
         unidad_medida: data.unidad_medida
       });
+      console.log(data);
+      
     });
   }
 
-  rellenardatos() {
-    this.form.setValue({
-        name: 'Insumoooo',
-        description: 'Super Insumo',
-        quantity: 5,
-        price: 100,
-        unidad_medida: 'Unidad'
-        
-    });
+  loadAllEntities() {
+    this.insumosEntityService.getAll().subscribe((data) => {
+      this.productos = data
+      console.log(this.productos);
+    })
   }
 
 }
