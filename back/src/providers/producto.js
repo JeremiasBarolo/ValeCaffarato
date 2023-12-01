@@ -50,23 +50,37 @@ const createProductos= async (productosData) => {
 
   try {
     
-    if(productosData.admin === 'yes'){
-    const ProductosData= {
-      name: productosData.name,
-      description: productosData.description,
-      measurement_height: productosData.measurement_height,
-      measurement_length: productosData.measurement_length,
-      measurement_depth: productosData.measurement_depth,
-      price: productosData.price,
-      profit: productosData.profit,
-      quantity: productosData.quantity,
-      unidad_medida: productosData.unidad_medida,
-      quantity: productosData.cantidad,
-      antiguo_id: 999999999
-    };
+    if(productosData.admin){
     
-        const newProductos= await models.Productos.create(ProductosData);
+    const entidad = await models.ProductEntity.findByPk(productosData.id)
+    const existe = await models.Productos.findOne({
+      where: {
+        antiguo_id: productosData.id
+      }
+    })
 
+    if(existe){
+      const suma = existe.quantity + parseInt(productosData.cantidad, 10)
+      await existe.update({
+        quantity: suma
+      })
+    }else{
+      const newProductos = await models.Productos.create({
+        quantity: productosData.cantidad,
+        name: entidad.name,
+        description: entidad.description,
+        price: entidad.price,
+        measurement_height: entidad.measurement_height,
+        measurement_length: entidad.measurement_length,
+        measurement_depth: entidad.measurement_depth,
+        unidad_medida: entidad.unidad_medida,
+        profit: entidad.profit,
+        antiguo_id: productosData.id,
+       })
+            
+        return newProductos
+    }
+    
         
     }else{
 
@@ -106,12 +120,6 @@ const createProductos= async (productosData) => {
     
           return createdProducts;
     }
-  
-    
-
-    console.log(`✅ Productos"${newProductos.name}" was created successfully`);
-
-    return newProductos;
   } catch (err) {
     console.error('🛑 Error when creating Productos', err);
     throw err;
@@ -127,30 +135,7 @@ const updateProductos= async (productos_id, dataUpdated) => {
     const oldProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
 
 
-    // const newImageUrls = dataUpdated.images;
-    // const oldImageUrls = oldProductos.images;
-
-    // for (let i = 0; i < oldImageUrls.length; i++) {
-    //   const deletingImages = path.join(oldImageUrls[i].imageUrl);
-    //   if (fs.existsSync(deletingImages)) {
-    //     fs.unlinkSync(deletingImages);
-    //   } else {
-    //     console.log('No existe la imagen');
-    //   }
-    // }
-
-    const newProductos= await oldProductos.update(dataUpdated);
-
-    // const createdImages = await Promise.all(
-    //   newImageUrls.map((imageUrl) => models.PProductosImages.create(
-    //     {
-    //       imageUrl,
-    //       ProductosId: newProductos.id,
-    //     },
-    //   ,
-    //   )),
-    // );
-
+    const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.cantidad });
     
 
     console.log(`✅ Productos"${newProductos.name}" was created with images`);
