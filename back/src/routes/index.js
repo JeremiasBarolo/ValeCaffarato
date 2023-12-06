@@ -2,8 +2,7 @@
 /* eslint-disable import/no-unresolved */
 // Index of routes
 const personasRouter = require('./personas');
-const productentityRouter = require('./productentity');
-const insumosentityRouter = require('./insumosentity');
+const maestroArticulosRouter = require('./maestro-articulos');
 const insumosRouter = require('./insumos');
 const pedidosRouter = require('./pedidos');
 const cantidadesRouter = require('./cantidades');
@@ -14,12 +13,11 @@ const generarPdfRouter = require('./generarPdf');
 
 module.exports = {
     personasRouter,
-    productentityRouter,
-    insumosentityRouter,
     insumosRouter,
     pedidosRouter,
     cantidadesRouter,
     productosRouter,
     documentosRouter,
-    generarPdfRouter
+    generarPdfRouter,
+    maestroArticulosRouter
  };

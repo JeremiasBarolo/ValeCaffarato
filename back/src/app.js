@@ -3,14 +3,13 @@
 const express = require("express")
 const { 
     personasRouter,
-    productentityRouter, 
-    insumosentityRouter, 
     insumosRouter,
     pedidosRouter,
     cantidadesRouter,
     productosRouter,
     documentosRouter,
-    generarPdfRouter
+    generarPdfRouter,
+    maestroArticulosRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -28,8 +27,7 @@ app.use(cors());
 
 // Routes
 app.use("/personas", personasRouter)
-app.use('/product_entity', productentityRouter)
-app.use('/insumos_entity', insumosentityRouter)
+app.use("/maestro-articulos", maestroArticulosRouter)
 app.use('/insumos', insumosRouter)
 app.use('/pedidos', pedidosRouter)
 app.use('/cantidades', cantidadesRouter)

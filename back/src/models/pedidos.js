@@ -10,28 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Pedidos.belongsToMany(models.InsumosEntities, {
+      Pedidos.belongsToMany(models.MaestroDeArticulos, {
         through: 'PedidosInsumos', 
         foreignKey: 'pedidoId', 
         otherKey: 'insumoEntityId',
         as: 'insumos',
         through: { model: models.PedidosInsumos, unique: false },
-      });
-
-      Pedidos.belongsToMany(models.ProductEntity, {
-        through: 'PedidosProductos', 
-        foreignKey: 'pedidoId', 
-        otherKey: 'productEntityId',
-        as: 'productos',
-        through: { model: models.PedidosProductos, unique: false },
-      });
-
-      Pedidos.belongsToMany(models.Documentos, {
-        through: 'PedidoDocumentos', 
-        foreignKey: 'pedidoId', 
-        otherKey: 'documentoId',
-        as: 'Documentos',
-        through: { model: models.PedidoDocumentos, unique: false },
       });
       
     }
