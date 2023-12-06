@@ -58,7 +58,7 @@ const createInsumo= async (insumoData) => {
 
       }
 
-      const entidad = await models.InsumosEntities.findByPk(newinsumoData.id)
+      const entidad = await models.MaestroDeArticulos.findByPk(newinsumoData.id)
       const existe = await models.Insumos.findOne({
       where: {
         antiguo_id: newinsumoData.id
@@ -94,14 +94,14 @@ const createInsumo= async (insumoData) => {
         });
 
         if (checkInsumos) {
-          const cantidadNueva = checkInsumos.quantity + insumo.PedidosInsumos.cantidad;
+          const cantidadNueva = checkInsumos.quantity + insumo.PedidosProductos.quantity_requested;
           const updatedProduct = await checkInsumos.update({
             quantity: cantidadNueva
           });
           return updatedProduct;
           
         } else {
-          
+
           const newInsumo = await models.Insumos.create({
             quantity: insumo.PedidosProductos.quantity_requested,
             name: insumo.name,
@@ -181,13 +181,13 @@ const deleteInsumo= async (insumo_id) => {
       return null;
     }
 
-    for (const insumo of deletedInsumo.ProductEntities) {
+    for (const insumo of deletedInsumo.MaestroDeArticulos) {
       
       await models.ProductQuantities.destroy({ where:  
         { 
-          quantity_necessary: insumo.ProductEntityQuantities.quantity_necessary, 
-          productId: insumo.ProductEntityQuantities.productEntityId, 
-          insumoId: insumo.ProductEntityQuantities.insumoId 
+          quantity_necessary: insumo.ProductQuantities.quantity_necessary, 
+          productId: insumo.ProductQuantities.productId, 
+          insumoId: insumo.ProductQuantities.insumoId 
         } });
     }
 

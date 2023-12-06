@@ -6,32 +6,52 @@
 
 
 <section style="margin: 16px">
-  <div class="cards-container" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px;">
-    <div class="card" style="width: calc(20% - 16px - 1px); flex: 0 0 auto; margin-right: 16px;" *ngFor="let card of entidades" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">
+  <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Uni. Medida</th>
+          <th scope="col">Precio Unit</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Cant.Reservada</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
+          <th scope="row">{{entidad.id}}</th>
+          <td>{{entidad.name}}</td>
+          <td>{{entidad.description}}</td>
+          <td>{{entidad.unidad_medida}}</td>
+          <td>{{entidad.price}}</td>
+          <td>{{entidad.quantity}}</td>
+          <td>{{entidad.quantity_reserved}}</td>
+          <td>
+              <div class="wrapper d-flex justify-content-end">
+                  <button [routerLink]="['crear-editar', entidad.id]" routerLinkActive="router-link-active"
+                      type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
 
-      <h5 class="card-header text-center">{{card.name}}</h5>
-      <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
-        <p class="card-text text-center">{{card.description}}</p>
-        <p class="card-text text-left">Precio: {{card.price | currency}}</p>
-        <p class="card-text text-left">Cantidad en Stock: {{card.quantity}}</p>
-        <p class="card-text text-left"><strong>Cantidad Reservada: {{card.quantity_reserved}}</strong></p>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item text-right ml-6">
-          <a routerLink="crear-editar/{{card.id}}" routerLinkActive="router-link-active" class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation()">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </a>
-          <a class="btn btn-outline-danger" (click)="deleteEntidad(card.id)" (click)="$event.stopPropagation()">
-            <i class="fa-solid fa-trash"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+                  <button type="button" (click)="deleteEntidad(entidad.id)"
+                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                          class="fa-solid fa-trash"></i></button>
+              </div>
+          </td>
+
+        </tr>
+        
+      </tbody>
+    </table>
+
 </section>
 
 
-<div class="modal fade modal" id="InsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+<div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

@@ -19,7 +19,7 @@ export class ProductEntityComponent {
   
   ngOnInit(): void {
     this.maestroArticulosService.getAll().subscribe(entidades => 
-      this.entidades.forEach(producto => {
+      entidades.forEach(producto => {
         if(producto.tipoArticulo === 'PRODUCTO'){
           this.entidades.push(producto);
         }

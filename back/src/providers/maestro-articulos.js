@@ -69,7 +69,7 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
         await models.ProductQuantities.create({
           insumoId: product.id,
           productId: newMaestroArticulos.id,
-          quantity_necessary: product.quantity_necessary
+          quantity_necessary: product.quantity
         })
       });
 

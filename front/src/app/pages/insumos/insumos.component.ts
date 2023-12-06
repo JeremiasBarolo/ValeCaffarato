@@ -19,6 +19,8 @@ export class InsumosComponent {
     quantity: 0,
     price: 0,
     unidad_medida: '',
+    profit: 0,
+    costo_unit: 0
   }
   constructor(
     private titleService: TitleService, 
