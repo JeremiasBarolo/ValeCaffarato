@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Insumo } from 'src/app/models/insumo';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { InsumoService } from 'src/app/services/insumo.service';
 import { TitleService } from 'src/app/services/title.service';
 

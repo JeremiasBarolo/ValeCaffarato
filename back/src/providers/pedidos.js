@@ -50,20 +50,20 @@ const createPedidos= async (PedidosData) => {
 
         const newPedidos= await models.Pedidos.create(dataPedidos);
 
-        const insumosData = PedidosData.insumosEntity_id.map(item => ({
-            insumoEntityId: item.id,
+        const insumosData = PedidosData.productos.map(item => ({
+            id: item.id,
             cantidad: item.cantidad
           }));
 
         
 
         for (const insumo of insumosData) {
-            const insumoEntity = await models.InsumosEntities.findByPk(insumo.insumoEntityId);
+            const insumoEntity = await models.MaestroDeArticulos.findByPk(insumo.id);
             if (insumoEntity) {
-              await models.PedidosInsumos.create({
+              await models.PedidosProductos.create({
                 pedidoId: newPedidos.id,
-                insumoEntityId: insumo.insumoEntityId,
-                cantidad: insumo.cantidad
+                productId: insumo.id,
+                quantity_requested: insumo.cantidad
               });
             }
         }
@@ -219,7 +219,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
             {
               where: {
                 pedidoId: dataUpdated.id,
-                productEntityId: entidad.id
+                productId: entidad.id
               }
             }
           )
@@ -254,29 +254,17 @@ const deletePedidos = async (pedidos_id) => {
       console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
       return null;
     }
-
-    if(deletedPedidos.category === 'COMPRA'){
-      for (const insumo of deletedPedidos.insumos) {
-      
-        await models.PedidosInsumos.destroy({ where:  
-          { 
-            cantidad: insumo.PedidosInsumos.cantidad, 
-            insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
-            pedidoId: insumo.PedidosInsumos.pedidoId 
-          } });
-      }
-    }else{
       for (const producto of deletedPedidos.productos) {
       
         await models.PedidosProductos.destroy({ where:  
           { 
             quantity_requested: producto.PedidosProductos.quantity_requested, 
-            productEntityId: producto.PedidosProductos.productEntityId, 
+            productId: producto.PedidosProductos.productId, 
             pedidoId: producto.PedidosProductos.pedidoId 
           } });
-      }
+      
     }
-    
+  
 
     
     await models.Pedidos.destroy({ where: { id: pedidos_id } });

@@ -101,14 +101,15 @@ const createInsumo= async (insumoData) => {
           return updatedProduct;
           
         } else {
+          
           const newInsumo = await models.Insumos.create({
-            quantity: insumo.PedidosInsumos.cantidad,
+            quantity: insumo.PedidosProductos.quantity_requested,
             name: insumo.name,
             description: insumo.description,
-            price: insumo.price,
+            price: insumo.costo_unit,
             antiguo_id: insumo.id,
             quantity_reserved: 0,
-            unidad_medida: insumo.unidad_medida
+            unidad_medida: insumo.uni_medida
           });
           return newInsumo;
         }
@@ -182,10 +183,10 @@ const deleteInsumo= async (insumo_id) => {
 
     for (const insumo of deletedInsumo.ProductEntities) {
       
-      await models.ProductEntityQuantities.destroy({ where:  
+      await models.ProductQuantities.destroy({ where:  
         { 
           quantity_necessary: insumo.ProductEntityQuantities.quantity_necessary, 
-          productEntityId: insumo.ProductEntityQuantities.productEntityId, 
+          productId: insumo.ProductEntityQuantities.productEntityId, 
           insumoId: insumo.ProductEntityQuantities.insumoId 
         } });
     }

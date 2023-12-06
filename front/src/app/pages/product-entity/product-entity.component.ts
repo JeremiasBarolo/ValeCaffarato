@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ProductEntity } from 'src/app/models/product-entity';
-import { ProductEntityService } from 'src/app/services/product-entity.service';
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -9,23 +8,29 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./product-entity.component.css']
 })
 export class ProductEntityComponent {
-  entidades: ProductEntity[] = []
+  entidades: any[] = []
   cardData: any = {
     name: '',
   }
-  constructor(private titleService: TitleService, private productEntityService: ProductEntityService) {
+  constructor(private titleService: TitleService, private maestroArticulosService: MaestroArticulosService) {
     
   }
 
   
   ngOnInit(): void {
-    this.productEntityService.getAll().subscribe(entidades => this.entidades = entidades);
+    this.maestroArticulosService.getAll().subscribe(entidades => 
+      this.entidades.forEach(producto => {
+        if(producto.tipoArticulo === 'PRODUCTO'){
+          this.entidades.push(producto);
+        }
+      })
+      );
     console.log(this.entidades);
     
     this.titleService.setTitle('Entidades de Producto');
   }
   deleteEntidad(id: any) {
-    this.productEntityService.delete(id).subscribe(() => {
+    this.maestroArticulosService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
     });
   }

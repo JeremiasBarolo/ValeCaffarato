@@ -2,7 +2,6 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { Pedidos } from 'src/app/models/pedidos';
 
 import { InsumoService } from 'src/app/services/insumo.service';
@@ -87,7 +86,7 @@ export class PedidosCompraComponent implements OnInit {
     }
 else if(estado === 'FINALIZADO'){
 
-      this.insumoService.create(pedido.insumos).subscribe(() => {
+      this.insumoService.create(pedido.productos).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
       });
@@ -128,14 +127,17 @@ updateEntidad(id:number){
 calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
-  if (pedido.insumos && pedido.insumos.length > 0) {
-    subtotal = pedido.insumos.reduce((acc: number, insumo: { PedidosInsumos: { cantidad: number; }; price: number; }) => {
-      return acc + insumo.PedidosInsumos.cantidad * insumo.price;
+  if (pedido.productos && pedido.productos.length > 0) {
+    subtotal = pedido.productos.reduce((acc: number, producto: { PedidosProductos: { quantity_requested: number; }; costo_unit: number; profit: number; }) => {
+      let precioUnitario = producto.costo_unit * producto.PedidosProductos.quantity_requested;
+      let ganancia = precioUnitario * (producto.profit / 100);
+      return acc + precioUnitario + ganancia;
     }, 0);
   }
 
   return subtotal;
 }
+
 
 eliminarPedido(id?: number){
   this.pedidosService.delete(id!).subscribe(() => {

@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
-import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -18,8 +17,8 @@ export class CrearEditarPedidosCompraComponent {
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
-  selectedEntities: InsumoEntity[] = [];
-  InsumosEntities: InsumoEntity[] = [];
+  selectedEntities: any[] = [];
+  InsumosEntities: any[] = [];
   subtotal: number[] = [];
   presupuestoData: any = {
     name: '',
@@ -31,7 +30,7 @@ export class CrearEditarPedidosCompraComponent {
   };
 
   constructor(
-    private insumosEntityService: InsumoEntityService,
+    private maestroArticulosService: MaestroArticulosService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -62,13 +61,14 @@ export class CrearEditarPedidosCompraComponent {
   }
 
   addPedidoCompra() {
-    this.presupuestoData.insumosEntity_id = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.cantidad }));
+    this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.cantidad }));
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.id = this.id;
 
     if (this.id !== 0) {
       try {
-        this.pedidosService.update(this.id, this.presupuestoData).subscribe(() => {
+        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-compra']);
           this.toastr.success('Pedido Actualizado');
         });
@@ -87,7 +87,7 @@ export class CrearEditarPedidosCompraComponent {
     }
   }
 
-  selectedEntity(insumoEntity: InsumoEntity) {
+  selectedEntity(insumoEntity: any) {
     insumoEntity.cantidad = 1;
     this.selectedEntities.push(insumoEntity);
   
@@ -101,7 +101,7 @@ export class CrearEditarPedidosCompraComponent {
   }
 
   
-  returnEntities(Entities: InsumoEntity) {
+  returnEntities(Entities: any) {
     this.InsumosEntities.push(Entities);
     const index = this.selectedEntities.findIndex(p => p.id === Entities.id);
     if (index !== -1) {
@@ -117,8 +117,13 @@ export class CrearEditarPedidosCompraComponent {
     });
   }
   loadAllEntities() {
-    this.insumosEntityService.getAll().subscribe((data) => {
-      this.InsumosEntities = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    this.maestroArticulosService.getAll().subscribe((data) => {
+      data.forEach((insumo: any) => {
+        if(insumo.tipoArticulo === 'INSUMO'){
+          this.InsumosEntities.push(insumo);
+        }
+      })
+      this.InsumosEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
   }
   loadSelectedProducts() {

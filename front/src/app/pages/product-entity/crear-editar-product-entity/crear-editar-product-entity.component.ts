@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { InsumoService } from 'src/app/services/insumo.service';
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { ProductEntityService } from 'src/app/services/product-entity.service';
 import { TitleService } from 'src/app/services/title.service';
 
 
@@ -43,7 +43,7 @@ export class CrearEditarProductEntityComponent {
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
-    private productEntityService: ProductEntityService,
+    private maestroArticulosService: MaestroArticulosService,
     private titleService: TitleService,
     private toastr: ToastrService
   ) {
@@ -95,7 +95,7 @@ export class CrearEditarProductEntityComponent {
 
     if (this.id !== 0) {
       try {
-        this.productEntityService.update(this.id, this.presupuestoData).subscribe(() => {
+        this.maestroArticulosService.update(this.id, this.presupuestoData).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
           this.toastr.success('Entidad Actualizada');
         });
@@ -104,7 +104,7 @@ export class CrearEditarProductEntityComponent {
       }
     } else {
       try {
-        this.productEntityService.create(this.presupuestoData).subscribe(() => {
+        this.maestroArticulosService.create(this.presupuestoData).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
           this.toastr.success('Entidad Creada Exitosamente');
         });
@@ -151,12 +151,18 @@ export class CrearEditarProductEntityComponent {
   }
   loadAllEntities() {
     this.insumoService.getAll().subscribe((data) => {
-      this.Insumos = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+      data.forEach((entity: any) => {
+        if(entity.tipoArticulo === 'INSUMO'){
+          this.Insumos.push(entity);
+        }
+      })
+      
+      this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
   }
   loadSelectedProducts() {
     if (this.id) {
-      this.productEntityService.getById(this.id).subscribe(
+      this.maestroArticulosService.getById(this.id).subscribe(
         (res: any) => {
           if (res.InsumosEntities && res.InsumosEntities.length > 0) {
             
@@ -170,7 +176,7 @@ export class CrearEditarProductEntityComponent {
   }
 
   getProductEntity(id: number) {
-    this.productEntityService.getById(id).subscribe((data: any)=> {
+    this.maestroArticulosService.getById(id).subscribe((data: any)=> {
       let ProductEntity: any = {
         name: data.name,
         description: data.description,

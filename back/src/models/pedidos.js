@@ -10,12 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+
+      // encargado de las cantidades de los insumos y productos quantitys
       Pedidos.belongsToMany(models.MaestroDeArticulos, {
-        through: 'PedidosInsumos', 
+        through: 'PedidosProductos', 
         foreignKey: 'pedidoId', 
-        otherKey: 'insumoEntityId',
-        as: 'insumos',
-        through: { model: models.PedidosInsumos, unique: false },
+        otherKey: 'productId',
+        as: 'productos',
+        through: { model: models.PedidosProductos, unique: false },
       });
       
     }

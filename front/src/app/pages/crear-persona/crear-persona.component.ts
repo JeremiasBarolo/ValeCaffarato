@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
+
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
-import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
+
 import { PersonasService } from 'src/app/services/personas.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -17,8 +17,8 @@ export class CrearPersonaComponent {
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
-  selectedEntities: InsumoEntity[] = [];
-  InsumosEntities: InsumoEntity[] = [];
+  selectedEntities: any[] = [];
+  InsumosEntities: any[] = [];
   subtotal: number[] = [];
   Persona: any
   selectedOption: string = ''
@@ -26,7 +26,6 @@ export class CrearPersonaComponent {
   personData: any | any;
 
   constructor(
-    private insumosEntityService: InsumoEntityService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -261,32 +260,5 @@ getPersona(id: number) {
   }
 
 
-
-
-  // rellenarDatos() {
-  //   this.form.setValue({
-  //     name: 'Insumoooo',
-  //     lastname: 'Super Insumo',
-  //     address: 'lol',
-  //     adress_number: 12,
-  //     dni: 12,
-  //     cuil: 12,
-  //     phone: 12,
-  //     email: 12,
-  //     industry: 'Insumo',
-  //     city: 'narinia',
-  //     selectedOption: 'PROVEEDOR',
-  //     cargo: 'Insumo',
-  //     providerCity: 'narinia',
-  //     clientCompany: 'Insumo',
-  //     clientCity: 'narinia',
-
-      
-      
-
-
-      
-  // });
-  //}
 }
 

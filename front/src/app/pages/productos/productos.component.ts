@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Insumo } from 'src/app/models/insumo';
-import { ProductEntity } from 'src/app/models/product-entity';
 import { InsumoService } from 'src/app/services/insumo.service';
 import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
@@ -11,7 +10,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent {
-  entidades: ProductEntity[] = []
+  entidades: any[] = []
   cardData: any = {
     name: '',
     description: '',

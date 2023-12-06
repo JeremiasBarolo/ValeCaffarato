@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
-import { ProductEntityService } from 'src/app/services/product-entity.service';
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -37,7 +37,7 @@ export class CrearEditarProductosComponent implements OnInit {
   }
 
   constructor(
-    private productEntityService: ProductEntityService,
+    private maestroArticulosService: MaestroArticulosService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -153,9 +153,13 @@ export class CrearEditarProductosComponent implements OnInit {
 }
   
   loadAllEntities() {
-    this.productEntityService.getAll().subscribe((data) => {
-      this.productos = data
-      console.log(this.productos);
+    this.maestroArticulosService.getAll().subscribe((data) => {
+
+      data.forEach((entity: any) => {
+        if(entity.tipoArticulo === 'PRODUCTO'){
+          this.productos.push(entity);
+        }
+      })
     })
   }
 }

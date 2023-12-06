@@ -14,6 +14,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       uni_medida: {
         type: Sequelize.STRING,
         allowNull: false

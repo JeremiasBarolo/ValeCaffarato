@@ -17,9 +17,9 @@ const fs = require('fs');
 const listAllMaestroArticulos= async () => {
   try {
     const MaestroArticulos = await models.MaestroDeArticulos.findAll(
-      // {
-      //   include: { all: true },
-      // },
+      {
+        include: { all: true },
+      },
     );
     console.log('✅ MaestroArticulos were found');
     return MaestroArticulos;
@@ -32,7 +32,7 @@ const listAllMaestroArticulos= async () => {
 const listOneMaestroArticulos= async (MaestroArticulos_id) => {
   try {
     const oneMaestroArticulos= await models.MaestroDeArticulos.findByPk(MaestroArticulos_id, {
-      // include: { all: true },
+      include: { all: true },
     });
     if (!oneMaestroArticulos) {
       console.error(`🛑 MaestroArticuloswith id ${MaestroArticulos_id} not found`);
@@ -53,6 +53,7 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
     
     const dataMaestroArticulos= {
       name: MaestroArticulosData.name,
+      description: MaestroArticulosData.description,
       costo_unit: MaestroArticulosData.costo_unit,
       uni_medida: MaestroArticulosData.uni_medida,
       profit: MaestroArticulosData.profit,
@@ -61,6 +62,19 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
 
 
     const newMaestroArticulos= await models.MaestroDeArticulos.create(dataMaestroArticulos);
+
+    if(dataMaestroArticulos.tipoArticulo === "PRODUCTO" && MaestroArticulosData.productos.length > 0){
+
+      await MaestroArticulosData.productos.forEach(async product => {
+        await models.ProductQuantities.create({
+          insumoId: product.id,
+          productId: newMaestroArticulos.id,
+          quantity_necessary: product.quantity_necessary
+        })
+      });
+
+
+    }
 
     
 
@@ -80,7 +94,7 @@ const updateMaestroArticulos= async (MaestroArticulos_id, dataUpdated) => {
   try {
     
 
-    const oldMaestroArticulos= await models.MaestroDeArticulos.findByPk(MaestroArticulos_id);
+    const oldMaestroArticulos= await models.MaestroDeArticulos.findByPk(MaestroArticulos_id, {include: { all: true }});
 
     // const newImageUrls = dataUpdated.images;
     // const oldImageUrls = oldMaestroArticulos.images;

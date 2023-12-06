@@ -2,10 +2,10 @@ import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
 import { TitleService } from 'src/app/services/title.service';
-import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
+
 
 @Component({
   selector: 'app-crear-editar-insumo-entity',
@@ -13,13 +13,13 @@ import { InsumoEntity } from 'src/app/models/insumo-entity';
   styleUrls: ['./crear-editar-insumo-entity.component.css']
 })
 export class CrearEditarInsumoEntityComponent {
-  insumoEntity: InsumoEntity | any;
-  listInsumoEntitys: Observable<InsumoEntity[]> = new Observable<InsumoEntity[]>();
+  insumoEntity: any | any;
+  listInsumoEntitys: Observable<any[]> = new Observable<any[]>();
   form: FormGroup;
   id: number;
   operacion: string = 'Agregar ';
   selectedImage: File | any;
-  InsumoEntityData: InsumoEntity | any;
+  InsumoEntityData: any | any;
   
 
 
@@ -27,14 +27,15 @@ export class CrearEditarInsumoEntityComponent {
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
-    private insumoEntityService: InsumoEntityService,
+    private maestroArsticulosService: MaestroArticulosService,
     private titleService: TitleService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      price: ['', Validators.required],
-      unidad_medida: ['', Validators.required],
+      costo_unit: ['', Validators.required],
+      uni_medida: ['', Validators.required],
+      profit: ['', Validators.required],
 
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -54,25 +55,19 @@ export class CrearEditarInsumoEntityComponent {
   }
 
   addInsumoEntity() {
-      const formData = new FormData();
-      formData.append('name', this.form.value.name);
-      formData.append('description', this.form.value.description);
-      formData.append('price', this.form.value.price);
-      formData.append('unidad_medida', this.form.value.unidad_medida);
-      console.log(this.id);
-      console.log(formData.forEach((value, key) => console.log(`${key}: ${value}`)));
-      
       this.insumoEntity = {
         name: this.form.value.name,
         description: this.form.value.description,
-        price: this.form.value.price,
-        unidad_medida: this.form.value.unidad_medida
+        costo_unit: this.form.value.costo_unit,
+        uni_medida: this.form.value.uni_medida,
+        profit: this.form.value.profit,
+        tipoArticulo: 'INSUMO'
       };
 
       if (this.id !== 0) {
         // Es editar
         try {
-          this.insumoEntityService.update(this.id, this.insumoEntity).subscribe(() => {
+          this.maestroArsticulosService.update(this.id, this.insumoEntity).subscribe(() => {
             this.router.navigate(['dashboard/insumo-entity']);
           });
       
@@ -82,7 +77,7 @@ export class CrearEditarInsumoEntityComponent {
       } else {
         // Es agregar
         try {
-          this.insumoEntityService.create(this.insumoEntity).subscribe(() => {
+          this.maestroArsticulosService.create(this.insumoEntity).subscribe(() => {
             this.router.navigate(['dashboard/insumo-entity']);
           });
           
@@ -94,32 +89,24 @@ export class CrearEditarInsumoEntityComponent {
   
 
   getInsumoEntity(id: number) {
-    this.insumoEntityService.getById(id).subscribe((data: InsumoEntity)=> {
-      let InsumoEntity: InsumoEntity = {
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        unidad_medida: data.unidad_medida
-        
-      };
-  
-      this.InsumoEntityData = InsumoEntity;
-
+    this.maestroArsticulosService.getById(id).subscribe((data: any)=> {
       this.form.setValue({
         name: data.name,
         description: data.description,
-        price: data.price,
-        unidad_medida: data.unidad_medida
+        costo_unit: data.costo_unit,
+        uni_medida: data.uni_medida,
+        profit: data.profit,
       });
     });
   }
 
   rellenardatos() {
     this.form.setValue({
-        name: 'Insumoooo',
-        description: 'Super Insumo',
-        price: 100,
-        unidad_medida: 'Unidad'
+        name: 'Madera',
+        description: 'Madera',
+        uni_medida: 'unidad',
+        costo_unit: 100,
+        profit: 20
         
     });
   }

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
-import { InsumoEntityService } from 'src/app/services/insumo-entity.service';
 import { InsumoService } from 'src/app/services/insumo.service';
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     private router: Router,
     private aRoute: ActivatedRoute,
     private insumoService: InsumoService,
-    private insumosEntityService: InsumoEntityService,
+    private maestroArticulosService: MaestroArticulosService,
     private titleService: TitleService
   ) {
 
@@ -125,8 +125,12 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   }
 
   loadAllEntities() {
-    this.insumosEntityService.getAll().subscribe((data) => {
-      this.productos = data
+    this.maestroArticulosService.getAll().subscribe((data) => {
+      data.forEach((entity: any) => {
+        if(entity.tipoArticulo === 'INSUMO'){
+          this.productos.push(entity);
+        }
+      })
       console.log(this.productos);
     })
   }
