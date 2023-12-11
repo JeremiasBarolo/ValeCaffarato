@@ -52,18 +52,19 @@ const createProductos= async (productosData) => {
     
     if(productosData.admin){
     
-    const entidad = await models.ProductEntity.findByPk(productosData.id)
+    const entidad = await models.MaestroDeArticulos.findByPk(productosData.id)
     const existe = await models.Productos.findOne({
       where: {
-        antiguo_id: productosData.id
+        antiguo_id: parseInt(productosData.id, 10)
       }
     })
 
     if(existe){
-      const suma = existe.quantity + parseInt(productosData.cantidad, 10)
-      await existe.update({
+      const suma = existe.quantity + parseInt(productosData.quantity, 10)
+      const newProductos = await existe.update({
         quantity: suma
       })
+      return newProductos
     }else{
       const newProductos = await models.Productos.create({
         quantity: productosData.cantidad,
@@ -74,8 +75,8 @@ const createProductos= async (productosData) => {
         profit: entidad.profit,
         antiguo_id: productosData.id,
        })
-            
-        return newProductos
+       return newProductos
+        
     }
     
         

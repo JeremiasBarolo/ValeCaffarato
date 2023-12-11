@@ -9,7 +9,8 @@ const {
     productosRouter,
     documentosRouter,
     generarPdfRouter,
-    maestroArticulosRouter
+    maestroArticulosRouter,
+    depositosRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -34,7 +35,7 @@ app.use('/cantidades', cantidadesRouter)
 app.use('/productos', productosRouter)
 app.use('/documento', documentosRouter)
 app.use('/generar-factura', generarPdfRouter)
-
+app.use('/depositos', depositosRouter)
 
 
 

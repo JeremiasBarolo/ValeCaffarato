@@ -4,6 +4,7 @@ const pedidosService = require('./pedidos');
 const productosService = require('./producto');
 const documentoService = require('./documentos');
 const maestroArticulosService = require('./maestro-articulos');
+const depositosService = require('./depositos');
 
 module.exports = {
     personasService,
@@ -11,5 +12,6 @@ module.exports = {
     pedidosService,
     productosService,
     documentoService,
-    maestroArticulosService
+    maestroArticulosService,
+    depositosService
 };

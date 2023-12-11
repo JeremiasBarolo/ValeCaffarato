@@ -16,7 +16,18 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
 
-      });
+      })
+
+      // Insumo.belongsTo(models.Depositos, {
+      //   foreignKey: 'depositoId', 
+      //   as: 'deposito',
+      //   onDelete: 'CASCADE',
+      //   onUpdate: 'CASCADE',
+      // });
+      
+      
+        
+      
     }
   }
   Insumo.init({

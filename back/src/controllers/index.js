@@ -8,6 +8,7 @@ const cantidadesController = require('./cantidades');
 const productosController = require('./producto');
 const documentoController = require('./documentos');
 const maestroArticulosController = require('./maestro-articulos');
+const depositosController = require('./depositos');
 
 module.exports = { 
     personasController,
@@ -16,5 +17,6 @@ module.exports = {
     cantidadesController,
     productosController,
     documentoController,
-    maestroArticulosController
+    maestroArticulosController,
+    depositosController
 };

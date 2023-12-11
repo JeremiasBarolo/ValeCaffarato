@@ -19,20 +19,10 @@ export class CrearEditarProductosComponent implements OnInit {
   productos: any[] = [];
   id: number;
   productoData: any = {
-    name: '',
-    description: '',
-    measurement_height: '',
-    measurement_length: '',
-    measurement_depth: '',
-    price: '',
-    profit: '',
-    insumos: [],
-    unidad_medida: '',
+    id: 0
   };
 
   dataCreate: any = {
-    id: 0,
-    cantidad: 0,
     admin: 'yes'
   }
 
@@ -46,23 +36,22 @@ export class CrearEditarProductosComponent implements OnInit {
     private toastr: ToastrService
   ) {
     if(this.aRoute.snapshot.paramMap.get('id') !== null){
+      
       this.form = this.fb.group({
         name: ['', Validators.required],
         description: ['', Validators.required],
-        measurement_height: ['', Validators.required],
-        measurement_length: ['', Validators.required],
-        measurement_depth: ['', Validators.required],
         profit: ['', Validators.required],
-        price: ['', Validators.required],
+        costo_unit: ['', Validators.required],
         unidad_medida: ['', Validators.required],
-        cantidad: ['', Validators.required],
+        quantity: ['', Validators.required],
       });
       
     }
     else{
+      
       this.form = this.fb.group({
-        cantidad: ['', Validators.required],
-        insumoEntity: ['', Validators.required],
+        quantity: ['', Validators.required],
+        entidad: ['', Validators.required],
       });
   }
 
@@ -95,14 +84,11 @@ export class CrearEditarProductosComponent implements OnInit {
 
     if (this.id !== 0) {
         this.productoData.name = this.form.value.name;    
-        this.productoData.description = this.form.value.description;    
-        this.productoData.measurement_height = this.form.value.measurement_height;    
-        this.productoData.measurement_length = this.form.value.measurement_length;    
-        this.productoData.measurement_depth = this.form.value.measurement_depth;    
+        this.productoData.description = this.form.value.description;       
         this.productoData.profit = this.form.value.profit;    
-        this.productoData.price = this.form.value.price;    
+        this.productoData.costo_unit = this.form.value.costo_unit;    
         this.productoData.unidad_medida = this.form.value.unidad_medida;    
-        this.productoData.cantidad = this.form.value.cantidad;
+        this.productoData.quantity = this.form.value.quantity;
         this.productoData.admin = 'yes';
         console.log(this.productoData);
         
@@ -118,8 +104,8 @@ export class CrearEditarProductosComponent implements OnInit {
     } else {
       try {
 
-        this.dataCreate.id = this.form.value.insumoEntity;
-        this.dataCreate.cantidad = this.form.value.cantidad;
+        this.dataCreate.id = this.form.value.entidad;
+        this.dataCreate.quantity = this.form.value.quantity;
         this.dataCreate.admin = 'yes';
 
 
@@ -140,13 +126,10 @@ export class CrearEditarProductosComponent implements OnInit {
       this.form.setValue({
         name: data.name,
         description: data.description,
-        price: data.price,
+        costo_unit: data.costo_unit,
         unidad_medida: data.unidad_medida,
         profit: data.profit,
-        measurement_height: data.measurement_height,
-        measurement_length: data.measurement_length,
-        measurement_depth: data.measurement_depth,
-        cantidad: data.quantity
+        quantity: data.quantity
 
       });
     });
