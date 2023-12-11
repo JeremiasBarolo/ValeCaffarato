@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       Insumo.belongsToMany(models.MaestroDeArticulos, {
         through: 'ProductQuantities',
         foreignKey: 'insumoId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+
       });
     }
   }

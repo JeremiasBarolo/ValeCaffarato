@@ -69,10 +69,7 @@ const createProductos= async (productosData) => {
         quantity: productosData.cantidad,
         name: entidad.name,
         description: entidad.description,
-        price: entidad.price,
-        measurement_height: entidad.measurement_height,
-        measurement_length: entidad.measurement_length,
-        measurement_depth: entidad.measurement_depth,
+        costo_unit: entidad.price,
         unidad_medida: entidad.unidad_medida,
         profit: entidad.profit,
         antiguo_id: productosData.id,
@@ -104,13 +101,10 @@ const createProductos= async (productosData) => {
                 quantity: producto.PedidosProductos.quantity_requested,
                 name: producto.name,
                 description: producto.description,
-                price: producto.price,
-                measurement_height: producto.measurement_height,
-                measurement_length: producto.measurement_length,
-                measurement_depth: producto.measurement_depth,
+                costo_unit: producto.costo_unit,
                 profit: producto.profit,
                 antiguo_id: producto.id,
-                unidad_medida: producto.unidad_medida,
+                unidad_medida: producto.uni_medida,
 
                 
               });
@@ -130,7 +124,6 @@ const updateProductos= async (productos_id, dataUpdated) => {
 
 
   try {
-    
 
     const oldProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
 
@@ -150,29 +143,12 @@ const updateProductos= async (productos_id, dataUpdated) => {
 const deleteProductos= async (productos_id) => {
   try {
     const deletedProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
-    // const images = path.join(__dirname, '../public/images', deletedProductos.image)
-
-    // const images = await models.PProductosImages.findAll({
-    //   where: {
-    //     ProductosId: productos_id,
-    //   },
-    // });
 
     if (deletedProductos=== 0) {
       console.error(`🛑 Productoswith id: ${productos_id} not found`);
       return null;
     }
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     const deletingImages = image.imageUrl;
-    //     if (fs.existsSync(deletingImages)) {
-    //       fs.unlinkSync(deletingImages);
-    //     } else {
-    //       console.log('No existe la imagen');
-    //     }
-    //   });
-    // }
 
     await models.Productos.destroy({ where: { id: productos_id } });
 

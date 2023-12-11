@@ -141,9 +141,10 @@ calcularSubtotal(pedido: any): number {
 
   if (pedido.productos && pedido.productos.length > 0) {
     subtotal = pedido.productos.reduce((acc: number, producto: {
+      costo_unit: any;
       PedidosProductos: any; PedidosInsumos: { quantity_requested: number; }; price: number; 
 }) => {
-      return acc + producto.PedidosProductos.quantity_requested * producto.price;
+      return acc + producto.PedidosProductos.quantity_requested * producto.costo_unit;
     }, 0);
   }
 

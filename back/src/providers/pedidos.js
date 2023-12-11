@@ -73,17 +73,17 @@ const createPedidos= async (PedidosData) => {
 
           const newPedidos= await models.Pedidos.create(dataPedidos);
           const productData = PedidosData.productos.map(item => ({
-            productEntityId: item.id,
+            productId: item.id,
             cantidad: item.cantidad
           }));
 
 
           for (const product of productData) {
-            const insumoEntity = await models.ProductEntity.findByPk(product.productEntityId);
+            const insumoEntity = await models.MaestroDeArticulos.findByPk(product.productId);
             if (insumoEntity) {
               await models.PedidosProductos.create({
                 pedidoId: newPedidos.id,
-                productEntityId: product.productEntityId,
+                productId: product.productId,
                 quantity_requested: product.cantidad
               });
             }
@@ -112,12 +112,12 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
   
     if (dataUpdated.category === 'VENTA' && dataUpdated.state === 'PREPARACION') {
       const cantidades = dataUpdated.productos.map(pedido => ({
-        id: pedido.PedidosProductos.productEntityId,
+        id: pedido.PedidosProductos.productId,
         cantidad: pedido.PedidosProductos.quantity_requested
       }));
     
       for (const entidad of dataUpdated.productos) {
-        const entidadProducto = await models.ProductEntity.findByPk(entidad.id, {
+        const entidadProducto = await models.MaestroDeArticulos.findByPk(entidad.id, {
           include: { all: true },
         });
     
@@ -129,10 +129,9 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
             return total;
           }, 0);
     
-          console.log(`Cantidad requerida para ${entidadProducto.name}: ${cantidadRequerida}`);
     
           for (const insumo of entidadProducto.Insumos) {
-            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary;
+            const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     
             console.log(`Insumo ${insumo.name}: Necesaria=${cantidadNecesaria}, Actual=${cantidadActual}`);
@@ -145,7 +144,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         }
       }
     
-      // Actualizar el pedido después de realizar todas las reservas de insumos.
+      
       const newPedidos = await oldPedidos.update(dataUpdated);
     }
     
@@ -156,11 +155,47 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
     else if (
       (dataUpdated.category === 'VENTA' && dataUpdated.state === 'FINALIZADO') ||
       (dataUpdated.category === 'VENTA' && dataUpdated.devolverInsumos)
-    ) {
+     ) {
+
+      // <======================== agregar productos ====================>
+      await oldPedidos.productos.map(async product => {
+        const existe = await models.Productos.findOne({
+          where: {
+            antiguo_id: product.PedidosProductos.productId
+          }
+        })
+
+        if(existe){
+          const suma = existe.quantity + product.PedidosProductos.quantity_requested
+          await existe.update({
+            quantity: suma
+          })
+        }else{
+
+          await models.Productos.create({
+            name: product.name,
+            description: product.description,
+            costo_unit: product.costo_unit,
+            profit: product.profit,
+            quantity: product.PedidosProductos.quantity_requested,
+            unidad_medida: product.uni_medida,
+            antiguo_id: product.PedidosProductos.productId
+          })
+        }
+
+        
+      });
+
+
+
+
+
+      // <======================== actualizar cantidades en insumos ====================>
+
       const insumosToUpdate = [];
     
       for (const entidad of dataUpdated.productos) {
-        const entidadProducto = await models.ProductEntity.findByPk(entidad.id, {
+        const entidadProducto = await models.MaestroDeArticulos.findByPk(entidad.id, {
           include: { all: true },
         });
     
@@ -168,7 +203,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
           const cantidadRequerida = entidad.PedidosProductos.quantity_requested;
     
           for (const insumo of entidadProducto.Insumos) {
-            const cantidadNecesaria = insumo.ProductEntityQuantities.quantity_necessary;
+            const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     
             insumosToUpdate.push({
@@ -179,7 +214,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         }
       }
     
-      // Agrupar las actualizaciones por insumo para evitar duplicados
+      
       const groupedUpdates = insumosToUpdate.reduce((acc, { insumo, cantidadActual }) => {
         const key = insumo.id;
         if (!acc[key]) {
@@ -189,7 +224,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         return acc;
       }, {});
     
-      // Realizar actualizaciones de insumos de manera eficiente
+      
       const updatePromises = Object.values(groupedUpdates).map(async ({ insumo, total }) => {
         const newReservedQuantity = Math.max(0, insumo.quantity_reserved - total);
         const newQuantity = dataUpdated.devolverInsumos ? insumo.quantity + total : insumo.quantity;
@@ -201,8 +236,10 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
       });
     
       await Promise.all(updatePromises);
-    
-      // Actualizar el pedido después de realizar todas las operaciones de insumos.
+
+
+      
+
       const newPedidos = await oldPedidos.update(dataUpdated);
     }
     

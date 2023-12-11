@@ -42,6 +42,8 @@ module.exports = {
           key: 'id',
           onDelete: 'CASCADE'
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       documentoId: {
         type: Sequelize.INTEGER,
@@ -50,6 +52,8 @@ module.exports = {
           key: 'id',
           onDelete: 'CASCADE'
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
 
       createdAt: {

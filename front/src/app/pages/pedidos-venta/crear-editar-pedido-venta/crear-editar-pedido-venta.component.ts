@@ -71,7 +71,7 @@ export class CrearEditarPedidoVentaComponent {
 
     if (this.id !== 0) {
       try {
-        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupesto: true}).subscribe(() => {
+        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-venta']);
           this.toastr.success('Pedido Actualizado');
         });

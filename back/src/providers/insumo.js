@@ -76,10 +76,10 @@ const createInsumo= async (insumoData) => {
         quantity: newinsumoData.cantidad,
         name: entidad.name,
         description: entidad.description,
-        price: entidad.price,
+        price: entidad.costo_unit,
         antiguo_id: newinsumoData.id,
         quantity_reserved: 0,
-        unidad_medida: entidad.unidad_medida
+        unidad_medida: entidad.uni_medida
        })
             
         return newProductos

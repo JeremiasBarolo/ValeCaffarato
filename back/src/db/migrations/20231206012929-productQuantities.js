@@ -15,16 +15,18 @@ module.exports = {
         references:{
           model: 'Insumos',
           key: 'id',
-          onDelete: 'CASCADE'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       productId: {
         type: Sequelize.INTEGER,
         references:{
           model: 'MaestroDeArticulos',
           key: 'id',
-          onDelete: 'CASCADE'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       quantity_necessary: {
         type: Sequelize.INTEGER,

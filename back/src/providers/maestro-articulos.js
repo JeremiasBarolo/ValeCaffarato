@@ -136,20 +136,20 @@ const deleteMaestroArticulos= async (MaestroArticulos_id) => {
       include: { all: true },
     });
     
-    if (deletedMaestroArticulos=== 0) {
+    if (!deletedMaestroArticulos) {
       console.error(`🛑 MaestroArticuloswith id: ${MaestroArticulos_id} not found`);
       return null;
     }
 
-    // for (const insumo of deletedMaestroArticulos.Pedidos) {
+    for (const insumo of deletedMaestroArticulos.Insumos) {
       
-    //   await models.PedidosInsumos.destroy({ where:  
-    //     { 
-    //       cantidad: insumo.PedidosInsumos.cantidad, 
-    //       insumoEntityId: insumo.PedidosInsumos.insumoEntityId, 
-    //       pedidoId: insumo.PedidosInsumos.pedidoId 
-    //     } });
-    // }
+      await models.ProductQuantities.destroy({ where:  
+        { 
+          quantity_requested: insumo.ProductQuantities.quantity_requested, 
+          productId: insumo.ProductQuantities.productId, 
+          pedidoId: insumo.ProductQuantities.pedidoId 
+        } });
+    }
 
     await models.MaestroDeArticulos.destroy({ where: { id: MaestroArticulos_id } });
 

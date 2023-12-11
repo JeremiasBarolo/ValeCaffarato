@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       MaestroDeArticulos.belongsToMany(models.Insumos, {
         through: 'ProductQuantities',
         foreignKey: 'productId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       });
     }
   }

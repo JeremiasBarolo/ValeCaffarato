@@ -14,7 +14,9 @@ module.exports = {
           model: 'Pedidos',
           key: 'id',
           onDelete: 'SET NULL'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       productId: {
         type: Sequelize.INTEGER,
@@ -22,7 +24,9 @@ module.exports = {
           model: 'MaestroDeArticulos',
           key: 'id',
           onDelete: 'CASCADE'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       quantity_requested: {
         type: Sequelize.INTEGER,

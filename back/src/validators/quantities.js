@@ -45,13 +45,13 @@ const pedidoValidator = [
         
             for (const product of productos) {
               try {
-                const productEntity = await models.ProductEntity.findByPk(product.id, {
+                const productEntity = await models.MaestroDeArticulos.findByPk(product.id, {
                   include: { all: true },
                 });
         
                 if (productEntity) {
                   for (const insumo of productEntity.Insumos) {
-                    const totalNecesario = insumo.ProductEntityQuantities.quantity_necessary * product.cantidad;
+                    const totalNecesario = insumo.ProductQuantities.quantity_necessary * product.cantidad;
                     if (totalNecesario > insumo.quantity) {
                       errors.push(`El insumo ${insumo.name} no tiene suficiente stock.`);
                     }

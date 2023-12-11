@@ -17,19 +17,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      measurement_height: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      measurement_length: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      measurement_depth: {
+      costo_unit: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
