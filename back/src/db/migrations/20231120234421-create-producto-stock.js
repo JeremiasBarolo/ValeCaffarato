@@ -44,7 +44,18 @@ module.exports = {
       antiguo_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
-      }
+      },
+      depositoId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Depositos',
+          key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
     });
   },
   async down(queryInterface, Sequelize) {

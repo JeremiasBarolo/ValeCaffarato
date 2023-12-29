@@ -17,17 +17,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
 
       })
-
-      // Insumo.belongsTo(models.Depositos, {
-      //   foreignKey: 'depositoId', 
-      //   as: 'deposito',
-      //   onDelete: 'CASCADE',
-      //   onUpdate: 'CASCADE',
-      // });
-      
-      
-        
-      
+      Insumo.belongsTo(models.Depositos, {
+        foreignKey: 'depositoId',
+        as: 'deposito', // Usa el mismo alias que en la definición de la asociación
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });   
     }
   }
   Insumo.init({
@@ -37,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     quantity_reserved: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     antiguo_id: DataTypes.INTEGER,
-    unidad_medida: DataTypes.STRING
+    unidad_medida: DataTypes.STRING,
+    depositoId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Insumos',

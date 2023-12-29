@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
+import { DepositosService } from 'src/app/services/depositos.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
@@ -25,6 +26,7 @@ export class CrearEditarProductosComponent implements OnInit {
   dataCreate: any = {
     admin: 'yes'
   }
+  depositos: any[] =[]
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
@@ -32,6 +34,7 @@ export class CrearEditarProductosComponent implements OnInit {
     private router: Router,
     private aRoute: ActivatedRoute,
     private productService: ProductosService,
+    private depositoService: DepositosService,
     private titleService: TitleService,
     private toastr: ToastrService
   ) {
@@ -44,6 +47,7 @@ export class CrearEditarProductosComponent implements OnInit {
         costo_unit: ['', Validators.required],
         unidad_medida: ['', Validators.required],
         quantity: ['', Validators.required],
+        deposito: ['', Validators.required],
       });
       
     }
@@ -52,6 +56,7 @@ export class CrearEditarProductosComponent implements OnInit {
       this.form = this.fb.group({
         quantity: ['', Validators.required],
         entidad: ['', Validators.required],
+        deposito: ['', Validators.required],
       });
   }
 
@@ -89,8 +94,10 @@ export class CrearEditarProductosComponent implements OnInit {
         this.productoData.costo_unit = this.form.value.costo_unit;    
         this.productoData.unidad_medida = this.form.value.unidad_medida;    
         this.productoData.quantity = this.form.value.quantity;
+        
+        this.productoData.depositoId = this.form.value.deposito;
         this.productoData.admin = 'yes';
-        console.log(this.productoData);
+        
         
       try {
         this.productService.update(this.id, {...this.productoData}).subscribe(() => {
@@ -106,6 +113,7 @@ export class CrearEditarProductosComponent implements OnInit {
 
         this.dataCreate.id = this.form.value.entidad;
         this.dataCreate.quantity = this.form.value.quantity;
+        this.dataCreate.depositoId = this.form.value.deposito,
         this.dataCreate.admin = 'yes';
 
 
@@ -129,7 +137,8 @@ export class CrearEditarProductosComponent implements OnInit {
         costo_unit: data.costo_unit,
         unidad_medida: data.unidad_medida,
         profit: data.profit,
-        quantity: data.quantity
+        quantity: data.quantity,
+        deposito: data.deposito.description
 
       });
     });
@@ -144,5 +153,10 @@ export class CrearEditarProductosComponent implements OnInit {
         }
       })
     })
+    
+
+    this.depositoService.getAll().subscribe((data) => {
+      this.depositos = data
+    }) 
   }
 }

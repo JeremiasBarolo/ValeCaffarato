@@ -55,6 +55,7 @@ const createInsumo= async (insumoData) => {
       const newinsumoData= {
         id: parseInt(insumoData.id, 10),
         cantidad: parseInt(insumoData.cantidad, 10),
+        depositoId: parseInt(insumoData.depositoId, 10),
 
       }
 
@@ -68,7 +69,8 @@ const createInsumo= async (insumoData) => {
     if(existe){
       const suma = existe.quantity + newinsumoData.cantidad
       await existe.update({
-        quantity: suma
+        quantity: suma,
+        depositoId: newinsumoData.depositoId
       })
       return suma
     }else{
@@ -79,7 +81,8 @@ const createInsumo= async (insumoData) => {
         price: entidad.costo_unit,
         antiguo_id: newinsumoData.id,
         quantity_reserved: 0,
-        unidad_medida: entidad.uni_medida
+        unidad_medida: entidad.uni_medida,
+        depositoId: newinsumoData.depositoId
        })
             
         return newProductos
@@ -109,7 +112,8 @@ const createInsumo= async (insumoData) => {
             price: insumo.costo_unit,
             antiguo_id: insumo.id,
             quantity_reserved: 0,
-            unidad_medida: insumo.uni_medida
+            unidad_medida: insumo.uni_medida,
+            depositoId: insumo.depositoId
           });
           return newInsumo;
         }

@@ -26,6 +26,8 @@ import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancela
 import { DocumentosComponent } from './documentos/documentos.component';
 import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
 import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
+import { DepositosComponent } from './padrones/depositos/depositos.component';
+import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
 
 
 
@@ -63,6 +65,10 @@ const routes: Routes = [
       { path: 'documentos/crear-editar', component: CrearEditarDocumentosComponent },
       { path: 'documentos/crear-editar/:id', component: CrearEditarDocumentosComponent },
       { path: 'documentos/factura-remito/:id', component: FacturaRemitoComponent },
+      { path: 'depositos', component: DepositosComponent },
+      { path: 'depositos/crear-editar', component: CrearEditarDepositosComponent },
+      { path: 'depositos/crear-editar/:id', component: CrearEditarDepositosComponent },
+
       
 
 

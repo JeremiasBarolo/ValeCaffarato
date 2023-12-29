@@ -15,6 +15,7 @@ export class InsumosComponent {
 	entidades: Insumo[] = []
   cardData: Insumo = {
     name: '',
+    deposito: '',
     description: '',
     quantity: 0,
     price: 0,

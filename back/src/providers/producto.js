@@ -62,18 +62,21 @@ const createProductos= async (productosData) => {
     if(existe){
       const suma = existe.quantity + parseInt(productosData.quantity, 10)
       const newProductos = await existe.update({
-        quantity: suma
+        quantity: suma,
+        depositoId: parseInt(productosData.depositoId, 10),
+
       })
       return newProductos
     }else{
       const newProductos = await models.Productos.create({
-        quantity: productosData.cantidad,
+        quantity: productosData.quantity,
         name: entidad.name,
         description: entidad.description,
-        costo_unit: entidad.price,
-        unidad_medida: entidad.unidad_medida,
+        costo_unit: entidad.costo_unit,
+        unidad_medida: entidad.uni_medida,
         profit: entidad.profit,
         antiguo_id: productosData.id,
+        depositoId: parseInt(productosData.depositoId, 10),
        })
        return newProductos
         

@@ -36,6 +36,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      depositoId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Depositos',
+          key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
       
       createdAt: {
         allowNull: false,

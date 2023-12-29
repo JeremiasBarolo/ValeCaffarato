@@ -3,9 +3,6 @@ const uuid = require('uuid');
 const listAllDepositos= async () => {
   try {
     const Depositos = await models.Depositos.findAll(
-       {
-        include: { all: true },
-       },
     );
     console.log('✅ Depositos were found');
     return Depositos;
@@ -18,9 +15,6 @@ const listAllDepositos= async () => {
 const listOneDepositos= async (Depositos_id) => {
   try {
     const oneDepositos= await models.Depositos.findByPk(Depositos_id, 
-    {
-      include: { all: true },
-    },
     );
     if (!oneDepositos) {
       console.error(`🛑 Depositoswith id ${Depositos_id} not found`);
@@ -40,22 +34,13 @@ const createDepositos= async (DepositosData) => {
     
     const dataDepositos= {
       description: DepositosData.description,
+
     };
     
 
     const newDepositos= await models.Depositos.create(dataDepositos);
     
-    // await DepositosData.pedido.forEach(async element => {
-    //     await models.PedidoDepositos.create({
-    //         DepositosId: newDepositos.id,
-    //         pedidoId: element.id
-    //       })
-    // });
-
-    // await models.PersonaDepositos.create({
-    //     DepositosId: newDepositos.id,
-    //     personaId: DepositosData.cliente
-    // })
+    
     
     console.log(`✅ Depositos"${newDepositos.id}" was created`);
     return newDepositos;

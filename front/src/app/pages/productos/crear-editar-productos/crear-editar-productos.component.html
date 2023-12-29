@@ -31,8 +31,18 @@
                 </div>
           
                 <div class="form-group text-center">
-                  <label for="cantidad">Cantidad</label>
-                  <input formControlName="cantidad" type="text" class="form-control" placeholder="Cantidad">
+                  <label for="quantity">Cantidad</label>
+                  <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
+              </div>
+
+              <div class="form-group text-center">
+                <label for="deposito">Donde se Alamacenara?</label>
+                <br>
+                <select class="form-select" aria-label="Depositos" formControlName="deposito">
+                    <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+
+                </select>
+                
               </div>
     
             </form>
@@ -75,6 +85,15 @@
                 <option *ngFor="let producto of productos" [value]="producto.id">{{producto.name}}</option>
             </select>
             
+        </div>
+        
+        <div class="form-group text-center">
+          <label for="deposito">Donde se Alamacenara?</label>
+          <br>
+          <select class="form-select" aria-label="Depositos" formControlName="deposito">
+              <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+          </select>
+          
         </div>
 
       </form>

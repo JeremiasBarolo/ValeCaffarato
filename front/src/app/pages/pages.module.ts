@@ -26,6 +26,8 @@ import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancela
 import { DocumentosComponent } from './documentos/documentos.component';
 import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
 import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
+import { DepositosComponent } from './padrones/depositos/depositos.component';
+import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
 
 
 
@@ -60,6 +62,8 @@ import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remi
     DocumentosComponent,
     CrearEditarDocumentosComponent,
     FacturaRemitoComponent,
+    DepositosComponent,
+    CrearEditarDepositosComponent,
 
     
 

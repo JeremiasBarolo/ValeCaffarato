@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-    //   Productos.belongsTo(models.Depositos, {
-    //     foreignKey: 'depositoId',
-    //     as: 'deposito',
-    //     onDelete: 'CASCADE',
-    //     onUpdate: 'CASCADE',
-    //   });
+      Productos.belongsTo(models.Depositos, {
+        foreignKey: 'depositoId',
+        as: 'deposito',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   Productos.init({
@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     profit: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
     antiguo_id: DataTypes.INTEGER,
-    unidad_medida: DataTypes.STRING
+    unidad_medida: DataTypes.STRING,
+    depositoId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Productos',

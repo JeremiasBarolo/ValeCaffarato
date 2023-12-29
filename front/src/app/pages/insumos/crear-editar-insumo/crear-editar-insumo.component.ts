@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
+import { DepositosService } from 'src/app/services/depositos.service';
 import { InsumoService } from 'src/app/services/insumo.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { TitleService } from 'src/app/services/title.service';
@@ -24,8 +25,10 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   insumoCreate:any = {
     admin: 'yes',
     id: 0,
-    cantidad: 0
+    cantidad: 0,
+    depositoId: 0
   }
+  depositos: any[] = [];
   
 
 
@@ -35,6 +38,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     private aRoute: ActivatedRoute,
     private insumoService: InsumoService,
     private maestroArticulosService: MaestroArticulosService,
+    private depositosService: DepositosService,
     private titleService: TitleService
   ) {
 
@@ -45,11 +49,13 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
       description: ['', Validators.required],
       price: ['', Validators.required],
       unidad_medida: ['', Validators.required],
+      deposito: ['', Validators.required],
     });
   }else{
     this.form = this.fb.group({
       cantidad: ['', Validators.required],
       insumoEntity: ['', Validators.required],
+      deposito: ['', Validators.required],
     });
   }
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -81,6 +87,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         description: this.form.value.description,
         price: this.form.value.price,
         unidad_medida: this.form.value.unidad_medida,
+        depositoId: this.form.value.deposito,
         admin: 'yes'
       }
         // Es editar
@@ -96,6 +103,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         this.insumoCreate = {
           cantidad: this.form.value.cantidad,
           id: this.form.value.insumoEntity,
+          depositoId: this.form.value.deposito,
           admin: 'yes'
         }
         try {
@@ -117,7 +125,8 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         description: data.description,
         quantity: data.quantity,
         price: data.price,
-        unidad_medida: data.unidad_medida
+        unidad_medida: data.unidad_medida,
+        deposito: data.deposito.description
       });
       console.log(data);
       
@@ -132,6 +141,10 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         }
       })
       console.log(this.productos);
+    })
+
+    this.depositosService.getAll().subscribe((data) => {
+      this.depositos = data
     })
   }
 

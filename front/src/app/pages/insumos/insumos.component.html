@@ -15,6 +15,7 @@
           <th scope="col">Uni. Medida</th>
           <th scope="col">Precio Unit</th>
           <th scope="col">Cantidad</th>
+          <th scope="col">Deposito</th>
           <th scope="col">Cant.Reservada</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -27,6 +28,7 @@
           <td>{{entidad.unidad_medida}}</td>
           <td>{{entidad.price}}</td>
           <td>{{entidad.quantity}}</td>
+          <td>{{entidad.deposito.description}}</td>
           <td>{{entidad.quantity_reserved}}</td>
           <td>
               <div class="wrapper d-flex justify-content-end">
@@ -54,8 +56,8 @@
 <div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+      <div class="modal-header text-center">
+        <h5 class="modal-title ">{{ cardData.name }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,6 +68,7 @@
         <p>Cantidad: {{ cardData.quantity }}</p>
         <p>Cantidad Reservada: {{ cardData.quantity_reserved }}</p>
         <p>Unidad de Medida: {{ cardData.unidad_medida }}</p>
+        <p>Deposito: {{ cardData.deposito.description }}</p>
 
         
       </div>

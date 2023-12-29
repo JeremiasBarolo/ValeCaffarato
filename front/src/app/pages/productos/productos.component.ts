@@ -26,7 +26,9 @@ export class ProductosComponent {
   }
   
   ngOnInit(): void {
-    this.productoService.getAll().subscribe(insumos => this.entidades = insumos);
+    this.productoService.getAll().subscribe(data =>{
+      this.entidades = data
+    });
     this.titleService.setTitle('Productos en Stock');
   }
   deleteEntidad(id: any) {
