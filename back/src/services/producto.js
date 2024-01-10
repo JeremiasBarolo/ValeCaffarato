@@ -9,7 +9,12 @@ const listOneProductos = async (productos_id) => {
 };
 
 const createProductos = async (productosData) => {
+   if(productosData.admin){
+    return await productosProvider.createProductosADMIN(productosData);
+   } else {
     return await productosProvider.createProductos(productosData);
+   }
+   
 };
 
 

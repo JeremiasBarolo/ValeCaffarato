@@ -3,7 +3,6 @@
 const express = require("express")
 const { 
     personasRouter,
-    insumosRouter,
     pedidosRouter,
     cantidadesRouter,
     productosRouter,
@@ -29,10 +28,9 @@ app.use(cors());
 // Routes
 app.use("/personas", personasRouter)
 app.use("/maestro-articulos", maestroArticulosRouter)
-app.use('/insumos', insumosRouter)
 app.use('/pedidos', pedidosRouter)
 app.use('/cantidades', cantidadesRouter)
-app.use('/productos', productosRouter)
+app.use('/productos_en_stock', productosRouter)
 app.use('/documento', documentosRouter)
 app.use('/generar-factura', generarPdfRouter)
 app.use('/depositos', depositosRouter)

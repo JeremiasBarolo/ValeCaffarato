@@ -13,7 +13,7 @@ module.exports = {
       insumoId: {
         type: Sequelize.INTEGER,
         references:{
-          model: 'Insumos',
+          model: 'ProductosEnStock',
           key: 'id',
         },
         onDelete: 'CASCADE',

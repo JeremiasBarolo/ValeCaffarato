@@ -45,13 +45,11 @@ const listOneProductos= async (productos_id) => {
   }
 };
 
-const createProductos= async (productosData) => {
+const createProductosADMIN= async (productosData) => {
 
 
   try {
-    
-    if(productosData.admin){
-    
+    // Si se crea usando el agregar producto desde admin...
     const entidad = await models.MaestroDeArticulos.findByPk(productosData.id)
     const existe = await models.Productos.findOne({
       where: {
@@ -60,6 +58,7 @@ const createProductos= async (productosData) => {
     })
 
     if(existe){
+      // Si existe..
       const suma = existe.quantity + parseInt(productosData.quantity, 10)
       const newProductos = await existe.update({
         quantity: suma,
@@ -68,61 +67,79 @@ const createProductos= async (productosData) => {
       })
       return newProductos
     }else{
+      // Si no existe ...
       const newProductos = await models.Productos.create({
         quantity: productosData.quantity,
         name: entidad.name,
         description: entidad.description,
         costo_unit: entidad.costo_unit,
+        quantity_reserved: 0,
         unidad_medida: entidad.uni_medida,
         profit: entidad.profit,
         antiguo_id: productosData.id,
+        type: productosData.type,
         depositoId: parseInt(productosData.depositoId, 10),
        })
        return newProductos
         
     }
     
-        
-    }else{
+      
 
 
 
-        const createdProducts = await Promise.all(productosData.map(async (producto) => {
-            const checkProduct = await models.Productos.findOne({
-              where: {
-                antiguo_id: producto.id
-              }
-            });
-    
-            if (checkProduct) {
-              const cantidadNueva = checkProduct.quantity + producto.PedidosProductos.quantity_requested;
-              const updatedProduct = await checkProduct.update({
-                quantity: cantidadNueva
-              });
-              return updatedProduct;
-            } else {
-              const newProduct = await models.Productos.create({
-                quantity: producto.PedidosProductos.quantity_requested,
-                name: producto.name,
-                description: producto.description,
-                costo_unit: producto.costo_unit,
-                profit: producto.profit,
-                antiguo_id: producto.id,
-                unidad_medida: producto.uni_medida,
-
-                
-              });
-              return newProduct;
-            }
-          }));
-    
-          return createdProducts;
-    }
   } catch (err) {
     console.error('🛑 Error when creating Productos', err);
     throw err;
   }
 };
+
+
+
+// Si se crea usando el sistema de pedidos
+const createProductos= async (productosData) => {
+
+
+  try {
+    const createdProducts = await Promise.all(productosData.map(async (producto) => {
+      const checkProduct = await models.Productos.findOne({
+        where: {
+          antiguo_id: producto.id
+        }
+      });
+      
+      // Si exite..
+      if (checkProduct) {
+        const cantidadNueva = checkProduct.quantity + producto.PedidosProductos.quantity_requested;
+        const updatedProduct = await checkProduct.update({
+          quantity: cantidadNueva
+        });
+        return updatedProduct;
+      } else {
+        // Si no existe...
+        const newProduct = await models.Productos.create({
+          quantity: producto.PedidosProductos.quantity_requested,
+          name: producto.name,
+          description: producto.description,
+          costo_unit: producto.costo_unit,
+          profit: producto.profit,
+          antiguo_id: producto.id,
+          unidad_medida: producto.uni_medida,
+          type:producto.type,
+        });
+        return newProduct;
+      }
+    }));
+    
+    return createdProducts;
+
+  } catch (err) {
+    console.error('🛑 Error when creating Productos', err);
+    throw err;
+  }
+};
+
+
 
 const updateProductos= async (productos_id, dataUpdated) => {
 
@@ -165,5 +182,5 @@ const deleteProductos= async (productos_id) => {
 };
 
 module.exports = {
-  listAllProductos, listOneProductos, createProductos, updateProductos, deleteProductos,
+  listAllProductos, listOneProductos, createProductos, updateProductos, deleteProductos, createProductosADMIN,
 };

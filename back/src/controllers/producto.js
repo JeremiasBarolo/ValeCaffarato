@@ -25,15 +25,6 @@ const listOneProductos = async (req, res) => {
 const createProductos = async (req, res) => {
 
   try {
-
-    const {
-        name, lastname, adress, adressNumber, dni, city, phone, cuit, email, role
-    } = req.body;
-
-    // if (name || lastname || adress || adressNumber || dni || city || phone || cuit || email || role == undefined) {
-    //   return res.status(400).json({ message: 'Faltan campos requeridos' });
-    // }
-
     const newProductos = await productosService.createProductos(req.body);
 
     console.log(`✅ Productos "${newProductos.name}" was created  `);
