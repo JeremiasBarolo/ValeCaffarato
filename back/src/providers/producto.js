@@ -16,7 +16,7 @@ const fs = require('fs');
 
 const listAllProductos= async () => {
   try {
-    const Productos = await models.Productos.findAll(
+    const Productos = await models.ProductosEnStock.findAll(
       {
         include: { all: true },
       },
@@ -31,7 +31,7 @@ const listAllProductos= async () => {
 
 const listOneProductos= async (productos_id) => {
   try {
-    const oneProductos= await models.Productos.findByPk(productos_id, {
+    const oneProductos= await models.ProductosEnStock.findByPk(productos_id, {
       include: { all: true },
     });
     if (!oneProductos) {
@@ -45,108 +45,115 @@ const listOneProductos= async (productos_id) => {
   }
 };
 
-const createProductos= async (productosData) => {
+const createProductosADMIN= async (productosData) => {
 
 
   try {
-    
-    if(productosData.admin === 'yes'){
-    const ProductosData= {
-      name: productosData.name,
-      description: productosData.description,
-      measurement_height: productosData.measurement_height,
-      measurement_length: productosData.measurement_length,
-      measurement_depth: productosData.measurement_depth,
-      price: productosData.price,
-      profit: productosData.profit,
-      quantity: productosData.quantity,
-      unidad_medida: productosData.unidad_medida
-    };
-    
-        const newProductos= await models.Productos.create(ProductosData);
+    // Si se crea usando el agregar producto desde admin...
+    const entidad = await models.MaestroDeArticulos.findByPk(productosData.id)
+    const existe = await models.ProductosEnStock.findOne({
+      where: {
+        antiguo_id: parseInt(productosData.id, 10)
+      }
+    })
 
-        
+    if(existe){
+      // Si existe..
+      const suma = existe.quantity + parseInt(productosData.cantidad, 10)
+      const newProductos = await existe.update({
+        quantity: suma,
+        depositoId: parseInt(productosData.depositoId, 10),
+
+      })
+      return newProductos
     }else{
-
-
-
-        const createdProducts = await Promise.all(productosData.map(async (producto) => {
-            const checkProduct = await models.Productos.findOne({
-              where: {
-                antiguo_id: producto.id
-              }
-            });
-    
-            if (checkProduct) {
-              const cantidadNueva = checkProduct.quantity + producto.PedidosProductos.quantity_requested;
-              const updatedProduct = await checkProduct.update({
-                quantity: cantidadNueva
-              });
-              return updatedProduct;
-            } else {
-              const newProduct = await models.Productos.create({
-                quantity: producto.PedidosProductos.quantity_requested,
-                name: producto.name,
-                description: producto.description,
-                price: producto.price,
-                measurement_height: producto.measurement_height,
-                measurement_length: producto.measurement_length,
-                measurement_depth: producto.measurement_depth,
-                profit: producto.profit,
-                antiguo_id: producto.id,
-                unidad_medida: producto.unidad_medida
-              });
-              return newProduct;
-            }
-          }));
-    
-          return createdProducts;
+      // Si no existe ...
+      const newProductos = await models.ProductosEnStock.create({
+        quantity: productosData.cantidad,
+        name: entidad.name,
+        description: entidad.description,
+        costo_unit: entidad.costo_unit,
+        quantity_reserved: 0,
+        unidad_medida: entidad.uni_medida,
+        profit: entidad.profit,
+        antiguo_id:parseInt(productosData.id, 10) ,
+        type: productosData.type,
+        depositoId: parseInt(productosData.depositoId, 10),
+       })
+       return newProductos
+        
     }
-  
     
+      
 
-    console.log(`✅ Productos"${newProductos.name}" was created successfully`);
 
-    return newProductos;
+
   } catch (err) {
     console.error('🛑 Error when creating Productos', err);
     throw err;
   }
 };
 
+
+
+// Si se crea usando el sistema de pedidos
+const createProductos= async (productosData) => {
+
+  
+  try {
+    const createdProducts = await Promise.all(productosData.productos.map(async (producto) => {
+      const checkProduct = await models.ProductosEnStock.findOne({
+        where: {
+          antiguo_id: producto.id
+        }
+      });
+      
+      // Si exite..
+      if (checkProduct) {
+        const cantidadNueva = checkProduct.quantity + producto.PedidosProductos.quantity_requested;
+        const updatedProduct = await checkProduct.update({
+          quantity: cantidadNueva,
+          depositoId: parseInt(productosData.depositoId, 10)
+        });
+        return updatedProduct;
+      } else {
+        // Si no existe...
+        const newProduct = await models.ProductosEnStock.create({
+          quantity: producto.PedidosProductos.quantity_requested,
+          name: producto.name,
+          description: producto.description,
+          costo_unit: producto.costo_unit,
+          profit: producto.profit,
+          antiguo_id: producto.id,
+          type: productosData.type,
+          unidad_medida: producto.uni_medida,
+          quantity_reserved: 0 ,
+          depositoId: parseInt(productosData.depositoId, 10)
+          
+        });
+        return newProduct;
+      }
+    }));
+    
+    return createdProducts;
+
+  } catch (err) {
+    console.error('🛑 Error when creating Productos', err);
+    throw err;
+  }
+};
+
+
+
 const updateProductos= async (productos_id, dataUpdated) => {
 
 
   try {
-    
 
-    const oldProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
+    const oldProductos= await models.ProductosEnStock.findByPk(productos_id, { include: { all: true } });
 
 
-    // const newImageUrls = dataUpdated.images;
-    // const oldImageUrls = oldProductos.images;
-
-    // for (let i = 0; i < oldImageUrls.length; i++) {
-    //   const deletingImages = path.join(oldImageUrls[i].imageUrl);
-    //   if (fs.existsSync(deletingImages)) {
-    //     fs.unlinkSync(deletingImages);
-    //   } else {
-    //     console.log('No existe la imagen');
-    //   }
-    // }
-
-    const newProductos= await oldProductos.update(dataUpdated);
-
-    // const createdImages = await Promise.all(
-    //   newImageUrls.map((imageUrl) => models.PProductosImages.create(
-    //     {
-    //       imageUrl,
-    //       ProductosId: newProductos.id,
-    //     },
-    //   ,
-    //   )),
-    // );
-
+    const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.quantity });
     
 
     console.log(`✅ Productos"${newProductos.name}" was created with images`);
@@ -160,32 +167,15 @@ const updateProductos= async (productos_id, dataUpdated) => {
 
 const deleteProductos= async (productos_id) => {
   try {
-    const deletedProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
-    // const images = path.join(__dirname, '../public/images', deletedProductos.image)
-
-    // const images = await models.PProductosImages.findAll({
-    //   where: {
-    //     ProductosId: productos_id,
-    //   },
-    // });
+    const deletedProductos= await models.ProductosEnStock.findByPk(productos_id, { include: { all: true } });
 
     if (deletedProductos=== 0) {
       console.error(`🛑 Productoswith id: ${productos_id} not found`);
       return null;
     }
 
-    // if (images) {
-    //   images.forEach((image) => {
-    //     const deletingImages = image.imageUrl;
-    //     if (fs.existsSync(deletingImages)) {
-    //       fs.unlinkSync(deletingImages);
-    //     } else {
-    //       console.log('No existe la imagen');
-    //     }
-    //   });
-    // }
 
-    await models.Productos.destroy({ where: { id: productos_id } });
+    await models.ProductosEnStock.destroy({ where: { id: productos_id } });
 
     console.log(`✅ Productoswith id: ${productos_id} was deleted successfully`);
     return deletedProductos;
@@ -196,5 +186,5 @@ const deleteProductos= async (productos_id) => {
 };
 
 module.exports = {
-  listAllProductos, listOneProductos, createProductos, updateProductos, deleteProductos,
+  listAllProductos, listOneProductos, createProductos, updateProductos, deleteProductos, createProductosADMIN,
 };

@@ -1,17 +1,19 @@
 const personasProvider  = require("./personas");
-const productentityProvider = require("./productentity");
-const insumosentityProvider = require("./insumosentity");
 const insumoProvider = require("./insumo");
-const pedidosProvider = require("./pedidos");
+const pedidosVentaProvider = require("./pedidos-venta");
+const pedidosCompraProvider = require("./pedidos-compra");
 const productosProvider = require("./producto");
 const documentoProvider = require("./documentos");
+const maestroArticulosProvider = require("./maestro-articulos");
+const depositosProvider = require("./depositos");
 
 module.exports = { 
     personasProvider, 
-    productentityProvider, 
-    insumosentityProvider,
+    maestroArticulosProvider,
     insumoProvider,
-    pedidosProvider,
+    pedidosVentaProvider,
+    pedidosCompraProvider,
     productosProvider,
-    documentoProvider
+    documentoProvider,
+    depositosProvider
 };

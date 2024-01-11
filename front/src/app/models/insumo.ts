@@ -1,4 +1,7 @@
 export interface Insumo{
+deposito: any;
+profit: any;
+costo_unit: any;
     unidad_medida: string;
     id?: number;
     name: string;

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Insumo } from 'src/app/models/insumo';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
-import { InsumoService } from 'src/app/services/insumo.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
 
 
@@ -13,31 +11,40 @@ import { TitleService } from 'src/app/services/title.service';
 
 })
 export class InsumosComponent {
-	entidades: Insumo[] = []
-  cardData: Insumo = {
+	entidades: any[] = []
+  cardData: any = {
     name: '',
+    deposito: '',
     description: '',
     quantity: 0,
     price: 0,
     unidad_medida: '',
+    profit: 0,
+    costo_unit: 0
   }
   constructor(
     private titleService: TitleService, 
-    private insumoService: InsumoService,
+    private productosEnStockService: ProductosEnStockService,
     ) {
     
   }
   
   ngOnInit(): void {
-    this.insumoService.getAll().subscribe(insumos => this.entidades = insumos);
+    this.productosEnStockService.getAll().subscribe(insumos => 
+      insumos.forEach(element=>{
+        if(element.type === "INSUMO"){
+          this.entidades.push(element)
+        }
+  }))
+      
     this.titleService.setTitle('Insumos');
   }
   deleteEntidad(id: any) {
-    this.insumoService.delete(id).subscribe(() => {
+    this.productosEnStockService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
     });
   } 
-  showCardDetails(card: Insumo) {
+  showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     

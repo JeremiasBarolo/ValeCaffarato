@@ -10,11 +10,8 @@
       <h5 class="card-header text-center">{{card.name}}</h5>
       <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
         <p class="card-text text-center">{{card.description}}</p>
-        <p class="card-text text-left">Precio: {{card.price | currency}}</p>
-        <p class="card-text text-left">Alto: {{card.measurement_height }}cm</p>
-        <p class="card-text text-left">Largo: {{card.measurement_length }}cm</p>
-        <p class="card-text text-left">Ancho: {{card.measurement_depth }}cm</p>
-        <p class="card-text text-left">Unidad de Medida: {{card.unidad_medida }}</p>
+        <p class="card-text text-left">Precio Unitario: {{card.costo_unit | currency}} + {{card.profit}}%</p>
+        <p class="card-text text-left">Unidad de Medida: {{card.uni_medida }}</p>
         
         
         
@@ -44,17 +41,14 @@
         </div>
         <div class="modal-body">
           <p>{{ cardData.description }}</p>
-          <p>Precio: {{ cardData.price | currency }}</p>
-          <p>Alto: {{cardData.measurement_height}} cm</p>
-          <p>Ancho: {{cardData.measurement_depth}} cm</p>
-          <p>Largo: {{cardData.measurement_length}}cm </p>
-          <p>Unidad de Medida: {{ cardData.unidad_medida }}</p>
-          <span class="card text-center" *ngFor="let item of cardData.Insumos">
+          <p>Precio Unitario: {{ cardData.costo_unit | currency }} + {{cardData.profit}}%</p>
+          <p>Unidad de Medida: {{ cardData.uni_medida }} </p>
+          <span class="card text-center" *ngFor="let item of cardData.ProductosEnStocks">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">
               <p>Descripcion: {{item.description}}</p>
-              <p>Cantidad Requerida: {{item.ProductEntityQuantities.quantity_necessary}}</p>
-              <p>Precio: {{item.price| currency}}</p>
+              <p>Cantidad Requerida: {{item.ProductQuantities.quantity_necessary}}</p>
+              <p>Precio: {{item.costo_unit | currency}}</p>
             </div>
           </span>
 

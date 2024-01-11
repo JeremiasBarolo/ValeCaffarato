@@ -65,10 +65,13 @@ const generarPdf = async (documento) => {
             cliente = { industry: item.industry, city: item.city }));
 
         let tipoDocumento
+        let documentosPath
         if(documento.documento.tipo === 'REMITO'){
             tipoDocumento = 'Remito'
+            documentosPath = path.join(__dirname, `../../../documentos/remitos/${documento.documento.tipo}${documento.clienteData.name}-${documento.documento.id}.pdf`);
         }else{
             tipoDocumento = 'Factura'
+            documentosPath = path.join(__dirname, `../../../documentos/facturas/${documento.documento.tipo}${documento.clienteData.name}-${documento.documento.id}.pdf`);
         }    
 
 
@@ -122,12 +125,12 @@ const generarPdf = async (documento) => {
         await page.setContent(facturaHTML);
     
         
-        const facturaPath = path.join(__dirname, `../../../documentos/facturas/factura${documento.clienteData.name}-${documento.documento.id}.pdf`);
-        await page.pdf({ path: facturaPath, format: 'A4' });
+        
+        await page.pdf({ path: documentosPath, format: 'A4' });
     
         await browser.close();
     
-        return facturaPath;
+        return console.log('PDF generado');
     };
     
     

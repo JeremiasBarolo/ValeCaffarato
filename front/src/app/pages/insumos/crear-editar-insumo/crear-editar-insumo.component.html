@@ -1,57 +1,119 @@
-<div class="container mt-5">
-    <div class="card mb-3 border border-0 mx-auto">
-      <div class="card-body">
-        
-        <div class="form-container">
-            <form [formGroup]="form" (ngSubmit)="addInsumo()">
-                <span>
-                    <div class="form-group text-center">
-                        <label for="name">Nombre</label>
-                        <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
-                    </div>
-                
-                    <div class="form-group text-center">
-                        <label for="description">Descripcion</label>
-                        <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
-                    </div>
+<div *ngIf="id !== 0">
 
-                    <div class="form-group text-center">
-                        <label for="quantity">Cantidad</label>
-                        <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
-                    </div>
-
-                    <div class="form-group text-center">
-                        <label for="price">Precio (ARS)</label>
-                        <input formControlName="price" type="text" class="form-control" placeholder="Precio">
-                    </div>
-
-                    <div class="form-group text-center">
-                        <label for="unidad_medida">Unidad de Medida</label>
-                        <input formControlName="unidad_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-                    </div>
-                
-                
+    <div class="container mt-5">
+        <div class="card mb-3 border border-0 mx-auto">
+          <div class="card-body">
+            
+            <div class="form-container">
+                <form [formGroup]="form" (ngSubmit)="addInsumo()">
                     <span>
-
-                        <div class="row mt-5 text-center">
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button routerLinkActive="router-link-active" type="submit"
-                                    class="btn btn-success">Aceptar </button>
-                            </div>
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button type="button" class="btn btn-info"> Volver </button>
-                            </div>
-
-                            
-                            <div class="col-xs-12 col-md-6 col-lg-6">
-                                <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
-                            </div>
+                        <div class="form-group text-center">
+                            <label for="name">Nombre</label>
+                            <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
                         </div>
+                    
+                        <div class="form-group text-center">
+                            <label for="description">Descripcion</label>
+                            <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label for="quantity">Cantidad</label>
+                            <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label for="price">Precio (ARS)</label>
+                            <input formControlName="price" type="text" class="form-control" placeholder="Precio">
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label for="unidad_medida">Unidad de Medida</label>
+                            <input formControlName="unidad_medida" type="text" class="form-control" placeholder="Unidad de Medida">
+                        </div>
+
+                        <div class="form-group text-center">
+                          <label for="deposito">Donde se Alamacenara?</label>
+                          <br>
+                          <select class="form-select" aria-label="Depositos" formControlName="deposito">
+                              <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+                          </select>
+                          
+                      </div>
+                    
+                    
+                        <span>
+    
+                            <div class="row mt-5 text-center">
+                                <div class="col-xs-12 col-md-6 col-lg-6">
+                                    <button routerLinkActive="router-link-active" type="submit"
+                                        class="btn btn-success">Aceptar </button>
+                                </div>
+                                <div class="col-xs-12 col-md-6 col-lg-6">
+                                    <button type="button" class="btn btn-info"> Volver </button>
+                                </div>
+  
+                            </div>
+                        </span>
                     </span>
-                </span>
-            </form>
+                </form>
+            </div>
+          </div>
         </div>
       </div>
+</div>
+
+
+<div *ngIf="id === 0">
+    <div class="container mt-5">
+        <div class="card mb-3 border border-0 mx-auto">
+          <div class="card-body">
+            <form [formGroup]="form">
+    
+          <div class="form-group text-center">
+            <label for="cantidad">Cantidad</label>
+            <input formControlName="cantidad" type="text" class="form-control" placeholder="Cantidad">
+        </div>
+    
+        <div class="form-group text-center">
+            <label for="cantidad">Entidad de Insumo</label>
+            <br>
+            <select class="form-select" aria-label="entidades de insumos" formControlName="insumoEntity">
+                <option *ngFor="let insumo of productos" [value]="insumo.id">{{insumo.name}}</option>
+            </select>
+            
+        </div>
+
+        <div class="form-group text-center">
+          <label for="deposito">Donde se Alamacenara?</label>
+          <br>
+          <select class="form-select" aria-label="Depositos" formControlName="deposito">
+              <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+          </select>
+          
+      </div>
+    
+            </form>
+          <div class="row mt-5">
+            <div class="col-md-6 offset-md-3 text-center">
+              <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addInsumo()">Aceptar</button>
+            </div>
+          </div>
+    
+          <div class="row mt-3">
+            <div class="col-md-6 offset-md-3 text-center">
+              <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+            </div>
+          </div>
+          
+         
+          
+        </div>
+      </div>
+      <br>
+      
     </div>
-  </div>
+
+
+
   

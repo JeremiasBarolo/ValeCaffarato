@@ -3,12 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
-import { ProductEntity } from 'src/app/models/product-entity';
-
+import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { ProductEntityService } from 'src/app/services/product-entity.service';
 import { TitleService } from 'src/app/services/title.service';
 
 
@@ -21,8 +18,8 @@ export class CrearEditarPedidoVentaComponent {
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
-  selectedEntities: ProductEntity[] = [];
-  ProductEntities: ProductEntity[] = [];
+  selectedEntities: any[] = [];
+  ProductEntities: any[] = [];
   subtotal: number[] = [];
   presupuestoData: any = {
     name: '',
@@ -34,7 +31,7 @@ export class CrearEditarPedidoVentaComponent {
   };
 
   constructor(
-    private productEntityService: ProductEntityService,
+    private maestroArticulosService: MaestroArticulosService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -52,9 +49,15 @@ export class CrearEditarPedidoVentaComponent {
   ngOnInit(): void {
     this.loadAllEntities();
     this.loadSelectedProducts();
-    this.titleService.setTitle('Pedidos Compra');
-    console.log(this.selectedEntities);
-    console.log(this.ProductEntities);
+    if (this.id !== 0) {
+      this.titleService.setTitle('Editar Pedidos Venta');
+      this.getPedido(this.id);
+
+    }else{
+      this.titleService.setTitle('Crear Pedidos Venta');
+    }
+    
+    
 
     
     
@@ -64,10 +67,11 @@ export class CrearEditarPedidoVentaComponent {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.quantity }));
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.id = this.id;
 
     if (this.id !== 0) {
       try {
-        this.pedidosService.update(this.id, this.presupuestoData).subscribe(() => {
+        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-venta']);
           this.toastr.success('Pedido Actualizado');
         });
@@ -86,11 +90,11 @@ export class CrearEditarPedidoVentaComponent {
     }
   }
 
-  selectedEntity(insumoEntity: ProductEntity) {
-    insumoEntity.quantity = 1;
-    this.selectedEntities.push(insumoEntity);
+  selectedEntity(articulo: any) {
+    articulo.quantity = 1;
+    this.selectedEntities.push(articulo);
   
-    const index = this.ProductEntities.findIndex(p => p.id === insumoEntity.id);
+    const index = this.ProductEntities.findIndex(p => p.id === articulo.id);
     if (index !== -1) {
       this.ProductEntities.splice(index, 1);
     }
@@ -100,7 +104,7 @@ export class CrearEditarPedidoVentaComponent {
   }
 
   
-  returnEntities(Entities: ProductEntity) {
+  returnEntities(Entities: any) {
     this.ProductEntities.push(Entities);
     const index = this.selectedEntities.findIndex(p => p.id === Entities.id);
     if (index !== -1) {
@@ -116,8 +120,13 @@ export class CrearEditarPedidoVentaComponent {
     });
   }
   loadAllEntities() {
-    this.productEntityService.getAll().subscribe((data) => {
-      this.ProductEntities = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    this.maestroArticulosService.getAll().subscribe((data) => {
+      data.forEach((insumo: any) => {
+        if(insumo.tipoArticulo === 'PRODUCTO'){
+          this.ProductEntities.push(insumo);
+        }
+      })
+      this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
   }
   loadSelectedProducts() {
@@ -133,5 +142,14 @@ export class CrearEditarPedidoVentaComponent {
         }
       )
     }
+  }
+  getPedido(id: number) {
+    this.pedidosService.getById(id).subscribe((data: any)=> {
+    
+      this.form.setValue({
+        name: data.name,
+        description: data.description,
+      });
+    });
   }
 }

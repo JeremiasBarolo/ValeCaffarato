@@ -1,5 +1,4 @@
-import { InsumoEntity } from "./insumo-entity";
-import { ProductEntity } from "./product-entity";
+
 
 export interface Pedidos{
     id?: number;
@@ -9,7 +8,7 @@ export interface Pedidos{
     description: string;
     category: string;
     createdAt?: Date
-    insumos?: InsumoEntity[];
-    productos?: ProductEntity[];
+    insumos?: any[];
+    productos?: any[];
 }
 

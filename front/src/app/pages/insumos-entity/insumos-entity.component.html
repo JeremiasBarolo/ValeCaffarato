@@ -12,8 +12,8 @@
       <h5 class="card-header text-center">{{card.name}}</h5>
       <div class="card-body" data-target="#InsumoModal" data-toggle="modal" (click)="showCardDetails(card)">
         <p class="card-text text-center">{{card.description}}</p>
-        <p class="card-text text-left">Precio: {{card.price | currency}}</p>
-        <p class="card-text text-left">Unidad Medida: {{card.unidad_medida | currency}}</p>
+        <p class="card-text text-left">Precio: {{card.costo_unit | currency}}</p>
+        <p class="card-text text-left">Unidad Medida: {{card.uni_medida}}</p>
         
       </div>
       <ul class="list-group list-group-flush">
@@ -42,8 +42,8 @@
       </div>
       <div class="modal-body">
         <p>{{ cardData.description }}</p>
-        <p>Precio: {{ cardData.price | currency }}</p>
-        <p>Unidad Medida: {{ cardData.unidad_medida }}</p>
+        <p>Precio: {{ cardData.costo_unit | currency }} + {{cardData.profit}}%</p>
+        <p>Unidad Medida: {{ cardData.uni_medida }}</p>
         
       </div>
       <div class="modal-footer">

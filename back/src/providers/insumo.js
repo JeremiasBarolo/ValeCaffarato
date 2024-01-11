@@ -50,23 +50,43 @@ const createInsumo= async (insumoData) => {
 
     
 
-    if(insumoData.admin === 'yes'){
+    if(insumoData.admin){
 
-      const dataInsumo= {
-        name: insumoData.name,
-        description: insumoData.description,
-        price: insumoData.price,
-        quantity: insumoData.quantity,
+      const newinsumoData= {
+        id: parseInt(insumoData.id, 10),
+        cantidad: parseInt(insumoData.cantidad, 10),
+        depositoId: parseInt(insumoData.depositoId, 10),
+
+      }
+
+      const entidad = await models.MaestroDeArticulos.findByPk(newinsumoData.id)
+      const existe = await models.Insumos.findOne({
+      where: {
+        antiguo_id: newinsumoData.id
+      }
+    })
+
+    if(existe){
+      const suma = existe.quantity + newinsumoData.cantidad
+      await existe.update({
+        quantity: suma,
+        depositoId: newinsumoData.depositoId
+      })
+      return suma
+    }else{
+      const newProductos = await models.Insumos.create({
+        quantity: newinsumoData.cantidad,
+        name: entidad.name,
+        description: entidad.description,
+        price: entidad.costo_unit,
+        antiguo_id: newinsumoData.id,
         quantity_reserved: 0,
-        unidad_medida: insumoData.unidad_medida
-
-      };
-
-      const insumoAdmin= await models.Insumos.create(dataInsumo);
-
-
-
-      return insumoAdmin;
+        unidad_medida: entidad.uni_medida,
+        depositoId: newinsumoData.depositoId
+       })
+            
+        return newProductos
+    }
 
     }else{
       const createdInsumos = await Promise.all(insumoData.map(async (insumo) => {
@@ -77,21 +97,23 @@ const createInsumo= async (insumoData) => {
         });
 
         if (checkInsumos) {
-          const cantidadNueva = checkInsumos.quantity + insumo.PedidosInsumos.cantidad;
+          const cantidadNueva = checkInsumos.quantity + insumo.PedidosProductos.quantity_requested;
           const updatedProduct = await checkInsumos.update({
             quantity: cantidadNueva
           });
           return updatedProduct;
           
         } else {
+
           const newInsumo = await models.Insumos.create({
-            quantity: insumo.PedidosInsumos.cantidad,
+            quantity: insumo.PedidosProductos.quantity_requested,
             name: insumo.name,
             description: insumo.description,
-            price: insumo.price,
+            price: insumo.costo_unit,
             antiguo_id: insumo.id,
             quantity_reserved: 0,
-            unidad_medida: insumo.unidad_medida
+            unidad_medida: insumo.uni_medida,
+            depositoId: insumo.depositoId
           });
           return newInsumo;
         }
@@ -163,13 +185,13 @@ const deleteInsumo= async (insumo_id) => {
       return null;
     }
 
-    for (const insumo of deletedInsumo.ProductEntities) {
+    for (const insumo of deletedInsumo.MaestroDeArticulos) {
       
-      await models.ProductEntityQuantities.destroy({ where:  
+      await models.ProductQuantities.destroy({ where:  
         { 
-          quantity_necessary: insumo.ProductEntityQuantities.quantity_necessary, 
-          productEntityId: insumo.ProductEntityQuantities.productEntityId, 
-          insumoId: insumo.ProductEntityQuantities.insumoId 
+          quantity_necessary: insumo.ProductQuantities.quantity_necessary, 
+          productId: insumo.ProductQuantities.productId, 
+          insumoId: insumo.ProductQuantities.insumoId 
         } });
     }
 

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Productos', {
+    await queryInterface.createTable('ProductosEnStock', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,21 +17,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
+      costo_unit: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      measurement_height: {
+      quantity_reserved: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true
       },
-      measurement_length: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      measurement_depth: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      type:{
+        type: Sequelize.STRING,
+        allowNull: false
       },
       profit: {
         type: Sequelize.INTEGER,
@@ -55,11 +51,22 @@ module.exports = {
       },
       antiguo_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-      }
+        allowNull: true,
+      },
+      depositoId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Depositos',
+          key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Productos');
+    await queryInterface.dropTable('ProductosEnStock');
   }
 };

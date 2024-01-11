@@ -2,13 +2,12 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
+import { LoginComponent } from 'src/app/auth/login/login.component';
 import { Pedidos } from 'src/app/models/pedidos';
+import { DepositosService } from 'src/app/services/depositos.service';
 import { DocumentosService } from 'src/app/services/documentos.service';
-
-import { InsumoService } from 'src/app/services/insumo.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { ProductosService } from 'src/app/services/productos.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -23,6 +22,8 @@ export class PedidosVentaComponent {
   listFinalizado: Pedidos[] = [];
   listPreparacion: Pedidos[] = [];
   subtotal: number = 0
+  selectedDepositoId: number | undefined;
+  depositos:any[] = []
 
   cardData: any = {
     name: ''
@@ -39,8 +40,9 @@ export class PedidosVentaComponent {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private productosService: ProductosService,
-    private documentosService: DocumentosService
+    private productosService: ProductosEnStockService,
+    private depositosService: DepositosService
+
 
 
     ) { }
@@ -64,6 +66,14 @@ export class PedidosVentaComponent {
         }
       )
     });
+
+    this.depositosService.getAll().subscribe(data => {
+      if (Array.isArray(data)) {
+        this.depositos = data;
+      } else {
+        console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
+      }
+    });
     
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
@@ -72,7 +82,7 @@ export class PedidosVentaComponent {
     
   }
 
-cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any) {
+cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any, selectedId?:number) {
     if (id){
     pedido.state = estado;
     
@@ -100,9 +110,10 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any)
       })
   }
     else if(estado === 'FINALIZADO'){
-
-      this.productosService.create(pedido.productos).subscribe(() => {
+      
+      this.productosService.create({productos: pedido.productos, type: 'PRODUCTO', depositoId: this.selectedDepositoId  }).subscribe(() => {
       });
+
       this.pedidosService.update(id, pedido).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         
@@ -136,7 +147,7 @@ showCardDetails(card: Pedidos) {
 }
 
 updateEntidad(id:number){
-  this.router.navigate(['dashboard/pedidos-compra/crear-editar', id]);
+  this.router.navigate(['dashboard/pedidos-venta/crear-editar', id]);
 }
 
 calcularSubtotal(pedido: any): number {
@@ -144,9 +155,10 @@ calcularSubtotal(pedido: any): number {
 
   if (pedido.productos && pedido.productos.length > 0) {
     subtotal = pedido.productos.reduce((acc: number, producto: {
+      costo_unit: any;
       PedidosProductos: any; PedidosInsumos: { quantity_requested: number; }; price: number; 
 }) => {
-      return acc + producto.PedidosProductos.quantity_requested * producto.price;
+      return acc + producto.PedidosProductos.quantity_requested * producto.costo_unit;
     }, 0);
   }
 
@@ -162,5 +174,9 @@ eliminarPedido(id?: number){
     
 
   })
+}
+
+onAceptarClick() { 
+  this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO');
 }
 }

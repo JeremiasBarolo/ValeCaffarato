@@ -13,7 +13,7 @@
               {{presupuesto.name}}
             </div>
     
-            <div class="card-body" (click)="showCardDetails(presupuesto)" data-target="#InsumoModal" data-toggle="modal">
+            <div class="card-body" (click)="showCardDetails(presupuesto)" data-target="#presupuesto" data-toggle="modal">
               {{presupuesto.description}}
             </div>
             <div class="card-footer">
@@ -55,7 +55,7 @@
             </div>
     
             <div class="card-footer">
-              <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(preparacion.id, preparacion, 'FINALIZADO')">Finalizar</a>
+              <button class="btn btn-outline-dark mr-1"  (click)="showCardDetails(preparacion)" data-target="#depositoModal" data-toggle="modal">Finalizar</button>
               <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(preparacion.id, preparacion, 'CANCELADO', 'devolverInsumos')" >Cancelado</a>
             </div>
           </div>
@@ -98,28 +98,106 @@
             <p>{{ cardData.description }}</p>
             <p>Subtotal: {{ calcularSubtotal(cardData)| currency }}</p>
             
-            <span class="card text-center" *ngFor="let item of cardData.productos">
-              <div class="card-header"> {{item.name}}</div>
-              <div class="card-body">
-                <p>{{ item.description }}</p>
-                <p>Precio: {{ item.price | currency }}</p>
-                <p>Alto: {{item.measurement_height}} cm</p>
-                <p>Ancho: {{item.measurement_depth}} cm</p>
-                <p>Largo: {{item.measurement_length}}cm </p>
-                <p>Cantidad Solicitada: {{item.PedidosProductos.quantity_requested}} </p>
-              </div>
-            </span>
+            <div class="table-container">
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Costo </th>
+                    <th scope="col">Can. Solicitada</th>
+                  </tr>
+                </thead>
+                <tbody style="max-height: 300px; overflow-y: auto;">
+                  <tr *ngFor="let item of cardData.productos">
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
+                    <td>{{item.PedidosProductos.quantity_requested}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             
             
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-            <button data-dismiss="modal" (click)="updateEntidad(cardData.id)"><i class="fa-solid fa-pen-to-square"></i></button>
-  
-            
           </div>
         </div>
       </div>
     </div>
+
+    <div class="modal fade modal" id="presupuesto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>{{ cardData.description }}</p>
+            <p>Subtotal: {{ calcularSubtotal(cardData)| currency }}</p>
+    
+            <div class="table-container">
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Costo </th>
+                    <th scope="col">Can. Solicitada</th>
+                  </tr>
+                </thead>
+                <tbody style="max-height: 300px; overflow-y: auto;">
+                  <tr *ngFor="let item of cardData.productos">
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
+                    <td>{{item.PedidosProductos.quantity_requested}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+            <button data-dismiss="modal" (click)="updateEntidad(cardData.id)"><i class="fa-solid fa-pen-to-square"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   
+    <div class="modal fade modal" id="depositoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title text-center">En qué depósito desea almacenar el pedido?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group text-center">
+                      <label for="selectDeposito">Seleccionar Depósito:</label>
+                      <br>
+                      <select id="selectDeposito" class="form-select" [(ngModel)]="selectedDepositoId" aria-label="Depositos">
+                          <option *ngFor="let deposito of depositos" [value]="deposito.id">{{ deposito.description }}</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="onAceptarClick()" data-dismiss="modal">Aceptar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+              </div>
+          </div>
+      </div>
+  </div>
   

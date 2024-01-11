@@ -2,12 +2,13 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InsumoEntity } from 'src/app/models/insumo-entity';
 import { Pedidos } from 'src/app/models/pedidos';
 
-import { InsumoService } from 'src/app/services/insumo.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
+import { DepositosService } from 'src/app/services/depositos.service';
+
 
 @Component({
   selector: 'app-pedidos',
@@ -29,6 +30,8 @@ export class PedidosCompraComponent implements OnInit {
     name: ''
   }  
   IdsInsumosCantidad: any[] = []
+  depositos: any[] = [] 
+  selectedDepositoId: number | undefined;
 
   constructor(
     private titleService: TitleService,
@@ -37,7 +40,8 @@ export class PedidosCompraComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private insumoService: InsumoService
+    private productosEnStockService: ProductosEnStockService,
+    private depositosService : DepositosService
 
 
     ) { }
@@ -60,6 +64,15 @@ export class PedidosCompraComponent implements OnInit {
         }
       )
     });
+
+    this.depositosService.getAll().subscribe(data => {
+      if (Array.isArray(data)) {
+        this.depositos = data;
+      } else {
+        console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
+      }
+    });
+    console.log(this.depositos);
     
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
@@ -68,7 +81,7 @@ export class PedidosCompraComponent implements OnInit {
     
   }
 
-  cambiarEstado(id?: number, pedido?: any, estado?: string) {
+  cambiarEstado(id?: number, pedido?: any, estado?: string, selectedId?: number) {
     this.botonDeshabilitado = true;
     if (id){
     pedido.state = estado;
@@ -87,7 +100,7 @@ export class PedidosCompraComponent implements OnInit {
     }
 else if(estado === 'FINALIZADO'){
 
-      this.insumoService.create(pedido.insumos).subscribe(() => {
+      this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
       });
@@ -128,14 +141,17 @@ updateEntidad(id:number){
 calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
-  if (pedido.insumos && pedido.insumos.length > 0) {
-    subtotal = pedido.insumos.reduce((acc: number, insumo: { PedidosInsumos: { cantidad: number; }; price: number; }) => {
-      return acc + insumo.PedidosInsumos.cantidad * insumo.price;
+  if (pedido.productos && pedido.productos.length > 0) {
+    subtotal = pedido.productos.reduce((acc: number, producto: { PedidosProductos: { quantity_requested: number; }; costo_unit: number; profit: number; }) => {
+      let precioUnitario = producto.costo_unit * producto.PedidosProductos.quantity_requested;
+      let ganancia = precioUnitario * (producto.profit / 100);
+      return acc + precioUnitario + ganancia;
     }, 0);
   }
 
   return subtotal;
 }
+
 
 eliminarPedido(id?: number){
   this.pedidosService.delete(id!).subscribe(() => {
@@ -148,6 +164,9 @@ eliminarPedido(id?: number){
   })
 }
 
+onAceptarClick() {
+  this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO', this.selectedDepositoId);
+}
 
 }
   

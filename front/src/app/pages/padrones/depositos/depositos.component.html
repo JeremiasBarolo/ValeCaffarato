@@ -1,0 +1,39 @@
+<div class="text-right">
+    <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar
+        Cliente</button>
+</div>
+
+<section style="margin: 16px">
+  <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Descipcion</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let deposito of depositos" lass="table">
+          <th scope="row">{{deposito.id}}</th>
+          <td>{{deposito.description}}</td>
+          
+          <td class="text-center">
+              <div class="wrapper d-flex justify-content-end">
+                <button [routerLink]="['crear-editar', deposito.id]"routerLinkActive="router-link-active"
+                type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+  
+                  <button type="button" (click)="deleteCliente(deposito.id)"
+                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                          class="fa-solid fa-trash"></i></button>
+              </div>
+          </td>
+  
+        </tr>
+        
+      </tbody>
+    </table>
+  
+</section>
+

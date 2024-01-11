@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { Insumo } from 'src/app/models/insumo';
-import { ProductEntity } from 'src/app/models/product-entity';
-import { InsumoService } from 'src/app/services/insumo.service';
-import { ProductosService } from 'src/app/services/productos.service';
+
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -11,7 +9,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent {
-  entidades: ProductEntity[] = []
+  entidades: any[] = []
   cardData: any = {
     name: '',
     description: '',
@@ -21,13 +19,20 @@ export class ProductosComponent {
   }
   constructor(
     private titleService: TitleService, 
-    private productoService: ProductosService
+    private productoService: ProductosEnStockService
     ) {
     
   }
   
   ngOnInit(): void {
-    this.productoService.getAll().subscribe(insumos => this.entidades = insumos);
+    this.productoService.getAll().subscribe(data =>{
+      data.forEach(element => {
+        if(element.type === "PRODUCTO"){
+          this.entidades.push(element)
+        }
+      })
+      
+    });
     this.titleService.setTitle('Productos en Stock');
   }
   deleteEntidad(id: any) {

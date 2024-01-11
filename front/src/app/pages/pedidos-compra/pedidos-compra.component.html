@@ -30,21 +30,21 @@
         <h4 class="mb-3">Preparacion</h4>
   
         <div class="card" *ngFor="let aprobado of listAprobado">
-          <div class="card-header preparacion-card-header"(click)="showCardDetails(aprobado)"data-target="#InsumoModal" data-toggle="modal">
+          <div class="card-header preparacion-card-header" (click)="showCardDetails(aprobado)" data-target="#InsumoModal" data-toggle="modal">
             {{aprobado.name}}
           </div>
   
-          <div class="card-body"(click)="showCardDetails(aprobado)"data-target="#InsumoModal" data-toggle="modal">
+          <div class="card-body" (click)="showCardDetails(aprobado)"data-target="#InsumoModal" data-toggle="modal">
             {{aprobado.description}}
           </div>
   
           <div class="card-footer">
-            <button class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(aprobado.id, aprobado, 'FINALIZADO')" [disabled]="botonDeshabilitado">Finalizar</button>
+            <button class="btn btn-outline-dark mr-1" [disabled]="botonDeshabilitado" (click)="showCardDetails(aprobado)" data-target="#depositoModal" data-toggle="modal">Finalizar</button> 
             <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(aprobado.id, aprobado, 'CANCELADO')" >Cancelado</a>
           </div>
         </div>
       </div>
-
+      
 
       <div class="col-md-4 border-right" >
         <h4 class="mb-3">Finalizado</h4>
@@ -79,21 +79,20 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>{{ cardData.description }}</p>
           <p>Subtotal: {{ calcularSubtotal(cardData)| currency }}</p>
-          <span class="card text-center" *ngFor="let item of cardData.insumos">
+          <span class="card text-center" *ngFor="let item of cardData.productos">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">
-              <p>Descripcion: {{item.description}}</p>
-              <p>Cantidad: {{item.PedidosInsumos.cantidad}}</p>
-              <p>Precio: {{item.price| currency}}</p>
+              <p>Cantidad: {{item.PedidosProductos.quantity_requested}}</p>
+              <p>Precio: {{item.costo_unit| currency}} + {{item.profit}}%</p>
             </div>
           </span>
           
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-          <button data-dismiss="modal" (click)="updateEntidad(cardData.id)"><i class="fa-solid fa-pen-to-square"></i></button>
+
+          <button *ngIf="cardData.state=='PRESUPUESTADO'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateEntidad(cardData.id)"><i class="fa-solid fa-pen-to-square"></i></button>
 
           
         </div>
@@ -101,3 +100,28 @@
     </div>
   </div>
 
+  <div class="modal fade modal" id="depositoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">En qué depósito desea almacenar el pedido?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <label for="selectDeposito">Seleccionar Depósito:</label>
+                    <br>
+                    <select id="selectDeposito" class="form-select" [(ngModel)]="selectedDepositoId" aria-label="Depositos">
+                        <option *ngFor="let deposito of depositos" [value]="deposito.id">{{ deposito.description }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onAceptarClick()">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+</div>
