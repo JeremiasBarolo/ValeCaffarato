@@ -7,6 +7,8 @@ import { Pedidos } from 'src/app/models/pedidos';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
+import { DepositosService } from 'src/app/services/depositos.service';
+
 
 @Component({
   selector: 'app-pedidos',
@@ -28,6 +30,8 @@ export class PedidosCompraComponent implements OnInit {
     name: ''
   }  
   IdsInsumosCantidad: any[] = []
+  depositos: any[] = [] 
+  selectedDepositoId: number | undefined;
 
   constructor(
     private titleService: TitleService,
@@ -36,7 +40,8 @@ export class PedidosCompraComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private productosEnStockService: ProductosEnStockService
+    private productosEnStockService: ProductosEnStockService,
+    private depositosService : DepositosService
 
 
     ) { }
@@ -59,6 +64,15 @@ export class PedidosCompraComponent implements OnInit {
         }
       )
     });
+
+    this.depositosService.getAll().subscribe(data => {
+      if (Array.isArray(data)) {
+        this.depositos = data;
+      } else {
+        console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
+      }
+    });
+    console.log(this.depositos);
     
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
@@ -67,7 +81,7 @@ export class PedidosCompraComponent implements OnInit {
     
   }
 
-  cambiarEstado(id?: number, pedido?: any, estado?: string) {
+  cambiarEstado(id?: number, pedido?: any, estado?: string, selectedId?: number) {
     this.botonDeshabilitado = true;
     if (id){
     pedido.state = estado;
@@ -86,7 +100,7 @@ export class PedidosCompraComponent implements OnInit {
     }
 else if(estado === 'FINALIZADO'){
 
-      this.productosEnStockService.create(pedido.productos).subscribe(() => {
+      this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
       });
@@ -150,6 +164,10 @@ eliminarPedido(id?: number){
   })
 }
 
+onAceptarClick() {
+  
+  this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO', this.selectedDepositoId);
+}
 
 }
   

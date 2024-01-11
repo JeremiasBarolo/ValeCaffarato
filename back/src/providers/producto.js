@@ -99,9 +99,9 @@ const createProductosADMIN= async (productosData) => {
 // Si se crea usando el sistema de pedidos
 const createProductos= async (productosData) => {
 
-
+  
   try {
-    const createdProducts = await Promise.all(productosData.map(async (producto) => {
+    const createdProducts = await Promise.all(productosData.productos.map(async (producto) => {
       const checkProduct = await models.ProductosEnStock.findOne({
         where: {
           antiguo_id: producto.id
@@ -112,7 +112,8 @@ const createProductos= async (productosData) => {
       if (checkProduct) {
         const cantidadNueva = checkProduct.quantity + producto.PedidosProductos.quantity_requested;
         const updatedProduct = await checkProduct.update({
-          quantity: cantidadNueva
+          quantity: cantidadNueva,
+          depositoId: parseInt(productosData.depositoId, 10)
         });
         return updatedProduct;
       } else {
@@ -124,9 +125,11 @@ const createProductos= async (productosData) => {
           costo_unit: producto.costo_unit,
           profit: producto.profit,
           antiguo_id: producto.id,
+          type: productosData.type,
           unidad_medida: producto.uni_medida,
           quantity_reserved: 0 ,
-          type:producto.type,
+          depositoId: parseInt(productosData.depositoId, 10)
+          
         });
         return newProduct;
       }
