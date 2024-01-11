@@ -8,12 +8,12 @@ import { AppSettings } from 'appsettings-json-reader';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductosService {
+export class ProductosEnStockService {
 
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
 
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
-  private apiUrl = `${this.appSettings.url_api}/productos`;
+  private apiUrl = `${this.appSettings.url_api}/productos_en_stock`;
     getAll(): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}`);
     }
@@ -23,7 +23,7 @@ export class ProductosService {
     return this.http.get<any>(`${this.apiUrl}/${id}`)
       .pipe(
         catchError(error => {
-          this.toastr.error('Error al obtener el ProductEntity');
+          this.toastr.error('Error al obtener el Entidad');
           throw error;
         })
       );

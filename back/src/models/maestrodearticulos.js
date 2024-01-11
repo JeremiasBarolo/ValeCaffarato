@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       MaestroDeArticulos.belongsToMany(models.ProductosEnStock, {
         through: 'ProductQuantities',
-        foreignKey: 'productId',
+        foreignKey: 'entidadId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });

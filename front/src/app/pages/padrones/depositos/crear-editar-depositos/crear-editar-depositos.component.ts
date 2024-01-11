@@ -5,8 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
-import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-import { ProductosService } from 'src/app/services/productos.service';
 import { TitleService } from 'src/app/services/title.service';
 @Component({
   selector: 'app-crear-editar-depositos',

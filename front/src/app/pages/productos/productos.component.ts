@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Insumo } from 'src/app/models/insumo';
-import { InsumoService } from 'src/app/services/insumo.service';
-import { ProductosService } from 'src/app/services/productos.service';
+
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -20,7 +19,7 @@ export class ProductosComponent {
   }
   constructor(
     private titleService: TitleService, 
-    private productoService: ProductosService
+    private productoService: ProductosEnStockService
     ) {
     
   }

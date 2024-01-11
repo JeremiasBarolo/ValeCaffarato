@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-import { ProductosService } from 'src/app/services/productos.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class CrearEditarProductosComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
-    private productService: ProductosService,
+    private productService: ProductosEnStockService,
     private depositoService: DepositosService,
     private titleService: TitleService,
     private toastr: ToastrService

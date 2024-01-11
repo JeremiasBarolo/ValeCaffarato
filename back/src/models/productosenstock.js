@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
+      ProductosEnStock.belongsToMany(models.MaestroDeArticulos, {
+        through: 'ProductQuantities',
+        foreignKey: 'productoId',
+      });
     }
   }
   ProductosEnStock.init({
@@ -25,12 +29,14 @@ module.exports = (sequelize, DataTypes) => {
     profit: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
     antiguo_id: DataTypes.INTEGER,
+    quantity_reserved: DataTypes.INTEGER,
     unidad_medida: DataTypes.STRING,
     depositoId: DataTypes.INTEGER,
     type: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'ProductosEnStock',
+    tableName: 'ProductosEnStock',
   });
   return ProductosEnStock;
 };

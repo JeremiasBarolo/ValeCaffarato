@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
-import { InsumoService } from 'src/app/services/insumo.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
@@ -39,7 +39,7 @@ export class CrearEditarProductEntityComponent {
   ProductEntityData: any;
 
   constructor(
-    private insumoService: InsumoService,
+    private productosEnStockService: ProductosEnStockService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -142,7 +142,7 @@ export class CrearEditarProductEntityComponent {
     });
   }
   loadAllEntities() {
-    this.insumoService.getAll().subscribe((data) => {
+    this.productosEnStockService.getAll().subscribe((data) => {
       this.Insumos = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
   }

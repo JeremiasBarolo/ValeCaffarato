@@ -16,7 +16,7 @@ const fs = require('fs');
 
 const listAllProductos= async () => {
   try {
-    const Productos = await models.Productos.findAll(
+    const Productos = await models.ProductosEnStock.findAll(
       {
         include: { all: true },
       },
@@ -31,7 +31,7 @@ const listAllProductos= async () => {
 
 const listOneProductos= async (productos_id) => {
   try {
-    const oneProductos= await models.Productos.findByPk(productos_id, {
+    const oneProductos= await models.ProductosEnStock.findByPk(productos_id, {
       include: { all: true },
     });
     if (!oneProductos) {
@@ -51,7 +51,7 @@ const createProductosADMIN= async (productosData) => {
   try {
     // Si se crea usando el agregar producto desde admin...
     const entidad = await models.MaestroDeArticulos.findByPk(productosData.id)
-    const existe = await models.Productos.findOne({
+    const existe = await models.ProductosEnStock.findOne({
       where: {
         antiguo_id: parseInt(productosData.id, 10)
       }
@@ -59,7 +59,7 @@ const createProductosADMIN= async (productosData) => {
 
     if(existe){
       // Si existe..
-      const suma = existe.quantity + parseInt(productosData.quantity, 10)
+      const suma = existe.quantity + parseInt(productosData.cantidad, 10)
       const newProductos = await existe.update({
         quantity: suma,
         depositoId: parseInt(productosData.depositoId, 10),
@@ -68,15 +68,15 @@ const createProductosADMIN= async (productosData) => {
       return newProductos
     }else{
       // Si no existe ...
-      const newProductos = await models.Productos.create({
-        quantity: productosData.quantity,
+      const newProductos = await models.ProductosEnStock.create({
+        quantity: productosData.cantidad,
         name: entidad.name,
         description: entidad.description,
         costo_unit: entidad.costo_unit,
         quantity_reserved: 0,
         unidad_medida: entidad.uni_medida,
         profit: entidad.profit,
-        antiguo_id: productosData.id,
+        antiguo_id:parseInt(productosData.id, 10) ,
         type: productosData.type,
         depositoId: parseInt(productosData.depositoId, 10),
        })
@@ -102,7 +102,7 @@ const createProductos= async (productosData) => {
 
   try {
     const createdProducts = await Promise.all(productosData.map(async (producto) => {
-      const checkProduct = await models.Productos.findOne({
+      const checkProduct = await models.ProductosEnStock.findOne({
         where: {
           antiguo_id: producto.id
         }
@@ -117,7 +117,7 @@ const createProductos= async (productosData) => {
         return updatedProduct;
       } else {
         // Si no existe...
-        const newProduct = await models.Productos.create({
+        const newProduct = await models.ProductosEnStock.create({
           quantity: producto.PedidosProductos.quantity_requested,
           name: producto.name,
           description: producto.description,
@@ -125,6 +125,7 @@ const createProductos= async (productosData) => {
           profit: producto.profit,
           antiguo_id: producto.id,
           unidad_medida: producto.uni_medida,
+          quantity_reserved: 0 ,
           type:producto.type,
         });
         return newProduct;
@@ -146,10 +147,10 @@ const updateProductos= async (productos_id, dataUpdated) => {
 
   try {
 
-    const oldProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
+    const oldProductos= await models.ProductosEnStock.findByPk(productos_id, { include: { all: true } });
 
 
-    const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.cantidad });
+    const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.quantity });
     
 
     console.log(`✅ Productos"${newProductos.name}" was created with images`);
@@ -163,7 +164,7 @@ const updateProductos= async (productos_id, dataUpdated) => {
 
 const deleteProductos= async (productos_id) => {
   try {
-    const deletedProductos= await models.Productos.findByPk(productos_id, { include: { all: true } });
+    const deletedProductos= await models.ProductosEnStock.findByPk(productos_id, { include: { all: true } });
 
     if (deletedProductos=== 0) {
       console.error(`🛑 Productoswith id: ${productos_id} not found`);
@@ -171,7 +172,7 @@ const deleteProductos= async (productos_id) => {
     }
 
 
-    await models.Productos.destroy({ where: { id: productos_id } });
+    await models.ProductosEnStock.destroy({ where: { id: productos_id } });
 
     console.log(`✅ Productoswith id: ${productos_id} was deleted successfully`);
     return deletedProductos;

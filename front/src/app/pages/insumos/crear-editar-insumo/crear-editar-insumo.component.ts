@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
 import { DepositosService } from 'src/app/services/depositos.service';
-import { InsumoService } from 'src/app/services/insumo.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -36,7 +36,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
-    private insumoService: InsumoService,
+    private ProductosEnStockService: ProductosEnStockService,
     private maestroArticulosService: MaestroArticulosService,
     private depositosService: DepositosService,
     private titleService: TitleService
@@ -88,11 +88,12 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         price: this.form.value.price,
         unidad_medida: this.form.value.unidad_medida,
         depositoId: this.form.value.deposito,
-        admin: 'yes'
+        admin: 'yes',
+        type: 'INSUMO'
       }
         // Es editar
         try {
-          this.insumoService.update(this.id, this.insumo).subscribe(() => {
+          this.ProductosEnStockService.update(this.id, this.insumo).subscribe(() => {
             this.router.navigate(['dashboard/insumos']);
           });
       
@@ -104,10 +105,11 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
           cantidad: this.form.value.cantidad,
           id: this.form.value.insumoEntity,
           depositoId: this.form.value.deposito,
-          admin: 'yes'
+          admin: 'yes',
+          type: 'INSUMO'
         }
         try {
-          this.insumoService.create(this.insumoCreate).subscribe(() => {
+          this.ProductosEnStockService.create(this.insumoCreate).subscribe(() => {
             this.router.navigate(['dashboard/insumos']);
           });
           
@@ -119,12 +121,12 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   
 
   getInsumo(id: number) {
-    this.insumoService.getById(id).subscribe((data: Insumo)=> {
+    this.ProductosEnStockService.getById(id).subscribe((data: Insumo)=> {
       this.form.setValue({
         name: data.name,
         description: data.description,
         quantity: data.quantity,
-        price: data.price,
+        price: data.costo_unit,
         unidad_medida: data.unidad_medida,
         deposito: data.deposito.description
       });

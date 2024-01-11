@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from 'src/app/models/pedidos';
 
-import { InsumoService } from 'src/app/services/insumo.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -36,7 +36,7 @@ export class PedidosCompraComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private insumoService: InsumoService
+    private productosEnStockService: ProductosEnStockService
 
 
     ) { }
@@ -86,7 +86,7 @@ export class PedidosCompraComponent implements OnInit {
     }
 else if(estado === 'FINALIZADO'){
 
-      this.insumoService.create(pedido.productos).subscribe(() => {
+      this.productosEnStockService.create(pedido.productos).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
       });

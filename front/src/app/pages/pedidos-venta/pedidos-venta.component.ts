@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from 'src/app/models/pedidos';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { ProductosService } from 'src/app/services/productos.service';
+import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class PedidosVentaComponent {
     private route: ActivatedRoute,
     private router: Router,
     private viewport: ViewportScroller,
-    private productosService: ProductosService,
+    private productosService: ProductosEnStockService,
 
 
 

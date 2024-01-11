@@ -1,6 +1,3 @@
-'use strict';
-
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('ProductQuantities', {
@@ -10,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      insumoId: {
+      entidadId: {
         type: Sequelize.INTEGER,
         references:{
           model: 'ProductosEnStock',
@@ -19,7 +16,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
-      productId: {
+      productoId: {
         type: Sequelize.INTEGER,
         references:{
           model: 'MaestroDeArticulos',
