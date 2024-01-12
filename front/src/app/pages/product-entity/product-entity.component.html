@@ -43,12 +43,12 @@
           <p>{{ cardData.description }}</p>
           <p>Precio Unitario: {{ cardData.costo_unit | currency }} + {{cardData.profit}}%</p>
           <p>Unidad de Medida: {{ cardData.uni_medida }} </p>
-          <span class="card text-center" *ngFor="let item of cardData.Insumos">
+          <span class="card text-center" *ngFor="let item of cardData.ProductosEnStocks">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">
               <p>Descripcion: {{item.description}}</p>
               <p>Cantidad Requerida: {{item.ProductQuantities.quantity_necessary}}</p>
-              <p>Precio: {{item.price | currency}}</p>
+              <p>Precio: {{item.costo_unit | currency}}</p>
             </div>
           </span>
 

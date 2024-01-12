@@ -10,7 +10,7 @@ module.exports = {
       entidadId: {
         type: Sequelize.INTEGER,
         references:{
-          model: 'ProductosEnStock',
+          model: 'MaestroDeArticulos',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -19,7 +19,7 @@ module.exports = {
       productoId: {
         type: Sequelize.INTEGER,
         references:{
-          model: 'MaestroDeArticulos',
+          model: 'ProductosEnStock',
           key: 'id',
         },
         onDelete: 'CASCADE',

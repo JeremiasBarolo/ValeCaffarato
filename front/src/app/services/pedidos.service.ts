@@ -36,6 +36,7 @@ export class PedidosService {
     if(Pedidos.category === 'COMPRA'){
       return this.http.post<any>(`${this.apiUrl}/compra`, Pedidos)
     }else{
+      console.log(Pedidos);
       
       return this.http.post<any>(`${this.apiUrl}/venta`, Pedidos)
       .pipe(

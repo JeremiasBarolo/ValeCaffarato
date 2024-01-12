@@ -165,7 +165,6 @@ eliminarPedido(id?: number){
 }
 
 onAceptarClick() {
-  
   this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO', this.selectedDepositoId);
 }
 

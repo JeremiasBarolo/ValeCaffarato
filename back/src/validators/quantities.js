@@ -50,7 +50,7 @@ const pedidoValidator = [
                 });
         
                 if (productEntity) {
-                  for (const insumo of productEntity.Insumos) {
+                  for (const insumo of productEntity.ProductosEnStocks) {
                     const totalNecesario = insumo.ProductQuantities.quantity_necessary * product.cantidad;
                     if (totalNecesario > insumo.quantity) {
                       errors.push(`El insumo ${insumo.name} no tiene suficiente stock.`);

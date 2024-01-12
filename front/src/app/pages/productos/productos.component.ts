@@ -26,7 +26,12 @@ export class ProductosComponent {
   
   ngOnInit(): void {
     this.productoService.getAll().subscribe(data =>{
-      this.entidades = data
+      data.forEach(element => {
+        if(element.type === "PRODUCTO"){
+          this.entidades.push(element)
+        }
+      })
+      
     });
     this.titleService.setTitle('Productos en Stock');
   }

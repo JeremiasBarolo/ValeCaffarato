@@ -23,7 +23,7 @@ export class CrearEditarProductEntityComponent {
   form: FormGroup;
   id: number;
   selectedEntities: Insumo[] = [];
-  Insumos: Insumo[] = [];
+  Insumos: any[] = [];
   subtotal: number[] = [];
   presupuestoData: any = {
     name: '',
@@ -141,11 +141,18 @@ export class CrearEditarProductEntityComponent {
         
     });
   }
+  
   loadAllEntities() {
-    this.productosEnStockService.getAll().subscribe((data) => {
-      this.Insumos = data.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    this.maestroArticulosService.getAll().subscribe((data) => {
+      data.forEach((insumo: any) => {
+        if(insumo.tipoArticulo === 'INSUMO'){
+          this.Insumos.push(insumo);
+        }
+      })
+      this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
   }
+  
   loadSelectedProducts() {
     if (this.id) {
       this.maestroArticulosService.getById(this.id).subscribe(

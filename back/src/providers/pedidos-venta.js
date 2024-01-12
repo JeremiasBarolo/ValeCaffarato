@@ -30,7 +30,7 @@ const listOnePedidos= async (pedidos_id) => {
   }
 };
 
-const createPedidos= async (PedidosData) => {
+const createPedidos = async (PedidosData) => {
   
 
   try {
@@ -44,56 +44,28 @@ const createPedidos= async (PedidosData) => {
       state: PedidosData.state  
     };
 
+    const newPedidos= await models.Pedidos.create(dataPedidos);
+    const productData = PedidosData.productos.map(item => ({
+      productId: item.id,
+      cantidad: item.cantidad
+    }));
+
+
     
-
-    if(PedidosData.category === 'COMPRA'){
-
-        const newPedidos= await models.Pedidos.create(dataPedidos);
-
-        const insumosData = PedidosData.productos.map(item => ({
-            id: item.id,
-            cantidad: item.cantidad
-          }));
-
-        
-
-        for (const insumo of insumosData) {
-            const insumoEntity = await models.MaestroDeArticulos.findByPk(insumo.id);
-            if (insumoEntity) {
-              await models.PedidosProductos.create({
-                pedidoId: newPedidos.id,
-                productId: insumo.id,
-                quantity_requested: insumo.cantidad
-              });
-            }
-        }
-        console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
-        return newPedidos;
-  }else{  
-
-          const newPedidos= await models.Pedidos.create(dataPedidos);
-          const productData = PedidosData.productos.map(item => ({
-            productId: item.id,
-            cantidad: item.cantidad
-          }));
-
-
-          for (const product of productData) {
-            const insumoEntity = await models.MaestroDeArticulos.findByPk(product.productId);
-            if (insumoEntity) {
-              await models.PedidosProductos.create({
-                pedidoId: newPedidos.id,
-                productId: product.productId,
-                quantity_requested: product.cantidad
-              });
-            }
-        }
-        console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
-        return newPedidos;
+    for (const product of productData) {
+      const insumoEntity = await models.MaestroDeArticulos.findByPk(product.productId);
+      if (insumoEntity) {
+        await models.PedidosProductos.create({
+          pedidoId: newPedidos.id,
+          productId: product.productId,
+          quantity_requested: product.cantidad
+        });
+      }
   }
+  console.log(`✅ Pedidos"${newPedidos.name}" was created with images`);
+  return newPedidos;
+  
 
-    
-    
   } catch (err) {
     console.error('🛑 Error when creating Pedidos', err);
     throw err;
@@ -130,11 +102,10 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
           }, 0);
     
     
-          for (const insumo of entidadProducto.Insumos) {
+          for (const insumo of entidadProducto.ProductosEnStocks) {
             const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     
-            console.log(`Insumo ${insumo.name}: Necesaria=${cantidadNecesaria}, Actual=${cantidadActual}`);
     
             await insumo.update({
               quantity: insumo.quantity - cantidadActual,
@@ -159,7 +130,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
 
       // <======================== agregar productos ====================>
       await oldPedidos.productos.map(async product => {
-        const existe = await models.Productos.findOne({
+        const existe = await models.ProductosEnStock.findOne({
           where: {
             antiguo_id: product.PedidosProductos.productId
           }
@@ -172,11 +143,12 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
           })
         }else{
 
-          await models.Productos.create({
+          await models.ProductosEnStock.create({
             name: product.name,
             description: product.description,
             costo_unit: product.costo_unit,
             profit: product.profit,
+            type: product.tipoArticulo,
             quantity: product.PedidosProductos.quantity_requested,
             unidad_medida: product.uni_medida,
             antiguo_id: product.PedidosProductos.productId
@@ -202,7 +174,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         if (entidadProducto) {
           const cantidadRequerida = entidad.PedidosProductos.quantity_requested;
     
-          for (const insumo of entidadProducto.Insumos) {
+          for (const insumo of entidadProducto.ProductosEnStocks) {
             const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     

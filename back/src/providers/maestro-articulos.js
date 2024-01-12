@@ -1,18 +1,6 @@
 var models = require('../models');
 const path = require('path');
 const fs = require('fs');
-// const { sequelize } = require('../db/connection')
-
-// const serveImage = async (MaestroArticulos_id) => {
-//   try {
-//     const MaestroArticulos= await models.MaestroArticulos.findByPk(MaestroArticulos_id,
-//       { include: { all: true } });
-//     return MaestroArticulos;
-//   } catch (err) {
-//     console.error('🛑 Error when fetching product', err);
-//     throw err;
-//   }
-// };
 
 const listAllMaestroArticulos= async () => {
   try {
@@ -67,8 +55,8 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
 
       await MaestroArticulosData.productos.forEach(async product => {
         await models.ProductQuantities.create({
-          insumoId: product.id,
-          productId: newMaestroArticulos.id,
+          entidadId: newMaestroArticulos.id , 
+          productoId: product.id,  
           quantity_necessary: product.quantity
         })
       });
@@ -92,34 +80,10 @@ const updateMaestroArticulos= async (MaestroArticulos_id, dataUpdated) => {
 
 
   try {
-    
 
     const oldMaestroArticulos= await models.MaestroDeArticulos.findByPk(MaestroArticulos_id, {include: { all: true }});
 
-    // const newImageUrls = dataUpdated.images;
-    // const oldImageUrls = oldMaestroArticulos.images;
-
-    // for (let i = 0; i < oldImageUrls.length; i++) {
-    //   const deletingImages = path.join(oldImageUrls[i].imageUrl);
-    //   if (fs.existsSync(deletingImages)) {
-    //     fs.unlinkSync(deletingImages);
-    //   } else {
-    //     console.log('No existe la imagen');
-    //   }
-    // }
-
     const newMaestroArticulos= await oldMaestroArticulos.update(dataUpdated);
-
-    // const createdImages = await Promise.all(
-    //   newImageUrls.map((imageUrl) => models.MaestroArticulosImages.create(
-    //     {
-    //       imageUrl,
-    //       MaestroArticulosId: newMaestroArticulos.id,
-    //     },
-    //   ,
-    //   )),
-    // );
-
 
     console.log(`✅ MaestroArticulos"${newMaestroArticulos.name}" was created with images`);
 
@@ -141,13 +105,13 @@ const deleteMaestroArticulos= async (MaestroArticulos_id) => {
       return null;
     }
 
-    for (const insumo of deletedMaestroArticulos.Insumos) {
+    for (const insumo of deletedMaestroArticulos.ProductosEnStocks) {
       
       await models.ProductQuantities.destroy({ where:  
         { 
-          quantity_requested: insumo.ProductQuantities.quantity_requested, 
-          productId: insumo.ProductQuantities.productId, 
-          pedidoId: insumo.ProductQuantities.pedidoId 
+          quantity_necessary: insumo.ProductQuantities.quantity_necessary, 
+          productoId: insumo.ProductQuantities.productoId, 
+          entidadId: insumo.ProductQuantities.entidadId 
         } });
     }
 

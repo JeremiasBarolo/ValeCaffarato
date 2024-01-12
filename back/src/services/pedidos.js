@@ -1,24 +1,30 @@
-const { pedidosProvider } = require('../providers');
+const { pedidosVentaProvider, pedidosCompraProvider } = require('../providers');
 
 const listAllPedidos = async () => {
-    return await pedidosProvider.listAllPedidos();
+    return await pedidosVentaProvider.listAllPedidos();
 };
 
 const listOnePedidos = async (Pedidos_id) => {
-    return await pedidosProvider.listOnePedidos(Pedidos_id);
+    return await pedidosVentaProvider.listOnePedidos(Pedidos_id);
 };
 
 const createPedidos = async (PedidosData) => {
-    return await pedidosProvider.createPedidos(PedidosData);
+
+    if(PedidosData.category === 'VENTA'){
+        return await pedidosVentaProvider.createPedidos(PedidosData);
+    }else{
+        return await pedidosCompraProvider.createPedidos(PedidosData);
+    }
+    
 };
 
 
 const updatePedidos = async (Pedidos_id, updatePedidos) => {
-    return await pedidosProvider.updatePedidos(Pedidos_id, updatePedidos);
+    return await pedidosVentaProvider.updatePedidos(Pedidos_id, updatePedidos);
 };
 
 const deletePedidos = async (Pedidos_id) => {
-    return await pedidosProvider.deletePedidos(Pedidos_id);
+    return await pedidosVentaProvider.deletePedidos(Pedidos_id);
 };
 
 

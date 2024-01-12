@@ -30,7 +30,13 @@ export class InsumosComponent {
   }
   
   ngOnInit(): void {
-    this.productosEnStockService.getAll().subscribe(insumos => this.entidades = insumos);
+    this.productosEnStockService.getAll().subscribe(insumos => 
+      insumos.forEach(element=>{
+        if(element.type === "INSUMO"){
+          this.entidades.push(element)
+        }
+  }))
+      
     this.titleService.setTitle('Insumos');
   }
   deleteEntidad(id: any) {
