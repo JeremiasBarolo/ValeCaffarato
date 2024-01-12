@@ -4,6 +4,10 @@ const productosService = require('./producto');
 const documentoService = require('./documentos');
 const maestroArticulosService = require('./maestro-articulos');
 const depositosService = require('./depositos');
+const paisesService = require('./paises');
+const provinciasService = require('./provincias');
+const localidadesService = require('./localidades');
+const bancosService = require('./bancos');
 
 module.exports = {
     personasService,
@@ -11,5 +15,9 @@ module.exports = {
     productosService,
     documentoService,
     maestroArticulosService,
-    depositosService
+    depositosService,
+    paisesService,
+    provinciasService,
+    localidadesService,
+    bancosService,
 };

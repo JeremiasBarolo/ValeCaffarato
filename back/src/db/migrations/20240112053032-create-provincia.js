@@ -14,7 +14,7 @@ module.exports = {
       },
       paisId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
           model: 'Pais',
           key: 'id',

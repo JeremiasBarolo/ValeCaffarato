@@ -14,9 +14,9 @@ module.exports = {
       },
       localidadId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
-          model: 'Localidad',
+          model: 'Localidads',
           key: 'id',
         },
         onDelete: 'CASCADE',

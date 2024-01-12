@@ -1,5 +1,3 @@
-/* eslint-disable eol-last */
-/* eslint-disable import/no-unresolved */
 // Index of routes
 const personasRouter = require('./personas');
 const maestroArticulosRouter = require('./maestro-articulos');
@@ -9,6 +7,10 @@ const productosRouter = require('./productos');
 const documentosRouter = require('./documentos');
 const generarPdfRouter = require('./generarPdf');
 const depositosRouter = require('./depositos');
+const paisesRouter = require('./paises');
+const provinciasRouter = require('./provincias');
+const localidadesRouter = require('./localidades');
+const bancosRouter = require('./bancos');
 
 
 module.exports = {
@@ -19,5 +21,9 @@ module.exports = {
     documentosRouter,
     generarPdfRouter,
     maestroArticulosRouter,
-    depositosRouter
+    depositosRouter,
+    paisesRouter,
+    provinciasRouter,
+    localidadesRouter,
+    bancosRouter
  };

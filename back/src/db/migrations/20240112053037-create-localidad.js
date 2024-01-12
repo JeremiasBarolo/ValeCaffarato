@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Localidad', {
+    await queryInterface.createTable('Localidads', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,9 +12,12 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      codigo_postal:{
+        type: Sequelize.INTEGER
+      },
       provinciaId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
           model: 'Provincia',
           key: 'id',
@@ -33,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Localidad');
+    await queryInterface.dropTable('Localidads');
   }
 };

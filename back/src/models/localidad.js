@@ -10,12 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Localidad.belongsTo(models.Provincia);
+      Localidad.belongsTo(models.Provincia,
+        {
+          foreignKey: 'provinciaId',
+        });
       Localidad.hasMany(models.Bancos);
     }
   }
   Localidad.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    codigo_postal: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Localidad',

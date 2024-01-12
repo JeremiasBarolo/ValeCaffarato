@@ -6,6 +6,10 @@ const productosController = require('./producto');
 const documentoController = require('./documentos');
 const maestroArticulosController = require('./maestro-articulos');
 const depositosController = require('./depositos');
+const paisesController = require('./paises');
+const provinciasController = require('./provincias');
+const localidadesController = require('./localidades');
+const bancosController = require('./bancos');
 
 module.exports = { 
     personasController,
@@ -14,5 +18,9 @@ module.exports = {
     productosController,
     documentoController,
     maestroArticulosController,
-    depositosController
+    depositosController,
+    paisesController,
+    provinciasController,
+    localidadesController,
+    bancosController,
 };

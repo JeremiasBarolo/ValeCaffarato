@@ -73,38 +73,12 @@ const updateDepositos= async (Depositos_id, dataUpdated) => {
 const deleteDepositos = async (Depositos_id) => {
   try {
     const deletedDepositos = await models.Depositos.findByPk(Depositos_id, 
-        // { 
-        //     include: { all: true } ,
-        // }
     );
 
     if (!deletedDepositos) {
       console.error(`🛑 Depositos with id: ${Depositos_id} not found`);
       return null;
     }
-
-    
-//   for (const persona of deletedDepositos.Personas) {
-
-//     if(persona){
-//         await models.PersonaDepositos.destroy({ where:  
-//             { 
-//               personaId: persona.id,
-//               DepositosId: deletedDepositos.id
-//             } });
-//     }  
-//   }
-
-//   for(const pedido of deletedDepositos.Pedidos){
-//     if(pedido){
-//         await models.PedidoDepositos.destroy({ where:  
-//             { 
-//               pedidoId: pedido.id,
-//               DepositosId: deletedDepositos.id
-//             } });
-//     }  
-//   }
-
     
     await models.Depositos.destroy({ where: { id: Depositos_id } });
 
