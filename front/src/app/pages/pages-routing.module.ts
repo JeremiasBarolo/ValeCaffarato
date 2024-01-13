@@ -28,6 +28,8 @@ import { CrearEditarDocumentosComponent } from './documentos/crear-editar-docume
 import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
 import { DepositosComponent } from './padrones/depositos/depositos.component';
 import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
+import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-editar-geograficos/crear-editar-geograficos.component';
+import { TablaGeograficosComponent } from './padrones/geograficos/tabla-geograficos/tabla-geograficos.component';
 
 
 
@@ -68,6 +70,9 @@ const routes: Routes = [
       { path: 'depositos', component: DepositosComponent },
       { path: 'depositos/crear-editar', component: CrearEditarDepositosComponent },
       { path: 'depositos/crear-editar/:id', component: CrearEditarDepositosComponent },
+      { path: 'geograficos', component: TablaGeograficosComponent },
+      { path: 'geograficos/crear-editar', component: CrearEditarGeograficosComponent },
+      { path: 'geograficos/crear-editar/:id', component: CrearEditarGeograficosComponent },
 
       
 

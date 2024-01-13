@@ -28,6 +28,8 @@ import { CrearEditarDocumentosComponent } from './documentos/crear-editar-docume
 import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
 import { DepositosComponent } from './padrones/depositos/depositos.component';
 import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
+import { TablaGeograficosComponent } from './padrones/geograficos/tabla-geograficos/tabla-geograficos.component';
+import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-editar-geograficos/crear-editar-geograficos.component';
 
 
 
@@ -64,6 +66,8 @@ import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar
     FacturaRemitoComponent,
     DepositosComponent,
     CrearEditarDepositosComponent,
+    TablaGeograficosComponent,
+    CrearEditarGeograficosComponent,
 
     
 
