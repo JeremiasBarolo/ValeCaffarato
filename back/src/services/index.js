@@ -8,6 +8,8 @@ const paisesService = require('./paises');
 const provinciasService = require('./provincias');
 const localidadesService = require('./localidades');
 const bancosService = require('./bancos');
+const Tipo_PersonaService = require('./Tipo_Persona');
+const Cond_IvaService = require('./Cond_Iva');
 
 module.exports = {
     personasService,
@@ -20,4 +22,6 @@ module.exports = {
     provinciasService,
     localidadesService,
     bancosService,
+    Tipo_PersonaService,
+    Cond_IvaService
 };

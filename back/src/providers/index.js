@@ -10,6 +10,8 @@ const paisesProvider = require('./paises');
 const provinciasProvider = require('./provincias');
 const localidadesProvider = require('./localidades');
 const bancosProvider = require('./bancos');
+const Cond_IvaProvider = require('./Cond_Iva');
+const Tipo_PersonaProvider = require('./Tipo_Persona');
 
 module.exports = { 
     personasProvider, 
@@ -24,4 +26,6 @@ module.exports = {
     provinciasProvider,
     localidadesProvider,
     bancosProvider,
+    Cond_IvaProvider,
+    Tipo_PersonaProvider
 };

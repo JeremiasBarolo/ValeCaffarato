@@ -11,6 +11,8 @@ const paisesRouter = require('./paises');
 const provinciasRouter = require('./provincias');
 const localidadesRouter = require('./localidades');
 const bancosRouter = require('./bancos');
+const tipo_personaRouter = require('./Tipo_Persona');
+const cond_ivaRouter = require('./Cond_Iva');
 
 
 module.exports = {
@@ -25,5 +27,7 @@ module.exports = {
     paisesRouter,
     provinciasRouter,
     localidadesRouter,
-    bancosRouter
+    bancosRouter,
+    tipo_personaRouter,
+    cond_ivaRouter
  };

@@ -29,6 +29,16 @@ module.exports = (sequelize, DataTypes) => {
         as: 'DocumentoCliente',
         through: { model: models.PersonaDocumentos, unique: false },
       });
+
+      Personas.belongsTo(models.Cond_Iva, {
+        foreignKey: 'CondIvaId',
+        as: 'Condicion_Iva'
+      });
+    
+      Personas.belongsTo(models.Tipo_Persona, {
+        foreignKey: 'TipoPersonaId',
+        as: 'Tipo_Persona'
+      });
     }
   }
   Personas.init({

@@ -1,4 +1,3 @@
-// En tu archivo de migración para Personas (por ejemplo, 20230101000000-create-personas.js)
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -35,6 +34,22 @@ module.exports = {
       },
       categoria: {
         type: Sequelize.STRING,
+      },
+      CondIvaId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Cond_Ivas',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+      },
+      TipoPersonaId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Tipo_Personas',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
