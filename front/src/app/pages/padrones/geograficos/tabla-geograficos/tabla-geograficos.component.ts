@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'src/app/models/Persona';
+import { BancosService } from 'src/app/services/bancos.service';
+import { LocalidadesService } from 'src/app/services/localidades.service';
+import { PaisesService } from 'src/app/services/paises.service';
 import { PersonasService } from 'src/app/services/personas.service';
+import { ProvinciasService } from 'src/app/services/provincias.service';
 import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-tabla-geograficos',
@@ -10,8 +15,15 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./tabla-geograficos.component.css']
 })
 export class TablaGeograficosComponent {
-  clientes: Persona[] = [];
+  paises: any[] = [];
+  provincias: any[] = [];
+  bancos: any[] = [];
+  localidades: any[] = [];
+
   cardData: any = {
+    name: ''
+  }
+  cardDataEliminar: any = {
     name: ''
   }
   selectedOption:string | undefined 
@@ -20,32 +32,80 @@ export class TablaGeograficosComponent {
     private personasService: PersonasService, 
     private titleService: TitleService,
     private route: ActivatedRoute,
-    private router: Router,) { }
+    private router: Router,
+    private paisesService: PaisesService,
+    private provinciasService: ProvinciasService,
+    private localidadesService: LocalidadesService,
+    private bancosService: BancosService,
+    
+    ) { }
 
   ngOnInit(): void {
   this.titleService.setTitle('Padrones Geograficos');
-  this.personasService.getAll().subscribe(persona => {
-    let clientes = persona.filter((persona) => persona.categoria === 'CLIENTE');
-    this.clientes = clientes;
-    
+
+  this.paisesService.getAll().subscribe(pais => {
+    this.paises= pais
+  })
+
+  this.bancosService.getAll().subscribe(banco => {
+    this.bancos= banco
+  })
+
+  this.provinciasService.getAll().subscribe(pais => {
+    this.provincias= pais
+  })
+
+  this.localidadesService.getAll().subscribe(pais => {
+    this.localidades= pais
   })
 }
 
 showCardDetails(card: any) {
-    
-  this.cardData = card;  
+  this.cardData = card
   console.log(this.cardData);
 }
 
+eliminarPadron(id: number, accion: string) {
   
+  const confirmacion = window.confirm('Esta acción también eliminará todos los datos enlazados a este. ¿Está seguro de querer hacerlo?');
 
-  deleteCliente(id: any) {
-    this.personasService.delete(id).subscribe(() => {
-      this.clientes = this.clientes.filter(e => e.id !== id);
-    });
+  
+  if (confirmacion) {
+    if (accion === 'PAIS') {
+      this.paisesService.delete(id).subscribe(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      });
+    } else if (accion === 'PROVINCIA') {
+      this.provinciasService.delete(id).subscribe(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      });
+    } else if (accion === 'LOCALIDAD') {
+      this.localidadesService.delete(id).subscribe(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      });
+    } else {
+      this.bancosService.delete(id).subscribe(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      });
+    }
   }
+}
+updatePadron(id: number, accion:string) {
+  this.router.navigate(['dashboard/geograficos/crear-editar', {accion: accion, id_update: id} ]);
+}
 
   onAceptarClick() {
     this.router.navigate(['dashboard/geograficos/crear-editar', {id: this.selectedOption} ]);
   }
+
+  
+  
 }

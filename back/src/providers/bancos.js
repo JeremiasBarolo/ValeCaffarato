@@ -40,7 +40,7 @@ const createBancos= async (BancosData) => {
     
     const dataBancos= {
       name: BancosData.name,
-      localidadId: BancosData.localidadId
+      localidadId: parseInt(BancosData.localidadId,10)
     };
     
 

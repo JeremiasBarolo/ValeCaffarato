@@ -37,7 +37,7 @@ const createProvincias = async (ProvinciasData) => {
     try {
       const dataProvincias = {
         name: ProvinciasData.name,
-        paisId: ProvinciasData.paisId,
+        paisId: parseInt(ProvinciasData.paisId,10),
       };
   
       

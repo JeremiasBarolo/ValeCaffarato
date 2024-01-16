@@ -41,7 +41,7 @@ const createLocalidades= async (LocalidadesData) => {
     const dataLocalidades= {
       name: LocalidadesData.name,
       codigo_postal:LocalidadesData.codigo_postal,
-      provinciaId: LocalidadesData.provinciaId
+      provinciaId: parseInt(LocalidadesData.provinciaId,10)
 
     };
     
