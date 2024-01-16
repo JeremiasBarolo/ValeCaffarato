@@ -5,12 +5,7 @@ import { PagesComponent } from './pages.component';
 import { ProductosComponent } from './productos/productos.component';
 import { InsumosComponent } from './insumos/insumos.component';
 import { CrearEditarInsumoComponent } from './insumos/crear-editar-insumo/crear-editar-insumo.component';
-import { ProveedoresComponent } from './proveedores/proveedores.component';
-
-import { EmpleadosComponent } from './empleados/empleados.component';
-
-import { ClientesComponent } from './clientes/clientes.component';
-
+import { PersonasComponent } from './personas/personas.component';
 import { InsumosEntityComponent } from './insumos-entity/insumos-entity.component';
 import { CrearEditarInsumoEntityComponent } from './insumos-entity/crear-editar-insumo-entity/crear-editar-insumo-entity.component';
 import { ProductEntityComponent } from './product-entity/product-entity.component';
@@ -18,7 +13,7 @@ import { CrearEditarProductEntityComponent } from './product-entity/crear-editar
 import { PedidosCompraComponent } from './pedidos-compra/pedidos-compra.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CrearEditarPedidosCompraComponent } from './pedidos-compra/crear-editar-pedidos-compra/crear-editar-pedidos-compra.component';
-import { CrearPersonaComponent } from './crear-persona/crear-persona.component';
+import { CrearPersonaComponent } from './personas/crear-persona/crear-persona.component';
 import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
@@ -53,10 +48,8 @@ const routes: Routes = [
       { path: 'insumos', component: InsumosComponent },
       { path: 'insumos/crear-editar', component: CrearEditarInsumoComponent },
       { path: 'insumos/crear-editar/:id', component: CrearEditarInsumoComponent },
-      { path: 'proveedores', component: ProveedoresComponent },
       { path: 'productos', component: ProductosComponent },
-      { path : 'empleados', component : EmpleadosComponent},
-      { path : 'clientes', component : ClientesComponent},
+      { path : 'personas', component : PersonasComponent},
       { path : 'insumo-entity', component : InsumosEntityComponent},
       { path: 'insumo-entity/crear-editar', component: CrearEditarInsumoEntityComponent },
       { path: 'insumo-entity/crear-editar/:id', component: CrearEditarInsumoEntityComponent },

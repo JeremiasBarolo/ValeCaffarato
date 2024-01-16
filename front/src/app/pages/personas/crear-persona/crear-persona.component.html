@@ -43,55 +43,28 @@
           </div>
 
           <div class="form-group text-center">
-          <label for="email">Tipo de Persona:</label> <br>
-            <select class="form-select" aria-label="Default select example" formControlName="selectedOption">
-              <option value="CLIENTE">Cliente</option>
-              <option value="PROVEEDOR">Proveedor</option>
-              <option value="EMPLEADO">Empleado</option>
+          <label for="tipo_persona">Tipo de Persona:</label> <br>
+            <select class="form-select" aria-label="Default select example" formControlName="tipo_persona">
+              <option *ngFor="let tipoPersona of tipo" value="{{tipoPersona.id}}">{{tipoPersona.description}}</option>
             </select>
 
           </div>
-        
-        <!-- Campos específicos para Cliente -->
-        <div *ngIf="form.get('selectedOption')?.value === 'CLIENTE'"
-        >
+
           <div class="form-group text-center">
-            <label for="clientCompany">Empresa:</label>
-            <input formControlName="clientCompany" type="text" class="form-control" placeholder="Empresa">
-          </div>
+            <label for="cond_iva">Condicion de Iva:</label> <br>
+              <select class="form-select" aria-label="Default select example" formControlName="cond_iva">
+                <option *ngFor="let tipoPersona of cond" value="{{tipoPersona.id}}">{{tipoPersona.description}}</option>
+                
+              </select>
+  
+            </div>
         
-          <div class="form-group text-center">
-            <label for="clientCity">Localidad:</label>
-            <input formControlName="clientCity" type="text" class="form-control" placeholder="Localidad">
-          </div>
-        </div>
-        
-        <!-- Campos específicos para Proveedor -->
-        <div *ngIf="form.get('selectedOption')?.value === 'PROVEEDOR'">
-          <div class="form-group text-center">
-            <label for="industry">Empresa:</label>
-            <input formControlName="industry" type="text" class="form-control" placeholder="Empresa">
-          </div>
-        
-          <div class="form-group text-center">
-            <label for="providerCity">Localidad:</label>
-            <input formControlName="providerCity" type="text" class="form-control" placeholder="Localidad">
-          </div>
-        </div>
-        
-        <!-- Campos específicos para Empleado -->
-        <div *ngIf="form.get('selectedOption')?.value === 'EMPLEADO'">
-          <div class="form-group text-center">
-            <label for="cargo">Cargo:</label>
-            <input formControlName="cargo" type="text" class="form-control" placeholder="Cargo">
-          </div>
-        </div>
         
         <!-- ... Botón de enviar ... -->
         
         <div class="row mt-5 text-center">
           <div class="col-xs-12 col-md-6 col-lg-6">
-            <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addPersona(selectedOption)">Aceptar</button>
+            <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addPersona()">Aceptar</button>
           </div>
           <div class="col-xs-12 col-md-6 col-lg-6">
               <button type="button" class="btn btn-info"> Volver </button>

@@ -32,9 +32,6 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
       },
-      categoria: {
-        type: Sequelize.STRING,
-      },
       CondIvaId: {
         type: Sequelize.INTEGER,
         references:{
@@ -47,6 +44,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         references:{
           model: 'Tipo_Personas',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+      },
+      documentoId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Documentos',
           key: 'id',
         },
         onUpdate: 'CASCADE',

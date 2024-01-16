@@ -5,11 +5,11 @@ import { PersonasService } from 'src/app/services/personas.service';
 import { TitleService } from 'src/app/services/title.service';
 
 @Component({
-  selector: 'app-empleados',
-  templateUrl: './empleados.component.html',
-  styleUrls: ['./empleados.component.css']
+  selector: 'app-personas',
+  templateUrl: './personas.component.html',
+  styleUrls: ['./personas.component.css']
 })
-export class EmpleadosComponent implements OnInit {
+export class PersonasComponent implements OnInit {
 
   empleados: any[] = [];
   persona: any;
@@ -21,14 +21,22 @@ export class EmpleadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.personasService.getAll().subscribe(persona => {
-      let empleados = persona.filter((persona) => persona.categoria === 'EMPLEADO');
-      this.empleados = empleados;
+      this.empleados = persona.map((data) => ({
+        ...data,
+        Tipo_Persona: data.Tipo_Persona || { description: 'Sin Tipo' }
+        
+      }));
       
-    })
+    },
+    (error) => {
+      console.error('Error al obtener datos:', error);
+    }
+      
+    )
 
 
 
-  this.titleService.setTitle('Empleados');
+  this.titleService.setTitle('Personas');
   }
 
   showCardDetails(card: any) {

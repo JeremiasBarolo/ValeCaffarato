@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('PersonaDocumentos', {
       id: {
         allowNull: false,
@@ -12,8 +12,7 @@ module.exports = {
       },
       personaId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references:{
+        references: {
           model: 'Personas',
           key: 'id',
           onDelete: 'CASCADE'
@@ -21,8 +20,7 @@ module.exports = {
       },
       documentoId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references:{
+        references: {
           model: 'Documentos',
           key: 'id',
           onDelete: 'CASCADE'
@@ -38,7 +36,7 @@ module.exports = {
       }
     });
   },
-
+  
   async down (queryInterface, Sequelize) {
     await queryInterface.dropTable('PersonaDocumentos');
   }
