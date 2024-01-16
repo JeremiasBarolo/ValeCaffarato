@@ -201,12 +201,14 @@
                 <div class="form-group text-center">
                     <label for="selectDeposito">Seleccionar:</label>
                     <br>
-                    <select id="selectDeposito" class="form-select" aria-label="Depositos"[(ngModel)]="selectedOption">
-                        <option value="PAIS">Pais</option>
-                        <option value="PROVINCIA">Provincia</option>
-                        <option value="LOCALIDAD">Localidad</option>
-                        <option value="BANCO">Banco</option>
-                    </select>
+                    <form [formGroup]="form">
+                      <select id="selectDeposito" class="form-select" aria-label="Depositos" formControlName="accion">
+                          <option value="PAIS">Pais</option>
+                          <option value="PROVINCIA">Provincia</option>
+                          <option value="LOCALIDAD">Localidad</option>
+                          <option value="BANCO">Banco</option>
+                      </select>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">

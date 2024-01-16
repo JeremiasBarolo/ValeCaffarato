@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'src/app/models/Persona';
 import { BancosService } from 'src/app/services/bancos.service';
@@ -15,6 +16,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./tabla-geograficos.component.css']
 })
 export class TablaGeograficosComponent {
+  form: FormGroup;
   paises: any[] = [];
   provincias: any[] = [];
   bancos: any[] = [];
@@ -27,6 +29,7 @@ export class TablaGeograficosComponent {
     name: ''
   }
   selectedOption:string | undefined 
+ 
   
   constructor( 
     private personasService: PersonasService, 
@@ -37,8 +40,15 @@ export class TablaGeograficosComponent {
     private provinciasService: ProvinciasService,
     private localidadesService: LocalidadesService,
     private bancosService: BancosService,
+    private fb: FormBuilder,
     
-    ) { }
+    ) { 
+      
+
+      this.form = this.fb.group({
+      accion: ['', Validators.required],
+    });
+    }
 
   ngOnInit(): void {
   this.titleService.setTitle('Padrones Geograficos');
@@ -103,7 +113,7 @@ updatePadron(id: number, accion:string) {
 }
 
   onAceptarClick() {
-    this.router.navigate(['dashboard/geograficos/crear-editar', {id: this.selectedOption} ]);
+    this.router.navigate(['dashboard/geograficos/crear-editar', {id: this.form.value.accion} ]);
   }
 
   
