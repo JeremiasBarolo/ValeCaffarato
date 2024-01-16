@@ -1,10 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { DepositosService } from 'src/app/services/depositos.service';
-import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { TitleService } from 'src/app/services/title.service';
 import { PaisesService } from 'src/app/services/paises.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';

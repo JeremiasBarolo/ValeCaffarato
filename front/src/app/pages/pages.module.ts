@@ -30,6 +30,8 @@ import { DepositosComponent } from './padrones/depositos/depositos.component';
 import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
 import { TablaGeograficosComponent } from './padrones/geograficos/tabla-geograficos/tabla-geograficos.component';
 import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-editar-geograficos/crear-editar-geograficos.component';
+import { PersonalesComponent } from './padrones/personales/personales.component';
+import { CrearEditarPersonalesComponent } from './padrones/personales/crear-editar-personales/crear-editar-personales.component';
 
 
 
@@ -68,6 +70,8 @@ import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-ed
     CrearEditarDepositosComponent,
     TablaGeograficosComponent,
     CrearEditarGeograficosComponent,
+    PersonalesComponent,
+    CrearEditarPersonalesComponent,
 
     
 

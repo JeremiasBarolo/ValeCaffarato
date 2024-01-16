@@ -30,6 +30,9 @@ import { DepositosComponent } from './padrones/depositos/depositos.component';
 import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
 import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-editar-geograficos/crear-editar-geograficos.component';
 import { TablaGeograficosComponent } from './padrones/geograficos/tabla-geograficos/tabla-geograficos.component';
+import { PersonalesComponent } from './padrones/personales/personales.component';
+import { CrearEditarPersonalesComponent } from './padrones/personales/crear-editar-personales/crear-editar-personales.component';
+
 
 
 
@@ -73,6 +76,9 @@ const routes: Routes = [
       { path: 'geograficos', component: TablaGeograficosComponent },
       { path: 'geograficos/crear-editar', component: CrearEditarGeograficosComponent },
       { path: 'geograficos/crear-editar/:id', component: CrearEditarGeograficosComponent },
+      { path: 'personales', component: PersonalesComponent },
+      { path: 'personales/crear-editar', component: CrearEditarPersonalesComponent },
+      { path: 'personales/crear-editar/:id', component: CrearEditarPersonalesComponent },
 
       
 

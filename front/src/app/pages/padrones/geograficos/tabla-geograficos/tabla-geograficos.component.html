@@ -177,7 +177,7 @@
             <p class="text-center"><strong>{{ cardData?.Localidad?.name }}</strong></p>
         </div>
         <div class="modal-footer">
-          <button data-target="#eliminar" type="button" class="btn btn-danger" (click)="showCardDetails(cardData.id)">Eliminar</button>
+          <button type="button" class="btn btn-danger"  (click)="eliminarPadron(cardData.id,'LOCALIDAD')">Eliminar</button>
 
           <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePadron(cardData.id,'BANCO' )"><i class="fa-solid fa-pen-to-square"></i></button>
 
