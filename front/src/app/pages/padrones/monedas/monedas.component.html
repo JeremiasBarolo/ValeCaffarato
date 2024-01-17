@@ -1,0 +1,76 @@
+<div class="text-right">
+    <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']"> Agregar Monedas</button>
+  </div>
+  
+  
+  <section style="margin: 16px">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Simbolo</th>
+            <th scope="col">Acciones</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
+            <th scope="row">{{entidad.id}}</th>
+            
+            <td>{{entidad.description}}</td>
+            <td>{{entidad.simbolo}}</td>
+            
+            <td>
+                <div class="wrapper d-flex justify-content-end">
+                    <button [routerLink]="['crear-editar', entidad.id]" routerLinkActive="router-link-active"
+                        type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+  
+                    <button type="button" (click)="deleteEntidad(entidad.id)"
+                        class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                            class="fa-solid fa-trash"></i></button>
+                </div>
+            </td>
+  
+          </tr>
+          
+        </tbody>
+      </table>
+  
+  </section>
+  
+  
+  
+  
+  <div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title ">{{ cardData.description }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <p>Simbolo: {{ cardData.simbolo }}</p>
+  
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+    
+  
+  

@@ -27,6 +27,8 @@ import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-ed
 import { TablaGeograficosComponent } from './padrones/geograficos/tabla-geograficos/tabla-geograficos.component';
 import { PersonalesComponent } from './padrones/personales/personales.component';
 import { CrearEditarPersonalesComponent } from './padrones/personales/crear-editar-personales/crear-editar-personales.component';
+import { MonedasComponent } from './padrones/monedas/monedas.component';
+import { CrearEditarMonedasComponent } from './padrones/monedas/crear-editar-monedas/crear-editar-monedas.component';
 
 
 
@@ -72,6 +74,9 @@ const routes: Routes = [
       { path: 'personales', component: PersonalesComponent },
       { path: 'personales/crear-editar', component: CrearEditarPersonalesComponent },
       { path: 'personales/crear-editar/:id', component: CrearEditarPersonalesComponent },
+      { path: 'monedas', component: MonedasComponent },
+      { path: 'monedas/crear-editar', component: CrearEditarMonedasComponent },
+      { path: 'monedas/crear-editar/:id', component: CrearEditarMonedasComponent },
 
       
 

@@ -30,6 +30,8 @@ import { TablaGeograficosComponent } from './padrones/geograficos/tabla-geografi
 import { CrearEditarGeograficosComponent } from './padrones/geograficos/crear-editar-geograficos/crear-editar-geograficos.component';
 import { PersonalesComponent } from './padrones/personales/personales.component';
 import { CrearEditarPersonalesComponent } from './padrones/personales/crear-editar-personales/crear-editar-personales.component';
+import { MonedasComponent } from './padrones/monedas/monedas.component';
+import { CrearEditarMonedasComponent } from './padrones/monedas/crear-editar-monedas/crear-editar-monedas.component';
 
 
 
@@ -68,6 +70,8 @@ import { CrearEditarPersonalesComponent } from './padrones/personales/crear-edit
     CrearEditarGeograficosComponent,
     PersonalesComponent,
     CrearEditarPersonalesComponent,
+    MonedasComponent,
+    CrearEditarMonedasComponent,
 
     
 
