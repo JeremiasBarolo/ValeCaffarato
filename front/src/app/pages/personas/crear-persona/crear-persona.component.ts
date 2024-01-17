@@ -5,8 +5,11 @@ import { ToastrService } from 'ngx-toastr';
 
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
+import { LocalidadesService } from 'src/app/services/localidades.service';
+import { PaisesService } from 'src/app/services/paises.service';
 
 import { PersonasService } from 'src/app/services/personas.service';
+import { ProvinciasService } from 'src/app/services/provincias.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -26,6 +29,10 @@ export class CrearPersonaComponent {
   selectedOption: string = ''
   operacion: string = ''
   personData: any | any;
+  countries:any[]= []
+  provinces:any[]= []
+  localities:any[]= []
+  localidades: any;
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +41,9 @@ export class CrearPersonaComponent {
     private personasService: PersonasService,
     private titleService: TitleService,
     private tipoPersonasService: TipoPersonaService,
+    private paisesService: PaisesService,
+    private provinciasService: ProvinciasService,
+    private localidadesService: LocalidadesService,
     private condIvaService: CondIvaService,
     private toastr: ToastrService
   ) {
@@ -48,7 +58,9 @@ export class CrearPersonaComponent {
       email: ['', Validators.required],
       tipo_persona: ['', Validators.required],
       cond_iva: ['', Validators.required],
-      
+      locality: ['', Validators.required],
+      country: ['', Validators.required],
+      province: ['', Validators.required],
       
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -56,6 +68,13 @@ export class CrearPersonaComponent {
   
 
   ngAfterViewInit(): void {
+    this.tipoPersonasService.getAll().subscribe((data)=>{
+      this.tipo = data
+    })
+    this.condIvaService.getAll().subscribe((data)=>{
+      this.cond = data
+    })
+    this.loadCountries()
     if (this.id !== 0) {
       this.operacion = 'Editar';
       this.titleService.setTitle('Editar Persona');
@@ -64,12 +83,7 @@ export class CrearPersonaComponent {
     } else{
       this.operacion = 'Agregar';
       this.titleService.setTitle('Crear Persona');
-      this.tipoPersonasService.getAll().subscribe((data)=>{
-        this.tipo = data
-      })
-      this.condIvaService.getAll().subscribe((data)=>{
-        this.cond = data
-      })
+      
       
     }   
   }
@@ -86,8 +100,8 @@ export class CrearPersonaComponent {
       phone: this.form.value.phone,
       email: this.form.value.email,
       tipo_persona:this.form.value.tipo_persona,
-      cond_iva:this.form.value.cond_iva
-      
+      cond_iva:this.form.value.cond_iva,
+      localidadId:this.form.value.locality
     };
      
      
@@ -99,7 +113,7 @@ export class CrearPersonaComponent {
           this.personasService.update(this.id,{
             ...this.Persona,
           }).subscribe(() => {
-            this.router.navigate(['dashboard/empleados']);
+            this.router.navigate(['dashboard/personas']);
           });
         
         
@@ -108,18 +122,13 @@ export class CrearPersonaComponent {
         console.log(error);
       }
 
-
-
-
-
     } else {
       // Es agregar
       try {
           this.personasService.create({
-            ...this.Persona,
-            cargo: this.form.value.cargo,
+            ...this.Persona
           }).subscribe(() => {
-            this.router.navigate(['dashboard/empleados']);
+            this.router.navigate(['dashboard/personas']);
           });
         
        
@@ -132,6 +141,7 @@ export class CrearPersonaComponent {
   }
 
 getPersona(id: number) {
+
     this.personasService.getById(id).subscribe((data: any) => {
       console.log(data);
   
@@ -144,8 +154,11 @@ getPersona(id: number) {
         adress_number: data.adress_number,
         phone: data.phone,
         email: data.email,
-        categoria: data.categoria, 
       };
+
+      this.provinciasService.getById(data.Localidad.provinciaId).subscribe(()=>{
+        
+      })
       
       console.log('Persona:', persona);
   
@@ -158,13 +171,75 @@ getPersona(id: number) {
           cuil: persona.cuil,
           phone: persona.phone,
           email: persona.email,
-          cond_iva:persona.cond_iva,
-          tipo_persona:persona.tipo_persona
+          cond_iva:data.Condicion_Iva.id,
+          tipo_persona:data.Tipo_Persona.id,
+          locality:data.Localidad.id,
+          country:0,
+          province:0
+
         });
+
       
     })
   }
+  loadCountries() {
+    this.paisesService.getAll().subscribe((countries) => {
+      this.countries = countries;
+    });
+  }
+  
+  loadProvinces(countryId: number) {
+    this.provinciasService.getAll().subscribe((provinces) => {
+      this.provinces = provinces.filter(province => province.paisId === countryId);
+    });
+  }
+  
+  loadLocalities(provinceId: number) {
+    this.localidadesService.getAll().subscribe((localities) => {
+      this.localidades = localities.filter(locality => locality.provinciaId === provinceId);
+    });
+  }
+  
+  
+  
+  
+  onPaisChange() {
+    const selectedCountryId = this.form.get('country')?.value;
 
+    if (selectedCountryId) {
+      this.provinciasService.filtradas(selectedCountryId).subscribe((provincias) => {
+        this.provinces = provincias;
+      });
+    }
+  }
+
+  onProvinciaChange() {
+    const selectedProvinceId = this.form.get('province')?.value;
+
+    if (selectedProvinceId) {
+      this.localidadesService.filtradas(selectedProvinceId).subscribe((localidades) => {
+        this.localities = localidades;
+      });
+    }
+  }
+  rellenarDatos(){
+    this.form.setValue({
+      name: 'jeremias',
+      lastname: 'barolo',
+      address:'la palito',
+      adress_number: 123,
+      dni: 44182,
+      cuil: 1903128,
+      phone: 111111,
+      email: "jere@jere.com",
+      tipo_persona: 1,
+      cond_iva: 1,
+      locality:0,
+      country:0,
+      province:0
+
+    });
+  }
 
 }
 

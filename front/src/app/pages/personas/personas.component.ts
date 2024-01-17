@@ -42,12 +42,18 @@ export class PersonasComponent implements OnInit {
   showCardDetails(card: any) {
     
     this.cardData = card;  
-    console.log(this.cardData);
+    console.log('data',this.cardData);
   }
 
-  deleteEmpleado(id: any) {
+  deleteEmpleado(id: any, event: Event) {
+    event.stopPropagation(); 
+  
     this.personasService.delete(id).subscribe(() => {
-      this.empleados = this.empleados.filter(e => e.id !== id);
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
     });
   }
+  
+  
 }

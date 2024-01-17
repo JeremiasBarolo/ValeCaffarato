@@ -56,6 +56,14 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
       },
+      localidadId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Localidads',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

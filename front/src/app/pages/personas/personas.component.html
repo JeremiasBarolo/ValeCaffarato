@@ -11,6 +11,7 @@
           <th scope="col">Nombre</th>
           <th scope="col">Apellido</th>
           <th scope="col">Direccion</th>
+          <th scope="col">Localidad</th>
           <th scope="col">Telefono</th>
           <th scope="col">Email</th>
           <th scope="col">Tipo Persona</th>
@@ -24,19 +25,20 @@
           <td>{{persona.name}}</td>
           <td>{{persona.lastname}}</td>
           <td>{{persona.adress}}, {{persona.adress_number}}</td>
+          <td>{{persona.Localidad?.name}}</td>
           <td>{{persona.phone}}</td>
           <td>{{persona.email}}</td>
           <td *ngIf="persona.Tipo_Persona">{{ persona.Tipo_Persona.description }}</td>
           <td>{{persona.Condicion_Iva?.description ? persona.Condicion_Iva.description : 'Sin Condicion'}}</td>
-          <td>
-              <div class="wrapper d-flex justify-content-end">
+          <td data-dismiss="modal">
+              <div class="wrapper d-flex justify-content-end" >
                   <button [routerLink]="['/dashboard/crear-personas', persona.id]" routerLinkActive="router-link-active"
                       type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
                       <i class="fa-solid fa-pen-to-square"></i>
                   </button>
 
-                  <button type="button" (click)="deleteEmpleado(persona.id)"
-                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                  <button type="button" (click)="deleteEmpleado(persona.id,  $event)" 
+                      class="btn btn-outline-danger ms-4" aria-label="Borrar Persona"><i
                           class="fa-solid fa-trash"></i></button>
               </div>
           </td>
@@ -64,12 +66,15 @@
         <p><strong>DNI:</strong> {{ cardData.dni }}</p>
         <p><strong>CUIL:</strong> {{ cardData.cuil }}</p>
         <p><strong>Direccion:</strong> {{ cardData.adress }}, {{ cardData.adress_number }}</p>
+        <div *ngIf="cardData.Tipo_Persona">
+          <p><strong>Localidad:</strong>{{cardData.Localidad?.name}}</p> 
+        </div>
         <p><strong>Telefono:</strong> {{ cardData.phone }}</p>
         <div *ngIf="cardData.Tipo_Persona">
-          <p><strong>Tipo de Persona:</strong>{{persona.Tipo_Persona?.description}}</p> 
+          <p><strong>Tipo de Persona:</strong>{{cardData.Tipo_Persona?.description}}</p> 
         </div>
         <div *ngIf="cardData.Condicion_Iva">
-          <p><strong>Condicion de Iva:</strong> {{persona.Condicion_Iva?.description}}</p>
+          <p><strong>Condicion de Iva:</strong> {{cardData.Condicion_Iva?.description}}</p>
         </div>
          
         

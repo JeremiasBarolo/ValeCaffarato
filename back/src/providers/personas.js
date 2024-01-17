@@ -22,6 +22,7 @@ const listAllPersonas = async () => {
         { model: models.Documentos, as: 'DocumentoCliente', required: false },
         { model: models.Cond_Iva, as: 'Condicion_Iva', required: false },
         { model: models.Tipo_Persona, as: 'Tipo_Persona', required: false },
+        { model: models.Localidad, as: 'Localidad', required: false },
       ],
     });
 
@@ -41,6 +42,7 @@ const listOnePersonas = async (Personas_id) => {
           { model: models.Documentos, as: 'DocumentoCliente', required: false },
           { model: models.Cond_Iva, as: 'Condicion_Iva', required: false },
           { model: models.Tipo_Persona, as: 'Tipo_Persona', required: false },
+          { model: models.Localidad, as: 'Localidad', required: false },
         ],
       });
     if (!onePersonas) {
@@ -68,7 +70,8 @@ const createPersonas = async (dataUpdated) => {
       cuil: dataUpdated.cuil,
       email: dataUpdated.email,
       CondIvaId:parseInt(dataUpdated.cond_iva,10),
-      TipoPersonaId:parseInt(dataUpdated.tipo_persona,10)
+      TipoPersonaId:parseInt(dataUpdated.tipo_persona,10),
+      localidadId: parseInt(dataUpdated.localidadId,10),
     };
 
     const newPersonas = await models.Personas.create(dataCreate);
@@ -127,7 +130,7 @@ const deletePersonas = async (Personas_id, data) => {
     }
 
     
-    await models.Persona.destroy({ where: { id: pedidos_id } });
+    // await models.Persona.destroy({ where: { id: pedidos_id } });
     
     
     
