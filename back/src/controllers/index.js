@@ -12,6 +12,7 @@ const localidadesController = require('./localidades');
 const bancosController = require('./bancos');
 const Tipo_PersonaController = require('./Tipo_Persona');
 const Cond_IvaController = require('./Cond_Iva');
+const MonedasController = require('./Monedas');
 
 
 module.exports = { 
@@ -27,5 +28,6 @@ module.exports = {
     localidadesController,
     bancosController,
     Tipo_PersonaController,
-    Cond_IvaController
+    Cond_IvaController,
+    MonedasController
 };

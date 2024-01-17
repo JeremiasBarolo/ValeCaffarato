@@ -15,7 +15,8 @@ const {
     localidadesRouter,
     bancosRouter,
     tipo_personaRouter,
-    cond_ivaRouter
+    cond_ivaRouter,
+    monedasRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -46,6 +47,7 @@ app.use('/localidades', localidadesRouter)
 app.use('/bancos', bancosRouter)
 app.use('/tipo_persona', tipo_personaRouter)
 app.use('/cond_iva', cond_ivaRouter)
+app.use('/monedas', monedasRouter)
 
 
 

@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'productos',
         through: { model: models.PedidosProductos, unique: false },
       });
+
+      Pedidos.belongsTo(models.Monedas,{
+        through: "monedaId", 
+        as: "Moneda"
+      })
       
     }
   }
