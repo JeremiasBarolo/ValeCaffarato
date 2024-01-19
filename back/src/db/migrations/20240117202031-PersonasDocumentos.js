@@ -3,23 +3,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('PedidoDocumentos', {
+    await queryInterface.createTable('PersonaDocumentos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      pedidoId: {
+      personaId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references:{
-          model: 'Pedidos',
+          model: 'Personas',
           key: 'id',
           onDelete: 'CASCADE'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        }
       },
       documentoId: {
         type: Sequelize.INTEGER,
@@ -28,9 +26,7 @@ module.exports = {
           model: 'Documentos',
           key: 'id',
           onDelete: 'CASCADE'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -41,10 +37,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-      
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('PedidoDocumentos');
+    await queryInterface.dropTable('PersonaDocumentos');
   }
 };

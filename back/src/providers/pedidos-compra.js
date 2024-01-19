@@ -43,10 +43,10 @@ const createPedidos= async (PedidosData) => {
       description: PedidosData.description,
       subtotal: PedidosData.subtotal,
       category: PedidosData.category,
-      state: PedidosData.state  
+      state: PedidosData.state,
     };
 
-    const newPedidos= await models.Pedidos.create(dataPedidos);
+    const newPedidos= await models.Pedidos.create({...dataPedidos, monedaId: parseInt(PedidosData.monedaId, 10)});
 
     const insumosData = PedidosData.productos.map(item => ({
         id: item.id,

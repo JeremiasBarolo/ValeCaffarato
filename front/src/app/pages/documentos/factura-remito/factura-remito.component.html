@@ -26,11 +26,11 @@
     </div>
 
     <div class="row firma-rectangulo">
-        <div class="col-md-6" *ngFor="let cliente of clienteData.cliente">
+        <div class="col-md-6">
             <p><strong>Nombre del Cliente:</strong> {{clienteData.name}}, {{clienteData.lastname}}</p>
             <p><strong>DNI del Cliente:</strong> {{clienteData.dni}}</p>
-            <p><strong>Empresa del Cliente:</strong> {{cliente.industry}}</p>
-            <p><strong>Localidad del Cliente: </strong> {{cliente.city}}</p>
+            <p><strong>Localidad del Cliente: </strong> {{clienteData.Localidad.name}}</p>
+            <p><strong>Codigo Postal: </strong> {{clienteData.Localidad.codigo_postal}}</p>
         </div>
         <div class="col-md-6 ">
             <p><strong>Domicilio del Cliente</strong> {{clienteData.adress}}, {{clienteData.adress_number}}</p>
@@ -58,11 +58,11 @@
                 <tr *ngFor="let item of productList">
                     <td>{{item.name}}</td>
                     <td>{{item.PedidosProductos.quantity_requested}}</td>
-                    <td>{{item.unidad_medida}}</td>
-                    <td>{{item.price | currency}}</td>
-                    <td>{{calcularTotal(item.price, item.PedidosProductos.quantity_requested) | currency}}</td>
+                    <td>{{item.uni_medida}}</td>
+                    <td>{{item.costo_unit | currency}}</td>
+                    <td>{{calcularTotal(item.costo_unit, item.PedidosProductos.quantity_requested) | currency}}</td>
                     <td>{{documentoData.iva}}%</td>
-                    <td>{{totalIva(item.price, item.PedidosProductos.quantity_requested, documentoData.iva) | currency}}</td>
+                    <td>{{totalIva(item.costo_unit, item.PedidosProductos.quantity_requested, documentoData.iva) | currency}}</td>
                 </tr>
             </ng-container>
         </tbody>

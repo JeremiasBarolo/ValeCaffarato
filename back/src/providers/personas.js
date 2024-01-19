@@ -18,12 +18,7 @@ const { where } = require('sequelize');
 const listAllPersonas = async () => {
   try {
     const personas = await models.Personas.findAll({
-      include: [
-        { model: models.Documentos, as: 'DocumentoCliente', required: false },
-        { model: models.Cond_Iva, as: 'Condicion_Iva', required: false },
-        { model: models.Tipo_Persona, as: 'Tipo_Persona', required: false },
-        { model: models.Localidad, as: 'Localidad', required: false },
-      ],
+      include: { all: true },
     });
 
     console.log('✅ Personas were found');
@@ -38,13 +33,9 @@ const listOnePersonas = async (Personas_id) => {
   try {
     const onePersonas = await models.Personas.findByPk(Personas_id,
       {
-        include: [
-          { model: models.Documentos, as: 'DocumentoCliente', required: false },
-          { model: models.Cond_Iva, as: 'Condicion_Iva', required: false },
-          { model: models.Tipo_Persona, as: 'Tipo_Persona', required: false },
-          { model: models.Localidad, as: 'Localidad', required: false },
-        ],
-      });
+        include: { all: true }
+      }
+      );
     if (!onePersonas) {
       console.error(`🛑 Personas with id ${Personas_id} not found`);
       return null;

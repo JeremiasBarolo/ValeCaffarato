@@ -5,12 +5,17 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Documentos extends Model {
     static associate(models) {
-      Documentos.belongsTo(models.Pedidos, { foreignKey: 'pedidoId' });
+      Documentos.belongsToMany(models.Pedidos, {
+        through: 'PedidoDocumentos', 
+        foreignKey: 'documentoId', 
+        otherKey: 'pedidoId',
+      });
 
       Documentos.belongsToMany(models.Personas, {
         through: 'PersonaDocumentos', 
         foreignKey: 'documentoId', 
-        otherKey: 'personaId' 
+        otherKey: 'personaId',
+        through: { model: models.PersonaDocumentos, unique: false },
       });
     
     

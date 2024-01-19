@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
+import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -15,6 +16,7 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class CrearEditarPedidosCompraComponent {
   PedidoCompra: Pedidos | any;
+  monedas: any[] = []
   form: FormGroup;
   id: number;
   selectedEntities: any[] = [];
@@ -27,6 +29,7 @@ export class CrearEditarPedidosCompraComponent {
     category: 'COMPRA',
     subtotal: 0,
     insumosEntity_id: [],
+    monedaId:0
   };
 
   constructor(
@@ -35,12 +38,14 @@ export class CrearEditarPedidosCompraComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
+    private monedasService: MonedasService,
     private titleService: TitleService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      moneda: ['', Validators.required]
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
@@ -65,6 +70,9 @@ export class CrearEditarPedidosCompraComponent {
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
     this.presupuestoData.id = this.id;
+    this.presupuestoData.monedaId = this.form.value.moneda;
+
+console.log(this.presupuestoData.monedaId);
 
     if (this.id !== 0) {
       try {
@@ -112,7 +120,8 @@ export class CrearEditarPedidosCompraComponent {
   rellenardatos() {
     this.form.setValue({
         name: 'Super pedido de Cajas',
-        description: 'Cajones negros'
+        description: 'Cajones negros',
+        moneda: 1
         
     });
   }
@@ -124,6 +133,10 @@ export class CrearEditarPedidosCompraComponent {
         }
       })
       this.InsumosEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    })
+
+    this.monedasService.getAll().subscribe((data)=>{
+      this.monedas= data
     })
   }
   loadSelectedProducts() {
@@ -143,16 +156,11 @@ export class CrearEditarPedidosCompraComponent {
 
   getPedido(id: number) {
     this.pedidosService.getById(id).subscribe((data: any)=> {
-      let InsumoEntity: any = {
-        name: data.name,
-        description: data.description,
       
-      };
-
-
       this.form.setValue({
         name: data.name,
         description: data.description,
+        moneda: data.monedaId
       });
     });
   }

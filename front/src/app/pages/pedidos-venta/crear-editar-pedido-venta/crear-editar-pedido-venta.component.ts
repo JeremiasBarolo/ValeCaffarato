@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
+import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { TitleService } from 'src/app/services/title.service';
 
@@ -16,6 +17,7 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class CrearEditarPedidoVentaComponent {
   PedidoCompra: Pedidos | any;
+  monedas: any[] = []
   form: FormGroup;
   id: number;
   selectedEntities: any[] = [];
@@ -37,11 +39,13 @@ export class CrearEditarPedidoVentaComponent {
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
     private titleService: TitleService,
+    private monedasService: MonedasService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      moneda: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
@@ -68,6 +72,7 @@ export class CrearEditarPedidoVentaComponent {
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
     this.presupuestoData.id = this.id;
+    this.presupuestoData.monedaId = this.form.value.moneda;
 
     if (this.id !== 0) {
       try {
@@ -128,6 +133,9 @@ export class CrearEditarPedidoVentaComponent {
       })
       this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
+    this.monedasService.getAll().subscribe((data)=>{
+      this.monedas= data
+    })
   }
   loadSelectedProducts() {
     if (this.id) {
@@ -149,7 +157,11 @@ export class CrearEditarPedidoVentaComponent {
       this.form.setValue({
         name: data.name,
         description: data.description,
+        moneda: data.monedaId
       });
     });
   }
 }
+
+
+

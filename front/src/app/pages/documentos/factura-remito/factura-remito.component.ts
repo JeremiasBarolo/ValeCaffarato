@@ -33,8 +33,9 @@ export class FacturaRemitoComponent implements OnInit {
     industry: '',
     cuil: '',
     adressNumber: 0,
+    cliente: undefined,
     proveedor: undefined,
-    cliente: undefined
+    Localidad:undefined
   }
   constructor(
     private documentosService: DocumentosService, 
@@ -98,7 +99,7 @@ subtotalReal(): number {
     this.productData.forEach((productList: any) => {
         productList.forEach((item: any) => {
             const iva = this.documentoData.iva || 0; 
-            const subtotal = this.totalIva(item.price, item.PedidosProductos.quantity_requested, iva);
+            const subtotal = this.totalIva(item.costo_unit, item.PedidosProductos.quantity_requested, iva);
             subtotales.push(subtotal);
         });
     });

@@ -60,16 +60,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>{{ cardData.description }}</p>
-          <p>Precio: {{ cardData.price | currency }}</p>
+          <p>{{cardData.description}}</p>
+          <p>Unidad de Medida:{{cardData.unidad_medida}}</p>
+          <p>Precio:{{cardData.costo_unit | currency}}  + {{cardData.profit}}%</p>
+          <p>Cantidad: {{cardData.quantity}}</p>
+          <p>Deposito: {{cardData.deposito?.description }}</p>
           <p>Cantidad: {{ cardData.quantity }}</p>
-          <p>Precio: {{ cardData.price | currency }}</p>
-          <p>Alto: {{cardData.measurement_height}} cm</p>
-          <p>Ancho: {{cardData.measurement_depth}} cm</p>
-          <p>Largo: {{cardData.measurement_length}}cm </p>
-          <p>Unidad de Medida: {{ cardData.unidad_medida }}</p>
-          <p>Deposito: {{ cardData.deposito?.description }}</p>
-          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>

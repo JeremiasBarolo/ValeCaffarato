@@ -26,6 +26,7 @@ module.exports = {
       },
       monedaId:{
         type: Sequelize.INTEGER,
+        allowNull: false,
         references:{
           model: 'Monedas',
           key: 'id',

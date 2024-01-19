@@ -15,6 +15,7 @@ cliente: any;
     email: string;
     industry?: string;
     categoria?: string;
+    Localidad?: any
     
 
 }

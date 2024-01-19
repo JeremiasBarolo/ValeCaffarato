@@ -79,7 +79,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Subtotal: {{ calcularSubtotal(cardData)| currency }}</p>
+          <p><strong>Subtotal:</strong> {{ calcularSubtotal(cardData)| currency }}</p>
+          <p><strong>Moneda:</strong> {{cardData.Moneda?.description}}</p>
           <span class="card text-center" *ngFor="let item of cardData.productos">
             <div class="card-header"> {{item.name}}</div>
             <div class="card-body">

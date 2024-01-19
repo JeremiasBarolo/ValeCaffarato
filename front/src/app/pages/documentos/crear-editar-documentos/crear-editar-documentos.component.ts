@@ -68,8 +68,7 @@ export class CrearEditarDocumentosComponent {
     });
 
     this.personasService.getAll().subscribe(persona => {
-      let clientes = persona.filter((persona) => persona.categoria === 'CLIENTE');
-      this.Clientes.push(...clientes);
+      this.Clientes = persona
       console.log(this.Clientes);
     });
     

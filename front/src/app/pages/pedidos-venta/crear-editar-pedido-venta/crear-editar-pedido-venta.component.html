@@ -10,6 +10,14 @@
             <label for="description">Descripción:</label>
             <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
           </div>
+          <div class="form-group text-center">
+            <label for="deposito">Que Moneda Usara?</label>
+            <br>
+            <select class="form-select" aria-label="Monedas" formControlName="moneda">
+                <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}}</option>
+            </select>
+            
+        </div>
         </form>
       </div>
   
