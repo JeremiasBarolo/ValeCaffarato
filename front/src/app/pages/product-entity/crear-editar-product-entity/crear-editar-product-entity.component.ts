@@ -26,15 +26,6 @@ export class CrearEditarProductEntityComponent {
   Insumos: any[] = [];
   subtotal: number[] = [];
   presupuestoData: any = {
-    name: '',
-    description: '',
-    measurement_height: '',
-    measurement_length: '',
-    measurement_depth: '',
-    price: '',
-    profit: '',
-    insumos: [],
-    unidad_medida: '',
   };
   ProductEntityData: any;
 
@@ -99,6 +90,8 @@ export class CrearEditarProductEntityComponent {
       }
     } else {
       try {
+        console.log(this.presupuestoData.productos);
+        
         this.maestroArticulosService.create(this.presupuestoData).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
           this.toastr.success('Entidad Creada Exitosamente');
@@ -145,12 +138,13 @@ export class CrearEditarProductEntityComponent {
   loadAllEntities() {
     this.maestroArticulosService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
-        if(insumo.tipoArticulo === 'INSUMO'){
-          this.Insumos.push(insumo);
+        if (insumo.tipoArticulo === 'INSUMO') {
+          
+          const insumoCopy = { ...insumo };
+          this.Insumos.push(insumoCopy);
         }
-      })
-      this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
-    })
+      });
+    });
   }
   
   loadSelectedProducts() {
