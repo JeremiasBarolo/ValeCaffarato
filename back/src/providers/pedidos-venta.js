@@ -128,40 +128,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
       (dataUpdated.category === 'VENTA' && dataUpdated.devolverInsumos)
      ) {
 
-      // <======================== agregar productos ====================>
-      await oldPedidos.productos.map(async product => {
-        const existe = await models.ProductosEnStock.findOne({
-          where: {
-            antiguo_id: product.PedidosProductos.productId
-          }
-        })
-
-        if(existe){
-          const suma = existe.quantity + product.PedidosProductos.quantity_requested
-          await existe.update({
-            quantity: suma
-          })
-        }else{
-
-          await models.ProductosEnStock.create({
-            name: product.name,
-            description: product.description,
-            costo_unit: product.costo_unit,
-            profit: product.profit,
-            type: product.tipoArticulo,
-            quantity: product.PedidosProductos.quantity_requested,
-            unidad_medida: product.uni_medida,
-            antiguo_id: product.PedidosProductos.productId
-          })
-        }
-
-        
-      });
-
-
-
-
-
+      
       // <======================== actualizar cantidades en insumos ====================>
 
       const insumosToUpdate = [];
