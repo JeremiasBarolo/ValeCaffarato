@@ -136,12 +136,10 @@ export class CrearEditarProductEntityComponent {
   }
   
   loadAllEntities() {
-    this.maestroArticulosService.getAll().subscribe((data) => {
+    this.productosEnStockService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
-        if (insumo.tipoArticulo === 'INSUMO') {
-          
-          const insumoCopy = { ...insumo };
-          this.Insumos.push(insumoCopy);
+        if (insumo.type === 'INSUMO') {
+          this.Insumos.push(insumo);
         }
       });
     });

@@ -39,6 +39,8 @@ export class ProductosEnStockService {
 
   // update
     update(id: number, ProductEntity: FormData): Observable<any> {
+      console.log('update',ProductEntity);
+      
     return this.http.put<any>(`${this.apiUrl}/${id}`, ProductEntity)
       
   }

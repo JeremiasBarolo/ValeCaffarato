@@ -132,39 +132,14 @@ const createInsumo= async (insumoData) => {
 };
 
 const updateInsumo= async (insumo_id, dataUpdated) => {
-  let transaction;
-
   try {
-    transaction = await models.sequelize.transaction();
+    
 
     const oldInsumo= await models.Insumos.findByPk(insumo_id, { include: { all: true } });
 
-    // const newImageUrls = dataUpdated.images;
-    // const oldImageUrls = oldInsumo.images;
 
-    // for (let i = 0; i < oldImageUrls.length; i++) {
-    //   const deletingImages = path.join(oldImageUrls[i].imageUrl);
-    //   if (fs.existsSync(deletingImages)) {
-    //     fs.unlinkSync(deletingImages);
-    //   } else {
-    //     console.log('No existe la imagen');
-    //   }
-    // }
+    const newInsumo= await oldInsumo.update(dataUpdated);
 
-    const newInsumo= await oldInsumo.update(dataUpdated, { transaction });
-
-    // const createdImages = await Promise.all(
-    //   newImageUrls.map((imageUrl) => models.InsumoImages.create(
-    //     {
-    //       imageUrl,
-    //       InsumoId: newInsumo.id,
-    //     },
-    //     { transaction },
-    //   )),
-    // );
-
-    // Confirma la transacción
-    await transaction.commit();
 
     console.log(`✅ Insumo"${newInsumo.name}" was created with images`);
 
