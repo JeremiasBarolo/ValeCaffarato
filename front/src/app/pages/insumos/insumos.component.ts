@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { TitleService } from 'src/app/services/title.service';
+
+
 
 
 @Component({
@@ -10,7 +12,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./insumos.component.css']
 
 })
-export class InsumosComponent {
+export class InsumosComponent implements OnInit, AfterViewInit {
 	entidades: any[] = []
   cardData: any = {
     name: '',
@@ -29,6 +31,7 @@ export class InsumosComponent {
     
   }
   
+  
   ngOnInit(): void {
     this.productosEnStockService.getAll().subscribe(insumos => 
       insumos.forEach(element=>{
@@ -37,8 +40,16 @@ export class InsumosComponent {
         }
   }))
       
-    this.titleService.setTitle('Insumos');
+    
   }
+
+  ngAfterViewInit(): void {
+    this.titleService.setTitle('Insumos');
+     
+  }
+
+
+
   deleteEntidad(id: any) {
     this.productosEnStockService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
