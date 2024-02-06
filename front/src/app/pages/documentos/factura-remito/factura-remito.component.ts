@@ -19,7 +19,7 @@ export class FacturaRemitoComponent implements OnInit {
   productData: any = []
   subtotal: any[] = []
   totalFinal: number = 0
-  clienteData: Persona = {
+  clienteData: any = {
     name: '',
     id: 0,
     email: '',

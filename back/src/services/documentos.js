@@ -116,6 +116,7 @@ const generarPdf = async (documento) => {
             .replace('{{productosHTML}}', productosHTML)
             .replace( '{{clienteData.Localidad.name}}', documento.clienteData.Localidad.name)
             .replace( '{{clienteData.Localidad.codigo_postal}}', documento.clienteData.Localidad.codigo_postal)
+            .replace( '{{clienteData.Condicion_Iva.description}}', documento.clienteData.Condicion_Iva.description)
 
 
     
