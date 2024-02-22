@@ -125,6 +125,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+            <button *ngIf="cardData.state=='PRESUPUESTADO'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateEntidad(cardData.id)"><i class="fa-solid fa-pen-to-square"></i></button>
           </div>
         </div>
       </div>
@@ -141,7 +142,8 @@
           </div>
           <div class="modal-body">
             <p>{{ cardData.description }}</p>
-            <p>Subtotal: {{ calcularSubtotal(cardData)| currency }}</p>
+            <p><strong>Subtotal:</strong> {{ calcularSubtotal(cardData)| currency }}</p>
+            <p><strong>Moneda:</strong> {{cardData.Moneda?.description}}</p>
     
             <div class="table-container">
               <table class="table">
@@ -150,7 +152,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripcion</th>
-                    <th scope="col">Costo </th>
+                    <th scope="col">Costo</th>
                     <th scope="col">Can. Solicitada</th>
                   </tr>
                 </thead>

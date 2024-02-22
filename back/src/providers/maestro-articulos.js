@@ -55,8 +55,8 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
 
       await MaestroArticulosData.productos.forEach(async product => {
         await models.ProductQuantities.create({
-          entidadId: newMaestroArticulos.id , 
-          productoId: product.id,  
+          entidadId:  newMaestroArticulos.id,
+          productoId: product.id, 
           quantity_necessary: product.quantity
         })
       });
@@ -67,7 +67,7 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
     
 
 
-    console.log(`✅ MaestroArticulos"${newMaestroArticulos.name}" was created with images`);
+    console.log(`✅ MaestroArticulos"${newMaestroArticulos.name}" was created`);
 
     return newMaestroArticulos;
   } catch (err) {

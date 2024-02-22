@@ -3,9 +3,9 @@ const uuid = require('uuid');
 const listAllDocumento= async () => {
   try {
     const Documento = await models.Documentos.findAll(
-       {
+      {
         include: { all: true },
-       },
+      },
     );
     console.log('✅ Documento were found');
     return Documento;

@@ -1,0 +1,171 @@
+<div *ngIf="id === 'PAIS' || accion === 'PAIS'">
+    <div class="container mt-5">
+        <div class="card mb-3 border border-0 mx-auto">
+          <div class="card-body">
+
+            <form [formGroup]="form">
+
+                    <div class="form-group text-center">
+                        <label for="pais_name">Nombre</label>
+                        <input formControlName="pais_name" type="text" class="form-control" placeholder="Nombre">
+                    </div>
+
+            </form>
+
+
+          <div class="row mt-5">
+            <div class="col-md-6 offset-md-3 text-center">
+              <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addInsumo()">Aceptar</button>
+            </div>
+          </div>
+    
+          <div class="row mt-3">
+            <div class="col-md-6 offset-md-3 text-center">
+              <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+            </div>
+          </div>
+          
+         
+          
+        </div>
+      </div>
+      <br>
+    </div>     
+</div>
+
+<div *ngIf="id === 'PROVINCIA' || accion === 'PROVINCIA'">
+        <div class="container mt-5">
+            <div class="card mb-3 border border-0 mx-auto">
+              <div class="card-body">
+                <form [formGroup]="form">
+        
+                
+                    <div class="form-group text-center">
+                        <label>Pais al que pertenece:</label>
+                        <br>
+                        <select class="form-select" aria-label="entidades de insumos" formControlName="paisId">
+                            <option *ngFor="let paises of listPadrones" [value]="paises.id" >{{paises.name}}</option>
+                        </select>
+                        
+                    </div>
+
+                    <div class="form-group text-center">
+                        <label for="provincia_name">Nombre</label>
+                        <input formControlName="provincia_name" type="text" class="form-control" placeholder="Nombre">
+                    </div>
+    
+                    
+        
+                </form>
+              <div class="row mt-5">
+                <div class="col-md-6 offset-md-3 text-center">
+                  <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addInsumo()">Aceptar</button>
+                </div>
+              </div>
+        
+              <div class="row mt-3">
+                <div class="col-md-6 offset-md-3 text-center">
+                  <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+                </div>
+              </div>
+              
+             
+              
+            </div>
+          </div>
+          <br>
+          
+    </div>
+</div>
+
+<div *ngIf="id === 'LOCALIDAD' || accion === 'LOCALIDAD'">
+
+            <div class="container mt-5">
+                <div class="card mb-3 border border-0 mx-auto">
+                  <div class="card-body">
+                    <form [formGroup]="form">
+            
+                        <div class="form-group text-center">
+                            <label>Provincia a la que pertenece:</label>
+                            <br>
+                            <select class="form-select" aria-label="Provincias" formControlName="provinciaId">
+                                <option *ngFor="let provincia of listPadrones" [value]="provincia.id" >{{provincia.name}}</option>
+                            </select>
+                            
+                        </div>
+    
+                        <div class="form-group text-center">
+                            <label for="localidad_name">Nombre</label>
+                            <input formControlName="localidad_name" type="text" class="form-control" placeholder="Nombre">
+                        </div>
+
+                        <div class="form-group text-center">
+                            <label for="codigo_postal">Codigo Postal:</label>
+                            <input formControlName="codigo_postal" type="text" class="form-control" placeholder="Codigo Postal">
+                        </div>
+            
+                    </form>
+                  <div class="row mt-5">
+                    <div class="col-md-6 offset-md-3 text-center">
+                      <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addInsumo()">Aceptar</button>
+                    </div>
+                  </div>
+            
+                  <div class="row mt-3">
+                    <div class="col-md-6 offset-md-3 text-center">
+                      <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+                    </div>
+                  </div>
+                  
+                 
+                  
+                </div>
+              </div>
+              <br>
+              
+    </div>
+
+</div>
+
+<div *ngIf="id === 'BANCO' || accion === 'BANCO'">
+
+    <div class="container mt-5">
+        <div class="card mb-3 border border-0 mx-auto">
+          <div class="card-body">
+            <form [formGroup]="form">
+    
+                <div class="form-group text-center">
+                    <label>Localidad a la que pertenece:</label>
+                    <br>
+                    <select class="form-select" aria-label="Bancos" formControlName="localidadId">
+                        <option *ngFor="let localidad of listPadrones" [value]="localidad.id"  >{{localidad.name}}</option>
+                    </select>
+                    
+                </div>
+
+                <div class="form-group text-center">
+                    <label for="banco_name">Nombre</label>
+                    <input formControlName="banco_name" type="text" class="form-control" placeholder="Nombre">
+                </div>
+
+    
+            </form>
+          <div class="row mt-5">
+            <div class="col-md-6 offset-md-3 text-center">
+              <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addInsumo()">Aceptar</button>
+            </div>
+          </div>
+    
+          <div class="row mt-3">
+            <div class="col-md-6 offset-md-3 text-center">
+              <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+            </div>
+          </div>
+          
+         
+          
+        </div>
+      </div>
+      <br>
+      
+</div>

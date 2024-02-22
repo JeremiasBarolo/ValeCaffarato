@@ -1,18 +1,7 @@
 var models = require('../models');
 const path = require('path');
 const fs = require('fs');
-// const { sequelize } = require('../db/connection')
 
-// const serveImage = async (productos_id) => {
-//   try {
-//     const Productos= await models.PProductos.findByPk(productos_id,
-//       { include: { all: true } });
-//     return Productos;
-//   } catch (err) {
-//     console.error('🛑 Error when fetching product', err);
-//     throw err;
-//   }
-// };
 
 const listAllProductos= async () => {
   try {
@@ -156,7 +145,7 @@ const updateProductos= async (productos_id, dataUpdated) => {
     const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.quantity });
     
 
-    console.log(`✅ Productos"${newProductos.name}" was created with images`);
+    console.log(`✅ Productos"${newProductos.name}" and the id ${newProductos.id}`);
 
     return newProductos;
   } catch (err) {

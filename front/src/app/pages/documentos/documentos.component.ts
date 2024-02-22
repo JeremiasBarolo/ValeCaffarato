@@ -47,7 +47,6 @@ export class DocumentosComponent implements OnInit {
   showCardDetails(card: any) {  
     this.cardData = card;  
     console.log(this.cardData);
-    // Open the modal programmatically
     this.myModal.nativeElement.click();
   }
 

@@ -1,0 +1,222 @@
+<div class="text-right">
+    <button type="button" class="btn btn-outline-success add mr-2" data-target="#CrearModal" data-toggle="modal" > Crear Nuevo</button>
+</div>
+
+<section style="margin: 16px">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h2>Paises</h2>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pais of paises" >
+                <td data-target="#Paises" data-toggle="modal" (click)="showCardDetails(pais)" >{{ pais.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <div class="col">
+          <h2>Provincias</h2>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let provincia of provincias">
+                <td data-target="#Provincias" data-toggle="modal" (click)="showCardDetails(provincia)" >{{ provincia.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <div class="col">
+          <h2>Localidades</h2>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let localidad of localidades" >
+                <td  data-target="#Localidades" data-toggle="modal" (click)="showCardDetails(localidad)" >{{ localidad.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <div class="col">
+          <h2>Bancos</h2>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let banco of bancos" (click)="showCardDetails(banco)">
+                <td data-target="#Bancos" data-toggle="modal" (click)="showCardDetails(banco)">{{ banco.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+<!-- DISPLAY DE PAISES -->
+<div class="modal fade modal" id="Paises" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center" >
+        <h6 class="text-center">Este Pais tiene enlazadas las siguientes Provincias:</h6>
+          <div *ngFor="let pais of cardData?.Provincia">
+            <p>{{ pais.name }}</p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button data-target="#eliminar" type="button" class="btn btn-danger" (click)="eliminarPadron(cardData.id,'PAIS')">Eliminar</button>
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePadron(cardData.id,'PAIS' )"><i class="fa-solid fa-pen-to-square"></i></button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISPLAY DE PROVINCIAS -->
+<div class="modal fade modal" id="Provincias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">{{ cardData?.name }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h6 class="text-center">Esta Provincia pertenece a:</h6>
+          <p class="text-center"><strong>{{ cardData?.Pai?.name }}</strong></p>
+            
+          <h6 class="text-center">Esta Provincia tiene enlazadas las siguientes Localidades:</h6>
+          <div *ngFor="let localidad of cardData?.Localidads">
+            <p>{{ localidad.name }}</p>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button data-target="#eliminar" type="button" class="btn btn-danger"(click)="eliminarPadron(cardData.id,'PROVINCIA')">Eliminar</button>
+
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePadron(cardData.id,'PROVINCIA')"><i class="fa-solid fa-pen-to-square"></i></button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  <!-- DISPLAY DE LOCALIDADES -->
+<div class="modal fade modal" id="Localidades" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title text-center">{{ cardData?.name }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h6 class="text-center">Esta Localidad pertenece a:</h6>
+            <p class="text-center"><strong>{{ cardData?.Provincium?.name }}</strong></p>
+              
+            <h6 class="text-center">Esta Localidad tiene enlazadas los siguientes Bancos:</h6>
+            <div *ngFor="let banco of cardData?.Bancos">
+              <p>{{ banco.name }}</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button data-target="#eliminar" type="button" id="liveAlertBtn" class="btn btn-danger" (click)="eliminarPadron(cardData.id,'LOCALIDAD')">Eliminar</button>
+          
+
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePadron(cardData.id,'LOCALIDAD' )"><i class="fa-solid fa-pen-to-square"></i></button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISPLAY DE BANCOS -->
+<div class="modal fade modal" id="Bancos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h6 class="text-center">Esta Localidad pertenece a:</h6>
+            <p class="text-center"><strong>{{ cardData?.Localidad?.name }}</strong></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger"  (click)="eliminarPadron(cardData.id,'LOCALIDAD')">Eliminar</button>
+
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updatePadron(cardData.id,'BANCO' )"><i class="fa-solid fa-pen-to-square"></i></button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- MODAL DE PREGUNTA PARA ACCION DE CREAR -->
+<div class="modal fade modal" id="CrearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Que Padron Geografico le gustaria crear?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <label for="selectDeposito">Seleccionar:</label>
+                    <br>
+                    <form [formGroup]="form">
+                      <select id="selectDeposito" class="form-select" aria-label="Depositos" formControlName="accion">
+                          <option value="PAIS">Pais</option>
+                          <option value="PROVINCIA">Provincia</option>
+                          <option value="LOCALIDAD">Localidad</option>
+                          <option value="BANCO">Banco</option>
+                      </select>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onAceptarClick()" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

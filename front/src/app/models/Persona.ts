@@ -1,4 +1,5 @@
 export interface Persona{
+Condicion_Iva: any;
 adress_number: any;
 cuil: any;
 proveedor: any;
@@ -15,6 +16,7 @@ cliente: any;
     email: string;
     industry?: string;
     categoria?: string;
+    Localidad?: any
     
 
 }

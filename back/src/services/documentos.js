@@ -61,9 +61,7 @@ const generarPdf = async (documento) => {
             industry: 'documento.clienteData.industry',
             city: 'documento.clienteData.city'
         }
-        documento.clienteData.cliente.map((item) => (
-            cliente = { industry: item.industry, city: item.city }));
-
+        
         let tipoDocumento
         let documentosPath
         if(documento.documento.tipo === 'REMITO'){
@@ -86,11 +84,11 @@ const generarPdf = async (documento) => {
                     <tr>
                         <td>${item.name}</td>
                         <td>${item.PedidosProductos.quantity_requested}</td>
-                        <td>${item.unidad_medida}</td>
-                        <td>$${item.price}</td>
-                        <td>$${calcularTotal(item.price, item.PedidosProductos.quantity_requested)}</td>
+                        <td>${item.uni_medida}</td>
+                        <td>$${item.costo_unit}</td>
+                        <td>$${calcularTotal(item.costo_unit, item.PedidosProductos.quantity_requested)}</td>
                         <td>${documento.documento.iva}%</td>
-                        <td>$${totalIva(item.price, item.PedidosProductos.quantity_requested, documento.documento.iva)}</td>
+                        <td>$${totalIva(item.costo_unit, item.PedidosProductos.quantity_requested, documento.documento.iva)}</td>
                     </tr>
                 `;
             }).join('');
@@ -116,6 +114,10 @@ const generarPdf = async (documento) => {
             .replace('{{subtotalReal}}', documento.subtotal)
             .replace('{{subtotalFinal}}', documento.subtotal)
             .replace('{{productosHTML}}', productosHTML)
+            .replace( '{{clienteData.Localidad.name}}', documento.clienteData.Localidad.name)
+            .replace( '{{clienteData.Localidad.codigo_postal}}', documento.clienteData.Localidad.codigo_postal)
+            .replace( '{{clienteData.Condicion_Iva.description}}', documento.clienteData.Condicion_Iva.description)
+
 
     
         const browser = await puppeteer.launch();
@@ -170,7 +172,7 @@ function subtotalReal(productData, documento) {
     productData.forEach((productList) => {
         productList.forEach((item) => {
             const iva = documento.iva || 0;
-            const subtotal = totalIva(item.price, item.PedidosProductos.quantity_requested, iva);
+            const subtotal = totalIva(item.costo_unit, item.PedidosProductos.quantity_requested, iva);
             subtotales.push(subtotal);
         });
     });

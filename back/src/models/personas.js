@@ -10,24 +10,27 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Personas.hasMany(models.Empleados, {
-        foreignKey: 'personaId', 
-        as: 'empleado',
-      })
-      Personas.hasMany(models.Proveedores, {
-        foreignKey: 'personaId', 
-        as: 'proveedor',
-      })
-      Personas.hasMany(models.Clientes, {
-        foreignKey: 'personaId', 
-        as: 'cliente',
-      })
       Personas.belongsToMany(models.Documentos, {
         through: 'PersonaDocumentos', 
         foreignKey: 'personaId', 
         otherKey: 'documentoId',
         as: 'DocumentoCliente',
         through: { model: models.PersonaDocumentos, unique: false },
+      });
+
+      Personas.belongsTo(models.Cond_Iva, {
+        foreignKey: 'CondIvaId',
+        as: 'Condicion_Iva'
+      });
+    
+      Personas.belongsTo(models.Tipo_Persona, {
+        foreignKey: 'TipoPersonaId',
+        as: 'Tipo_Persona'
+      });
+
+      Personas.belongsTo(models.Localidad, {
+        foreignKey: 'localidadId',
+        as: 'Localidad'
       });
     }
   }
@@ -40,7 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     adress_number: DataTypes.INTEGER,
     cuil: DataTypes.INTEGER,
     email: DataTypes.STRING,
-    categoria: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Personas',

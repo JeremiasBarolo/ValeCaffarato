@@ -17,13 +17,12 @@ const { where } = require('sequelize');
 
 const listAllPersonas = async () => {
   try {
-    const Personas = await models.Personas.findAll(
-      {
-        include: { all: true },
-      }
-    );
+    const personas = await models.Personas.findAll({
+      include: { all: true },
+    });
+
     console.log('✅ Personas were found');
-    return Personas;
+    return personas;
   } catch (err) {
     console.error('🛑 Error when fetching Personas', err);
     throw err;
@@ -34,8 +33,9 @@ const listOnePersonas = async (Personas_id) => {
   try {
     const onePersonas = await models.Personas.findByPk(Personas_id,
       {
-        include: { all: true },
-      });
+        include: { all: true }
+      }
+      );
     if (!onePersonas) {
       console.error(`🛑 Personas with id ${Personas_id} not found`);
       return null;
@@ -60,32 +60,14 @@ const createPersonas = async (dataUpdated) => {
       phone: dataUpdated.phone,
       cuil: dataUpdated.cuil,
       email: dataUpdated.email,
-      categoria: dataUpdated.categoria
-
+      CondIvaId:parseInt(dataUpdated.cond_iva,10),
+      TipoPersonaId:parseInt(dataUpdated.tipo_persona,10),
+      localidadId: parseInt(dataUpdated.localidadId,10),
     };
 
     const newPersonas = await models.Personas.create(dataCreate);
 
-    const categoria = dataUpdated.categoria;
 
-    if(categoria === 'EMPLEADO'){
-        await models.Empleados.create({
-            personaId: newPersonas.id,
-            cargo: dataUpdated.cargo
-        })
-    }else if(categoria === 'CLIENTE'){
-        await models.Clientes.create({
-            personaId: newPersonas.id,
-            industry: dataUpdated.industry,
-            city: dataUpdated.city
-        })
-    }else{
-        await models.Proveedores.create({
-            personaId: newPersonas.id,
-            industry: dataUpdated.industry,
-            city: dataUpdated.city
-        })
-      }
     
     console.log(`✅ Personas "${newPersonas.name}" was created with images`);
 
@@ -112,44 +94,7 @@ const updatePersonas = async (Personas_id, dataUpdated) => {
       phone: dataUpdated.phone,
       cuil: dataUpdated.cuil,
       email: dataUpdated.email,
-      categoria: dataUpdated.categoria
-
     };
-
-    if(dataUpdate.categoria === 'CLIENTE'){
-
-      if (oldPersonas.cliente.length > 0) {
-        clienteId = oldPersonas.cliente[0].dataValues.id;
-      } 
-      const cliente = await models.Clientes.findByPk(clienteId)
-      await cliente.update({
-        industry: dataUpdated.industry,
-        city: dataUpdated.city
-      }) 
-    }
-    else if(dataUpdate.categoria === 'PROVEEDOR'){
-
-          if (oldPersonas.proveedor.length > 0) {
-            proveedorId = oldPersonas.proveedor[0].dataValues.id;
-          } 
-
-        const proveedor = await models.Proveedores.findByPk(proveedorId)
-        await proveedor.update({
-          industry: dataUpdated.industry,
-          city: dataUpdated.city
-        })
-
-    }
-    else{
-      if (oldPersonas.empleado.length > 0) {
-        empleadoId = oldPersonas.empleado[0].dataValues.id;
-      }
-
-        const cliente = await models.Empleados.findByPk(empleadoId)
-        await cliente.update({
-          cargo: dataUpdated.cargo
-        })
-    }
 
     const newPersonas = await oldPersonas.update(dataUpdate);
 
@@ -175,53 +120,9 @@ const deletePersonas = async (Personas_id, data) => {
       
     }
 
-    // if(data === 'EMPLEADOS'){
-    //     for (const cargo of deletedPedidos.empleado) {
-      
-    //         await models.Empleados.destroy({ where:  
-    //           { 
-    //             personaId: Personas_id,
-    //             cargo: cargo
-    //           } });
-    //       }
-          
-      
-          
-    //       await models.Persona.destroy({ where: { id: pedidos_id } });
-    // }
-
-    // if(data === 'CLIENTES'){
-    //     for (const dataPersona of deletedPedidos.cliente) {
-      
-    //         await models.Clientes.destroy({ where:  
-    //           { 
-    //             personaId: Personas_id,
-    //             industry: dataPersona.industry,
-    //             city: dataPersona.city
-
-    //           } });
-    //       }
-          
-      
-          
-    //       await models.Persona.destroy({ where: { id: pedidos_id } });
-    // }
-
-    // if(data === 'PROVEEDORES'){
-    //     for (const dataPersona of deletedPedidos.proveedor) {
-      
-    //         await models.Empleados.destroy({ where:  
-    //           { 
-    //             personaId: Personas_id,
-    //             industry: dataPersona.industry,
-    //             city: dataPersona.city
-    //           } });
-    //       }
-          
-      
-          
-    //       await models.Persona.destroy({ where: { id: pedidos_id } });
-    // }
+    
+    // await models.Persona.destroy({ where: { id: pedidos_id } });
+    
     
     
 
