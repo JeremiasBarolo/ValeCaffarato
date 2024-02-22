@@ -33,6 +33,15 @@ import { CrearEditarPersonalesComponent } from './padrones/personales/crear-edit
 import { MonedasComponent } from './padrones/monedas/monedas.component';
 import { CrearEditarMonedasComponent } from './padrones/monedas/crear-editar-monedas/crear-editar-monedas.component';
 
+import { TipoPersonaComponent } from './padrones/tipo-persona/tipo-persona.component';
+import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { PaisesComponent } from './padrones/paises/paises.component';
+import { ProvinciasComponent } from './padrones/provincias/provincias.component';
+import { LocalidadesComponent } from './padrones/localidades/localidades.component';
+import { EmpleadosComponent } from './personas/empleados/empleados.component';
+import { ClientesComponent } from './personas/clientes/clientes.component';
+import { ProovedoresComponent } from './personas/proovedores/proovedores.component';
+
 
 
 
@@ -72,6 +81,15 @@ import { CrearEditarMonedasComponent } from './padrones/monedas/crear-editar-mon
     CrearEditarPersonalesComponent,
     MonedasComponent,
     CrearEditarMonedasComponent,
+
+    TipoPersonaComponent,
+    UnidadesMedidaComponent,
+    PaisesComponent,
+    ProvinciasComponent,
+    LocalidadesComponent,
+    EmpleadosComponent,
+    ClientesComponent,
+    ProovedoresComponent,
 
     
 

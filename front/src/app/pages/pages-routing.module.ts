@@ -29,6 +29,13 @@ import { PersonalesComponent } from './padrones/personales/personales.component'
 import { CrearEditarPersonalesComponent } from './padrones/personales/crear-editar-personales/crear-editar-personales.component';
 import { MonedasComponent } from './padrones/monedas/monedas.component';
 import { CrearEditarMonedasComponent } from './padrones/monedas/crear-editar-monedas/crear-editar-monedas.component';
+import { TipoPersonaComponent } from './padrones/tipo-persona/tipo-persona.component';
+import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { PaisesComponent } from './padrones/paises/paises.component';
+import { ProvinciasComponent } from './padrones/provincias/provincias.component';
+import { LocalidadesComponent } from './padrones/localidades/localidades.component';
+import { BancosService } from '../services/bancos.service';
+
 
 
 
@@ -77,6 +84,13 @@ const routes: Routes = [
       { path: 'monedas', component: MonedasComponent },
       { path: 'monedas/crear-editar', component: CrearEditarMonedasComponent },
       { path: 'monedas/crear-editar/:id', component: CrearEditarMonedasComponent },
+      { path: 'tipo-personas', component: TipoPersonaComponent },
+      { path: 'unidades-medida', component: UnidadesMedidaComponent },
+      { path: 'pais', component: PaisesComponent },
+      { path: 'provincia', component: ProvinciasComponent },
+      { path: 'localidad', component: LocalidadesComponent },
+      { path: 'bancos', component: BancosService },
+
 
       
 
