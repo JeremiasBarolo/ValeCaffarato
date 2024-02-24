@@ -1,5 +1,5 @@
 <div class="text-right">
-    <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Provincia</button>
+    <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Banco</button>
   </div>
   
   
@@ -20,7 +20,7 @@
             
             <td>{{entidad.name}}</td>
             <td>
-                {{entidad.Pai.name}}
+                {{entidad.Localidad.name}}
             </td>
             <td>
                 <div class="wrapper d-flex justify-content-end">
@@ -49,7 +49,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCrearTipoLabel">Crear/Editar Provincias</h5>
+                <h5 class="modal-title" id="modalCrearTipoLabel">Crear/Editar Banco</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -65,12 +65,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pais">Pais al que estara enlazado:</label>
-                        <select class="form-control" id="tipoArticulo" formControlName="pais">
-                            <option *ngFor="let pais of listPaises" [value]="pais.id">{{ pais.name }}</option>
+                        <label for="localidad">Provincia al que estara enlazado:</label>
+                        <select class="form-control" id="tipoArticulo" formControlName="localidad">
+                            <option *ngFor="let localidad of listLocalidades" [value]="localidad.id">{{ localidad.name }}</option>
                         </select>
-                        <div *ngIf="form.get('pais')?.invalid && form.get('pais')?.touched" class="text-danger">
-                            Tipo de artículo es requerido
+                        <div *ngIf="form.get('localidad')?.invalid && form.get('localidad')?.touched" class="text-danger">
+                            Provincia es requerida
                         </div>
                 </div>
                     

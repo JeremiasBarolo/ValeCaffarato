@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
+import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { TitleService } from 'src/app/services/title.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ProvinciasService } from 'src/app/services/provincias.service';
-import { PaisesService } from 'src/app/services/paises.service';
+import { CondIvaService } from 'src/app/services/cond-iva.service';
 
 @Component({
-  selector: 'app-provincias',
-  templateUrl: './provincias.component.html',
-  styleUrls: ['./provincias.component.css']
+  selector: 'app-unidades-medida',
+  templateUrl: './unidades-medida.component.html',
+  styleUrls: ['./unidades-medida.component.css']
 })
-export class ProvinciasComponent {
+export class CondicionIvaComponent {
   entidades: any[] = []
   form: FormGroup;
-  listPaises: any[] = []
   cardData: any = {
     name: '',
     deposito: '',
@@ -30,29 +29,23 @@ export class ProvinciasComponent {
   }
   constructor(
     private titleService: TitleService, 
-    private provinciasService: ProvinciasService,
-    private paisService: PaisesService,
+    private condIvaService: CondIvaService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     ) {
       this.form = this.fb.group({
-        name: ['',Validators.required],
-        pais: ['',Validators.required],
+        description: ['',Validators.required],
         
       });
   }
   
   ngOnInit(): void {
-    this.provinciasService.getAll().subscribe(tipo_personas => 
+    this.condIvaService.getAll().subscribe(tipo_personas => 
       {
         this.entidades = tipo_personas
       })
-
-    this.paisService.getAll().subscribe(paises =>{
-      this.listPaises = paises
-    })
       
-    this.titleService.setTitle('Provincias');
+    this.titleService.setTitle('Condicion de Iva');
   }
 
   editarTipo(card: any) {  
@@ -60,8 +53,7 @@ export class ProvinciasComponent {
     console.log(this.DataArticulos);
     
     this.form.patchValue({
-      name: this.DataArticulos.name,
-      pais: this.DataArticulos.paisId,
+      description: this.DataArticulos.description
     });
 }
 
@@ -69,12 +61,11 @@ export class ProvinciasComponent {
 
 guardarNuevoTipo(){
   this.tipo = {
-    name: this.form.value.name,
-    paisId: this.form.value.pais
+    description: this.form.value.description
   }
 
  if(this.DataArticulos.editar === true){
-  this.provinciasService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
+  this.condIvaService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
     setTimeout(() => {
       window.location.reload();
     }, 600)
@@ -82,7 +73,7 @@ guardarNuevoTipo(){
   });
  } else{
   try {
-    this.provinciasService.create(this.tipo).subscribe(() => {
+    this.condIvaService.create(this.tipo).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -100,9 +91,8 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.provinciasService.delete(id).subscribe(() => {
+    this.condIvaService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
-      this.toastr.success('Tipo de Articulo Eliminado', 'Exito');
     });
   } 
   showCardDetails(card: any) {
@@ -110,5 +100,4 @@ guardarNuevoTipo(){
     console.log(this.cardData);
     
   }
-
 }

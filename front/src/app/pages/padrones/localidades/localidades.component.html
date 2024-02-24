@@ -1,1 +1,87 @@
-<p>localidades works!</p>
+<div class="text-right">
+    <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Provincia</button>
+  </div>
+  
+  
+  <section style="margin: 16px">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Pertenece a</th>
+            <th scope="col">Acciones</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table"  (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
+            <th scope="row">{{entidad.id}}</th>
+            
+            <td>{{entidad.name}}</td>
+            <td>
+                {{entidad.Provincium.name}}
+            </td>
+            <td>
+                <div class="wrapper d-flex justify-content-end">
+                    <button  routerLinkActive="router-link-active"
+                        type="button" class="btn btn-outline-primary" aria-label="Editar Producto" data-target="#crearTipo" data-toggle="modal" (click)="editarTipo(entidad)">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+  
+                    <button type="button" (click)="deleteEntidad(entidad.id)"
+                        class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                            class="fa-solid fa-trash"></i></button>
+                </div>
+            </td>
+  
+          </tr>
+          
+        </tbody>
+      </table>
+  
+  </section>
+  
+  
+  
+  
+  <div class="modal fade" id="crearTipo" tabindex="-1" role="dialog" aria-labelledby="crearMesa" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearTipoLabel">Crear/Editar Localidad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" (ngSubmit)="guardarNuevoTipo()">
+                    <div class="form-group">
+                      <label for="nombreTipo">Nombre</label>
+                      <input type="text" class="form-control" id="name" formControlName="name">
+                      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+                        Este Campo es requerido
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="provincia">Provincia al que estara enlazado:</label>
+                        <select class="form-control" id="tipoArticulo" formControlName="provincia">
+                            <option *ngFor="let provincia of listProvincias" [value]="provincia.id">{{ provincia.name }}</option>
+                        </select>
+                        <div *ngIf="form.get('provincia')?.invalid && form.get('provincia')?.touched" class="text-danger">
+                            Provincia es requerida
+                        </div>
+                </div>
+                    
+                    <button type="submit" class="btn btn-primary">Completar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  
+    
+  
+  

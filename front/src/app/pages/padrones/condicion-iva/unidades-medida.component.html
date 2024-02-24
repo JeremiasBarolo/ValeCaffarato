@@ -1,5 +1,5 @@
 <div class="text-right">
-    <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Provincia</button>
+    <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Pais</button>
   </div>
   
   
@@ -8,8 +8,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Pertenece a</th>
+            <th scope="col">Descripcion</th>
             <th scope="col">Acciones</th>
             
           </tr>
@@ -18,10 +17,7 @@
           <tr class="table"  (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
             <th scope="row">{{entidad.id}}</th>
             
-            <td>{{entidad.name}}</td>
-            <td>
-                {{entidad.Pai.name}}
-            </td>
+            <td>{{entidad.description}}</td>
             <td>
                 <div class="wrapper d-flex justify-content-end">
                     <button  routerLinkActive="router-link-active"
@@ -49,7 +45,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCrearTipoLabel">Crear/Editar Provincias</h5>
+                <h5 class="modal-title" id="modalCrearTipoLabel">Crear/Editar Condicion De iva</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -57,22 +53,12 @@
             <div class="modal-body">
                 <form [formGroup]="form" (ngSubmit)="guardarNuevoTipo()">
                     <div class="form-group">
-                      <label for="nombreTipo">Nombre</label>
-                      <input type="text" class="form-control" id="name" formControlName="name">
-                      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
-                        Este Campo es requerido
+                      <label for="nombreTipo">Descripcion</label>
+                      <input type="text" class="form-control" id="description" formControlName="description">
+                      <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+                        Descripcion del tipo es requerido
                       </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="pais">Pais al que estara enlazado:</label>
-                        <select class="form-control" id="tipoArticulo" formControlName="pais">
-                            <option *ngFor="let pais of listPaises" [value]="pais.id">{{ pais.name }}</option>
-                        </select>
-                        <div *ngIf="form.get('pais')?.invalid && form.get('pais')?.touched" class="text-danger">
-                            Tipo de artículo es requerido
-                        </div>
-                </div>
                     
                     <button type="submit" class="btn btn-primary">Completar</button>
                 </form>

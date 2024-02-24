@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TitleService } from 'src/app/services/title.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ProvinciasService } from 'src/app/services/provincias.service';
-import { PaisesService } from 'src/app/services/paises.service';
-
+import { LocalidadesService } from 'src/app/services/localidades.service';
+import { BancosService } from 'src/app/services/bancos.service';
 @Component({
-  selector: 'app-provincias',
-  templateUrl: './provincias.component.html',
-  styleUrls: ['./provincias.component.css']
+  selector: 'app-bancos',
+  templateUrl: './bancos.component.html',
+  styleUrls: ['./bancos.component.css']
 })
-export class ProvinciasComponent {
+export class BancosComponent implements AfterViewInit, OnInit {
+  titulo:string= 'Bancos';
   entidades: any[] = []
   form: FormGroup;
-  listPaises: any[] = []
+  listLocalidades: any[] = []
   cardData: any = {
     name: '',
     deposito: '',
@@ -30,29 +30,35 @@ export class ProvinciasComponent {
   }
   constructor(
     private titleService: TitleService, 
-    private provinciasService: ProvinciasService,
-    private paisService: PaisesService,
+    private bancosService: BancosService,
+    private lolacidadesService: LocalidadesService,
     private fb: FormBuilder,
     private toastr: ToastrService,
+    private cd: ChangeDetectorRef,
     ) {
       this.form = this.fb.group({
         name: ['',Validators.required],
-        pais: ['',Validators.required],
+        localidad: ['',Validators.required],
         
       });
   }
+
+  ngAfterViewInit(): void {
+    this.titleService.setTitle('Bancos');
+    this.cd.detectChanges()
+  }
   
   ngOnInit(): void {
-    this.provinciasService.getAll().subscribe(tipo_personas => 
+    this.bancosService.getAll().subscribe(tipo_personas => 
       {
         this.entidades = tipo_personas
       })
 
-    this.paisService.getAll().subscribe(paises =>{
-      this.listPaises = paises
+    this.lolacidadesService.getAll().subscribe(provincia =>{
+      this.listLocalidades = provincia
     })
       
-    this.titleService.setTitle('Provincias');
+    
   }
 
   editarTipo(card: any) {  
@@ -61,7 +67,7 @@ export class ProvinciasComponent {
     
     this.form.patchValue({
       name: this.DataArticulos.name,
-      pais: this.DataArticulos.paisId,
+      localidad: this.DataArticulos.localidadId,
     });
 }
 
@@ -70,11 +76,11 @@ export class ProvinciasComponent {
 guardarNuevoTipo(){
   this.tipo = {
     name: this.form.value.name,
-    paisId: this.form.value.pais
+    localidadId: this.form.value.localidad
   }
 
  if(this.DataArticulos.editar === true){
-  this.provinciasService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
+  this.bancosService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
     setTimeout(() => {
       window.location.reload();
     }, 600)
@@ -82,7 +88,7 @@ guardarNuevoTipo(){
   });
  } else{
   try {
-    this.provinciasService.create(this.tipo).subscribe(() => {
+    this.bancosService.create(this.tipo).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -100,7 +106,7 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.provinciasService.delete(id).subscribe(() => {
+    this.bancosService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
       this.toastr.success('Tipo de Articulo Eliminado', 'Exito');
     });
@@ -110,5 +116,4 @@ guardarNuevoTipo(){
     console.log(this.cardData);
     
   }
-
 }
