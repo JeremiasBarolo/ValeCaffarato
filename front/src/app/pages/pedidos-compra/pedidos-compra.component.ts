@@ -153,15 +153,29 @@ calcularSubtotal(pedido: any): number {
 }
 
 
-eliminarPedido(id?: number){
-  this.pedidosService.delete(id!).subscribe(() => {
-    this.toastr.success('Entidad eliminado exitosamente')
-    setTimeout(() => {
-      window.location.reload();
-    }, 600)
-    
+eliminarPedido(id?: number, state?:any){
 
-  })
+  if(state ==='FINALIZADO'){
+    this.pedidosService.update(id!, {eliminarCantidad: true}).subscribe((res) => {
+       if(res = "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock."){
+        this.toastr.success('Entidad eliminado exitosamente')
+        setTimeout(() => {
+          window.location.reload();
+        }, 600)
+      }else{
+        this.toastr.info(res)
+      }
+      
+    })
+  }else{
+    this.pedidosService.delete(id!).subscribe(() => {
+      this.toastr.success('Entidad eliminado exitosamente')
+      setTimeout(() => {
+        window.location.reload();
+      }, 600)
+    })
+  }
+  
 }
 
 onAceptarClick() {

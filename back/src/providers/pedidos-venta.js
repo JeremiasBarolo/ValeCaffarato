@@ -102,7 +102,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
           }, 0);
     
     
-          for (const insumo of entidadProducto.ProductosEnStocks) {
+          for (const insumo of entidadProducto.ProductosEnStock) {
             const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     
@@ -141,7 +141,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         if (entidadProducto) {
           const cantidadRequerida = entidad.PedidosProductos.quantity_requested;
     
-          for (const insumo of entidadProducto.ProductosEnStocks) {
+          for (const insumo of entidadProducto.ProductosEnStock) {
             const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     
@@ -185,32 +185,102 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
     
 
 
+
+    else if (dataUpdated.eliminarCantidad)
+    {
+      const pedidoFinalizado = await models.Pedidos.findOne({
+        where: {
+            id: pedidos_id, 
+            state: 'FINALIZADO' 
+        }
+      });
+    
+    if (pedidoFinalizado) {
+        
+        const productosPedido = await models.PedidosProductos.findAll({
+            where: {
+                pedidoId: pedidoFinalizado.id
+            }
+        });
+    
+        
+        let diferenciaSuficiente = true;
+        for (const productoPedido of productosPedido) {
+            const productoInsumo = await models.ProductosEnStock.findByPk(productoPedido.productId);
+            const diferencia = productoInsumo.quantity - productoInsumo.quantity_reserved;
+            if (diferencia < productoPedido.quantity_requested) {
+                diferenciaSuficiente = false;
+                break;
+            }
+        }
+    
+        if (diferenciaSuficiente) {
+            
+            for (const productoPedido of productosPedido) {
+                const productoInsumo = await models.ProductosEnStock.findByPk(productoPedido.productId);
+                await productoInsumo.decrement('quantity', { by: productoPedido.quantity_requested });
+            }
+
+            await pedidoFinalizado.destroy();
+    
+            return "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock.";
+        } else {
+            return "No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.";
+        }
+    } else {
+        return "No se encontró un pedido finalizado con el ID proporcionado.";
+    }
+      
+    }
+
     
 
     else {
       
-      if(dataUpdated.editPresupuesto){
-        await dataUpdated.productos.map(async entidad => {
-          const producto = await models.PedidosProductos.findOne(
-            {
-              where: {
-                pedidoId: dataUpdated.id,
-                productId: entidad.id
-              }
+      if (dataUpdated.editPresupuesto) {
+        const productosExistente = await models.PedidosProductos.findAll({
+            where: {
+                pedidoId: dataUpdated.id
             }
-          )
-  
-          if(producto){
-            await producto.update({
-              quantity_requested: entidad.cantidad
-            })
-          }
-        })
-      }
-      
-      const newPedidos= await oldPedidos.update(dataUpdated);
-      return newPedidos;
+        });
+    
+        const idsProductosExistente = productosExistente.map(producto => producto.productId);
+    
+        
+        for (const entidad of dataUpdated.productos) {
+           
+            if (idsProductosExistente.includes(entidad.id)) {
+                
+                const producto = productosExistente.find(p => p.productId === entidad.id);
+                await producto.update({
+                    quantity_requested: entidad.cantidad
+                });
+                
+                const index = idsProductosExistente.indexOf(entidad.id);
+                if (index > -1) {
+                    idsProductosExistente.splice(index, 1);
+                }
+            } else {
+                
+                await models.PedidosProductos.create({
+                    pedidoId: dataUpdated.id,
+                    productId: entidad.id,
+                    quantity_requested: entidad.cantidad
+                });
+            }
+        }
+    
+        
+        for (const idProductoNoPresente of idsProductosExistente) {
+            const productoEliminar = productosExistente.find(p => p.productId === idProductoNoPresente);
+            await productoEliminar.destroy();
+        }
     }
+    
+    
+    const newPedidos = await oldPedidos.update(dataUpdated);
+    return newPedidos;
+  }  
     
 
 

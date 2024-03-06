@@ -51,7 +51,7 @@ export class PedidosService {
 }
 
 // update
-  update(id: number, Pedidos: any): Observable<Pedidos> {
+  update(id: number, Pedidos: any): Observable<any> {
     console.log(Pedidos);
     
 

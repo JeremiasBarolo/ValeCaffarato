@@ -1,6 +1,7 @@
 
 
 export interface Pedidos{
+    message(message: any): unknown;
     id?: number;
     name: string;
     subtotal: number;

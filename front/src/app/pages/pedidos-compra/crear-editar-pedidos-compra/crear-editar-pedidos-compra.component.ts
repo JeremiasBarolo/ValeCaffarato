@@ -51,14 +51,22 @@ export class CrearEditarPedidosCompraComponent {
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
-    this.loadSelectedProducts();
+    
     if (this.id !== null) {
+      this.loadAllEntities();
+      for (let i = 0; i < 2; i++){
+        setTimeout(() => {
+          console.log("pase aca");
+          this.loadSelectedProducts();
+        }, 50)
+      }
       this.titleService.setTitle('Editar Pedido de Compra');
       console.log(this.id);
       this.getPedido(this.id);
     }else{
       this.titleService.setTitle('Pedidos Compra');
+      console.log("pase aca a else");
+      this.loadAllEntities();
     }
 
     
@@ -71,8 +79,6 @@ export class CrearEditarPedidosCompraComponent {
     this.presupuestoData.description = this.form.value.description;
     this.presupuestoData.id = this.id;
     this.presupuestoData.monedaId = this.form.value.moneda;
-
-console.log(this.presupuestoData.monedaId);
 
     if (this.id !== 0) {
       try {
@@ -125,6 +131,7 @@ console.log(this.presupuestoData.monedaId);
         
     });
   }
+
   loadAllEntities() {
     this.maestroArticulosService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
@@ -139,18 +146,24 @@ console.log(this.presupuestoData.monedaId);
       this.monedas= data
     })
   }
+
+
   loadSelectedProducts() {
     if (this.id) {
       this.pedidosService.getById(this.id).subscribe(
         (res: any) => {
-          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
-            
-            
-            this.selectedEntities = [...res.InsumosEntities];
+          if (res.productos && res.productos.length > 0) {
+            this.selectedEntities = res.productos.map((entidad: { PedidosProductos: { quantity_requested: any; }; }) => {
+              return {
+                ...entidad,
+                cantidad: entidad.PedidosProductos ? entidad.PedidosProductos.quantity_requested : 0
+              };
+            });
+  
             this.InsumosEntities = this.InsumosEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
           }
         }
-      )
+      );
     }
   }
 

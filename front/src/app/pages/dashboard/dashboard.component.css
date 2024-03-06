@@ -1,0 +1,29 @@
+#img {
+    position: fixed;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    width: 100vh;
+    height: 50vh; 
+    background-size: cover; 
+    background-position: center; 
+    /* opacity: 0.5; */
+
+}
+
+@media screen and (max-width: 768px) {
+    /* Si el ancho de la pantalla es menor o igual a 768px, ajustamos el tamaño de la imagen */
+    #img {
+        width: 10vw;
+        max-height: 20vh;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* Si el ancho de la pantalla es menor o igual a 480px, ajustamos el tamaño de la imagen */
+    #img {
+        width: 100vw;
+        max-height: 20vh;
+        left: 50%;
+    }
+}
