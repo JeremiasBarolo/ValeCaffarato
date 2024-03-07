@@ -1,18 +1,19 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { TitleService } from 'src/app/services/title.service';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.css']
 })
-export class BreadcrumbsComponent implements AfterViewInit {
-  pageTitle: string = '';
-  constructor(private titleService: TitleService) {
+export class BreadcrumbsComponent implements OnInit {
+  @Input() titulo: string | undefined 
+  pageTitle: string | undefined 
+  constructor() {
     
   }
 
-  ngAfterViewInit(): void {
-    this.pageTitle = this.titleService.getTitle();
+  ngOnInit(): void {
+    this.pageTitle = this.titulo
   }
 }

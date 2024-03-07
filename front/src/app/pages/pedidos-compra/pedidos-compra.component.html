@@ -1,3 +1,4 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="text-right">
   <button type="button" id="agregar" class="btn btn-outline-success mr-2 agregar" [routerLink]="['crear-editar']"> Agregar
       Pedido</button>
@@ -81,13 +82,26 @@
         <div class="modal-body">
           <p><strong>Subtotal:</strong> {{ calcularSubtotal(cardData)| currency }}</p>
           <p><strong>Moneda:</strong> {{cardData.Moneda?.description}}</p>
-          <span class="card text-center" *ngFor="let item of cardData.productos">
-            <div class="card-header"> {{item.name}}</div>
-            <div class="card-body">
-              <p>Cantidad: {{item.PedidosProductos.quantity_requested}}</p>
-              <p>Precio: {{item.costo_unit| currency}} + {{item.profit}}%</p>
-            </div>
-          </span>
+          <div class="table-container table-bordered">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">Costo</th>
+                  <th scope="col">Can. Solicitada</th>
+                </tr>
+              </thead>
+              <tbody style="max-height: 300px; overflow-y: auto;">
+                <tr *ngFor="let item of cardData.productos">
+                  <td>{{item.name}}</td>
+                  <td>{{item.description}}</td>
+                  <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
+                  <td>{{item.PedidosProductos.quantity_requested}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           
         </div>
         <div class="modal-footer">

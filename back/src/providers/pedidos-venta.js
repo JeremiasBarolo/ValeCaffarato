@@ -102,7 +102,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
           }, 0);
     
     
-          for (const insumo of entidadProducto.ProductosEnStock) {
+          for (const insumo of entidadProducto.ProductosEnStocks) {
             const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     
@@ -141,7 +141,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         if (entidadProducto) {
           const cantidadRequerida = entidad.PedidosProductos.quantity_requested;
     
-          for (const insumo of entidadProducto.ProductosEnStock) {
+          for (const insumo of entidadProducto.ProductosEnStocks) {
             const cantidadNecesaria = insumo.ProductQuantities.quantity_necessary;
             const cantidadActual = cantidadNecesaria * cantidadRequerida;
     

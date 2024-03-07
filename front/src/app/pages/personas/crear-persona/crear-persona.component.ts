@@ -11,7 +11,7 @@ import { PaisesService } from 'src/app/services/paises.service';
 import { PersonasService } from 'src/app/services/personas.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-crear-persona',
@@ -19,6 +19,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-persona.component.css']
 })
 export class CrearPersonaComponent {
+  breadcrumbItems: string = 'Crear/Editar Personas'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
@@ -39,7 +40,7 @@ export class CrearPersonaComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private personasService: PersonasService,
-    private titleService: TitleService,
+
     private tipoPersonasService: TipoPersonaService,
     private paisesService: PaisesService,
     private provinciasService: ProvinciasService,
@@ -77,12 +78,12 @@ export class CrearPersonaComponent {
     this.loadCountries()
     if (this.id !== 0) {
       this.operacion = 'Editar';
-      this.titleService.setTitle('Editar Persona');
+
       console.log(this.id);
       this.getPersona(this.id);
     } else{
       this.operacion = 'Agregar';
-      this.titleService.setTitle('Crear Persona');
+
       
       
     }   

@@ -7,7 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { PersonasService } from 'src/app/services/personas.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-crear-editar-documentos',
@@ -15,6 +15,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-documentos.component.css']
 })
 export class CrearEditarDocumentosComponent {
+  breadcrumbItems: string = 'Crear/Editar Documentos'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
@@ -37,7 +38,7 @@ export class CrearEditarDocumentosComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
-    private titleService: TitleService,
+
     private toastr: ToastrService,
     private personasService: PersonasService,
     private documentoService: DocumentosService
@@ -53,7 +54,6 @@ export class CrearEditarDocumentosComponent {
 
   ngOnInit(): void {
     this.loadSelectedProducts();
-    this.titleService.setTitle('Pedidos Compra');
     console.log(this.selectedPedidos);
     console.log(this.Pedidos);
     this.pedidosService.getAll().subscribe(data =>{

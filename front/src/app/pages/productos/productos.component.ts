@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-productos',
@@ -10,6 +9,7 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class ProductosComponent {
   entidades: any[] = []
+  breadcrumbItems: string = 'Productos En Stock'
   cardData: any = {
     name: '',
     description: '',
@@ -18,7 +18,6 @@ export class ProductosComponent {
 
   }
   constructor(
-    private titleService: TitleService, 
     private productoService: ProductosEnStockService
     ) {
     
@@ -32,8 +31,7 @@ export class ProductosComponent {
         }
       })
       
-    });
-    this.titleService.setTitle('Productos en Stock');
+    })
   }
   deleteEntidad(id: any) {
     this.productoService.delete(id).subscribe(() => {

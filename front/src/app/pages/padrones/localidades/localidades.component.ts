@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TitleService } from 'src/app/services/title.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProvinciasService } from 'src/app/services/provincias.service';
@@ -11,6 +10,7 @@ import { LocalidadesService } from 'src/app/services/localidades.service';
   styleUrls: ['./localidades.component.css']
 })
 export class LocalidadesComponent {
+  breadcrumbItems: string = 'Localidades'
   entidades: any[] = []
   form: FormGroup;
   listProvincias: any[] = []
@@ -29,7 +29,7 @@ export class LocalidadesComponent {
     editar:false
   }
   constructor(
-    private titleService: TitleService, 
+
     private lolacidadesService: LocalidadesService,
     private provinciasService: ProvinciasService,
     private fb: FormBuilder,
@@ -52,7 +52,7 @@ export class LocalidadesComponent {
       this.listProvincias = provincia
     })
       
-    this.titleService.setTitle('Localidades');
+
   }
 
   editarTipo(card: any) {  

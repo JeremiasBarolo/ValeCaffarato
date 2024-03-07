@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-import { TitleService } from 'src/app/services/title.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 @Component({
@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./tipo-persona.component.css']
 })
 export class TipoPersonaComponent {
+  breadcrumbItems: string = 'Tipo Persona'
   entidades: any[] = []
   form!: FormGroup;
   cardData: any = {
@@ -26,7 +27,7 @@ export class TipoPersonaComponent {
     editar:false
   }
   constructor(
-    private titleService: TitleService, 
+
     private tipoPersonasService: TipoPersonaService,
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -43,7 +44,6 @@ export class TipoPersonaComponent {
         this.entidades = tipo_personas
       })
       
-    this.titleService.setTitle('Tipo Personas');
   }
 
   editarTipo(card: any) {  

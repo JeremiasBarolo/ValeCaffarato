@@ -138,11 +138,15 @@ const updateProductos= async (productos_id, dataUpdated) => {
 
 
   try {
+    
 
     const oldProductos= await models.ProductosEnStock.findByPk(productos_id, { include: { all: true } });
 
 
+
     const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.quantity });
+
+
     
 
     console.log(`✅ Productos"${newProductos.name}" and the id ${newProductos.id}`);

@@ -1,3 +1,4 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <section style="margin: 16px">
     <div class="cards-container" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px;">
       <div class="card" style="width: calc(20% - 16px - 1px); flex: 0 0 auto; margin-right: 16px;" *ngFor="let card of listCancelado" (click)="showCardDetails(card)" data-target="#InsumoModal" data-toggle="modal">

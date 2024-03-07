@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from 'src/app/models/pedidos'
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-pedidos-cancelados',
@@ -11,6 +11,7 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class PedidosCanceladosComponent {
   listCancelado: Pedidos[] = []
+  breadcrumbItems: string = 'Pedidos Cancelados'
   cardData: any = {
     name: '',
     description: '',
@@ -21,7 +22,6 @@ export class PedidosCanceladosComponent {
     productos: []
   }
   constructor(
-    private titleService: TitleService, 
     private pedidosService: PedidosService,
     private toastr: ToastrService
     ) {
@@ -38,7 +38,6 @@ export class PedidosCanceladosComponent {
         }
     })
     });
-    this.titleService.setTitle('Pedidos Cancelados');
   }
 
   showCardDetails(card: Pedidos) {

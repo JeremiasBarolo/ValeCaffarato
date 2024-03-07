@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
-import { TitleService } from 'src/app/services/title.service';
+
 @Component({
   selector: 'app-personales',
   templateUrl: './personales.component.html',
@@ -27,7 +27,7 @@ export class PersonalesComponent {
   
   constructor( 
     private tipoPersonaService: TipoPersonaService, 
-    private titleService: TitleService,
+
     private route: ActivatedRoute,
     private router: Router,
     private condIvaService: CondIvaService,
@@ -42,7 +42,7 @@ export class PersonalesComponent {
     }
 
   ngOnInit(): void {
-  this.titleService.setTitle('Padrones Personales');
+
 
   this.condIvaService.getAll().subscribe(pais => {
     this.listCondIva= pais

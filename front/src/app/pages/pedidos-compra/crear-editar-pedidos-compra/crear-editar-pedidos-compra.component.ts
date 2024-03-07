@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-crear-editar-pedidos-compra',
@@ -15,6 +13,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-pedidos-compra.component.css']
 })
 export class CrearEditarPedidosCompraComponent {
+  breadcrumbItems: string = 'Crear/Editar Pedidos Compra'
   PedidoCompra: Pedidos | any;
   monedas: any[] = []
   form: FormGroup;
@@ -39,7 +38,6 @@ export class CrearEditarPedidosCompraComponent {
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
     private monedasService: MonedasService,
-    private titleService: TitleService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
@@ -60,11 +58,9 @@ export class CrearEditarPedidosCompraComponent {
           this.loadSelectedProducts();
         }, 50)
       }
-      this.titleService.setTitle('Editar Pedido de Compra');
       console.log(this.id);
       this.getPedido(this.id);
     }else{
-      this.titleService.setTitle('Pedidos Compra');
       console.log("pase aca a else");
       this.loadAllEntities();
     }

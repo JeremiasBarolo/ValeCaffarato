@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Insumo } from 'src/app/models/insumo';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-insumos-entity',
@@ -10,13 +10,14 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class InsumosEntityComponent {
   entidades: any[] = []
+  breadcrumbItems: string = 'Entidades de Insumos'
   cardData: any = {
     name: '',
     description: '',
     price: 0,
     unidad_medida: '',
   }
-  constructor(private titleService: TitleService, private maestroArticulosService: MaestroArticulosService) {
+  constructor(private maestroArticulosService: MaestroArticulosService) {
     
   }
   
@@ -29,7 +30,7 @@ export class InsumosEntityComponent {
       })
     )
     
-    this.titleService.setTitle('Entidades de Insumos');
+    
     console.log(this.entidades);
   }
   deleteEntidad(id: any) {

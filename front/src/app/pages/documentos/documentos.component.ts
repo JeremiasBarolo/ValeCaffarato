@@ -10,6 +10,7 @@ import { ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./documentos.component.css']
 })
 export class DocumentosComponent implements OnInit {
+  breadcrumbItems: string = 'Documentos'
   @ViewChild('myModal')
   myModal!: ElementRef;
 

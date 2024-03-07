@@ -8,7 +8,7 @@ import { DepositosService } from 'src/app/services/depositos.service';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-pedidos-venta',
@@ -16,6 +16,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./pedidos-venta.component.css']
 })
 export class PedidosVentaComponent {
+  breadcrumbItems: string = 'Pedidos Venta'
   listPresupuesto: Pedidos[] = [];
   listAprobado: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
@@ -34,7 +35,7 @@ export class PedidosVentaComponent {
   IdsInsumosCantidad: any[] = []
 
   constructor(
-    private titleService: TitleService,
+
     private pedidosService: PedidosService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -48,7 +49,7 @@ export class PedidosVentaComponent {
     ) { }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Pedidos Venta');
+
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {
@@ -147,6 +148,9 @@ showCardDetails(card: Pedidos) {
 }
 
 updateEntidad(id:number){
+  this.pedidosService.update(id, this.cardData).subscribe(() => {
+
+  })
   this.router.navigate(['dashboard/pedidos-venta/crear-editar', id]);
 }
 
@@ -154,11 +158,10 @@ calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
   if (pedido.productos && pedido.productos.length > 0) {
-    subtotal = pedido.productos.reduce((acc: number, producto: {
-      costo_unit: any;
-      PedidosProductos: any; PedidosInsumos: { quantity_requested: number; }; price: number; 
-}) => {
-      return acc + producto.PedidosProductos.quantity_requested * producto.costo_unit;
+    subtotal = pedido.productos.reduce((acc: number, producto: { PedidosProductos: { quantity_requested: number; }; costo_unit: number; profit: number; }) => {
+      let precioUnitario = producto.costo_unit * producto.PedidosProductos.quantity_requested;
+      let ganancia = precioUnitario * (producto.profit / 100);
+      return acc + precioUnitario + ganancia;
     }, 0);
   }
 

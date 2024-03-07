@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-product-entity',
@@ -8,11 +8,12 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./product-entity.component.css']
 })
 export class ProductEntityComponent {
+  breadcrumbItems: string = 'Entidades de Producto'
   entidades: any[] = []
   cardData: any = {
     name: '',
   }
-  constructor(private titleService: TitleService, private maestroArticulosService: MaestroArticulosService) {
+  constructor(private maestroArticulosService: MaestroArticulosService) {
     
   }
 
@@ -27,7 +28,7 @@ export class ProductEntityComponent {
       );
     console.log(this.entidades);
     
-    this.titleService.setTitle('Entidades de Producto');
+    
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {

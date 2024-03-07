@@ -6,7 +6,7 @@ import { Pedidos } from 'src/app/models/pedidos';
 
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 import { DepositosService } from 'src/app/services/depositos.service';
 
 
@@ -17,6 +17,7 @@ import { DepositosService } from 'src/app/services/depositos.service';
 })
 export class PedidosCompraComponent implements OnInit {
   botonDeshabilitado = false;
+  breadcrumbItems: string = 'Pedidos Compra'
   listPresupuesto: Pedidos[] = [];
   listAprobado: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
@@ -34,7 +35,6 @@ export class PedidosCompraComponent implements OnInit {
   selectedDepositoId: number | undefined;
 
   constructor(
-    private titleService: TitleService,
     private pedidosService: PedidosService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -48,7 +48,6 @@ export class PedidosCompraComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.titleService.setTitle('Pedidos Compra');
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {

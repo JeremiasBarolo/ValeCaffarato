@@ -34,7 +34,6 @@ import { CondicionIvaComponent } from './padrones/condicion-iva/unidades-medida.
 import { PaisesComponent } from './padrones/paises/paises.component';
 import { ProvinciasComponent } from './padrones/provincias/provincias.component';
 import { LocalidadesComponent } from './padrones/localidades/localidades.component';
-import { BancosService } from '../services/bancos.service';
 import { BancosComponent } from './padrones/bancos/bancos.component';
 import { ProovedoresComponent } from './personas/proovedores/proovedores.component';
 import { ClientesComponent } from './personas/clientes/clientes.component';
@@ -96,6 +95,7 @@ const routes: Routes = [
       { path: 'proveedores', component: ProovedoresComponent },
       { path: 'empleados', component: EmpleadosComponent },
       { path: 'clientes', component: ClientesComponent },
+      { path: 'bancos', component: BancosComponent },
       
 
 

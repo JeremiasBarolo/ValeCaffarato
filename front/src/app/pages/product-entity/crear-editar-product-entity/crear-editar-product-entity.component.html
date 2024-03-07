@@ -1,3 +1,4 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="container mt-5 mb-20">
   <div class="card mb-3 border border-0 mx-auto">
     <div class="card-body">
@@ -77,7 +78,7 @@
           <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
         </div>
         <div class="col-md-6 text-center">
-          <button [routerLink]="['dashboard/pedidos-compra']" type="button" class="btn btn-info mt-3">Volver</button>
+          <a href="dashboard/product-entity" type="button" class="btn btn-info mt-3">Volver</a>
         </div>
       </div>
     </div>

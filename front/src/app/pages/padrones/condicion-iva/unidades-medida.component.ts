@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-import { TitleService } from 'src/app/services/title.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
@@ -11,6 +11,7 @@ import { CondIvaService } from 'src/app/services/cond-iva.service';
   styleUrls: ['./unidades-medida.component.css']
 })
 export class CondicionIvaComponent {
+  breadcrumbItems: string = 'Condicion de Iva'
   entidades: any[] = []
   form: FormGroup;
   cardData: any = {
@@ -28,7 +29,6 @@ export class CondicionIvaComponent {
     editar:false
   }
   constructor(
-    private titleService: TitleService, 
     private condIvaService: CondIvaService,
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -45,7 +45,6 @@ export class CondicionIvaComponent {
         this.entidades = tipo_personas
       })
       
-    this.titleService.setTitle('Condicion de Iva');
   }
 
   editarTipo(card: any) {  

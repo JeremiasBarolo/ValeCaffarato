@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 
 
@@ -13,6 +13,7 @@ import { TitleService } from 'src/app/services/title.service';
 
 })
 export class InsumosComponent implements OnInit, AfterViewInit {
+  breadcrumbItems: string = 'Insumos'
 	entidades: any[] = []
   cardData: any = {
     name: '',
@@ -25,7 +26,7 @@ export class InsumosComponent implements OnInit, AfterViewInit {
     costo_unit: 0
   }
   constructor(
-    private titleService: TitleService, 
+
     private productosEnStockService: ProductosEnStockService,
     ) {
     
@@ -44,7 +45,7 @@ export class InsumosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.titleService.setTitle('Insumos');
+
      
   }
 

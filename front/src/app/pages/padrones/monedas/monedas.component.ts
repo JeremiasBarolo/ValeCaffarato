@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MonedasService } from 'src/app/services/monedas.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-monedas',
@@ -8,6 +8,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./monedas.component.css']
 })
 export class MonedasComponent {
+  breadcrumbItems: string = 'Monedas'
   entidades: any[] = []
   cardData: any = {
     name: '',
@@ -20,7 +21,7 @@ export class MonedasComponent {
     costo_unit: 0
   }
   constructor(
-    private titleService: TitleService, 
+
     private monedasService: MonedasService,
     ) {
     
@@ -32,7 +33,7 @@ export class MonedasComponent {
         this.entidades = insumos
       })
       
-    this.titleService.setTitle('Insumos');
+
   }
   deleteEntidad(id: any) {
     this.monedasService.delete(id).subscribe(() => {

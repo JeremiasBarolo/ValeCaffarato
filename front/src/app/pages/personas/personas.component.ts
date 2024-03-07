@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Persona } from 'src/app/models/Persona';
 import { PersonasService } from 'src/app/services/personas.service';
 
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-personas',
@@ -17,7 +17,7 @@ export class PersonasComponent implements OnInit {
     name: ''
   }
   
-  constructor( private personasService: PersonasService, private titleService: TitleService) { }
+  constructor( private personasService: PersonasService, ) { }
 
   ngOnInit(): void {
     this.personasService.getAll().subscribe(persona => {
@@ -36,7 +36,7 @@ export class PersonasComponent implements OnInit {
 
 
 
-  this.titleService.setTitle('Personas');
+
   }
 
   showCardDetails(card: any) {

@@ -8,7 +8,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 
 
@@ -19,6 +19,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-product-entity.component.css']
 })
 export class CrearEditarProductEntityComponent {
+  breadcrumbItems: string = 'Crear/Editar Pedido Produccion'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
@@ -35,7 +36,7 @@ export class CrearEditarProductEntityComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private maestroArticulosService: MaestroArticulosService,
-    private titleService: TitleService,
+
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
@@ -51,17 +52,13 @@ export class CrearEditarProductEntityComponent {
   ngOnInit(): void {
     this.loadAllEntities();
     this.loadSelectedProducts();
-    this.titleService.setTitle('Entidades de Producto');
+    
     console.log(this.selectedEntities);
     console.log(this.Insumos);
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Entidad de Insumo');
       console.log(this.id);
       this.getProductEntity(this.id);
-    } else{
-      this.titleService.setTitle('Crear Entidad de Insumo');
-      
-    }  
+    }
 
   
 

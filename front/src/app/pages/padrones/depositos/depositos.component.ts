@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Persona } from 'src/app/models/Persona';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { PersonasService } from 'src/app/services/personas.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-depositos',
@@ -10,15 +10,16 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./depositos.component.css']
 })
 export class DepositosComponent {
+  breadcrumbItems: string = 'Depositos'
   depositos: any[] = [];
   cardData: any = {
     name: ''
   }
   
-  constructor( private depositosService: DepositosService, private titleService: TitleService) { }
+  constructor( private depositosService: DepositosService,) { }
 
   ngOnInit(): void {
-  this.titleService.setTitle('Depositos');
+ 
   this.depositosService.getAll().subscribe(deposito => {
     this.depositos = deposito;
     

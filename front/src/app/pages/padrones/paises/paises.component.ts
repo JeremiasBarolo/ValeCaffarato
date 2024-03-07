@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TitleService } from 'src/app/services/title.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PaisesService } from 'src/app/services/paises.service';
@@ -10,6 +10,7 @@ import { PaisesService } from 'src/app/services/paises.service';
   styleUrls: ['./paises.component.css']
 })
 export class PaisesComponent {
+  breadcrumbItems: string = 'Paises'
   entidades: any[] = []
   form: FormGroup;
   cardData: any = {
@@ -27,7 +28,6 @@ export class PaisesComponent {
     editar:false
   }
   constructor(
-    private titleService: TitleService, 
     private paisesService: PaisesService,
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -43,8 +43,6 @@ export class PaisesComponent {
       {
         this.entidades = tipo_personas
       })
-      
-    this.titleService.setTitle('Paises');
   }
 
   editarTipo(card: any) {  

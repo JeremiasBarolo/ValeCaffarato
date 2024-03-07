@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
-import { TitleService } from 'src/app/services/title.service';
 
 
 @Component({
@@ -14,6 +13,7 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class CrearEditarInsumoEntityComponent {
   insumoEntity: any | any;
+  breadcrumbItems: string = 'Crear/Editar Entidad de Insumo'
   listInsumoEntitys: Observable<any[]> = new Observable<any[]>();
   form: FormGroup;
   id: number;
@@ -28,7 +28,6 @@ export class CrearEditarInsumoEntityComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private maestroArsticulosService: MaestroArticulosService,
-    private titleService: TitleService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -44,12 +43,10 @@ export class CrearEditarInsumoEntityComponent {
   ngAfterViewInit(): void {
     if (this.id !== null) {
       this.operacion = 'Editar';
-      this.titleService.setTitle('Editar Entidad de Insumo');
       console.log(this.id);
       this.getInsumoEntity(this.id);
     } else{
       this.operacion = 'Agregar';
-      this.titleService.setTitle('Crear Entidad de Insumo');
       
     }   
   }

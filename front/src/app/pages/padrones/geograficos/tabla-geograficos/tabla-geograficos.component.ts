@@ -7,7 +7,7 @@ import { LocalidadesService } from 'src/app/services/localidades.service';
 import { PaisesService } from 'src/app/services/paises.service';
 import { PersonasService } from 'src/app/services/personas.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 
 @Component({
@@ -33,7 +33,7 @@ export class TablaGeograficosComponent {
   
   constructor( 
     private personasService: PersonasService, 
-    private titleService: TitleService,
+
     private route: ActivatedRoute,
     private router: Router,
     private paisesService: PaisesService,
@@ -51,7 +51,7 @@ export class TablaGeograficosComponent {
     }
 
   ngOnInit(): void {
-  this.titleService.setTitle('Padrones Geograficos');
+
 
   this.paisesService.getAll().subscribe(pais => {
     this.paises= pais

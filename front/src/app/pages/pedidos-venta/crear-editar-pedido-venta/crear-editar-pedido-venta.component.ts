@@ -7,7 +7,6 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
 
 
 @Component({
@@ -16,6 +15,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-pedido-venta.component.css']
 })
 export class CrearEditarPedidoVentaComponent {
+  breadcrumbItems: string = 'Crear/Editar Pedidos Venta'
   PedidoCompra: Pedidos | any;
   monedas: any[] = []
   form: FormGroup;
@@ -38,7 +38,6 @@ export class CrearEditarPedidoVentaComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
-    private titleService: TitleService,
     private monedasService: MonedasService,
     private toastr: ToastrService
   ) {
@@ -51,14 +50,22 @@ export class CrearEditarPedidoVentaComponent {
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
-    this.loadSelectedProducts();
-    if (this.id !== 0) {
-      this.titleService.setTitle('Editar Pedidos Venta');
-      this.getPedido(this.id);
 
+    if (this.id !== null) {
+      this.loadAllEntities();
+      for (let i = 0; i < 2; i++){
+        setTimeout(() => {
+          
+          this.loadSelectedProducts();
+        }, 50)
+      }
+
+      console.log(this.id);
+      this.getPedido(this.id);
     }else{
-      this.titleService.setTitle('Crear Pedidos Venta');
+
+      
+      this.loadAllEntities();
     }
     
     
@@ -133,24 +140,32 @@ export class CrearEditarPedidoVentaComponent {
       })
       this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
+
     this.monedasService.getAll().subscribe((data)=>{
       this.monedas= data
     })
   }
+
+
   loadSelectedProducts() {
     if (this.id) {
       this.pedidosService.getById(this.id).subscribe(
         (res: any) => {
-          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
-            
-            
-            this.selectedEntities = [...res.InsumosEntities];
+          if (res.productos && res.productos.length > 0) {
+            this.selectedEntities = res.productos.map((entidad: { PedidosProductos: { quantity_requested: any; }; }) => {
+              return {
+                ...entidad,
+                quantity: entidad.PedidosProductos ? entidad.PedidosProductos.quantity_requested : 0
+              };
+            });
+  
             this.ProductEntities = this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
           }
         }
-      )
+      );
     }
   }
+
   getPedido(id: number) {
     this.pedidosService.getById(id).subscribe((data: any)=> {
     

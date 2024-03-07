@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { TitleService } from 'src/app/services/title.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocalidadesService } from 'src/app/services/localidades.service';
@@ -10,7 +9,7 @@ import { BancosService } from 'src/app/services/bancos.service';
   styleUrls: ['./bancos.component.css']
 })
 export class BancosComponent implements AfterViewInit, OnInit {
-  titulo:string= 'Bancos';
+  breadcrumbItems: string = 'Bancos'
   entidades: any[] = []
   form: FormGroup;
   listLocalidades: any[] = []
@@ -29,7 +28,6 @@ export class BancosComponent implements AfterViewInit, OnInit {
     editar:false
   }
   constructor(
-    private titleService: TitleService, 
     private bancosService: BancosService,
     private lolacidadesService: LocalidadesService,
     private fb: FormBuilder,
@@ -44,7 +42,6 @@ export class BancosComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.titleService.setTitle('Bancos');
     this.cd.detectChanges()
   }
   

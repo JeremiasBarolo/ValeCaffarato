@@ -1,19 +1,17 @@
 
-
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="text-right">
-    <button type="button " class="button mr-2" [routerLink]="['crear-editar']"> Agregar Producto</button>
+    <button type="button " class="btn btn-outline-success mr-2" [routerLink]="['crear-editar']"> Agregar Producto</button>
   </div>
   
   
   <section style="margin: 16px">
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripcion</th>
             <th scope="col">Uni. Medida</th>
-            <th scope="col">Precio Unit</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Deposito</th>
             <th scope="col">Acciones</th>
@@ -22,11 +20,9 @@
         </thead>
         <tbody>
           <tr class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
-            <th scope="row">{{entidad.id}}</th>
             <td>{{entidad.name}}</td>
             <td>{{entidad.description}}</td>
             <td>{{entidad.unidad_medida}}</td>
-            <td>{{entidad.costo_unit | currency}}  + {{entidad.profit}}%</td>
             <td>{{entidad.quantity}}</td>
             <td> {{entidad.deposito.description }}</td>
             <td>
@@ -49,31 +45,6 @@
   
   </section>
   
-  
-  <div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>{{cardData.description}}</p>
-          <p>Unidad de Medida:{{cardData.unidad_medida}}</p>
-          <p>Precio:{{cardData.costo_unit | currency}}  + {{cardData.profit}}%</p>
-          <p>Cantidad: {{cardData.quantity}}</p>
-          <p>Deposito: {{cardData.deposito?.description }}</p>
-          <p>Cantidad: {{ cardData.quantity }}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-          
-        </div>
-      </div>
-    </div>
-  </div>
   
   
   

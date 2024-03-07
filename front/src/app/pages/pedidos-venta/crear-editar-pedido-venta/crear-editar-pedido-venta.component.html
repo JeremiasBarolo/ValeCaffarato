@@ -1,30 +1,37 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="container mt-5">
-    <div class="card mb-3 border border-0 mx-auto">
-      <div class="card-body">
-        <form [formGroup]="form">
-          <div class="form-group text-center">
-            <label for="name">Nombre:</label>
-            <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+  <div class="card mb-3 border border-0 mx-auto">
+    <div class="card-body">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="name">Nombre:</label>
+              <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+            </div>
           </div>
-          <div class="form-group text-center">
-            <label for="description">Descripción:</label>
-            <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
+          <div class="col">
+            <div class="form-group">
+              <label for="description">Descripción:</label>
+              <input formControlName="description" type="text" class="form-control" placeholder="Descripción">
+            </div>
           </div>
-          <div class="form-group text-center">
-            <label for="deposito">Que Moneda Usara?</label>
-            <br>
-            <select class="form-select" aria-label="Monedas" formControlName="moneda">
-                <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}}</option>
-            </select>
-            
         </div>
-        </form>
-      </div>
+        
+        <div class="form-group text-center">
+          <label for="deposito">¿Qué Moneda Usará?</label>
+          <br>
+          <select class="form-select col-md-12" aria-label="Monedas" formControlName="moneda">
+            <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}}</option>
+          </select>
+        </div>
+      </form>
+    </div>
   
       <div class="row mt-4">
         <div class="col-md-6 text-center">
           <h6>Entidades Disponibles</h6>
-          <div class="card mb-" style="height: 550px; overflow-y: auto;">
+          <div class="card ml-5" style="height: 550px; overflow-y: auto;">
             <div class="card-body">
               <ul class="list-group" *ngFor="let entidad of ProductEntities">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -48,11 +55,12 @@
                   </div>
                   <div>
                     <label for="quantity{{ i }}">Cantidad:</label>
-                    <input type="number" name="quantity{{ i }}" [(ngModel)]="entidad.quantity" />
+                    <input type="number" class="mr-2 ml-2" name="quantity{{ i }}" [(ngModel)]="entidad.quantity" />
+                    <button type="button" class="btn btn-outline-danger " aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
                   </div>
-                  <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
+                  
                 </li>
               </ul>
             </div>
@@ -61,16 +69,13 @@
       </div>
   
       <div class="row mt-5">
-        <div class="col-md-6 offset-md-3 text-center">
+        <div class="col-md-6 text-center mb-10">
           <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
         </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-md-6 offset-md-3 text-center">
+        <div class="col-md-6 text-center mb-10">
           <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
         </div>
       </div>
-      
     </div>
   </div>
   

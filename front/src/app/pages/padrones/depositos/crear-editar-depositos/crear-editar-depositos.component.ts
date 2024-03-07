@@ -5,13 +5,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 @Component({
   selector: 'app-crear-editar-depositos',
   templateUrl: './crear-editar-depositos.component.html',
   styleUrls: ['./crear-editar-depositos.component.css']
 })
 export class CrearEditarDepositosComponent {
+  breadcrumbItems: string = 'Crear/Editar Depositos'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   productos: any[] = [];
@@ -30,7 +31,6 @@ export class CrearEditarDepositosComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private depositoService: DepositosService,
-    private titleService: TitleService,
     private toastr: ToastrService
   ) {
     
@@ -46,11 +46,9 @@ export class CrearEditarDepositosComponent {
     
 
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Deposito');
       console.log(this.id);
       this.getProduct(this.id);
     } else{
-      this.titleService.setTitle('Crear Deposito'); 
     }  
   }
 
