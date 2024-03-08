@@ -6,7 +6,80 @@
 
 
 <section style="margin: 16px">
-    <table  class="table table-hover">
+    
+  <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por nombre.." class="mb-3">
+  <p-table #dt [value]="filteredInsumo" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+    <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+        <tr class="table-header-color">
+            <th pSortableColumn="id">
+                ID
+                <p-sortIcon field="id" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="name">
+              Nombre
+              <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
+          </th>
+            <th pSortableColumn="description">
+                Descripción
+                <p-sortIcon field="description" style="margin: 16px"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="unidad_medida">
+              Uni. Medida
+              <p-sortIcon field="unidad_medida" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="costo_unit">
+              Precio Unit
+              <p-sortIcon field="costo_unit" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="quantity">
+              Cantidad
+              <p-sortIcon field="quantity" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="deposito.description">
+              Deposito
+              <p-sortIcon field="deposito.description" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="quantity_reserved">
+                Cant.Reservada
+            <p-sortIcon field="quantity_reserved" style="margin: 16px"></p-sortIcon>
+            </th>
+            
+            <th>
+              Acciones
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.id }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.name }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.description }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.unidad_medida}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.costo_unit | currency}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.quantity}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.deposito.description}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.quantity_reserved}}</td>
+        <td>
+          <button routerLinkActive="router-link-active"
+            type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+
+              <button type="button" (click)="deleteEntidad(rowData.id)"
+                  class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                      class="fa-solid fa-trash"></i></button>
+        </td>
+        
+      </tr>
+    </ng-template>
+  </p-table>
+  
+  
+
+</section>
+
+<!-- <table  class="table table-hover">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -46,11 +119,7 @@
         </tr>
         
       </tbody>
-    </table>
-
-</section>
-
-
+    </table> -->
 
 
 <div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

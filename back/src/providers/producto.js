@@ -168,7 +168,7 @@ const deleteProductos= async (productos_id) => {
     }
 
 
-    await models.ProductosEnStock.destroy({ where: { id: productos_id } });
+    await deletedProductos.destroy({ where: { id: productos_id } });
 
     console.log(`✅ Productoswith id: ${productos_id} was deleted successfully`);
     return deletedProductos;

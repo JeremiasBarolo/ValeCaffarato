@@ -6,39 +6,54 @@
 
 
 <section style="margin: 16px">
-  <table class="table table-hover table-bordered">
-      <thead>
+  <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por nombre.." class="mb-3">
+    <p-table #dt [value]="filteredEntities" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+      <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+          <tr class="table-header-color">
+
+              <th pSortableColumn="name">
+                Nombre
+                <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
+            </th>
+              <th pSortableColumn="description">
+                  Descripción
+                  <p-sortIcon field="description" style="margin: 16px"></p-sortIcon>
+              </th>
+  
+              <th pSortableColumn="uni_medida">
+                Uni. Medida
+                <p-sortIcon field="uni_medida" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="costo_unit">
+                Precio Unit
+                <p-sortIcon field="costo_unit" style="margin: 16px"></p-sortIcon>
+              </th>
+             
+              <th>
+                Acciones
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
         <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Uni. Medida</th>
-          <th scope="col">Acciones</th>
+          <td>{{ rowData.name }}</td>
+          <td>{{ rowData.description }}</td>
+          <td>{{rowData.uni_medida}}</td>
+          <td>{{rowData.costo_unit | currency}}</td>
+          <td>
+            <button routerLinkActive="router-link-active"
+              type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">
+              <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+  
+                <button type="button" (click)="deleteEntidad(rowData.id)"
+                    class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                        class="fa-solid fa-trash"></i>
+                </button>
+          </td>
           
         </tr>
-      </thead>
-      <tbody>
-        <tr class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
-          <td>{{entidad.name}}</td>
-          <td>{{entidad.description}}</td>
-          <td>{{entidad.costo_unit | currency}}</td>
-          <td>{{entidad.uni_medida}}</td>
-          <td>
-              <div class="wrapper d-flex justify-content-end">
-                  <button [routerLink]="['crear-editar', entidad.id]" routerLinkActive="router-link-active"
-                      type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-
-                  <button type="button" (click)="deleteEntidad(entidad.id)"
-                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
-                          class="fa-solid fa-trash"></i></button>
-              </div>
-          </td>
-
-        </tr>
-        
-      </tbody>
-    </table>
+      </ng-template>
+    </p-table>
 
 </section>

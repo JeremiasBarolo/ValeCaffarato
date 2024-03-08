@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 
 
@@ -12,9 +13,10 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
   styleUrls: ['./insumos.component.css']
 
 })
-export class InsumosComponent implements OnInit, AfterViewInit {
+export class InsumosComponent implements OnInit {
   breadcrumbItems: string = 'Insumos'
-	entidades: any[] = []
+	insumos: any[] = []
+  filteredInsumo: any[] = []
   cardData: any = {
     name: '',
     deposito: '',
@@ -28,6 +30,7 @@ export class InsumosComponent implements OnInit, AfterViewInit {
   constructor(
 
     private productosEnStockService: ProductosEnStockService,
+    private toastService: ToastrService
     ) {
     
   }
@@ -37,29 +40,36 @@ export class InsumosComponent implements OnInit, AfterViewInit {
     this.productosEnStockService.getAll().subscribe(insumos => 
       insumos.forEach(element=>{
         if(element.type === "INSUMO"){
-          this.entidades.push(element)
+          this.insumos.push(element)
+          this.filteredInsumo = this.insumos;
         }
   }))
       
     
   }
 
-  ngAfterViewInit(): void {
-
-     
-  }
 
 
 
   deleteEntidad(id: any) {
     this.productosEnStockService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredInsumo = this.insumos.filter(e => e.id !== id);
+      this.toastService.success('Insumo eliminado correctamente');
+
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredInsumo = this.insumos.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 
 	

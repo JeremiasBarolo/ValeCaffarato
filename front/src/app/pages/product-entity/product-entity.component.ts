@@ -9,7 +9,8 @@ import { MaestroArticulosService } from 'src/app/services/maestro-articulos.serv
 })
 export class ProductEntityComponent {
   breadcrumbItems: string = 'Entidades de Producto'
-  entidades: any[] = []
+  entidades_disp: any[] = []
+  filteredInsumo: any[] = []
   cardData: any = {
     name: '',
   }
@@ -22,17 +23,18 @@ export class ProductEntityComponent {
     this.maestroArticulosService.getAll().subscribe(entidades => 
       entidades.forEach(producto => {
         if(producto.tipoArticulo === 'PRODUCTO'){
-          this.entidades.push(producto);
+          this.entidades_disp.push(producto);
+          this.filteredInsumo = this.entidades_disp;
         }
       })
       );
-    console.log(this.entidades);
+    console.log(this.entidades_disp);
     
     
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.entidades_disp = this.entidades_disp.filter(e => e.id !== id);
     });
   }
 
@@ -40,6 +42,14 @@ export class ProductEntityComponent {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredInsumo = this.entidades_disp.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
   
 }

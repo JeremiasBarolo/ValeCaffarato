@@ -12,7 +12,11 @@ module.exports = {
         references:{
           model: 'MaestroDeArticulos',
           key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
         
       },
       productoId: {
@@ -20,7 +24,11 @@ module.exports = {
         references:{
           model: 'ProductosEnStock',
           key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       quantity_necessary: {
         type: Sequelize.INTEGER,

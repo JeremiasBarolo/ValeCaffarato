@@ -85,7 +85,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         name: this.form.value.name,
         quantity: this.form.value.quantity,
         description: this.form.value.description,
-        price: this.form.value.price,
+        costo_unit: this.form.value.price,
         unidad_medida: this.form.value.unidad_medida,
         depositoId: this.form.value.deposito,
         admin: 'yes',
@@ -128,7 +128,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         quantity: data.quantity,
         price: data.costo_unit,
         unidad_medida: data.unidad_medida,
-        deposito: data.deposito.description
+        deposito: data.deposito.id
       });
       console.log(data);
       

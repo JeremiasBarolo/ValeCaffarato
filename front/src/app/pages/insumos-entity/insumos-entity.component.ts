@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Insumo } from 'src/app/models/insumo';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
@@ -10,6 +11,7 @@ import { MaestroArticulosService } from 'src/app/services/maestro-articulos.serv
 })
 export class InsumosEntityComponent {
   entidades: any[] = []
+  filteredEntities: any[] = []
   breadcrumbItems: string = 'Entidades de Insumos'
   cardData: any = {
     name: '',
@@ -17,7 +19,10 @@ export class InsumosEntityComponent {
     price: 0,
     unidad_medida: '',
   }
-  constructor(private maestroArticulosService: MaestroArticulosService) {
+  constructor(
+    private maestroArticulosService: MaestroArticulosService,
+    private toastr: ToastrService,
+    ) {
     
   }
   
@@ -26,6 +31,7 @@ export class InsumosEntityComponent {
       insumos.forEach(insumo => {
         if(insumo.tipoArticulo === 'INSUMO'){
           this.entidades.push(insumo);
+          this.filteredEntities = this.entidades
         }
       })
     )
@@ -36,12 +42,21 @@ export class InsumosEntityComponent {
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
+      this.toastr.success('Entidad eliminada correctamente');
     });
   }
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredEntities = this.entidades.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 
 }
