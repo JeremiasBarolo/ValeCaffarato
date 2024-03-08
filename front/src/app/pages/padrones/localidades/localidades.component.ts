@@ -11,7 +11,8 @@ import { LocalidadesService } from 'src/app/services/localidades.service';
 })
 export class LocalidadesComponent {
   breadcrumbItems: string = 'Localidades'
-  entidades: any[] = []
+  localidades: any[] = []
+  filteredLocalidades: any[] = []
   form: FormGroup;
   listProvincias: any[] = []
   cardData: any = {
@@ -43,9 +44,9 @@ export class LocalidadesComponent {
   }
   
   ngOnInit(): void {
-    this.lolacidadesService.getAll().subscribe(tipo_personas => 
-      {
-        this.entidades = tipo_personas
+    this.lolacidadesService.getAll().subscribe(tipo_personas => {
+        this.localidades = tipo_personas
+        this.filteredLocalidades = [...tipo_personas];
       })
 
     this.provinciasService.getAll().subscribe(provincia =>{
@@ -101,14 +102,22 @@ guardarNuevoTipo(){
 
   deleteEntidad(id: any) {
     this.lolacidadesService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
-      this.toastr.success('Tipo de Articulo Eliminado', 'Exito');
+      this.filteredLocalidades = this.localidades.filter(e => e.id !== id);
+      this.toastr.success('Localidad Eliminada', 'Exito');
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredLocalidades = this.localidades.filter(deposito => {
+      return deposito.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 
 }

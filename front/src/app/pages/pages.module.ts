@@ -42,6 +42,7 @@ import { EmpleadosComponent } from './personas/empleados/empleados.component';
 import { ClientesComponent } from './personas/clientes/clientes.component';
 import { ProovedoresComponent } from './personas/proovedores/proovedores.component';
 import { BancosComponent } from './padrones/bancos/bancos.component';
+import { TableModule } from 'primeng/table';
 
 
 
@@ -105,6 +106,8 @@ import { BancosComponent } from './padrones/bancos/bancos.component';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    TableModule
+    
   ],
   exports: [
     ProductosComponent,

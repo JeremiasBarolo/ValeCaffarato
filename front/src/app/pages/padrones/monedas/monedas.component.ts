@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { MonedasService } from 'src/app/services/monedas.service';
 
 
@@ -9,7 +10,8 @@ import { MonedasService } from 'src/app/services/monedas.service';
 })
 export class MonedasComponent {
   breadcrumbItems: string = 'Monedas'
-  entidades: any[] = []
+  monedas: any[] = []
+  filteredMonedas: any[] = []
   cardData: any = {
     name: '',
     deposito: '',
@@ -23,21 +25,24 @@ export class MonedasComponent {
   constructor(
 
     private monedasService: MonedasService,
+    private toastr: ToastrService,
     ) {
     
   }
   
   ngOnInit(): void {
-    this.monedasService.getAll().subscribe(insumos => 
-      {
-        this.entidades = insumos
+    this.monedasService.getAll().subscribe(insumos => {
+        this.monedas = insumos
+        this.filteredMonedas = insumos;
       })
       
 
   }
   deleteEntidad(id: any) {
     this.monedasService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredMonedas = this.monedas.filter(e => e.id !== id);
+      this.toastr.success('Moneda Eliminada', 'Exito');
+
     });
   } 
   showCardDetails(card: any) {
@@ -46,4 +51,14 @@ export class MonedasComponent {
     
   }
 
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredMonedas = this.monedas.filter(deposito => {
+      return deposito.description.toLowerCase().includes(value.toLowerCase());
+    });
+  }
+
+
+  
 }

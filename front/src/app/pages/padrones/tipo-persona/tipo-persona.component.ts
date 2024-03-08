@@ -10,7 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TipoPersonaComponent {
   breadcrumbItems: string = 'Tipo Persona'
-  entidades: any[] = []
+  tipoPersona: any[] = []
+  filteredTipoPersona: any[] = []
   form!: FormGroup;
   cardData: any = {
     name: '',
@@ -39,9 +40,9 @@ export class TipoPersonaComponent {
   }
   
   ngOnInit(): void {
-    this.tipoPersonasService.getAll().subscribe(tipo_personas => 
-      {
-        this.entidades = tipo_personas
+    this.tipoPersonasService.getAll().subscribe(tipo_personas => {
+        this.tipoPersona = tipo_personas
+        this.filteredTipoPersona = [...tipo_personas];
       })
       
   }
@@ -67,7 +68,7 @@ guardarNuevoTipo(){
     setTimeout(() => {
       window.location.reload();
     }, 600)
-    this.toastr.success('Tipo de Articulo Actualizado', 'Exito');
+    this.toastr.success('Tipo de Persona Actualizado', 'Exito');
   });
  } else{
   try {
@@ -76,7 +77,7 @@ guardarNuevoTipo(){
         window.location.reload();
       }, 600)
 
-      this.toastr.success('Tipo de Articulo Creado', 'Exito');
+      this.toastr.success('Tipo de Persona Creado', 'Exito');
 
     });
     
@@ -90,12 +91,21 @@ guardarNuevoTipo(){
 
   deleteEntidad(id: any) {
     this.tipoPersonasService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredTipoPersona = this.tipoPersona.filter(e => e.id !== id);
+      this.toastr.success('Tipo de Persona Eliminado', 'Exito');
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredTipoPersona = this.tipoPersona.filter(deposito => {
+      return deposito.description.toLowerCase().includes(value.toLowerCase());
+    });
   }
 }

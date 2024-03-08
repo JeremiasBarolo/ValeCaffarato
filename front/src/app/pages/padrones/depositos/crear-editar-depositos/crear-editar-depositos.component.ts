@@ -62,7 +62,7 @@ export class CrearEditarDepositosComponent {
       try {
         this.depositoService.update(this.id, this.productoData).subscribe(() => {
           this.router.navigate(['dashboard/depositos']);
-          this.toastr.success('Entidad Actualizada');
+          this.toastr.success('Deposito Actualizada');
         });
       } catch (error) {
         console.log(error);
@@ -73,7 +73,7 @@ export class CrearEditarDepositosComponent {
       this.depositoService.create(this.productoData
       ).subscribe(() => {
           this.router.navigate(['dashboard/depositos']);
-          this.toastr.success('Entidad Creada Exitosamente');
+          this.toastr.success('Deposito Creada Exitosamente');
         });
       } catch (error) {
         console.log(error);

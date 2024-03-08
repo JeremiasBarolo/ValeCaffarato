@@ -1,16 +1,18 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocalidadesService } from 'src/app/services/localidades.service';
 import { BancosService } from 'src/app/services/bancos.service';
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-bancos',
   templateUrl: './bancos.component.html',
   styleUrls: ['./bancos.component.css']
 })
-export class BancosComponent implements AfterViewInit, OnInit {
+export class BancosComponent implements OnInit {
   breadcrumbItems: string = 'Bancos'
   entidades: any[] = []
+  filteredBancos: any[] = [];
   form: FormGroup;
   listLocalidades: any[] = []
   cardData: any = {
@@ -27,6 +29,8 @@ export class BancosComponent implements AfterViewInit, OnInit {
   DataArticulos: any={
     editar:false
   }
+  @ViewChild('dt')
+  table!: Table; 
   constructor(
     private bancosService: BancosService,
     private lolacidadesService: LocalidadesService,
@@ -41,15 +45,13 @@ export class BancosComponent implements AfterViewInit, OnInit {
       });
   }
 
-  ngAfterViewInit(): void {
-    this.cd.detectChanges()
-  }
+  
   
   ngOnInit(): void {
-    this.bancosService.getAll().subscribe(tipo_personas => 
-      {
+    this.bancosService.getAll().subscribe(tipo_personas => {
         this.entidades = tipo_personas
-      })
+        this.filteredBancos = [...tipo_personas]; 
+  })
 
     this.lolacidadesService.getAll().subscribe(provincia =>{
       this.listLocalidades = provincia
@@ -81,7 +83,7 @@ guardarNuevoTipo(){
     setTimeout(() => {
       window.location.reload();
     }, 600)
-    this.toastr.success('Tipo de Articulo Actualizado', 'Exito');
+    this.toastr.success('Banco Actualizado', 'Exito');
   });
  } else{
   try {
@@ -90,7 +92,7 @@ guardarNuevoTipo(){
         window.location.reload();
       }, 600)
 
-      this.toastr.success('Tipo de Articulo Creado', 'Exito');
+      this.toastr.success('Banco Creado', 'Exito');
 
     });
     
@@ -105,12 +107,23 @@ guardarNuevoTipo(){
   deleteEntidad(id: any) {
     this.bancosService.delete(id).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
-      this.toastr.success('Tipo de Articulo Eliminado', 'Exito');
+      this.toastr.success('Banco Eliminado', 'Exito');
+      this.filteredBancos = this.filteredBancos.filter(e => e.id !== id);
+      this.table.reset();
+
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredBancos = this.entidades.filter(deposito => {
+      return deposito.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 }

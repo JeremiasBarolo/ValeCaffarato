@@ -5,36 +5,43 @@
 </div>
 
 <section style="margin: 16px">
-  <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Descipcion</th>
-          <th scope="col">Acciones</th>
+
+  <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por Descripción.." class="mb-3">
+  <p-table #dt [value]="filteredDepositos" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+    <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+        <tr class="table-header-color">
+            <th pSortableColumn="id">
+                ID
+                <p-sortIcon field="id" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="description">
+                Descripción
+                <p-sortIcon field="description" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th>
+              Acciones
+            </th>
         </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let deposito of depositos" lass="table">
-          <th scope="row">{{deposito.id}}</th>
-          <td>{{deposito.description}}</td>
-          
-          <td class="text-center">
-              <div class="wrapper d-flex justify-content-end">
-                <button [routerLink]="['crear-editar', deposito.id]"routerLinkActive="router-link-active"
-                type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
-                <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-  
-                  <button type="button" (click)="deleteCliente(deposito.id)"
-                      class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
-                          class="fa-solid fa-trash"></i></button>
-              </div>
-          </td>
-  
-        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td>{{ rowData.id }}</td>
+        <td>{{ rowData.description }}</td>
+        <td>
+          <button [routerLink]="['crear-editar', rowData.id]"routerLinkActive="router-link-active"
+            type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+
+              <button type="button" (click)="deleteDeposito(rowData.id)"
+                  class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                      class="fa-solid fa-trash"></i></button>
+        </td>
         
-      </tbody>
-    </table>
+      </tr>
+    </ng-template>
+  </p-table>
+  
   
 </section>
 

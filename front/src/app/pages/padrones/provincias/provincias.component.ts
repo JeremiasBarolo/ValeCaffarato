@@ -12,9 +12,11 @@ import { PaisesService } from 'src/app/services/paises.service';
 })
 export class ProvinciasComponent {
   breadcrumbItems: string = 'Provincias'
-  entidades: any[] = []
+  provincias: any[] = []
+  filteredProvincias: any[] = []
   form: FormGroup;
   listPaises: any[] = []
+  
   cardData: any = {
     name: '',
     deposito: '',
@@ -43,9 +45,9 @@ export class ProvinciasComponent {
   }
   
   ngOnInit(): void {
-    this.provinciasService.getAll().subscribe(tipo_personas => 
-      {
-        this.entidades = tipo_personas
+    this.provinciasService.getAll().subscribe(tipo_personas => {
+        this.provincias = tipo_personas
+        this.filteredProvincias = [...tipo_personas];
       })
 
     this.paisService.getAll().subscribe(paises =>{
@@ -101,14 +103,21 @@ guardarNuevoTipo(){
 
   deleteEntidad(id: any) {
     this.provinciasService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
-      this.toastr.success('Tipo de Articulo Eliminado', 'Exito');
+      this.filteredProvincias = this.provincias.filter(e => e.id !== id);
+      this.toastr.success('Provincia Eliminada', 'Exito');
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredProvincias = this.provincias.filter(deposito => {
+      return deposito.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 
 }

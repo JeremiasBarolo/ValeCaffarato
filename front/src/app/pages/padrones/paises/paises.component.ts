@@ -11,7 +11,8 @@ import { PaisesService } from 'src/app/services/paises.service';
 })
 export class PaisesComponent {
   breadcrumbItems: string = 'Paises'
-  entidades: any[] = []
+  paises: any[] = []
+  filteredPaises: any[] = []
   form: FormGroup;
   cardData: any = {
     name: '',
@@ -39,9 +40,9 @@ export class PaisesComponent {
   }
   
   ngOnInit(): void {
-    this.paisesService.getAll().subscribe(tipo_personas => 
-      {
-        this.entidades = tipo_personas
+    this.paisesService.getAll().subscribe(tipo_personas => {
+        this.paises = tipo_personas
+        this.filteredPaises = [...tipo_personas];
       })
   }
 
@@ -66,7 +67,7 @@ guardarNuevoTipo(){
     setTimeout(() => {
       window.location.reload();
     }, 600)
-    this.toastr.success('Tipo de Articulo Actualizado', 'Exito');
+    this.toastr.success('Pais Actualizado', 'Exito');
   });
  } else{
   try {
@@ -75,7 +76,7 @@ guardarNuevoTipo(){
         window.location.reload();
       }, 600)
 
-      this.toastr.success('Tipo de Articulo Creado', 'Exito');
+      this.toastr.success('Pais Creado', 'Exito');
 
     });
     
@@ -89,7 +90,9 @@ guardarNuevoTipo(){
 
   deleteEntidad(id: any) {
     this.paisesService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.paises = this.paises.filter(e => e.id !== id);
+      this.toastr.success('Pais Eliminado', 'Exito');
+      this.filteredPaises = this.paises.filter(e => e.id !== id);
     });
   } 
   showCardDetails(card: any) {
@@ -98,4 +101,11 @@ guardarNuevoTipo(){
     
   }
 
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredPaises = this.paises.filter(deposito => {
+      return deposito.name.toLowerCase().includes(value.toLowerCase());
+    });
+  }
 }

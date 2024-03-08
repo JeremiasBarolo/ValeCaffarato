@@ -12,7 +12,8 @@ import { CondIvaService } from 'src/app/services/cond-iva.service';
 })
 export class CondicionIvaComponent {
   breadcrumbItems: string = 'Condicion de Iva'
-  entidades: any[] = []
+  cond_iva: any[] = []
+  filteredCond_iva: any[] = []
   form: FormGroup;
   cardData: any = {
     name: '',
@@ -40,9 +41,9 @@ export class CondicionIvaComponent {
   }
   
   ngOnInit(): void {
-    this.condIvaService.getAll().subscribe(tipo_personas => 
-      {
-        this.entidades = tipo_personas
+    this.condIvaService.getAll().subscribe(tipo_personas => {
+        this.cond_iva = tipo_personas
+        this.filteredCond_iva = [...tipo_personas];
       })
       
   }
@@ -68,7 +69,7 @@ guardarNuevoTipo(){
     setTimeout(() => {
       window.location.reload();
     }, 600)
-    this.toastr.success('Tipo de Articulo Actualizado', 'Exito');
+    this.toastr.success('Concicion Actualizada', 'Exito');
   });
  } else{
   try {
@@ -77,7 +78,7 @@ guardarNuevoTipo(){
         window.location.reload();
       }, 600)
 
-      this.toastr.success('Tipo de Articulo Creado', 'Exito');
+      this.toastr.success('Concicion Creada', 'Exito');
 
     });
     
@@ -91,12 +92,20 @@ guardarNuevoTipo(){
 
   deleteEntidad(id: any) {
     this.condIvaService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredCond_iva = this.cond_iva.filter(e => e.id !== id);
+      this.toastr.success('Condicion Iva Eliminado', 'Exito');
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredCond_iva = this.cond_iva.filter(deposito => {
+      return deposito.description.toLowerCase().includes(value.toLowerCase());
+    });
   }
 }
