@@ -45,8 +45,6 @@ export class CrearEditarPedidoVentaComponent {
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
       moneda: ['', Validators.required],
       persona: ['', Validators.required],
     });
@@ -80,8 +78,8 @@ export class CrearEditarPedidoVentaComponent {
 
   addPedidoCompra() {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.quantity }));
-    this.presupuestoData.name = this.form.value.name;
-    this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.name = 'PEDIDO VENTA';
+    this.presupuestoData.description = 'PEDIDO VENTA';
     this.presupuestoData.id = this.id;
     this.presupuestoData.monedaId = this.form.value.moneda;
     this.presupuestoData.personaId = this.form.value.persona;
@@ -180,8 +178,6 @@ export class CrearEditarPedidoVentaComponent {
     this.pedidosService.getById(id).subscribe((data: any)=> {
     
       this.form.setValue({
-        name: data.name,
-        description: data.description,
         moneda: data.monedaId,
         persona: data.personaId,
       });
