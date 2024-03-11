@@ -9,16 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(30),
       },
       lastname: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(30),
       },
       dni: {
         type: Sequelize.BIGINT(20),
       },
       adress: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(30),
       },
       phone: {
         type: Sequelize.INTEGER,
@@ -30,39 +30,7 @@ module.exports = {
         type: Sequelize.BIGINT(20),
       },
       email: {
-        type: Sequelize.STRING,
-      },
-      CondIvaId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Cond_Ivas',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-      },
-      TipoPersonaId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Tipo_Personas',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-      },
-      documentoId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Documentos',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-      },
-      localidadId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Localidads',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
+        type: Sequelize.STRING(30),
       },
       createdAt: {
         allowNull: false,

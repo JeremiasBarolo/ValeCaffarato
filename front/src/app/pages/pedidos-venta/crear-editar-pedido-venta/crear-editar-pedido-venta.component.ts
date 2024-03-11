@@ -7,6 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
+import { PersonasService } from 'src/app/services/personas.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class CrearEditarPedidoVentaComponent {
   monedas: any[] = []
   form: FormGroup;
   id: number;
+  personas: any[] = [];
   selectedEntities: any[] = [];
   ProductEntities: any[] = [];
   subtotal: number[] = [];
@@ -39,12 +41,14 @@ export class CrearEditarPedidoVentaComponent {
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
     private monedasService: MonedasService,
+    private personasService: PersonasService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       moneda: ['', Validators.required],
+      persona: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
@@ -80,6 +84,7 @@ export class CrearEditarPedidoVentaComponent {
     this.presupuestoData.description = this.form.value.description;
     this.presupuestoData.id = this.id;
     this.presupuestoData.monedaId = this.form.value.moneda;
+    this.presupuestoData.personaId = this.form.value.persona;
 
     if (this.id !== 0) {
       try {
@@ -144,6 +149,11 @@ export class CrearEditarPedidoVentaComponent {
     this.monedasService.getAll().subscribe((data)=>{
       this.monedas= data
     })
+
+    this.personasService.getAll().subscribe((data)=>{
+      this.personas= data.filter(persona => persona.tipoPersona !== 'EMPLEADO')
+      
+    })
   }
 
 
@@ -172,7 +182,8 @@ export class CrearEditarPedidoVentaComponent {
       this.form.setValue({
         name: data.name,
         description: data.description,
-        moneda: data.monedaId
+        moneda: data.monedaId,
+        persona: data.personaId,
       });
     });
   }

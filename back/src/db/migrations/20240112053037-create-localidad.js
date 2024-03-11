@@ -15,16 +15,6 @@ module.exports = {
       codigo_postal:{
         type: Sequelize.INTEGER
       },
-      provinciaId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references:{
-          model: 'Provincia',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

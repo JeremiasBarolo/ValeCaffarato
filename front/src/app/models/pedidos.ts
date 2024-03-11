@@ -11,5 +11,11 @@ export interface Pedidos{
     createdAt?: Date
     insumos?: any[];
     productos?: any[];
+    Persona: {
+        id: number;
+        name: string;
+        email: string;
+        lastname: string;
+    }
 }
 

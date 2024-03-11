@@ -15,7 +15,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 })
 export class InsumosComponent implements OnInit {
   breadcrumbItems: string = 'Insumos'
-	insumos: any[] = []
+	insumos_disp: any[] = []
   filteredInsumo: any[] = []
   cardData: any = {
     name: '',
@@ -40,8 +40,8 @@ export class InsumosComponent implements OnInit {
     this.productosEnStockService.getAll().subscribe(insumos => 
       insumos.forEach(element=>{
         if(element.type === "INSUMO"){
-          this.insumos.push(element)
-          this.filteredInsumo = this.insumos;
+          this.insumos_disp.push(element)
+          this.filteredInsumo = this.insumos_disp;
         }
   }))
       
@@ -53,7 +53,7 @@ export class InsumosComponent implements OnInit {
 
   deleteEntidad(id: any) {
     this.productosEnStockService.delete(id).subscribe(() => {
-      this.filteredInsumo = this.insumos.filter(e => e.id !== id);
+      this.filteredInsumo = this.insumos_disp.filter(e => e.id !== id);
       this.toastService.success('Insumo eliminado correctamente');
 
     });
@@ -67,7 +67,7 @@ export class InsumosComponent implements OnInit {
   applyFilter(event: any): void {
     const value = event.target.value;
     
-    this.filteredInsumo = this.insumos.filter(insumo => {
+    this.filteredInsumo = this.insumos_disp.filter(insumo => {
       return insumo.name.toLowerCase().includes(value.toLowerCase());
     });
   }

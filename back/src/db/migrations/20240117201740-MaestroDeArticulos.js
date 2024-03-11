@@ -35,26 +35,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      pedidoId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Pedidos',
-          key: 'id',
-          onDelete: 'CASCADE'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
-      documentoId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Documentos',
-          key: 'id',
-          onDelete: 'CASCADE'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
+      
 
       createdAt: {
         allowNull: false,

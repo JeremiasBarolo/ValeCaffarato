@@ -12,16 +12,6 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      localidadId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references:{
-          model: 'Localidads',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
