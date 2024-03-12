@@ -22,13 +22,13 @@
               <div class="col">
                 <div class="form-group text-center">
                   <label for="dni">DNI:</label>
-                  <input formControlName="dni" type="text" class="form-control" placeholder="DNI">
+                  <input formControlName="dni" type="number" class="form-control" placeholder="DNI">
                 </div>
               </div>
             <div class="col">
               <div class="form-group text-center">
                 <label for="cuil">CUIL:</label>
-                <input formControlName="cuil" type="text" class="form-control" placeholder="CUIL">
+                <input formControlName="cuil" type="number" class="form-control" placeholder="CUIL">
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
           <div class="col">
             <div class="form-group text-center">
               <label for="adress_number">Numero de Direccion:</label>
-              <input formControlName="adress_number" type="text" class="form-control" placeholder="Numero de Direccion">
+              <input formControlName="adress_number" type="number" class="form-control" placeholder="Numero de Direccion">
             </div>
           </div>
 
@@ -54,7 +54,7 @@
             <div class="col">
               <div class="form-group text-center">
                 <label for="phone">Telefono:</label>
-                <input formControlName="phone" type="text" class="form-control" placeholder="Telefono">
+                <input formControlName="phone" type="number" class="form-control" placeholder="Telefono">
               </div>
             </div>
             <div class="col">
@@ -110,7 +110,7 @@
               <div class="form-group text-center">
                 <label for="locality">Localidad de residencia</label> <br>
                 <select class="form-select col-md-12" aria-label="Default select example" formControlName="locality">
-                  <option *ngFor="let locality of localities" [value]="locality.id">{{ locality.name }}</option>
+                  <option *ngFor="let locality of localidades" [value]="locality.id">{{ locality.name }}</option>
                 </select>
               </div>
             </div>
@@ -128,9 +128,9 @@
           </div>
 
           
-          <div class="col-xs-12 col-md-6 col-lg-6">
+          <!-- <div class="col-xs-12 col-md-6 col-lg-6">
               <button type="button" class="btn btn-danger" (click)="rellenarDatos()">RELLENAR DATOS(ELIMINAR)</button>
-          </div>
+          </div> -->
       </div>
       </form>
       </div>

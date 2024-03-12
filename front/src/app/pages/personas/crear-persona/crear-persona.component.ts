@@ -33,7 +33,7 @@ export class CrearPersonaComponent {
   countries:any[]= []
   provinces:any[]= []
   localities:any[]= []
-  localidades: any;
+  localidades: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -76,10 +76,8 @@ export class CrearPersonaComponent {
       this.cond = data
     })
     this.loadCountries()
-    if (this.id !== 0) {
-      this.operacion = 'Editar';
-
-      console.log(this.id);
+    if (this.id !== null) {
+      this.loadLocalities()
       this.getPersona(this.id);
     } else{
       this.operacion = 'Agregar';
@@ -114,8 +112,22 @@ export class CrearPersonaComponent {
           this.personasService.update(this.id,{
             ...this.Persona,
           }).subscribe(() => {
-            this.router.navigate(['dashboard/personas']);
-          });
+            if(this.Persona.tipo_persona === 1){
+              
+              this.router.navigate(['dashboard/proveedores']);
+            }else if (this.Persona.tipo_persona === 2){
+              this.router.navigate(['dashboard/clientes']);
+            }else if(this.Persona.tipo_persona === 3){
+              this.router.navigate(['dashboard/empleados']);
+            }else{
+              this.router.navigate(['dashboard/personas']);
+          
+              
+            }
+            
+            }
+            
+          );
         
         
     
@@ -143,6 +155,8 @@ export class CrearPersonaComponent {
 
 getPersona(id: number) {
 
+
+
     this.personasService.getById(id).subscribe((data: any) => {
       console.log(data);
   
@@ -157,48 +171,76 @@ getPersona(id: number) {
         email: data.email,
       };
 
-      this.provinciasService.getById(data.Localidad.provinciaId).subscribe(()=>{
+      this.loadCountries()
+      this.loadProvinces(data.Localidad.provinciaId)
+      
+
+
+
+
+      this.provinciasService.getById(data.Localidad.provinciaId).subscribe((provincia)=>{
         
-      })
+          this.form.setValue({
+            name: persona.name,
+            lastname: persona.lastname,
+            address: persona.address,
+            adress_number: persona.adress_number,
+            dni: persona.dni,
+            cuil: persona.cuil,
+            phone: persona.phone,
+            email: persona.email,
+            cond_iva:data.Condicion_Iva.id,
+            tipo_persona:data.Tipo_Persona.id,
+            locality:data.localidadId,
+            country:provincia.paisId,
+            province:provincia.id
+  
+        });
+
+      
       
       console.log('Persona:', persona);
   
-        this.form.setValue({
-          name: persona.name,
-          lastname: persona.lastname,
-          address: persona.address,
-          adress_number: persona.adress_number,
-          dni: persona.dni,
-          cuil: persona.cuil,
-          phone: persona.phone,
-          email: persona.email,
-          cond_iva:data.Condicion_Iva.id,
-          tipo_persona:data.Tipo_Persona.id,
-          locality:data.Localidad.id,
-          country:0,
-          province:0
-
-        });
+        
 
       
     })
   }
+  )}
+
   loadCountries() {
     this.paisesService.getAll().subscribe((countries) => {
       this.countries = countries;
     });
   }
   
-  loadProvinces(countryId: number) {
-    this.provinciasService.getAll().subscribe((provinces) => {
-      this.provinces = provinces.filter(province => province.paisId === countryId);
-    });
+  loadProvinces(countryId?: number) {
+    if(countryId){
+      this.provinciasService.getAll().subscribe((provinces) => {
+        this.provinces = provinces.filter(province => province.paisId === countryId);
+      });
+    }else{
+      this.provinciasService.getAll().subscribe((provinces) => {
+        this.provinces = provinces
+      });
+    }
+    
   }
   
-  loadLocalities(provinceId: number) {
-    this.localidadesService.getAll().subscribe((localities) => {
-      this.localidades = localities.filter(locality => locality.provinciaId === provinceId);
-    });
+  loadLocalities(provinceId?: number) {
+    if(provinceId){
+      this.localidadesService.getAll().subscribe((localities) => {
+        this.localidades = localities.filter(locality => locality.provinciaId === provinceId);
+      });
+    }else{
+
+      this.localidadesService.getAll().subscribe((localities) => {
+        this.localidades = localities
+        
+        
+      });
+    }
+    
   }
   
   
