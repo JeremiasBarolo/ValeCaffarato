@@ -138,7 +138,7 @@ export class CrearEditarProductosComponent implements OnInit {
         unidad_medida: data.unidad_medida,
         profit: data.profit,
         quantity: data.quantity,
-        deposito: data.deposito.description
+        deposito: data.deposito.id
 
       });
     });

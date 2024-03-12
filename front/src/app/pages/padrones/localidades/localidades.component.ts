@@ -39,14 +39,15 @@ export class LocalidadesComponent {
       this.form = this.fb.group({
         name: ['',Validators.required],
         provincia: ['',Validators.required],
+        codigo_postal: ['',Validators.required],
         
       });
   }
   
   ngOnInit(): void {
-    this.lolacidadesService.getAll().subscribe(tipo_personas => {
-        this.localidades = tipo_personas
-        this.filteredLocalidades = [...tipo_personas];
+    this.lolacidadesService.getAll().subscribe(localidad => {
+        this.localidades = localidad
+        this.filteredLocalidades = [...localidad];
       })
 
     this.provinciasService.getAll().subscribe(provincia =>{
@@ -63,6 +64,7 @@ export class LocalidadesComponent {
     this.form.patchValue({
       name: this.DataArticulos.name,
       provincia: this.DataArticulos.provinciaId,
+      codigo_postal: this.DataArticulos.codigo_postal,
     });
 }
 
@@ -71,7 +73,8 @@ export class LocalidadesComponent {
 guardarNuevoTipo(){
   this.tipo = {
     name: this.form.value.name,
-    provinciaId: this.form.value.provincia
+    provinciaId: this.form.value.provincia,
+    codigo_postal: this.form.value.codigo_postal
   }
 
  if(this.DataArticulos.editar === true){

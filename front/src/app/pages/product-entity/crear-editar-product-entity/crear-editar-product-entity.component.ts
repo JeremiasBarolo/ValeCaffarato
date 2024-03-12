@@ -20,10 +20,10 @@ import { PedidosService } from 'src/app/services/pedidos.service';
 })
 export class CrearEditarProductEntityComponent {
   breadcrumbItems: string = 'Crear/Editar Pedido Produccion'
-  PedidoCompra: Pedidos | any;
+  PedidoCompra: any | any;
   form: FormGroup;
   id: number;
-  selectedEntities: Insumo[] = [];
+  selectedEntities: any[] = [];
   Insumos: any[] = [];
   subtotal: number[] = [];
   presupuestoData: any = {
@@ -50,24 +50,22 @@ export class CrearEditarProductEntityComponent {
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
-    this.loadSelectedProducts();
-    
-    console.log(this.selectedEntities);
-    console.log(this.Insumos);
     if (this.id !== null) {
-      console.log(this.id);
+      this.loadAllEntities();
+      for (let i = 0; i < 2; i++){
+        setTimeout(() => {
+          this.loadSelectedProducts();
+        }, 50)
+      }
       this.getProductEntity(this.id);
+    }else{
+      this.loadAllEntities();
     }
-
-  
-
-    
-    
+   
   }
 
   addPedidoCompra() {
-    this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, quantity: entity.quantity }));
+    this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, quantity: entity.cantidad }));
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
     this.presupuestoData.profit = this.form.value.profit;
@@ -133,36 +131,45 @@ export class CrearEditarProductEntityComponent {
   }
   
   loadAllEntities() {
-    this.productosEnStockService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
-        if (insumo.type === 'INSUMO') {
+        if(insumo.tipoArticulo === 'INSUMO'){
           this.Insumos.push(insumo);
         }
-      });
-    });
+      })
+      this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    })
   }
-  
+
+
   loadSelectedProducts() {
     if (this.id) {
       this.maestroArticulosService.getById(this.id).subscribe(
         (res: any) => {
-          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
+          if (res.ProductosEnStocks && res.ProductosEnStocks.length > 0) {
+            console.log(res);
             
-            
-            this.selectedEntities = [...res.InsumosEntities];
+            this.selectedEntities = res.ProductosEnStocks.map((entidad: { ProductQuantities: { quantity_necessary: any; }; }) => {
+              return {
+                ...entidad,
+                cantidad: entidad.ProductQuantities ? entidad.ProductQuantities.quantity_necessary : 0
+              };
+            });
+  
             this.Insumos = this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
           }
         }
-      )
+      );
     }
   }
 
   getProductEntity(id: number) {
     this.maestroArticulosService.getById(id).subscribe((data: any)=> {
+      
       this.form.setValue({
         name: data.name,
         description: data.description,
-        unidad_medida: data.uni_medida,
+        uni_medida: data.uni_medida,
         profit: data.profit,
         costo_unit: data.costo_unit,
 

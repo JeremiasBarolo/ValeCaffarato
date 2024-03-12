@@ -14,30 +14,11 @@ const listOneDocumento = async (Documento_id) => {
 };
 
 const createDocumento = async (documento) => {
+    const pedidoEncontrado = await models.Pedidos.findByPk(documento.pedido);
 
-    const subtotal = [];
-    if (documento.pedido.length === 1) {
-        const pedidoEncontrado = await models.Pedidos.findByPk(documento.pedido[0].id);
-
-        documento.total = pedidoEncontrado.subtotal
-        documento.totalIva = (documento.total * documento.iva) / 100 + documento.total
-    } 
-    else {
-        for (const element of documento.pedido) {
-            const pedidoEncontrado = await models.Pedidos.findByPk(element.id);
-      
-            if (!pedidoEncontrado) {
-              throw new Error(`El pedido con ID ${element.id} no existe.`);
-            }
-      
-            subtotal.push(pedidoEncontrado.subtotal);
-        }
-
-        documento.total= subtotal.reduce((acumulador, numero) => acumulador + numero, 0);
-        documento.totalIva = (documento.total * documento.iva) / 100 + documento.total
-        
-        }
-      
+    documento.total = pedidoEncontrado.subtotal
+    documento.totalIva = (documento.total * documento.iva) / 100 + documento.total
+    
     return await documentoProvider.createDocumento(documento);
 };
 

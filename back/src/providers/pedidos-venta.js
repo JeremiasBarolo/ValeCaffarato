@@ -300,7 +300,38 @@ const deletePedidos = async (pedidos_id) => {
       console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
       return null;
     }
-      for (const producto of deletedPedidos.productos) {
+
+    if(deletedPedidos.state === 'CANCELADO'){
+      eliminarPedidoBBDD(pedidos_id);
+    }
+    
+    await deletedPedidos.update({ state: 'CANCELADO' });
+
+    console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);
+    return deletedPedidos;
+  } catch (err) {
+    console.error('🛑 Error when deleting Pedidos', err);
+    throw err;
+  }
+
+
+
+  
+};
+
+const eliminarPedidoBBDD = async (pedidos_id) => {
+  try {
+    const deletedPedidos = await models.Pedidos.findByPk(pedidos_id, 
+      { include: { all: true } ,
+    });
+
+    if (!deletedPedidos) {
+      console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
+      return null;
+    }
+
+
+    for (const producto of deletedPedidos.productos) {
       
         await models.PedidosProductos.destroy({ where:  
           { 
@@ -313,7 +344,7 @@ const deletePedidos = async (pedidos_id) => {
   
 
     
-    await models.Pedidos.destroy({ where: { id: pedidos_id } });
+    await deletedPedidos.destroy();
 
     console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);
     return deletedPedidos;
@@ -321,9 +352,10 @@ const deletePedidos = async (pedidos_id) => {
     console.error('🛑 Error when deleting Pedidos', err);
     throw err;
   }
-};
 
+
+}
 
 module.exports = {
-  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos,
+  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, eliminarPedidoBBDD
 };

@@ -46,7 +46,8 @@ export class CrearEditarDocumentosComponent {
     this.form = this.fb.group({
       selectedOptionPersona: ['', Validators.required],
       selectedOptionDocumento: ['', Validators.required],
-      selectedOptionCondicion: ['', Validators.required], 
+      selectedOptionCondicion: ['', Validators.required],
+      pedido: ['', Validators.required], 
     });
     
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -79,7 +80,7 @@ export class CrearEditarDocumentosComponent {
   }
 
   addDocumento() {
-    this.documentoData.pedido = this.selectedPedidos.map(entity => ({ id: entity.id}));
+    this.documentoData.pedido = this.form.value.pedido
     this.documentoData.tipo = this.form.value.selectedOptionDocumento;
     this.documentoData.cliente = parseInt(this.form.value.selectedOptionPersona, 10);
     this.documentoData.condicionIva = this.form.value.selectedOptionCondicion;

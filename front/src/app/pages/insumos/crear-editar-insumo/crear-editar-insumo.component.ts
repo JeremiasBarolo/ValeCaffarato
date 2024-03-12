@@ -53,7 +53,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     });
   }else{
     this.form = this.fb.group({
-      cantidad: ['', Validators.required],
+      quantity: ['', Validators.required],
       insumoEntity: ['', Validators.required],
       deposito: ['', Validators.required],
     });
@@ -102,7 +102,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         }
       } else {
         this.insumoCreate = {
-          cantidad: this.form.value.cantidad,
+          quantity: this.form.value.quantity,
           id: this.form.value.insumoEntity,
           depositoId: this.form.value.deposito,
           admin: 'yes',

@@ -18,6 +18,11 @@
                     Nombre
                     <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
                 </th>
+
+                <th pSortableColumn="codigo_postal">
+                  Codigo Postal
+                  <p-sortIcon field="codigo_postal" style="margin: 16px"></p-sortIcon>
+              </th>
                 <th pSortableColumn="localidad">
                   Pertenece a 
                   <p-sortIcon field="localidad" style="margin: 16px"></p-sortIcon>
@@ -31,6 +36,7 @@
           <tr>
             <td>{{ rowData.id }}</td>
             <td>{{ rowData.name }}</td>
+            <td>{{ rowData.codigo_postal }}</td>
             <td>{{rowData.Provincium.name}}</td>
             <td>
               <button data-target="#crearTipo" data-toggle="modal" (click)="editarTipo(rowData)" routerLinkActive="router-link-active"
@@ -68,6 +74,14 @@
                       <label for="nombreTipo">Nombre</label>
                       <input type="text" class="form-control" id="name" formControlName="name">
                       <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+                        Este Campo es requerido
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="nombreTipo">Codigo Postal</label>
+                      <input type="text" class="form-control" id="codigo_postal" formControlName="codigo_postal">
+                      <div *ngIf="form.get('codigo_postal')?.invalid && form.get('codigo_postal')?.touched" class="text-danger">
                         Este Campo es requerido
                       </div>
                     </div>

@@ -46,9 +46,9 @@ const createProductosADMIN= async (productosData) => {
       }
     })
 
-    if(existe){
+    if(existe ){
       // Si existe..
-      const suma = existe.quantity + parseInt(productosData.cantidad, 10)
+      const suma = existe.quantity + parseInt(productosData.quantity, 10)
       const newProductos = await existe.update({
         quantity: suma,
         depositoId: parseInt(productosData.depositoId, 10),

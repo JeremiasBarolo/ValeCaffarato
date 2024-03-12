@@ -15,7 +15,6 @@ const createPedidos = async (PedidosData) => {
     }else{
         return await pedidosCompraProvider.createPedidos(PedidosData);
     }
-    
 };
 
 

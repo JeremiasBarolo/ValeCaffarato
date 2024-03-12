@@ -6,29 +6,47 @@
         <div class="form-container">
             <form [formGroup]="form" (ngSubmit)="addInsumoEntity()">
                 <span>
-                    <div class="form-group text-center">
-                        <label for="name">Nombre</label>
-                        <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group text-center">
+                                <label for="name">Nombre</label>
+                                <input formControlName="name" type="text" class="form-control" placeholder="Nombre">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group text-center">
+                                <label for="description">Descripción:</label>
+                                <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
+                              </div>
+                        </div>
                     </div>
-                    <div class="form-group text-center">
-                        <label for="description">Descripción:</label>
-                        <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
-                      </div>
-                    
-                    <div class="form-group text-center">
-                        <label for="costo_unit">Costo Unitario (ARS)</label>
-                        <input formControlName="costo_unit" type="text" class="form-control" placeholder="Precio">
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group text-center">
+                                <label for="costo_unit">Costo Unitario (ARS)</label>
+                                <input formControlName="costo_unit" type="text" class="form-control" placeholder="Precio">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group text-center">
+                                <label for="profit">Ganancia %</label>
+                                <input formControlName="profit" type="text" class="form-control" placeholder="Ganancia">
+                            </div>
+                        </div>
                     </div>
+                   
+                
 
                     <div class="form-group text-center">
                         <label for="uni_medida">Unidad de Medida</label>
                         <input formControlName="uni_medida" type="text" class="form-control" placeholder="Unidad de Medida">
                     </div>
 
-                    <div class="form-group text-center">
-                        <label for="profit">Ganancia %</label>
-                        <input formControlName="profit" type="text" class="form-control" placeholder="Ganancia">
-                    </div>
+                    
                 
                 
                     <span>

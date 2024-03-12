@@ -264,6 +264,7 @@ const deletePedidos = async (pedidos_id) => {
       { include: { all: true } ,
     });
 
+
     if (!deletedPedidos) {
       console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
       return null;
@@ -281,7 +282,7 @@ const deletePedidos = async (pedidos_id) => {
   
 
     
-    await models.Pedidos.destroy({ where: { id: pedidos_id } });
+    await models.Pedidos.update({ state: 'CANCELADO' });
 
     console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);
     return deletedPedidos;
