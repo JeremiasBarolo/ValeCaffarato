@@ -16,7 +16,9 @@ const {
     bancosRouter,
     tipo_personaRouter,
     cond_ivaRouter,
-    monedasRouter
+    monedasRouter,
+    usuarioRouter,
+    loginRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -48,6 +50,8 @@ app.use('/bancos', bancosRouter)
 app.use('/tipo_persona', tipo_personaRouter)
 app.use('/cond_iva', cond_ivaRouter)
 app.use('/monedas', monedasRouter)
+app.use('/usuario', usuarioRouter)
+app.use('/login', loginRouter)
 
 
 
@@ -56,7 +60,7 @@ app.use('/monedas', monedasRouter)
 app.listen(PORT, 
     async () => {
         await initializeDB();
-        // await checkAdmin();
+        await checkAdmin();
         console.log(` >>>>> 🚀 Server started at http://localhost:${PORT}`);
 })
 

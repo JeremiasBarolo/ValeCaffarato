@@ -38,6 +38,7 @@ import { BancosComponent } from './padrones/bancos/bancos.component';
 import { ProovedoresComponent } from './personas/proovedores/proovedores.component';
 import { ClientesComponent } from './personas/clientes/clientes.component';
 import { EmpleadosComponent } from './personas/empleados/empleados.component';
+import { AuthGuard  } from '../auth/auth';
 
 
 
@@ -47,7 +48,7 @@ const routes: Routes = [
   {
     path: 'dashboard', component: PagesComponent,
     children: [
-      { path: '', component: DashboardComponent},
+      { path: 'inicio', component: DashboardComponent},
       { path: 'pedidos-compra', component: PedidosCompraComponent },
       { path: 'pedidos-compra/crear-editar', component: CrearEditarPedidosCompraComponent },
       { path: 'pedidos-compra/crear-editar/:id', component: CrearEditarPedidosCompraComponent },
@@ -104,7 +105,9 @@ const routes: Routes = [
 
       { path: '**', redirectTo: 'dashboard' },
 
-    ]
+    ],
+    canActivate: [AuthGuard ]
+
   }
 
 ];

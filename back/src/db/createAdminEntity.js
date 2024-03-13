@@ -13,13 +13,14 @@ const dbConfig = {
 const checkAdmin = async (dbConfig) => {
 
     const adminUsername = process.env.ADMIN_USER
-    const adminExists = await models.User.findOne({ where: { username: adminUsername } });
+    const adminExists = await models.Usuario.findOne({ where: { username: adminUsername } });
         
             
     !adminExists
-        ?  await models.User.create({
+        ?  await models.Usuario.create({
             username: adminUsername,
-            password: await bcrypt.hash(process.env.ADMIN_PASSWORD , 10)
+            password: await bcrypt.hash(process.env.ADMIN_PASSWORD , 10),
+            rol: 'ADMIN'
         }).then(() => 
             console.log(`✅ ${adminUsername} user was created`))
 

@@ -13,6 +13,9 @@ const bancosController = require('./bancos');
 const Tipo_PersonaController = require('./Tipo_Persona');
 const Cond_IvaController = require('./Cond_Iva');
 const MonedasController = require('./Monedas');
+const UsuarioController = require('./Usuario');
+const loginController = require('./login');
+
 
 
 module.exports = { 
@@ -29,5 +32,7 @@ module.exports = {
     bancosController,
     Tipo_PersonaController,
     Cond_IvaController,
-    MonedasController
+    MonedasController,
+    UsuarioController,
+    loginController
 };
