@@ -30,7 +30,7 @@ const createUsuario = async (req, res) => {
   try {
     const newUsuario = await UsuarioService.createUsuario(req.body);
 
-    res.status(200).send('Usuario registrado exitosamente');
+    res.json(newUsuario)
   } catch (error) {
     res.status(500).json({ error: 'Unable to create Usuario.' });
   }

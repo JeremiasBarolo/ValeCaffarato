@@ -34,17 +34,17 @@
     const { username, password, rol } = DataUsuario;
     
     try {
-        let res = bcrypt.hash(password, 10, async (err, hash) => {
+        bcrypt.hash(password, 10, async (err, hash) => {
           if (err) {
             console.error(err);
             return res.status(500).send('Error en el servidor');
           }
           
           await models.Usuario.create({ username: username, password: hash, rol: rol }); 
-          
+          return true
         });
         
-        return res
+        
     } catch (err) {
         console.error('🛑 Error when creating Usuario', err);
         throw err;

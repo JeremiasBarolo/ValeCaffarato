@@ -11,7 +11,7 @@ export class UsuarioService {
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
 
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
-  private apiUrl = `${this.appSettings.url_api}/productos_en_stock`;
+  private apiUrl = `${this.appSettings.url_api}/usuario`;
     getAll(): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}`);
     }

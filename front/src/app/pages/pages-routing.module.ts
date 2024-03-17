@@ -39,6 +39,7 @@ import { ProovedoresComponent } from './personas/proovedores/proovedores.compone
 import { ClientesComponent } from './personas/clientes/clientes.component';
 import { EmpleadosComponent } from './personas/empleados/empleados.component';
 import { AuthGuard  } from '../auth/auth';
+import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 
 
 
@@ -97,6 +98,8 @@ const routes: Routes = [
       { path: 'empleados', component: EmpleadosComponent },
       { path: 'clientes', component: ClientesComponent },
       { path: 'bancos', component: BancosComponent },
+      { path: 'usuarios', component: UsuariosComponent },
+      
       
 
 
