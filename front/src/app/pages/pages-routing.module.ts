@@ -106,7 +106,7 @@ const routes: Routes = [
       
 
 
-      { path: '**', redirectTo: 'dashboard' },
+      { path: '**', redirectTo: 'inicio' },
 
     ],
     canActivate: [AuthGuard ]

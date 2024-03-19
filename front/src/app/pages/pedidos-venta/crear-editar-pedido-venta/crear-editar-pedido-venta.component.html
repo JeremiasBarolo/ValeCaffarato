@@ -50,7 +50,7 @@
                   </div>
                   <div>
                     <label for="quantity{{ i }}">Cantidad:</label>
-                    <input type="number" class="mr-2 ml-2" name="quantity{{ i }}" [(ngModel)]="entidad.quantity" />
+                    <input type="number" class="mr-2 ml-2 text-center" name="quantity{{ i }}" [(ngModel)]="entidad.quantity" />
                     <button type="button" class="btn btn-outline-danger " aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
                       <i class="fa-solid fa-trash"></i>
                     </button>

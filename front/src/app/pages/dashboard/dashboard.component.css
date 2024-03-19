@@ -3,8 +3,8 @@
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
-    width: 100vh;
-    height: 50vh; 
+    width: 55vw;
+    height: auto; 
     background-size: cover; 
     background-position: center; 
     /* opacity: 0.5; */

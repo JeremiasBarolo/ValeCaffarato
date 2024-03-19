@@ -17,6 +17,8 @@ export class ProductosComponent {
     price: 0,
 
   }
+  filteredProductos:any[] = []
+
   constructor(
     private productoService: ProductosEnStockService
     ) {
@@ -28,6 +30,7 @@ export class ProductosComponent {
       data.forEach(element => {
         if(element.type === "PRODUCTO"){
           this.entidades.push(element)
+          this.filteredProductos = this.entidades;
         }
       })
       
@@ -42,5 +45,14 @@ export class ProductosComponent {
     this.cardData = card;
     console.log(this.cardData);
     
+  }
+
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredProductos = this.entidades.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 }

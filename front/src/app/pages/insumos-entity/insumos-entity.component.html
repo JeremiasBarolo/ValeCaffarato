@@ -28,6 +28,10 @@
                 Precio Unit
                 <p-sortIcon field="costo_unit" style="margin: 16px"></p-sortIcon>
               </th>
+              <th pSortableColumn="profit">
+                Precio Unit
+                <p-sortIcon field="profit" style="margin: 16px"></p-sortIcon>
+              </th>
              
               <th>
                 Acciones
@@ -40,6 +44,7 @@
           <td>{{ rowData.description }}</td>
           <td>{{rowData.uni_medida}}</td>
           <td>{{rowData.costo_unit | currency}}</td>
+          <td>{{rowData.profit }} %</td>
           <td>
             <button routerLinkActive="router-link-active"
               type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">

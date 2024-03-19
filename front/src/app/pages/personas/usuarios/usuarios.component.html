@@ -6,7 +6,7 @@
   
   <section style="margin: 16px">
    
-    <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por Descripción.." class="mb-3">
+    <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por Usuario.." class="mb-3">
     <p-table #dt [value]="filteredUsuarios" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
       <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
           <tr class="table-header-color">
