@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-header',
@@ -8,11 +8,11 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class HeaderComponent {
   title: string = '';
-  constructor(private titleService: TitleService) {
+  constructor() {
     
   }
 
   ngAfterViewInit(): void {
-    this.title = this.titleService.getTitle();
+
   }
 }

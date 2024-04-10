@@ -5,13 +5,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 @Component({
   selector: 'app-crear-editar-depositos',
   templateUrl: './crear-editar-depositos.component.html',
   styleUrls: ['./crear-editar-depositos.component.css']
 })
 export class CrearEditarDepositosComponent {
+  breadcrumbItems: string = 'Crear/Editar Depositos'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   productos: any[] = [];
@@ -30,7 +31,6 @@ export class CrearEditarDepositosComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private depositoService: DepositosService,
-    private titleService: TitleService,
     private toastr: ToastrService
   ) {
     
@@ -46,25 +46,23 @@ export class CrearEditarDepositosComponent {
     
 
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Deposito');
-      console.log(this.id);
+      
       this.getProduct(this.id);
     } else{
-      this.titleService.setTitle('Crear Deposito'); 
     }  
   }
 
   addDeposito() {
     this.productoData.description = this.form.value.description;       
     this.productoData.admin = 'yes';
-    console.log(this.productoData);
+    
     
     if (this.id !== 0) {
         
       try {
         this.depositoService.update(this.id, this.productoData).subscribe(() => {
           this.router.navigate(['dashboard/depositos']);
-          this.toastr.success('Entidad Actualizada');
+          this.toastr.success('Deposito Actualizada');
         });
       } catch (error) {
         console.log(error);
@@ -75,7 +73,7 @@ export class CrearEditarDepositosComponent {
       this.depositoService.create(this.productoData
       ).subscribe(() => {
           this.router.navigate(['dashboard/depositos']);
-          this.toastr.success('Entidad Creada Exitosamente');
+          this.toastr.success('Deposito Creada Exitosamente');
         });
       } catch (error) {
         console.log(error);

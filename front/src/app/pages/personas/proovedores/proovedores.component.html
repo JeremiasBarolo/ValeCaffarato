@@ -1,1 +1,111 @@
-<p>proovedores works!</p>
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
+
+<div class="text-right">
+    <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['/dashboard/crear-personas']"> Agregar
+        Persona</button>
+  </div>
+  
+  <section style="margin: 16px">
+
+    <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por Apellido.." class="mb-3">
+    <p-table #dt [value]="filteredProveedores" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+      <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+          <tr class="table-header-color">
+              <th pSortableColumn="id">
+                  ID
+                  <p-sortIcon field="id" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="name">
+                  Nombre
+                  <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="phone">
+                Telefono
+                <p-sortIcon field="phone" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="email">
+                Mail
+                <p-sortIcon field="email" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="dni">
+                DNI
+                <p-sortIcon field="dni" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="cuil">
+                CUIL
+                <p-sortIcon field="cuil" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="adress">
+                Direccion
+                <p-sortIcon field="adress" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="Condicion_Iva">
+                Condicion de Iva
+                <p-sortIcon field="Condicion_Iva" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th>
+                Acciones
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td>{{ rowData.id }}</td>
+          <td>{{ rowData.name }} {{ rowData.lastname }}</td>
+          <td>{{ rowData.phone }}</td>
+          <td>{{ rowData.email }}</td>
+          <td>{{ rowData.dni }}</td>
+          <td>{{ rowData.cuil }}</td>
+          <td>{{ rowData.adress }}, {{ rowData.adress_number }}, {{rowData.Localidad?.name}} </td>
+          <td>{{rowData.Condicion_Iva?.description}}</td>
+          <td>
+            <button [routerLink]="['/dashboard/crear-personas', rowData.id]"routerLinkActive="router-link-active"
+              type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
+              <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+  
+                <button type="button" (click)="deleteDeposito(rowData.id)"
+                    class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                        class="fa-solid fa-trash"></i></button>
+          </td>
+          
+        </tr>
+      </ng-template>
+    </p-table>
+    
+    
+  </section>
+  
+  
+  <div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">{{ cardData.name }} {{ cardData.lastname }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body ">
+          <p><strong>Email:</strong> {{ cardData.email }}</p>
+          <p><strong>DNI:</strong> {{ cardData.dni }}</p>
+          <p><strong>CUIL:</strong> {{ cardData.cuil }}</p>
+          <p><strong>Direccion:</strong> {{ cardData.adress }}, {{ cardData.adress_number }}</p>
+          <div *ngIf="cardData.Tipo_Persona">
+            <p><strong>Localidad:</strong>{{cardData.Localidad?.name}}</p> 
+          </div>
+          <p><strong>Telefono:</strong> {{ cardData.phone }}</p>
+          <div *ngIf="cardData.Tipo_Persona">
+            <p><strong>Tipo de Persona:</strong>{{cardData.Tipo_Persona?.description}}</p> 
+          </div>
+          <div *ngIf="cardData.Condicion_Iva">
+            <p><strong>Condicion de Iva:</strong> {{cardData.Condicion_Iva?.description}}</p>
+          </div>
+           
+          
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>

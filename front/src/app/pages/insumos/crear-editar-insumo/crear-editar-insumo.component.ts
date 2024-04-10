@@ -6,7 +6,7 @@ import { Insumo } from 'src/app/models/insumo';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-crear-editar-insumo',
@@ -14,7 +14,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-insumo.component.css']
 })
 export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
-  
+  breadcrumbItems: string = 'Crear/Editar Insumos'
   insumo: Insumo | any;
   listInsumos: any[] = [];
   form: FormGroup;
@@ -39,7 +39,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     private ProductosEnStockService: ProductosEnStockService,
     private maestroArticulosService: MaestroArticulosService,
     private depositosService: DepositosService,
-    private titleService: TitleService
+
   ) {
 
     if(this.aRoute.snapshot.paramMap.get('id') !== null) {
@@ -53,7 +53,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     });
   }else{
     this.form = this.fb.group({
-      cantidad: ['', Validators.required],
+      quantity: ['', Validators.required],
       insumoEntity: ['', Validators.required],
       deposito: ['', Validators.required],
     });
@@ -72,10 +72,10 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
 
   ngAfterViewInit(): void {
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Insumo');
-      console.log(this.id);
+ 
+      
     }else{
-      this.titleService.setTitle('Crear Insumo');
+
     }
   }
 
@@ -85,7 +85,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         name: this.form.value.name,
         quantity: this.form.value.quantity,
         description: this.form.value.description,
-        price: this.form.value.price,
+        costo_unit: this.form.value.price,
         unidad_medida: this.form.value.unidad_medida,
         depositoId: this.form.value.deposito,
         admin: 'yes',
@@ -102,7 +102,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         }
       } else {
         this.insumoCreate = {
-          cantidad: this.form.value.cantidad,
+          quantity: this.form.value.quantity,
           id: this.form.value.insumoEntity,
           depositoId: this.form.value.deposito,
           admin: 'yes',
@@ -128,9 +128,9 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         quantity: data.quantity,
         price: data.costo_unit,
         unidad_medida: data.unidad_medida,
-        deposito: data.deposito.description
+        deposito: data.deposito.id
       });
-      console.log(data);
+      
       
     });
   }
@@ -142,7 +142,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
           this.productos.push(entity);
         }
       })
-      console.log(this.productos);
+      
     })
 
     this.depositosService.getAll().subscribe((data) => {

@@ -31,7 +31,7 @@ export class ProductosEnStockService {
 
   // create
     create(ProductEntity: any): Observable<any> {
-      console.log(ProductEntity);
+      
       
     return this.http.post<any>(`${this.apiUrl}`, ProductEntity)
       

@@ -83,6 +83,19 @@ const updateMaestroArticulos= async (MaestroArticulos_id, dataUpdated) => {
 
     const oldMaestroArticulos= await models.MaestroDeArticulos.findByPk(MaestroArticulos_id, {include: { all: true }});
 
+    if(oldMaestroArticulos.tipoArticulo === "PRODUCTO"){
+
+      await dataUpdated.productos.forEach(async product => {
+        let editar = await models.ProductQuantities.findOne({
+          where: {entidadId:  MaestroArticulos_id, productoId: product.id}
+        })
+
+        editar.update({quantity_necessary: product.quantity})
+      });
+
+
+    }
+
     const newMaestroArticulos= await oldMaestroArticulos.update(dataUpdated);
 
     console.log(`✅ MaestroArticulos"${newMaestroArticulos.name}" was created with images`);

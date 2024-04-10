@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-product-entity',
@@ -8,11 +8,13 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./product-entity.component.css']
 })
 export class ProductEntityComponent {
-  entidades: any[] = []
+  breadcrumbItems: string = 'Entidades de Producto'
+  entidades_disp: any[] = []
+  filteredInsumo: any[] = []
   cardData: any = {
     name: '',
   }
-  constructor(private titleService: TitleService, private maestroArticulosService: MaestroArticulosService) {
+  constructor(private maestroArticulosService: MaestroArticulosService) {
     
   }
 
@@ -21,24 +23,33 @@ export class ProductEntityComponent {
     this.maestroArticulosService.getAll().subscribe(entidades => 
       entidades.forEach(producto => {
         if(producto.tipoArticulo === 'PRODUCTO'){
-          this.entidades.push(producto);
+          this.entidades_disp.push(producto);
+          this.filteredInsumo = this.entidades_disp;
         }
       })
       );
-    console.log(this.entidades);
     
-    this.titleService.setTitle('Entidades de Producto');
+    
+    
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.entidades_disp = this.entidades_disp.filter(e => e.id !== id);
     });
   }
 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
     
+    
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredInsumo = this.entidades_disp.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
   
 }

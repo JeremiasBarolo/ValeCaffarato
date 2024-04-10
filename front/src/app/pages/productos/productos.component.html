@@ -1,19 +1,79 @@
 
-
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="text-right">
-    <button type="button " class="button mr-2" [routerLink]="['crear-editar']"> Agregar Producto</button>
+    <button type="button " class="btn btn-outline-success mr-2" [routerLink]="['crear-editar']"> Agregar Producto</button>
   </div>
   
   
   <section style="margin: 16px">
-    <table class="table table-hover">
+    <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por nombre.." class="mb-3">
+    <p-table #dt [value]="filteredProductos" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+      <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+          <tr class="table-header-color">
+              
+              <th pSortableColumn="name">
+                Nombre
+                <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="description">
+                  Descripción
+                  <p-sortIcon field="description" style="margin: 16px"></p-sortIcon>
+              </th>
+  
+              <th pSortableColumn="unidad_medida">
+                Uni. Medida
+                <p-sortIcon field="unidad_medida" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="quantity">
+                Cantidad
+                <p-sortIcon field="quantity" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="deposito.description">
+                Deposito
+                <p-sortIcon field="deposito.description" style="margin: 16px"></p-sortIcon>
+              </th>
+              
+              
+              <th>
+                Acciones
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+
+          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.name }}</td>
+          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.description }}</td>
+          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.unidad_medida}}</td>
+          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.quantity}}</td>
+          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.deposito.description}}</td>
+
+          <td>
+            <button routerLinkActive="router-link-active"
+              type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">
+              <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+  
+                <button type="button" (click)="deleteEntidad(rowData.id)"
+                    class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                        class="fa-solid fa-trash"></i></button>
+          </td>
+          
+        </tr>
+      </ng-template>
+    </p-table>
+  
+  </section>
+  
+  
+  
+  
+   <!-- <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripcion</th>
             <th scope="col">Uni. Medida</th>
-            <th scope="col">Precio Unit</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Deposito</th>
             <th scope="col">Acciones</th>
@@ -22,11 +82,9 @@
         </thead>
         <tbody>
           <tr class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
-            <th scope="row">{{entidad.id}}</th>
             <td>{{entidad.name}}</td>
             <td>{{entidad.description}}</td>
             <td>{{entidad.unidad_medida}}</td>
-            <td>{{entidad.costo_unit | currency}}  + {{entidad.profit}}%</td>
             <td>{{entidad.quantity}}</td>
             <td> {{entidad.deposito.description }}</td>
             <td>
@@ -45,39 +103,7 @@
           </tr>
           
         </tbody>
-      </table>
-  
-  </section>
-  
-  
-  <div class="modal fade modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>{{cardData.description}}</p>
-          <p>Unidad de Medida:{{cardData.unidad_medida}}</p>
-          <p>Precio:{{cardData.costo_unit | currency}}  + {{cardData.profit}}%</p>
-          <p>Cantidad: {{cardData.quantity}}</p>
-          <p>Deposito: {{cardData.deposito?.description }}</p>
-          <p>Cantidad: {{ cardData.quantity }}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
-  
-  
+      </table> -->
   
     
   

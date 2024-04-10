@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TitleService } from 'src/app/services/title.service';
+
 import { PaisesService } from 'src/app/services/paises.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import { LocalidadesService } from 'src/app/services/localidades.service';
@@ -35,7 +35,7 @@ export class CrearEditarGeograficosComponent {
     private provinciasService: ProvinciasService,
     private localidadesService: LocalidadesService,
     private bancosService: BancosService,
-    private titleService: TitleService
+
   ) {
     this.id = aRoute.snapshot.paramMap.get('id') ?? '';
     const idUpdateParam = aRoute.snapshot.paramMap.get('id_update');
@@ -82,13 +82,13 @@ export class CrearEditarGeograficosComponent {
 
   ngAfterViewInit(): void {
     if (this.id) {
-      this.titleService.setTitle(`Editar ${this.id}`);
+
     
     }else if(this.accion){
-      this.titleService.setTitle(`Editar ${this.accion}`);
+
       
     }else{
-      this.titleService.setTitle(`Crear ${this.id}`);
+
     }
   }
 
@@ -132,8 +132,7 @@ export class CrearEditarGeograficosComponent {
   
 
   getPadron(id: number, accion:string) {
-    console.log(accion);
-    console.log(id);
+    
     
     
 
@@ -155,7 +154,7 @@ export class CrearEditarGeograficosComponent {
     });
 
     }else if(accion === "LOCALIDAD"){
-      console.log("pase a localida");
+      
       
        this.localidadesService.getById(id).subscribe((data: any)=> {
         this.form.setValue({
@@ -175,7 +174,7 @@ export class CrearEditarGeograficosComponent {
       });
     }
 
-    console.log('Listado de Provincias:', this.listPadrones);
+    
   }
 
   loadAllEntities() {

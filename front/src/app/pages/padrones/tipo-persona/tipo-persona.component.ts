@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-import { TitleService } from 'src/app/services/title.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 @Component({
@@ -9,7 +9,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./tipo-persona.component.css']
 })
 export class TipoPersonaComponent {
-  entidades: any[] = []
+  breadcrumbItems: string = 'Tipo Persona'
+  tipoPersona: any[] = []
+  filteredTipoPersona: any[] = []
   form!: FormGroup;
   cardData: any = {
     name: '',
@@ -26,7 +28,7 @@ export class TipoPersonaComponent {
     editar:false
   }
   constructor(
-    private titleService: TitleService, 
+
     private tipoPersonasService: TipoPersonaService,
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -38,17 +40,16 @@ export class TipoPersonaComponent {
   }
   
   ngOnInit(): void {
-    this.tipoPersonasService.getAll().subscribe(tipo_personas => 
-      {
-        this.entidades = tipo_personas
+    this.tipoPersonasService.getAll().subscribe(tipo_personas => {
+        this.tipoPersona = tipo_personas
+        this.filteredTipoPersona = [...tipo_personas];
       })
       
-    this.titleService.setTitle('Tipo Personas');
   }
 
   editarTipo(card: any) {  
     this.DataArticulos = {...card, editar:true};  
-    console.log(this.DataArticulos);
+    
     
     this.form.patchValue({
       description: this.DataArticulos.description
@@ -67,7 +68,7 @@ guardarNuevoTipo(){
     setTimeout(() => {
       window.location.reload();
     }, 600)
-    this.toastr.success('Tipo de Articulo Actualizado', 'Exito');
+    this.toastr.success('Tipo de Persona Actualizado', 'Exito');
   });
  } else{
   try {
@@ -76,7 +77,7 @@ guardarNuevoTipo(){
         window.location.reload();
       }, 600)
 
-      this.toastr.success('Tipo de Articulo Creado', 'Exito');
+      this.toastr.success('Tipo de Persona Creado', 'Exito');
 
     });
     
@@ -90,12 +91,21 @@ guardarNuevoTipo(){
 
   deleteEntidad(id: any) {
     this.tipoPersonasService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredTipoPersona = this.tipoPersona.filter(e => e.id !== id);
+      this.toastr.success('Tipo de Persona Eliminado', 'Exito');
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
     
+    
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredTipoPersona = this.tipoPersona.filter(deposito => {
+      return deposito.description.toLowerCase().includes(value.toLowerCase());
+    });
   }
 }

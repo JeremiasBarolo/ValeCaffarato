@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-productos',
@@ -10,6 +9,7 @@ import { TitleService } from 'src/app/services/title.service';
 })
 export class ProductosComponent {
   entidades: any[] = []
+  breadcrumbItems: string = 'Productos En Stock'
   cardData: any = {
     name: '',
     description: '',
@@ -17,8 +17,9 @@ export class ProductosComponent {
     price: 0,
 
   }
+  filteredProductos:any[] = []
+
   constructor(
-    private titleService: TitleService, 
     private productoService: ProductosEnStockService
     ) {
     
@@ -29,11 +30,11 @@ export class ProductosComponent {
       data.forEach(element => {
         if(element.type === "PRODUCTO"){
           this.entidades.push(element)
+          this.filteredProductos = this.entidades;
         }
       })
       
-    });
-    this.titleService.setTitle('Productos en Stock');
+    })
   }
   deleteEntidad(id: any) {
     this.productoService.delete(id).subscribe(() => {
@@ -42,7 +43,16 @@ export class ProductosComponent {
   } 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
     
+    
+  }
+
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredProductos = this.entidades.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 }

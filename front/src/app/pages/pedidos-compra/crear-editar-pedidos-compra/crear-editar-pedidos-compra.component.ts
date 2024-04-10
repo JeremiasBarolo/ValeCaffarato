@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+import { PersonasService } from 'src/app/services/personas.service';
 
 @Component({
   selector: 'app-crear-editar-pedidos-compra',
@@ -15,10 +14,12 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-pedidos-compra.component.css']
 })
 export class CrearEditarPedidosCompraComponent {
+  breadcrumbItems: string = 'Crear/Editar Pedidos Compra'
   PedidoCompra: Pedidos | any;
   monedas: any[] = []
   form: FormGroup;
   id: number;
+  personas: any[] = []
   selectedEntities: any[] = [];
   InsumosEntities: any[] = [];
   subtotal: number[] = [];
@@ -39,26 +40,31 @@ export class CrearEditarPedidosCompraComponent {
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
     private monedasService: MonedasService,
-    private titleService: TitleService,
+    private personasServices: PersonasService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      moneda: ['', Validators.required]
+      moneda: ['', Validators.required],
+      persona: ['', Validators.required]
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
-    this.loadSelectedProducts();
+    
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Pedido de Compra');
-      console.log(this.id);
+      this.loadAllEntities();
+      for (let i = 0; i < 2; i++){
+        setTimeout(() => {
+          
+          this.loadSelectedProducts();
+        }, 50)
+      }
+      
       this.getPedido(this.id);
     }else{
-      this.titleService.setTitle('Pedidos Compra');
+      
+      this.loadAllEntities();
     }
 
     
@@ -67,12 +73,11 @@ export class CrearEditarPedidosCompraComponent {
 
   addPedidoCompra() {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.cantidad }));
-    this.presupuestoData.name = this.form.value.name;
-    this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.name = 'PEDIDO COMPRA';
+    this.presupuestoData.description = 'PEDIDO COMPRA';
     this.presupuestoData.id = this.id;
     this.presupuestoData.monedaId = this.form.value.moneda;
-
-console.log(this.presupuestoData.monedaId);
+    this.presupuestoData.personaId = this.form.value.persona;
 
     if (this.id !== 0) {
       try {
@@ -125,6 +130,7 @@ console.log(this.presupuestoData.monedaId);
         
     });
   }
+
   loadAllEntities() {
     this.maestroArticulosService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
@@ -138,19 +144,30 @@ console.log(this.presupuestoData.monedaId);
     this.monedasService.getAll().subscribe((data)=>{
       this.monedas= data
     })
+
+    this.personasServices.getAll().subscribe((data)=>{
+      this.personas= data.filter(persona => persona.tipoPersona !== 'EMPLEADO')
+      
+    })
   }
+
+
   loadSelectedProducts() {
     if (this.id) {
       this.pedidosService.getById(this.id).subscribe(
         (res: any) => {
-          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
-            
-            
-            this.selectedEntities = [...res.InsumosEntities];
+          if (res.productos && res.productos.length > 0) {
+            this.selectedEntities = res.productos.map((entidad: { PedidosProductos: { quantity_requested: any; }; }) => {
+              return {
+                ...entidad,
+                cantidad: entidad.PedidosProductos ? entidad.PedidosProductos.quantity_requested : 0
+              };
+            });
+  
             this.InsumosEntities = this.InsumosEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
           }
         }
-      )
+      );
     }
   }
 
@@ -158,9 +175,8 @@ console.log(this.presupuestoData.monedaId);
     this.pedidosService.getById(id).subscribe((data: any)=> {
       
       this.form.setValue({
-        name: data.name,
-        description: data.description,
-        moneda: data.monedaId
+        moneda: data.monedaId,
+        persona: data.personaId
       });
     });
   }

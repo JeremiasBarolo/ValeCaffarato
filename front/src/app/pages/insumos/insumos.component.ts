@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 
 
@@ -12,8 +13,10 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./insumos.component.css']
 
 })
-export class InsumosComponent implements OnInit, AfterViewInit {
-	entidades: any[] = []
+export class InsumosComponent implements OnInit {
+  breadcrumbItems: string = 'Insumos'
+	insumos_disp: any[] = []
+  filteredInsumo: any[] = []
   cardData: any = {
     name: '',
     deposito: '',
@@ -25,8 +28,9 @@ export class InsumosComponent implements OnInit, AfterViewInit {
     costo_unit: 0
   }
   constructor(
-    private titleService: TitleService, 
+
     private productosEnStockService: ProductosEnStockService,
+    private toastService: ToastrService
     ) {
     
   }
@@ -36,29 +40,36 @@ export class InsumosComponent implements OnInit, AfterViewInit {
     this.productosEnStockService.getAll().subscribe(insumos => 
       insumos.forEach(element=>{
         if(element.type === "INSUMO"){
-          this.entidades.push(element)
+          this.insumos_disp.push(element)
+          this.filteredInsumo = this.insumos_disp;
         }
   }))
       
     
   }
 
-  ngAfterViewInit(): void {
-    this.titleService.setTitle('Insumos');
-     
-  }
 
 
 
   deleteEntidad(id: any) {
     this.productosEnStockService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredInsumo = this.insumos_disp.filter(e => e.id !== id);
+      this.toastService.success('Insumo eliminado correctamente');
+
     });
   } 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
     
+    
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredInsumo = this.insumos_disp.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 
 	

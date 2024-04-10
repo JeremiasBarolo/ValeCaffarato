@@ -46,9 +46,9 @@ const createProductosADMIN= async (productosData) => {
       }
     })
 
-    if(existe){
+    if(existe ){
       // Si existe..
-      const suma = existe.quantity + parseInt(productosData.cantidad, 10)
+      const suma = existe.quantity + parseInt(productosData.quantity, 10)
       const newProductos = await existe.update({
         quantity: suma,
         depositoId: parseInt(productosData.depositoId, 10),
@@ -56,9 +56,11 @@ const createProductosADMIN= async (productosData) => {
       })
       return newProductos
     }else{
+
+      
       // Si no existe ...
       const newProductos = await models.ProductosEnStock.create({
-        quantity: productosData.cantidad,
+        quantity: productosData.quantity,
         name: entidad.name,
         description: entidad.description,
         costo_unit: entidad.costo_unit,
@@ -138,11 +140,15 @@ const updateProductos= async (productos_id, dataUpdated) => {
 
 
   try {
+    
 
     const oldProductos= await models.ProductosEnStock.findByPk(productos_id, { include: { all: true } });
 
 
+
     const newProductos= await oldProductos.update({...dataUpdated, quantity:dataUpdated.quantity });
+
+
     
 
     console.log(`✅ Productos"${newProductos.name}" and the id ${newProductos.id}`);
@@ -164,7 +170,7 @@ const deleteProductos= async (productos_id) => {
     }
 
 
-    await models.ProductosEnStock.destroy({ where: { id: productos_id } });
+    await deletedProductos.destroy({ where: { id: productos_id } });
 
     console.log(`✅ Productoswith id: ${productos_id} was deleted successfully`);
     return deletedProductos;

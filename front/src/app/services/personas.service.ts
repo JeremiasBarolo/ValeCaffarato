@@ -26,7 +26,7 @@ export class PersonasService {
 
 // create
   create(Persona: any): Observable<any> {
-    console.log(Persona);
+    
     
   return this.http.post<any>(`${this.apiUrl}`, Persona)
    
@@ -34,7 +34,7 @@ export class PersonasService {
 
 // update
   update(id: number, Persona: FormData): Observable<Persona> {
-    console.log(Persona);
+    
     
   return this.http.put<Persona>(`${this.apiUrl}/${id}`, Persona)
     

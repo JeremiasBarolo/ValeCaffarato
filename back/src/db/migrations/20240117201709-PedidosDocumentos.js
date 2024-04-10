@@ -10,28 +10,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      pedidoId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references:{
-          model: 'Pedidos',
-          key: 'id',
-          onDelete: 'CASCADE'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
-      documentoId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references:{
-          model: 'Documentos',
-          key: 'id',
-          onDelete: 'CASCADE'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
+    
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

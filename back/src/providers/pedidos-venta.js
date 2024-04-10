@@ -44,7 +44,7 @@ const createPedidos = async (PedidosData) => {
       state: PedidosData.state  
     };
 
-    const newPedidos= await models.Pedidos.create({...dataPedidos, monedaId: parseInt(PedidosData.monedaId, 10)});
+    const newPedidos= await models.Pedidos.create({...dataPedidos, monedaId: parseInt(PedidosData.monedaId, 10), personaId: parseInt(PedidosData.personaId, 10)});
     const productData = PedidosData.productos.map(item => ({
       productId: item.id,
       cantidad: item.cantidad
@@ -185,32 +185,102 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
     
 
 
+
+    else if (dataUpdated.eliminarCantidad)
+    {
+      const pedidoFinalizado = await models.Pedidos.findOne({
+        where: {
+            id: pedidos_id, 
+            state: 'FINALIZADO' 
+        }
+      });
+    
+    if (pedidoFinalizado) {
+        
+        const productosPedido = await models.PedidosProductos.findAll({
+            where: {
+                pedidoId: pedidoFinalizado.id
+            }
+        });
+    
+        
+        let diferenciaSuficiente = true;
+        for (const productoPedido of productosPedido) {
+            const productoInsumo = await models.ProductosEnStock.findByPk(productoPedido.productId);
+            const diferencia = productoInsumo.quantity - productoInsumo.quantity_reserved;
+            if (diferencia < productoPedido.quantity_requested) {
+                diferenciaSuficiente = false;
+                break;
+            }
+        }
+    
+        if (diferenciaSuficiente) {
+            
+            for (const productoPedido of productosPedido) {
+                const productoInsumo = await models.ProductosEnStock.findByPk(productoPedido.productId);
+                await productoInsumo.decrement('quantity', { by: productoPedido.quantity_requested });
+            }
+
+            await pedidoFinalizado.destroy();
+    
+            return "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock.";
+        } else {
+            return "No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.";
+        }
+    } else {
+        return "No se encontró un pedido finalizado con el ID proporcionado.";
+    }
+      
+    }
+
     
 
     else {
       
-      if(dataUpdated.editPresupuesto){
-        await dataUpdated.productos.map(async entidad => {
-          const producto = await models.PedidosProductos.findOne(
-            {
-              where: {
-                pedidoId: dataUpdated.id,
-                productId: entidad.id
-              }
+      if (dataUpdated.editPresupuesto) {
+        const productosExistente = await models.PedidosProductos.findAll({
+            where: {
+                pedidoId: dataUpdated.id
             }
-          )
-  
-          if(producto){
-            await producto.update({
-              quantity_requested: entidad.cantidad
-            })
-          }
-        })
-      }
-      
-      const newPedidos= await oldPedidos.update(dataUpdated);
-      return newPedidos;
+        });
+    
+        const idsProductosExistente = productosExistente.map(producto => producto.productId);
+    
+        
+        for (const entidad of dataUpdated.productos) {
+           
+            if (idsProductosExistente.includes(entidad.id)) {
+                
+                const producto = productosExistente.find(p => p.productId === entidad.id);
+                await producto.update({
+                    quantity_requested: entidad.cantidad
+                });
+                
+                const index = idsProductosExistente.indexOf(entidad.id);
+                if (index > -1) {
+                    idsProductosExistente.splice(index, 1);
+                }
+            } else {
+                
+                await models.PedidosProductos.create({
+                    pedidoId: dataUpdated.id,
+                    productId: entidad.id,
+                    quantity_requested: entidad.cantidad
+                });
+            }
+        }
+    
+        
+        for (const idProductoNoPresente of idsProductosExistente) {
+            const productoEliminar = productosExistente.find(p => p.productId === idProductoNoPresente);
+            await productoEliminar.destroy();
+        }
     }
+    
+    
+    const newPedidos = await oldPedidos.update(dataUpdated);
+    return newPedidos;
+  }  
     
 
 
@@ -230,7 +300,38 @@ const deletePedidos = async (pedidos_id) => {
       console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
       return null;
     }
-      for (const producto of deletedPedidos.productos) {
+
+    if(deletedPedidos.state === 'CANCELADO'){
+      eliminarPedidoBBDD(pedidos_id);
+    }
+    
+    await deletedPedidos.update({ state: 'CANCELADO' });
+
+    console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);
+    return deletedPedidos;
+  } catch (err) {
+    console.error('🛑 Error when deleting Pedidos', err);
+    throw err;
+  }
+
+
+
+  
+};
+
+const eliminarPedidoBBDD = async (pedidos_id) => {
+  try {
+    const deletedPedidos = await models.Pedidos.findByPk(pedidos_id, 
+      { include: { all: true } ,
+    });
+
+    if (!deletedPedidos) {
+      console.error(`🛑 Pedidos with id: ${pedidos_id} not found`);
+      return null;
+    }
+
+
+    for (const producto of deletedPedidos.productos) {
       
         await models.PedidosProductos.destroy({ where:  
           { 
@@ -243,7 +344,7 @@ const deletePedidos = async (pedidos_id) => {
   
 
     
-    await models.Pedidos.destroy({ where: { id: pedidos_id } });
+    await deletedPedidos.destroy();
 
     console.log(`✅ Pedidos with id: ${pedidos_id} was deleted successfully`);
     return deletedPedidos;
@@ -251,9 +352,10 @@ const deletePedidos = async (pedidos_id) => {
     console.error('🛑 Error when deleting Pedidos', err);
     throw err;
   }
-};
 
+
+}
 
 module.exports = {
-  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos,
+  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, eliminarPedidoBBDD
 };

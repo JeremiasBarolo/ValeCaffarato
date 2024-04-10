@@ -7,21 +7,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      entidadId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'MaestroDeArticulos',
-          key: 'id',
-        },
-        
-      },
-      productoId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'ProductosEnStock',
-          key: 'id',
-        },
-      },
       quantity_necessary: {
         type: Sequelize.INTEGER,
         allowNull: true

@@ -5,7 +5,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { FooterComponent } from './footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
-import { TitleService } from '../services/title.service';
+
 
 
 
@@ -26,6 +26,6 @@ import { TitleService } from '../services/title.service';
     FooterComponent,
     FontAwesomeModule
   ],
-  providers: [TitleService],
+  providers: [],
 })
 export class SharedModule { }

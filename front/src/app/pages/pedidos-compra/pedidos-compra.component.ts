@@ -6,7 +6,7 @@ import { Pedidos } from 'src/app/models/pedidos';
 
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 import { DepositosService } from 'src/app/services/depositos.service';
 
 
@@ -17,6 +17,7 @@ import { DepositosService } from 'src/app/services/depositos.service';
 })
 export class PedidosCompraComponent implements OnInit {
   botonDeshabilitado = false;
+  breadcrumbItems: string = 'Pedidos Compra'
   listPresupuesto: Pedidos[] = [];
   listAprobado: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
@@ -34,7 +35,6 @@ export class PedidosCompraComponent implements OnInit {
   selectedDepositoId: number | undefined;
 
   constructor(
-    private titleService: TitleService,
     private pedidosService: PedidosService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -48,7 +48,6 @@ export class PedidosCompraComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.titleService.setTitle('Pedidos Compra');
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {
@@ -72,12 +71,12 @@ export class PedidosCompraComponent implements OnInit {
         console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
       }
     });
-    console.log(this.depositos);
+    
     
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
     });
-    console.log(this.listPresupuesto);
+    
     
   }
 
@@ -131,7 +130,7 @@ else if(estado === 'FINALIZADO'){
   
 showCardDetails(card: Pedidos) {  
   this.cardData = card;  
-  console.log(this.cardData);
+  
 }
 
 updateEntidad(id:number){
@@ -142,10 +141,15 @@ calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
   if (pedido.productos && pedido.productos.length > 0) {
-    subtotal = pedido.productos.reduce((acc: number, producto: { PedidosProductos: { quantity_requested: number; }; costo_unit: number; profit: number; }) => {
-      let precioUnitario = producto.costo_unit * producto.PedidosProductos.quantity_requested;
-      let ganancia = precioUnitario * (producto.profit / 100);
-      return acc + precioUnitario + ganancia;
+    subtotal = pedido.productos.reduce((acc: number, producto: any) => {
+      
+      let precioUnitario = producto.costo_unit * (1 + producto.profit / 100);
+      
+      
+      let totalProducto = precioUnitario * producto.PedidosProductos.quantity_requested;
+
+    
+      return acc + totalProducto;
     }, 0);
   }
 
@@ -153,15 +157,29 @@ calcularSubtotal(pedido: any): number {
 }
 
 
-eliminarPedido(id?: number){
-  this.pedidosService.delete(id!).subscribe(() => {
-    this.toastr.success('Entidad eliminado exitosamente')
-    setTimeout(() => {
-      window.location.reload();
-    }, 600)
-    
+eliminarPedido(id?: number, state?:any){
 
-  })
+  if(state ==='FINALIZADO'){
+    this.pedidosService.update(id!, {eliminarCantidad: true}).subscribe((res) => {
+       if(res = "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock."){
+        this.toastr.success('Entidad eliminado exitosamente')
+        setTimeout(() => {
+          window.location.reload();
+        }, 600)
+      }else{
+        this.toastr.info(res)
+      }
+      
+    })
+  }else{
+    this.pedidosService.delete(id!).subscribe(() => {
+      this.toastr.success('Entidad eliminado exitosamente')
+      setTimeout(() => {
+        window.location.reload();
+      }, 600)
+    })
+  }
+  
 }
 
 onAceptarClick() {

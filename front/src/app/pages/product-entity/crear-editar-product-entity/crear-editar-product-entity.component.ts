@@ -8,7 +8,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 
 
@@ -19,10 +19,11 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-product-entity.component.css']
 })
 export class CrearEditarProductEntityComponent {
-  PedidoCompra: Pedidos | any;
+  breadcrumbItems: string = 'Crear/Editar Pedido Produccion'
+  PedidoCompra: any | any;
   form: FormGroup;
   id: number;
-  selectedEntities: Insumo[] = [];
+  selectedEntities: any[] = [];
   Insumos: any[] = [];
   subtotal: number[] = [];
   presupuestoData: any = {
@@ -35,7 +36,7 @@ export class CrearEditarProductEntityComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private maestroArticulosService: MaestroArticulosService,
-    private titleService: TitleService,
+
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
@@ -49,28 +50,22 @@ export class CrearEditarProductEntityComponent {
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
-    this.loadSelectedProducts();
-    this.titleService.setTitle('Entidades de Producto');
-    console.log(this.selectedEntities);
-    console.log(this.Insumos);
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Entidad de Insumo');
-      console.log(this.id);
+      this.loadAllEntities();
+      for (let i = 0; i < 2; i++){
+        setTimeout(() => {
+          this.loadSelectedProducts();
+        }, 50)
+      }
       this.getProductEntity(this.id);
-    } else{
-      this.titleService.setTitle('Crear Entidad de Insumo');
-      
-    }  
-
-  
-
-    
-    
+    }else{
+      this.loadAllEntities();
+    }
+   
   }
 
   addPedidoCompra() {
-    this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, quantity: entity.quantity }));
+    this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, quantity: entity.cantidad }));
     this.presupuestoData.name = this.form.value.name;
     this.presupuestoData.description = this.form.value.description;
     this.presupuestoData.profit = this.form.value.profit;
@@ -90,7 +85,7 @@ export class CrearEditarProductEntityComponent {
       }
     } else {
       try {
-        console.log(this.presupuestoData.productos);
+        
         
         this.maestroArticulosService.create(this.presupuestoData).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
@@ -136,36 +131,45 @@ export class CrearEditarProductEntityComponent {
   }
   
   loadAllEntities() {
-    this.productosEnStockService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
-        if (insumo.type === 'INSUMO') {
+        if(insumo.tipoArticulo === 'INSUMO'){
           this.Insumos.push(insumo);
         }
-      });
-    });
+      })
+      this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    })
   }
-  
+
+
   loadSelectedProducts() {
     if (this.id) {
       this.maestroArticulosService.getById(this.id).subscribe(
         (res: any) => {
-          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
+          if (res.ProductosEnStocks && res.ProductosEnStocks.length > 0) {
             
             
-            this.selectedEntities = [...res.InsumosEntities];
+            this.selectedEntities = res.ProductosEnStocks.map((entidad: { ProductQuantities: { quantity_necessary: any; }; }) => {
+              return {
+                ...entidad,
+                cantidad: entidad.ProductQuantities ? entidad.ProductQuantities.quantity_necessary : 0
+              };
+            });
+  
             this.Insumos = this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
           }
         }
-      )
+      );
     }
   }
 
   getProductEntity(id: number) {
     this.maestroArticulosService.getById(id).subscribe((data: any)=> {
+      
       this.form.setValue({
         name: data.name,
         description: data.description,
-        unidad_medida: data.uni_medida,
+        uni_medida: data.uni_medida,
         profit: data.profit,
         costo_unit: data.costo_unit,
 

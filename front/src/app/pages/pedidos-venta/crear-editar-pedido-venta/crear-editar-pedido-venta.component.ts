@@ -7,7 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
-import { TitleService } from 'src/app/services/title.service';
+import { PersonasService } from 'src/app/services/personas.service';
 
 
 @Component({
@@ -16,10 +16,12 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-pedido-venta.component.css']
 })
 export class CrearEditarPedidoVentaComponent {
+  breadcrumbItems: string = 'Crear/Editar Pedidos Venta'
   PedidoCompra: Pedidos | any;
   monedas: any[] = []
   form: FormGroup;
   id: number;
+  personas: any[] = [];
   selectedEntities: any[] = [];
   ProductEntities: any[] = [];
   subtotal: number[] = [];
@@ -38,27 +40,34 @@ export class CrearEditarPedidoVentaComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
-    private titleService: TitleService,
     private monedasService: MonedasService,
+    private personasService: PersonasService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
       moneda: ['', Validators.required],
+      persona: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    this.loadAllEntities();
-    this.loadSelectedProducts();
-    if (this.id !== 0) {
-      this.titleService.setTitle('Editar Pedidos Venta');
-      this.getPedido(this.id);
 
+    if (this.id !== 0) {
+      this.loadAllEntities();
+      for (let i = 0; i < 2; i++){
+        setTimeout(() => {
+          
+          this.loadSelectedProducts();
+        }, 50)
+      }
+
+      
+      this.getPedido(this.id);
     }else{
-      this.titleService.setTitle('Crear Pedidos Venta');
+
+      
+      this.loadAllEntities();
     }
     
     
@@ -69,10 +78,11 @@ export class CrearEditarPedidoVentaComponent {
 
   addPedidoCompra() {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.quantity }));
-    this.presupuestoData.name = this.form.value.name;
-    this.presupuestoData.description = this.form.value.description;
+    this.presupuestoData.name = 'PEDIDO VENTA';
+    this.presupuestoData.description = 'PEDIDO VENTA';
     this.presupuestoData.id = this.id;
     this.presupuestoData.monedaId = this.form.value.moneda;
+    this.presupuestoData.personaId = this.form.value.persona;
 
     if (this.id !== 0) {
       try {
@@ -133,31 +143,43 @@ export class CrearEditarPedidoVentaComponent {
       })
       this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
+
     this.monedasService.getAll().subscribe((data)=>{
       this.monedas= data
     })
+
+    this.personasService.getAll().subscribe((data)=>{
+      this.personas= data.filter(persona => persona.tipoPersona !== 'EMPLEADO')
+      
+    })
   }
+
+
   loadSelectedProducts() {
     if (this.id) {
       this.pedidosService.getById(this.id).subscribe(
         (res: any) => {
-          if (res.InsumosEntities && res.InsumosEntities.length > 0) {
-            
-            
-            this.selectedEntities = [...res.InsumosEntities];
+          if (res.productos && res.productos.length > 0) {
+            this.selectedEntities = res.productos.map((entidad: { PedidosProductos: { quantity_requested: any; }; }) => {
+              return {
+                ...entidad,
+                quantity: entidad.PedidosProductos ? entidad.PedidosProductos.quantity_requested : 0
+              };
+            });
+  
             this.ProductEntities = this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
           }
         }
-      )
+      );
     }
   }
+
   getPedido(id: number) {
     this.pedidosService.getById(id).subscribe((data: any)=> {
     
       this.form.setValue({
-        name: data.name,
-        description: data.description,
-        moneda: data.monedaId
+        moneda: data.monedaId,
+        persona: data.personaId,
       });
     });
   }

@@ -46,17 +46,18 @@ const createDocumento= async (DocumentoData) => {
     
 
     const newDocumento= await models.Documentos.create(dataDocumento);
-    await DocumentoData.pedido.forEach(async element => {
-        await models.PedidoDocumentos.create({
-            documentoId: newDocumento.id,
-            pedidoId: element.id
-          })
-    });
+    for(const pedido of DocumentoData.pedido){
+      await models.PedidoDocumentos.create({
+        documentoId: newDocumento.id,
+        pedidoId: pedido
+      })
+    }
 
     await models.PersonaDocumentos.create({
-        documentoId: newDocumento.id,
-        personaId: DocumentoData.cliente
+      personaId: DocumentoData.cliente,
+      documentoId: newDocumento.id
     })
+    
     
     console.log(`✅ Documento"${newDocumento.id}" was created`);
     return newDocumento;

@@ -26,7 +26,7 @@ export class TipoPersonaService {
 
 // create
   create(Entity: any): Observable<any> {
-    console.log(Entity);
+    
     
   return this.http.post<any>(`${this.apiUrl}`, Entity)
     

@@ -3,7 +3,6 @@
   import { ActivatedRoute, Router } from '@angular/router';
   import { DepositosService } from 'src/app/services/depositos.service';
   import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
-  import { TitleService } from 'src/app/services/title.service';
 import { MonedasService } from 'src/app/services/monedas.service';
 
 @Component({
@@ -12,6 +11,7 @@ import { MonedasService } from 'src/app/services/monedas.service';
   styleUrls: ['./crear-editar-monedas.component.css']
 })
 export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
+  breadcrumbItems: string = 'Crear/Editar Monedas'
   
   moneda: any | any;
     listInsumos: any[] = [];
@@ -37,7 +37,6 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
       private monedasService: MonedasService,
       private maestroArticulosService: MaestroArticulosService,
       private depositosService: DepositosService,
-      private titleService: TitleService
     ) {
   
       this.form = this.fb.group({
@@ -59,10 +58,10 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
   
     ngAfterViewInit(): void {
       if (this.id !== 0) {
-        this.titleService.setTitle('Editar Moneda');
-        console.log(this.id);
+
+       
       }else{
-        this.titleService.setTitle('Crear Moneda');
+
       }
     }
   
@@ -74,7 +73,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
 
       if(this.id !== 0) {
         
-        console.log(this.moneda);
+        
         
           // Es editar
           try {
@@ -106,7 +105,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
           description: data.description,
           simbolo: data.simbolo
         });
-        console.log(data);
+        
         
       });
     }

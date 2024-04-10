@@ -7,7 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-crear-editar-productos',
@@ -15,6 +15,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-productos.component.css']
 })
 export class CrearEditarProductosComponent implements OnInit {
+  breadcrumbItems: string = 'Crear/Editar Producto'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   productos: any[] = [];
@@ -35,7 +36,6 @@ export class CrearEditarProductosComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private productService: ProductosEnStockService,
     private depositoService: DepositosService,
-    private titleService: TitleService,
     private toastr: ToastrService
   ) {
     if(this.aRoute.snapshot.paramMap.get('id') !== null){
@@ -69,11 +69,11 @@ export class CrearEditarProductosComponent implements OnInit {
     
 
     if (this.id !== null) {
-      this.titleService.setTitle('Editar Producto');
-      console.log(this.id);
+      
+      
       this.getProduct(this.id);
     } else{
-      this.titleService.setTitle('Crear Producto'); 
+      
       
       
       
@@ -94,13 +94,13 @@ export class CrearEditarProductosComponent implements OnInit {
         this.productoData.costo_unit = this.form.value.costo_unit;    
         this.productoData.unidad_medida = this.form.value.unidad_medida;    
         this.productoData.quantity = this.form.value.quantity;
-        
+        this.productoData.type = 'PRODUCTO';
         this.productoData.depositoId = this.form.value.deposito;
         this.productoData.admin = 'yes';
         
         
       try {
-        this.productService.update(this.id, {...this.productoData}).subscribe(() => {
+        this.productService.update(this.id, {...this.productoData, type: 'PRODUCTO'}).subscribe(() => {
           this.router.navigate(['dashboard/productos']);
           this.toastr.success('Entidad Actualizada');
         });
@@ -115,9 +115,10 @@ export class CrearEditarProductosComponent implements OnInit {
         this.dataCreate.quantity = this.form.value.quantity;
         this.dataCreate.depositoId = this.form.value.deposito,
         this.dataCreate.admin = 'yes';
+        this.productoData.type = 'PRODUCTO';
 
 
-        this.productService.create(this.dataCreate
+        this.productService.create({...this.dataCreate, type:'PRODUCTO' }
       ).subscribe(() => {
           this.router.navigate(['dashboard/productos']);
           this.toastr.success('Entidad Creada Exitosamente');
@@ -138,7 +139,7 @@ export class CrearEditarProductosComponent implements OnInit {
         unidad_medida: data.unidad_medida,
         profit: data.profit,
         quantity: data.quantity,
-        deposito: data.deposito.description
+        deposito: data.deposito.id
 
       });
     });

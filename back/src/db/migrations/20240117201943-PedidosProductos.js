@@ -8,26 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      pedidoId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Pedidos',
-          key: 'id',
-          onDelete: 'SET NULL'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
-      productId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'MaestroDeArticulos',
-          key: 'id',
-          onDelete: 'CASCADE'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
       quantity_requested: {
         type: Sequelize.INTEGER,
         allowNull: true

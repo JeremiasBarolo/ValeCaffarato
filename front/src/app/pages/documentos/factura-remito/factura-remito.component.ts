@@ -52,7 +52,7 @@ export class FacturaRemitoComponent implements OnInit {
   ngOnInit(): void {
     this.documentosService.getById(this.id).subscribe(data => {
         this.documentoData = data;
-        console.log(this.documentoData);
+        
 
         const requests = this.documentoData.Pedidos.map((element: any) =>
             this.pedidosService.getById(element.id)
@@ -63,13 +63,13 @@ export class FacturaRemitoComponent implements OnInit {
                 this.productData.push(data.productos);
             });
 
-            console.log('productos:', this.productData);
+            
         });
 
         this.documentoData.Personas.forEach((persona: any) => {
           this.personasService.getById(persona.id).subscribe(data =>{
             this.clienteData = data
-            console.log(this.clienteData);
+            
             
           })
         })

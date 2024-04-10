@@ -1,3 +1,4 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="text-right">
   <button type="button" id="agregar" class="btn btn-outline-success mr-2 agregar" [routerLink]="['crear-editar']"> Agregar
       Pedido</button>
@@ -10,15 +11,15 @@
         
         <div class="card" *ngFor="let presupuesto of listPresupuesto" >
           <div class="card-header presupuesto-card-header" (click)="showCardDetails(presupuesto)" data-target="#InsumoModal" data-toggle="modal"  >
-            {{presupuesto.name}}
+            {{presupuesto.createdAt | date}} || #{{presupuesto.id}}
           </div>
   
           <div class="card-body" (click)="showCardDetails(presupuesto)" data-target="#InsumoModal" data-toggle="modal">
-            {{presupuesto.description}}
+            {{presupuesto.Persona.name}} {{presupuesto.Persona.lastname}}
           </div>
           <div class="card-footer">
             <button class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'APROBADO')" [disabled]="botonDeshabilitado">Aprobar</button>
-            <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(presupuesto.id)" ><i class="fa-solid fa-trash"></i></a>
+            <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(presupuesto.id,presupuesto.state)" ><i class="fa-solid fa-trash"></i></a>
           </div>
         </div>
         
@@ -31,7 +32,7 @@
   
         <div class="card" *ngFor="let aprobado of listAprobado">
           <div class="card-header preparacion-card-header" (click)="showCardDetails(aprobado)" data-target="#InsumoModal" data-toggle="modal">
-            {{aprobado.name}}
+            {{aprobado.createdAt | date}} || #{{aprobado.id}}
           </div>
   
           <div class="card-body" (click)="showCardDetails(aprobado)"data-target="#InsumoModal" data-toggle="modal">
@@ -51,15 +52,15 @@
   
         <div class="card" *ngFor="let finalizado of listFinalizado">
           <div class="card-header finalizado-card-header"(click)="showCardDetails(finalizado)" data-target="#InsumoModal" data-toggle="modal">
-            {{finalizado.name}}
+            {{finalizado.createdAt | date}} || #{{finalizado.id}}
           </div>
   
           <div class="card-body"(click)="showCardDetails(finalizado)"data-target="#InsumoModal" data-toggle="modal">
-            <p>{{finalizado.name}}</p>
+            <p>{{finalizado.description}}</p>
           </div>
           <div class="card-footer">
             
-            <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(finalizado.id)" ><i class="fa-solid fa-trash"></i></a>
+            <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(finalizado.id,finalizado.state)" ><i class="fa-solid fa-trash"></i></a>
           </div>
         </div>
       </div>
@@ -73,7 +74,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-center">{{ cardData.name }}</h5>
+          
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -81,13 +82,27 @@
         <div class="modal-body">
           <p><strong>Subtotal:</strong> {{ calcularSubtotal(cardData)| currency }}</p>
           <p><strong>Moneda:</strong> {{cardData.Moneda?.description}}</p>
-          <span class="card text-center" *ngFor="let item of cardData.productos">
-            <div class="card-header"> {{item.name}}</div>
-            <div class="card-body">
-              <p>Cantidad: {{item.PedidosProductos.quantity_requested}}</p>
-              <p>Precio: {{item.costo_unit| currency}} + {{item.profit}}%</p>
-            </div>
-          </span>
+          <p><strong>Pertenece A:</strong> {{ cardData?.Persona?.name}} {{ cardData?.Persona?.lastname}}</p>
+          <div class="table-container table-bordered">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">Costo</th>
+                  <th scope="col">Can. Solicitada</th>
+                </tr>
+              </thead>
+              <tbody style="max-height: 300px; overflow-y: auto;">
+                <tr *ngFor="let item of cardData.productos">
+                  <td>{{item.name}}</td>
+                  <td>{{item.description}}</td>
+                  <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
+                  <td>{{item.PedidosProductos.quantity_requested}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           
         </div>
         <div class="modal-footer">

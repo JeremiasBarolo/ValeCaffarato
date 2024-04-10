@@ -1,41 +1,64 @@
-import { Component } from '@angular/core';
-import { Persona } from 'src/app/models/Persona';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DepositosService } from 'src/app/services/depositos.service';
-import { PersonasService } from 'src/app/services/personas.service';
-import { TitleService } from 'src/app/services/title.service';
+import { Persona } from 'src/app/models/Persona';
+import { Table } from 'primeng/table';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-depositos',
   templateUrl: './depositos.component.html',
-  styleUrls: ['./depositos.component.css']
+  styleUrls: ['./depositos.component.css'],
+  providers: [ConfirmationService] 
 })
-export class DepositosComponent {
+export class DepositosComponent implements OnInit {
+  breadcrumbItems: string = 'Depositos';
   depositos: any[] = [];
   cardData: any = {
     name: ''
-  }
-  
-  constructor( private depositosService: DepositosService, private titleService: TitleService) { }
+  };
+
+  @ViewChild('dt')
+  table!: Table; 
+  filteredDepositos: any[] = [];
+
+  constructor(
+    private depositosService: DepositosService,
+    private confirmationService: ConfirmationService,
+    private toastr: ToastrService,
+  ) {}
 
   ngOnInit(): void {
-  this.titleService.setTitle('Depositos');
-  this.depositosService.getAll().subscribe(deposito => {
-    this.depositos = deposito;
-    
-  })
-}
+    this.loadData();
+  }
 
-showCardDetails(card: any) {
+  loadData(): void {
+    this.depositosService.getAll().subscribe(deposito => {
+      this.depositos = deposito;
+      this.filteredDepositos = [...this.depositos]; 
+    });
+  }
+
+  showCardDetails(card: any): void {
+    this.cardData = card;
     
-  this.cardData = card;  
-  console.log(this.cardData);
-}
+  }
+
+  deleteDeposito(id: any): void {
+      this.depositosService.delete(id).subscribe(() => {
+        this.filteredDepositos = this.filteredDepositos.filter(e => e.id !== id);
+        this.toastr.success('Deposito Eliminado', 'Exito');
+        this.table.reset(); 
+      });
+  }
 
   
 
-  deleteCliente(id: any) {
-    this.depositosService.delete(id).subscribe(() => {
-      this.depositos = this.depositos.filter(e => e.id !== id);
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredDepositos = this.depositos.filter(deposito => {
+      return deposito.description.toLowerCase().includes(value.toLowerCase());
     });
   }
 }

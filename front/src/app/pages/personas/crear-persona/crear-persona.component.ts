@@ -11,7 +11,7 @@ import { PaisesService } from 'src/app/services/paises.service';
 import { PersonasService } from 'src/app/services/personas.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-crear-persona',
@@ -19,6 +19,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-persona.component.css']
 })
 export class CrearPersonaComponent {
+  breadcrumbItems: string = 'Crear/Editar Personas'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
@@ -32,14 +33,14 @@ export class CrearPersonaComponent {
   countries:any[]= []
   provinces:any[]= []
   localities:any[]= []
-  localidades: any;
+  localidades: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
     private personasService: PersonasService,
-    private titleService: TitleService,
+
     private tipoPersonasService: TipoPersonaService,
     private paisesService: PaisesService,
     private provinciasService: ProvinciasService,
@@ -76,13 +77,11 @@ export class CrearPersonaComponent {
     })
     this.loadCountries()
     if (this.id !== 0) {
-      this.operacion = 'Editar';
-      this.titleService.setTitle('Editar Persona');
-      console.log(this.id);
+      this.loadLocalities()
       this.getPersona(this.id);
     } else{
       this.operacion = 'Agregar';
-      this.titleService.setTitle('Crear Persona');
+
       
       
     }   
@@ -113,8 +112,23 @@ export class CrearPersonaComponent {
           this.personasService.update(this.id,{
             ...this.Persona,
           }).subscribe(() => {
-            this.router.navigate(['dashboard/personas']);
-          });
+            
+            
+            if(this.Persona.tipo_persona === 1){
+              
+              this.router.navigate(['dashboard/proveedores']);
+            }else if (this.Persona.tipo_persona === 2){
+              this.router.navigate(['dashboard/clientes']);
+            }else if(this.Persona.tipo_persona === 3){
+              this.router.navigate(['dashboard/empleados']);
+            }else{
+              this.router.navigate(['dashboard/inicio']);
+            }
+            
+            
+            }
+            
+          );
         
         
     
@@ -128,8 +142,9 @@ export class CrearPersonaComponent {
           this.personasService.create({
             ...this.Persona
           }).subscribe(() => {
-            this.router.navigate(['dashboard/personas']);
-          });
+            this.router.navigate(['dashboard/inicio']);
+          }
+          );
         
        
         
@@ -142,8 +157,10 @@ export class CrearPersonaComponent {
 
 getPersona(id: number) {
 
+
+
     this.personasService.getById(id).subscribe((data: any) => {
-      console.log(data);
+      
   
       let persona: any = {
         name: data.name,
@@ -156,48 +173,76 @@ getPersona(id: number) {
         email: data.email,
       };
 
-      this.provinciasService.getById(data.Localidad.provinciaId).subscribe(()=>{
-        
-      })
+      this.loadCountries()
+      this.loadProvinces(data.Localidad.provinciaId)
       
-      console.log('Persona:', persona);
-  
-        this.form.setValue({
-          name: persona.name,
-          lastname: persona.lastname,
-          address: persona.address,
-          adress_number: persona.adress_number,
-          dni: persona.dni,
-          cuil: persona.cuil,
-          phone: persona.phone,
-          email: persona.email,
-          cond_iva:data.Condicion_Iva.id,
-          tipo_persona:data.Tipo_Persona.id,
-          locality:data.Localidad.id,
-          country:0,
-          province:0
 
+
+
+
+      this.provinciasService.getById(data.Localidad.provinciaId).subscribe((provincia)=>{
+        
+          this.form.setValue({
+            name: persona.name,
+            lastname: persona.lastname,
+            address: persona.address,
+            adress_number: persona.adress_number,
+            dni: persona.dni,
+            cuil: persona.cuil,
+            phone: persona.phone,
+            email: persona.email,
+            cond_iva:data.Condicion_Iva.id,
+            tipo_persona:data.Tipo_Persona.id,
+            locality:data.localidadId,
+            country:provincia.paisId,
+            province:provincia.id
+  
         });
+
+      
+      
+      
+  
+        
 
       
     })
   }
+  )}
+
   loadCountries() {
     this.paisesService.getAll().subscribe((countries) => {
       this.countries = countries;
     });
   }
   
-  loadProvinces(countryId: number) {
-    this.provinciasService.getAll().subscribe((provinces) => {
-      this.provinces = provinces.filter(province => province.paisId === countryId);
-    });
+  loadProvinces(countryId?: number) {
+    if(countryId){
+      this.provinciasService.getAll().subscribe((provinces) => {
+        this.provinces = provinces.filter(province => province.paisId === countryId);
+      });
+    }else{
+      this.provinciasService.getAll().subscribe((provinces) => {
+        this.provinces = provinces
+      });
+    }
+    
   }
   
-  loadLocalities(provinceId: number) {
-    this.localidadesService.getAll().subscribe((localities) => {
-      this.localidades = localities.filter(locality => locality.provinciaId === provinceId);
-    });
+  loadLocalities(provinceId?: number) {
+    if(provinceId){
+      this.localidadesService.getAll().subscribe((localities) => {
+        this.localidades = localities.filter(locality => locality.provinciaId === provinceId);
+      });
+    }else{
+
+      this.localidadesService.getAll().subscribe((localities) => {
+        this.localidades = localities
+        
+        
+      });
+    }
+    
   }
   
   

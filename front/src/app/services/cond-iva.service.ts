@@ -26,7 +26,7 @@ export class CondIvaService {
 
 // create
   create(Entity: any): Observable<any> {
-    console.log(Entity);
+   
     
   return this.http.post<any>(`${this.apiUrl}`, Entity)
     

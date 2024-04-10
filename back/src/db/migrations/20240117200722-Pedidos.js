@@ -24,15 +24,6 @@ module.exports = {
       subtotal: {
         type: Sequelize.INTEGER
       },
-      monedaId:{
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references:{
-          model: 'Monedas',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

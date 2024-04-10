@@ -7,7 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { PersonasService } from 'src/app/services/personas.service';
-import { TitleService } from 'src/app/services/title.service';
+
 
 @Component({
   selector: 'app-crear-editar-documentos',
@@ -15,6 +15,7 @@ import { TitleService } from 'src/app/services/title.service';
   styleUrls: ['./crear-editar-documentos.component.css']
 })
 export class CrearEditarDocumentosComponent {
+  breadcrumbItems: string = 'Crear/Editar Documentos'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   id: number;
@@ -37,7 +38,7 @@ export class CrearEditarDocumentosComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
-    private titleService: TitleService,
+
     private toastr: ToastrService,
     private personasService: PersonasService,
     private documentoService: DocumentosService
@@ -45,7 +46,8 @@ export class CrearEditarDocumentosComponent {
     this.form = this.fb.group({
       selectedOptionPersona: ['', Validators.required],
       selectedOptionDocumento: ['', Validators.required],
-      selectedOptionCondicion: ['', Validators.required], 
+      selectedOptionCondicion: ['', Validators.required],
+      pedido: ['', Validators.required], 
     });
     
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -53,9 +55,7 @@ export class CrearEditarDocumentosComponent {
 
   ngOnInit(): void {
     this.loadSelectedProducts();
-    this.titleService.setTitle('Pedidos Compra');
-    console.log(this.selectedPedidos);
-    console.log(this.Pedidos);
+  
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {
@@ -69,7 +69,7 @@ export class CrearEditarDocumentosComponent {
 
     this.personasService.getAll().subscribe(persona => {
       this.Clientes = persona
-      console.log(this.Clientes);
+      
     });
     
 
@@ -79,7 +79,7 @@ export class CrearEditarDocumentosComponent {
   }
 
   addDocumento() {
-    this.documentoData.pedido = this.selectedPedidos.map(entity => ({ id: entity.id}));
+    this.documentoData.pedido = this.form.value.pedido
     this.documentoData.tipo = this.form.value.selectedOptionDocumento;
     this.documentoData.cliente = parseInt(this.form.value.selectedOptionPersona, 10);
     this.documentoData.condicionIva = this.form.value.selectedOptionCondicion;

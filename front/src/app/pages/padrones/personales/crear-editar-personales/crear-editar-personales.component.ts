@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TitleService } from 'src/app/services/title.service';
+
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
 
@@ -31,7 +31,7 @@ export class CrearEditarPersonalesComponent {
     private aRoute: ActivatedRoute,
     private tipoPersonaService: TipoPersonaService,
     private condIvaService: CondIvaService,
-    private titleService: TitleService
+
   ) {
     this.id = aRoute.snapshot.paramMap.get('id') ?? '';
     const idUpdateParam = aRoute.snapshot.paramMap.get('id_update');
@@ -55,15 +55,7 @@ export class CrearEditarPersonalesComponent {
   }
 
   ngAfterViewInit(): void {
-    if (this.id) {
-      this.titleService.setTitle(`Editar ${this.id}`);
     
-    }else if(this.accion){
-      this.titleService.setTitle(`Editar ${this.accion}`);
-      
-    }else{
-      this.titleService.setTitle(`Crear ${this.id}`);
-    }
   }
 
   addPadron() {
@@ -90,8 +82,8 @@ export class CrearEditarPersonalesComponent {
   
 
   getPadron(id: number, accion:string) {
-    console.log(accion);
-    console.log(id);
+    
+    
     
     
 

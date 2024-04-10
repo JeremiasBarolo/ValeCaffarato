@@ -36,7 +36,7 @@ export class PedidosService {
     if(Pedidos.category === 'COMPRA'){
       return this.http.post<any>(`${this.apiUrl}/compra`, Pedidos)
     }else{
-      console.log(Pedidos);
+      
       
       return this.http.post<any>(`${this.apiUrl}/venta`, Pedidos)
       .pipe(
@@ -51,15 +51,15 @@ export class PedidosService {
 }
 
 // update
-  update(id: number, Pedidos: any): Observable<Pedidos> {
-    console.log(Pedidos);
+  update(id: number, Pedidos: any): Observable<any> {
+    
     
 
     if(Pedidos.category === 'COMPRA'){
       return this.http.put<Pedidos>(`${this.apiUrl}/${id}`, Pedidos)
 
     } else if(Pedidos.category === 'VENTA' && Pedidos.state === 'PRESUPUESTADO'){
-      console.log(Pedidos);
+      
       
       return this.http.put<Pedidos>(`${this.apiUrl}/venta/editar/${id}`, Pedidos)
       .pipe(

@@ -34,13 +34,16 @@ import { MonedasComponent } from './padrones/monedas/monedas.component';
 import { CrearEditarMonedasComponent } from './padrones/monedas/crear-editar-monedas/crear-editar-monedas.component';
 
 import { TipoPersonaComponent } from './padrones/tipo-persona/tipo-persona.component';
-import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { CondicionIvaComponent } from './padrones/condicion-iva/unidades-medida.component';
 import { PaisesComponent } from './padrones/paises/paises.component';
 import { ProvinciasComponent } from './padrones/provincias/provincias.component';
 import { LocalidadesComponent } from './padrones/localidades/localidades.component';
 import { EmpleadosComponent } from './personas/empleados/empleados.component';
 import { ClientesComponent } from './personas/clientes/clientes.component';
 import { ProovedoresComponent } from './personas/proovedores/proovedores.component';
+import { BancosComponent } from './padrones/bancos/bancos.component';
+import { TableModule } from 'primeng/table';
+import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 
 
 
@@ -83,13 +86,15 @@ import { ProovedoresComponent } from './personas/proovedores/proovedores.compone
     CrearEditarMonedasComponent,
 
     TipoPersonaComponent,
-    UnidadesMedidaComponent,
+    CondicionIvaComponent,
     PaisesComponent,
     ProvinciasComponent,
     LocalidadesComponent,
     EmpleadosComponent,
     ClientesComponent,
     ProovedoresComponent,
+    BancosComponent,
+    UsuariosComponent
 
     
 
@@ -103,6 +108,8 @@ import { ProovedoresComponent } from './personas/proovedores/proovedores.compone
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    TableModule
+    
   ],
   exports: [
     ProductosComponent,

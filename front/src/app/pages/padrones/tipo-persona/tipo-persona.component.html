@@ -1,10 +1,52 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="text-right">
     <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Tipo</button>
   </div>
   
   
   <section style="margin: 16px">
-    <table class="table table-hover">
+    
+    <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por Descripción.." class="mb-3">
+    <p-table #dt [value]="filteredTipoPersona" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+      <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+          <tr class="table-header-color">
+              <th pSortableColumn="id">
+                  ID
+                  <p-sortIcon field="id" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th pSortableColumn="description">
+                  Descripción
+                  <p-sortIcon field="description" style="margin: 16px"></p-sortIcon>
+              </th>
+              <th>
+                Acciones
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td>{{ rowData.id }}</td>
+          <td>{{ rowData.description }}</td>
+          <td>
+            <button routerLinkActive="router-link-active"
+              type="button" class="btn btn-outline-primary" data-target="#crearTipo" data-toggle="modal" (click)="editarTipo(rowData)" aria-label="Editar Producto">
+              <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+  
+                <button type="button" (click)="deleteEntidad(rowData.id)"
+                    class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                        class="fa-solid fa-trash"></i></button>
+          </td>
+          
+        </tr>
+      </ng-template>
+    </p-table>
+    
+    
+  
+  </section>
+  
+  <!-- <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -34,11 +76,7 @@
           </tr>
           
         </tbody>
-      </table>
-  
-  </section>
-  
-  
+      </table> -->
   
   
   <div class="modal fade" id="crearTipo" tabindex="-1" role="dialog" aria-labelledby="crearMesa" aria-hidden="true">

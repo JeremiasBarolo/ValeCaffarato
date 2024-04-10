@@ -1,38 +1,61 @@
-<div class="container mt-5">
-    <div class="card mb-3 border border-0 mx-auto">
-      <div class="card-body">
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
+<div class="container mt-5 mb-20">
+  <div class="card mb-3 border border-0 mx-auto">
+    <div class="card-body">
         <form [formGroup]="form">
-          <div class="form-group text-center">
-            <label for="name">Nombre:</label>
-            <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+          <div class="row">
+
+            <div class="col">
+                  <div class="form-group text-center">
+                    <label for="name">Nombre:</label>
+                    <input formControlName="name" type="text" class="form-control" placeholder="Nombre" />
+                  </div>
+            </div>
+
+            <div class="col">
+                  <div class="form-group text-center">
+                    <label for="description">Descripcion:</label> 
+                    <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
+                </div>
+            </div>
+
+
+          </div>
+         
+          <div class="row">
+            <div class="col">
+                  <div class="form-group text-center">
+                    <label for="profit">Ganancia %</label> 
+                    <input formControlName="profit" type="text" class="form-control" placeholder="profit">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group text-center">
+                    <label for="costo_unit">Costo Unitario:</label>
+                    <input formControlName="costo_unit" type="text" class="form-control" placeholder="Costo Unitario">
+                </div>
+            </div>
+
           </div>
 
-          <div class="form-group text-center">
-            <label for="description">Descripcion:</label> 
-            <input formControlName="description" type="text" class="form-control" placeholder="Descripcion">
-        </div>
-
-        <div class="form-group text-center">
-            <label for="profit">Ganancia %</label> 
-            <input formControlName="profit" type="text" class="form-control" placeholder="profit">
-        </div>
-
-        <div class="form-group text-center">
-            <label for="costo_unit">Costo Unitario:</label>
-            <input formControlName="costo_unit" type="text" class="form-control" placeholder="Costo Unitario">
-        </div>
-
-        <div class="form-group text-center">
-          <label for="uni_medida">Unidad de Medida:</label>
-          <input formControlName="uni_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-      </div>
+        
+        <div class="row">
+            <div class="col">
+              <div class="form-group text-center">
+                <label for="uni_medida">Unidad de Medida:</label>
+                <input formControlName="uni_medida" type="text" class="form-control" placeholder="Unidad de Medida">
+            </div>
+          </div>
+        </div>  
+        
         </form>
       </div>
   
-      <div class="row mt-4">
-        <div class="col-md-6 text-center">
+      <div class="row mt-4 ">
+        <div class="col-md-6 text-center ml-5">
           <h6>Insumos Disponibles</h6>
-          <div class="card mb-" style="height: 550px; overflow-y: auto;">
+          <div class="card mb-10 " style="height: 550px; overflow-y: auto;">
             <div class="card-body">
               <ul class="list-group" *ngFor="let entidad of Insumos">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -46,7 +69,7 @@
   
         <!-- Lista de Combos -->
         <div class="col-md-5 text-center">
-          <h6>Entidades Seleccionadas</h6>
+          <h6>Insumos Seleccionadas</h6>
           <div class="card mb-3" style="height: 550px; overflow-y: auto;">
             <div class="card-body">
               <ul class="list-group" *ngFor="let entidad of selectedEntities; let i = index">
@@ -56,35 +79,30 @@
                   </div>
                   <div>
                     <label for="quantity{{ i }}">Cantidad:</label>
-                    <input type="number" name="quantity{{ i }}" [(ngModel)]="entidad.quantity" />
+                    <input type="number" class="text-center mr-2 ml-2 form-control-sm" name="quantity{{ i }}" [(ngModel)]="entidad.cantidad" />
+                    <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
                   </div>
-                  <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                  <!-- <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
                     <i class="fa-solid fa-trash"></i>
-                  </button>
+                  </button> -->
                 </li>
               </ul>
             </div>
           </div>
         </div>
+
       </div>
   
-      <div class="row mt-5">
-        <div class="col-md-6 offset-md-3 text-center">
-          <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-md-6 offset-md-3 text-center">
-          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-md-6 offset-md-3 text-center">
-          <button (click)="rellenardatos()" type="button" class="btn btn-info">rellenar</button>
-        </div>
-      </div>
      
-      
+    <div class="row mt-5">
+      <div class="col-md-6 text-center mb-10">
+        <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
+      </div>
+      <div class="col-md-6 text-center mb-10">
+        <button [routerLink]="['/dashboard/product-entity']" type="button" class="btn btn-info">Volver</button>
+      </div>
     </div>
   </div>
-  
+</div>

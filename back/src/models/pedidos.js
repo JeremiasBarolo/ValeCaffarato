@@ -32,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
         through: "monedaId", 
         as: "Moneda"
       })
+
+      Pedidos.belongsTo(models.Personas, {
+        foreignKey: 'personaId',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      });
       
     }
   }
