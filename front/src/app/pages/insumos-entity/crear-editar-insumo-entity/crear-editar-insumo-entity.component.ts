@@ -43,7 +43,6 @@ export class CrearEditarInsumoEntityComponent {
   ngAfterViewInit(): void {
     if (this.id !== null) {
       this.operacion = 'Editar';
-      console.log(this.id);
       this.getInsumoEntity(this.id);
     } else{
       this.operacion = 'Agregar';

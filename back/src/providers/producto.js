@@ -56,9 +56,11 @@ const createProductosADMIN= async (productosData) => {
       })
       return newProductos
     }else{
+
+      
       // Si no existe ...
       const newProductos = await models.ProductosEnStock.create({
-        quantity: productosData.cantidad,
+        quantity: productosData.quantity,
         name: entidad.name,
         description: entidad.description,
         costo_unit: entidad.costo_unit,

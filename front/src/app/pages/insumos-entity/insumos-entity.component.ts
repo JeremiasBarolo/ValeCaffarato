@@ -37,7 +37,7 @@ export class InsumosEntityComponent {
     )
     
     
-    console.log(this.entidades);
+    
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
@@ -47,7 +47,7 @@ export class InsumosEntityComponent {
   }
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
+    
     
   }
 

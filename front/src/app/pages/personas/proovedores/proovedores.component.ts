@@ -47,7 +47,7 @@ export class ProovedoresComponent {
   showCardDetails(card: any) {
     
     this.cardData = card;  
-    console.log('data',this.cardData);
+    
   }
 
   deleteDeposito(id: any): void {

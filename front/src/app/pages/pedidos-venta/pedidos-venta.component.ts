@@ -79,7 +79,7 @@ export class PedidosVentaComponent {
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
     });
-    console.log(this.listPresupuesto);
+    
     
   }
 
@@ -144,7 +144,7 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
   
 showCardDetails(card: Pedidos) {  
   this.cardData = card;  
-  console.log(this.cardData);
+  
 }
 
 updateEntidad(id:number){

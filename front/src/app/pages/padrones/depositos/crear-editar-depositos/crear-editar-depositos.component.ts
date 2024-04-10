@@ -46,7 +46,7 @@ export class CrearEditarDepositosComponent {
     
 
     if (this.id !== null) {
-      console.log(this.id);
+      
       this.getProduct(this.id);
     } else{
     }  
@@ -55,7 +55,7 @@ export class CrearEditarDepositosComponent {
   addDeposito() {
     this.productoData.description = this.form.value.description;       
     this.productoData.admin = 'yes';
-    console.log(this.productoData);
+    
     
     if (this.id !== 0) {
         

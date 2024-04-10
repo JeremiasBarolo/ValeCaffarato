@@ -132,8 +132,7 @@ export class CrearEditarGeograficosComponent {
   
 
   getPadron(id: number, accion:string) {
-    console.log(accion);
-    console.log(id);
+    
     
     
 
@@ -155,7 +154,7 @@ export class CrearEditarGeograficosComponent {
     });
 
     }else if(accion === "LOCALIDAD"){
-      console.log("pase a localida");
+      
       
        this.localidadesService.getById(id).subscribe((data: any)=> {
         this.form.setValue({
@@ -175,7 +174,7 @@ export class CrearEditarGeograficosComponent {
       });
     }
 
-    console.log('Listado de Provincias:', this.listPadrones);
+    
   }
 
   loadAllEntities() {

@@ -85,7 +85,7 @@ export class CrearEditarProductEntityComponent {
       }
     } else {
       try {
-        console.log(this.presupuestoData.productos);
+        
         
         this.maestroArticulosService.create(this.presupuestoData).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
@@ -147,7 +147,7 @@ export class CrearEditarProductEntityComponent {
       this.maestroArticulosService.getById(this.id).subscribe(
         (res: any) => {
           if (res.ProductosEnStocks && res.ProductosEnStocks.length > 0) {
-            console.log(res);
+            
             
             this.selectedEntities = res.ProductosEnStocks.map((entidad: { ProductQuantities: { quantity_necessary: any; }; }) => {
               return {

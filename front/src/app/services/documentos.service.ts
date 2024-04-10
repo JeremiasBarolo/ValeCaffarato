@@ -28,7 +28,7 @@ export class DocumentosService {
 
 // create
   create(any: any): Observable<any> {
-    console.log(any);
+    
     
   return this.http.post<any>(`${this.apiUrl}`, any)
     

@@ -48,7 +48,7 @@ export class PaisesComponent {
 
   editarTipo(card: any) {  
     this.DataArticulos = {...card, editar:true};  
-    console.log(this.DataArticulos);
+    
     
     this.form.patchValue({
       name: this.DataArticulos.name
@@ -97,7 +97,7 @@ guardarNuevoTipo(){
   } 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
+    
     
   }
 

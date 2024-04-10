@@ -42,7 +42,7 @@ export class PersonasComponent implements OnInit {
   showCardDetails(card: any) {
     
     this.cardData = card;  
-    console.log('data',this.cardData);
+    
   }
 
   deleteEmpleado(id: any, event: Event) {

@@ -59,7 +59,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
     ngAfterViewInit(): void {
       if (this.id !== 0) {
 
-        console.log(this.id);
+       
       }else{
 
       }
@@ -73,7 +73,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
 
       if(this.id !== 0) {
         
-        console.log(this.moneda);
+        
         
           // Es editar
           try {
@@ -105,7 +105,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
           description: data.description,
           simbolo: data.simbolo
         });
-        console.log(data);
+        
         
       });
     }

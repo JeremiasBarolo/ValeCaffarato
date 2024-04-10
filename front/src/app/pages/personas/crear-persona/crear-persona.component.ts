@@ -76,7 +76,7 @@ export class CrearPersonaComponent {
       this.cond = data
     })
     this.loadCountries()
-    if (this.id !== null) {
+    if (this.id !== 0) {
       this.loadLocalities()
       this.getPersona(this.id);
     } else{
@@ -112,6 +112,8 @@ export class CrearPersonaComponent {
           this.personasService.update(this.id,{
             ...this.Persona,
           }).subscribe(() => {
+            
+            
             if(this.Persona.tipo_persona === 1){
               
               this.router.navigate(['dashboard/proveedores']);
@@ -120,10 +122,9 @@ export class CrearPersonaComponent {
             }else if(this.Persona.tipo_persona === 3){
               this.router.navigate(['dashboard/empleados']);
             }else{
-              this.router.navigate(['dashboard/personas']);
-          
-              
+              this.router.navigate(['dashboard/inicio']);
             }
+            
             
             }
             
@@ -141,8 +142,9 @@ export class CrearPersonaComponent {
           this.personasService.create({
             ...this.Persona
           }).subscribe(() => {
-            this.router.navigate(['dashboard/personas']);
-          });
+            this.router.navigate(['dashboard/inicio']);
+          }
+          );
         
        
         
@@ -158,7 +160,7 @@ getPersona(id: number) {
 
 
     this.personasService.getById(id).subscribe((data: any) => {
-      console.log(data);
+      
   
       let persona: any = {
         name: data.name,
@@ -199,7 +201,7 @@ getPersona(id: number) {
 
       
       
-      console.log('Persona:', persona);
+      
   
         
 

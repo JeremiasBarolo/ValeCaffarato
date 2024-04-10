@@ -87,7 +87,7 @@ guardarNuevoTipo(){
   } 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
+    
     
   }
 

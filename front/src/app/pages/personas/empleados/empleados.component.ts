@@ -45,7 +45,7 @@ export class EmpleadosComponent {
   showCardDetails(card: any) {
     
     this.cardData = card;  
-    console.log('data',this.cardData);
+    
   }
 
   deleteDeposito(id: any): void {

@@ -56,14 +56,14 @@ export class CrearEditarPedidosCompraComponent {
       this.loadAllEntities();
       for (let i = 0; i < 2; i++){
         setTimeout(() => {
-          console.log("pase aca");
+          
           this.loadSelectedProducts();
         }, 50)
       }
-      console.log(this.id);
+      
       this.getPedido(this.id);
     }else{
-      console.log("pase aca a else");
+      
       this.loadAllEntities();
     }
 

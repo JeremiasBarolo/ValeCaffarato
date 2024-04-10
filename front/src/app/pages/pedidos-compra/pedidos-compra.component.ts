@@ -71,12 +71,12 @@ export class PedidosCompraComponent implements OnInit {
         console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
       }
     });
-    console.log(this.depositos);
+    
     
     this.route.paramMap.subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
     });
-    console.log(this.listPresupuesto);
+    
     
   }
 
@@ -130,7 +130,7 @@ else if(estado === 'FINALIZADO'){
   
 showCardDetails(card: Pedidos) {  
   this.cardData = card;  
-  console.log(this.cardData);
+  
 }
 
 updateEntidad(id:number){
@@ -141,10 +141,15 @@ calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
   if (pedido.productos && pedido.productos.length > 0) {
-    subtotal = pedido.productos.reduce((acc: number, producto: { PedidosProductos: { quantity_requested: number; }; costo_unit: number; profit: number; }) => {
-      let precioUnitario = producto.costo_unit * producto.PedidosProductos.quantity_requested;
-      let ganancia = precioUnitario * (producto.profit / 100);
-      return acc + precioUnitario + ganancia;
+    subtotal = pedido.productos.reduce((acc: number, producto: any) => {
+      
+      let precioUnitario = producto.costo_unit * (1 + producto.profit / 100);
+      
+      
+      let totalProducto = precioUnitario * producto.PedidosProductos.quantity_requested;
+
+    
+      return acc + totalProducto;
     }, 0);
   }
 

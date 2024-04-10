@@ -41,7 +41,7 @@ export class DepositosComponent implements OnInit {
 
   showCardDetails(card: any): void {
     this.cardData = card;
-    console.log(this.cardData);
+    
   }
 
   deleteDeposito(id: any): void {

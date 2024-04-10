@@ -49,7 +49,7 @@ export class TipoPersonaComponent {
 
   editarTipo(card: any) {  
     this.DataArticulos = {...card, editar:true};  
-    console.log(this.DataArticulos);
+    
     
     this.form.patchValue({
       description: this.DataArticulos.description
@@ -97,7 +97,7 @@ guardarNuevoTipo(){
   } 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
+    
     
   }
 

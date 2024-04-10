@@ -55,8 +55,7 @@ export class CrearEditarDocumentosComponent {
 
   ngOnInit(): void {
     this.loadSelectedProducts();
-    console.log(this.selectedPedidos);
-    console.log(this.Pedidos);
+  
     this.pedidosService.getAll().subscribe(data =>{
       data.forEach(
         (element: any) => {
@@ -70,7 +69,7 @@ export class CrearEditarDocumentosComponent {
 
     this.personasService.getAll().subscribe(persona => {
       this.Clientes = persona
-      console.log(this.Clientes);
+      
     });
     
 

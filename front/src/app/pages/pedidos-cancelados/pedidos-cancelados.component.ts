@@ -42,7 +42,7 @@ export class PedidosCanceladosComponent {
 
   showCardDetails(card: Pedidos) {
     this.cardData = card;
-    console.log(this.cardData);
+    
     
   }
 

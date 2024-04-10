@@ -73,7 +73,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   ngAfterViewInit(): void {
     if (this.id !== null) {
  
-      console.log(this.id);
+      
     }else{
 
     }
@@ -130,7 +130,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         unidad_medida: data.unidad_medida,
         deposito: data.deposito.id
       });
-      console.log(data);
+      
       
     });
   }
@@ -142,7 +142,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
           this.productos.push(entity);
         }
       })
-      console.log(this.productos);
+      
     })
 
     this.depositosService.getAll().subscribe((data) => {

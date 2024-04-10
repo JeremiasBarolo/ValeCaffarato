@@ -9,28 +9,28 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(100),
       },
       lastname: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(100),
       },
       dni: {
-        type: Sequelize.BIGINT(20),
+        type: Sequelize.BIGINT(100),
       },
       adress: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(100),
       },
       phone: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT(100),
       },
       adress_number: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT(100),
       },
       cuil: {
-        type: Sequelize.BIGINT(20),
+        type: Sequelize.BIGINT(100),
       },
       email: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(100),
       },
       createdAt: {
         allowNull: false,

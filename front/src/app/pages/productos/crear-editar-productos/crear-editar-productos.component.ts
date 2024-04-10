@@ -70,7 +70,7 @@ export class CrearEditarProductosComponent implements OnInit {
 
     if (this.id !== null) {
       
-      console.log(this.id);
+      
       this.getProduct(this.id);
     } else{
       
@@ -94,13 +94,13 @@ export class CrearEditarProductosComponent implements OnInit {
         this.productoData.costo_unit = this.form.value.costo_unit;    
         this.productoData.unidad_medida = this.form.value.unidad_medida;    
         this.productoData.quantity = this.form.value.quantity;
-        
+        this.productoData.type = 'PRODUCTO';
         this.productoData.depositoId = this.form.value.deposito;
         this.productoData.admin = 'yes';
         
         
       try {
-        this.productService.update(this.id, {...this.productoData}).subscribe(() => {
+        this.productService.update(this.id, {...this.productoData, type: 'PRODUCTO'}).subscribe(() => {
           this.router.navigate(['dashboard/productos']);
           this.toastr.success('Entidad Actualizada');
         });
@@ -115,9 +115,10 @@ export class CrearEditarProductosComponent implements OnInit {
         this.dataCreate.quantity = this.form.value.quantity;
         this.dataCreate.depositoId = this.form.value.deposito,
         this.dataCreate.admin = 'yes';
+        this.productoData.type = 'PRODUCTO';
 
 
-        this.productService.create(this.dataCreate
+        this.productService.create({...this.dataCreate, type:'PRODUCTO' }
       ).subscribe(() => {
           this.router.navigate(['dashboard/productos']);
           this.toastr.success('Entidad Creada Exitosamente');

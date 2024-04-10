@@ -28,7 +28,7 @@ export class ProductEntityComponent {
         }
       })
       );
-    console.log(this.entidades_disp);
+    
     
     
   }
@@ -40,7 +40,7 @@ export class ProductEntityComponent {
 
   showCardDetails(card: any) {
     this.cardData = card;
-    console.log(this.cardData);
+    
     
   }
 

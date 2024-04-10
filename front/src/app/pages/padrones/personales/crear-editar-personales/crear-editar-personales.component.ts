@@ -82,8 +82,8 @@ export class CrearEditarPersonalesComponent {
   
 
   getPadron(id: number, accion:string) {
-    console.log(accion);
-    console.log(id);
+    
+    
     
     
 

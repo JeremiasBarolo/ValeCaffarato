@@ -53,7 +53,7 @@ export class CrearEditarPedidoVentaComponent {
 
   ngOnInit(): void {
 
-    if (this.id !== null) {
+    if (this.id !== 0) {
       this.loadAllEntities();
       for (let i = 0; i < 2; i++){
         setTimeout(() => {
@@ -62,7 +62,7 @@ export class CrearEditarPedidoVentaComponent {
         }, 50)
       }
 
-      console.log(this.id);
+      
       this.getPedido(this.id);
     }else{
 

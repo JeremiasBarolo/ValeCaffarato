@@ -72,7 +72,7 @@ export class TablaGeograficosComponent {
 
 showCardDetails(card: any) {
   this.cardData = card
-  console.log(this.cardData);
+  
 }
 
 eliminarPadron(id: number, accion: string) {
