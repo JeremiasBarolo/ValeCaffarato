@@ -44,6 +44,7 @@ import { ProovedoresComponent } from './personas/proovedores/proovedores.compone
 import { BancosComponent } from './padrones/bancos/bancos.component';
 import { TableModule } from 'primeng/table';
 import { UsuariosComponent } from './personas/usuarios/usuarios.component';
+import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
 
 
 
@@ -94,7 +95,8 @@ import { UsuariosComponent } from './personas/usuarios/usuarios.component';
     ClientesComponent,
     ProovedoresComponent,
     BancosComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    UnidadesMedidaComponent
 
     
 
