@@ -88,24 +88,7 @@
               </div>
             </div>
           
-            <div class="col-12">
-              <div class="form-group text-center">
-                <label for="country">País de residencia</label> <br>
-                <select class="form-select col-md-12" aria-label="Default select example" formControlName="country" (change)="onPaisChange()">
-                  <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
-                </select>
-              </div>
-            </div>
-          
-            <div class="col-12">
-              <div class="form-group text-center">
-                <label for="province">Provincia de residencia</label> <br>
-                <select class="form-select col-md-12" aria-label="Default select example" formControlName="province" (change)="onProvinciaChange()">
-                  <option *ngFor="let province of provinces" [value]="province.id">{{ province.name }}</option>
-                </select>
-              </div>
-            </div>
-          
+           
             <div class="col-12">
               <div class="form-group text-center">
                 <label for="locality">Localidad de residencia</label> <br>

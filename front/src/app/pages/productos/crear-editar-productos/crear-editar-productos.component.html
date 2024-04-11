@@ -95,35 +95,37 @@
       <div class="card-body">
         <form [formGroup]="form">
 
-            <div class="form-group text-center">
-              <label for="quantity">Cantidad</label>
-              <input formControlName="quantity" type="number" class="form-control" placeholder="Cantidad">
-          </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="form-group text-center">
-              <label for="entidad">Entidad de Producto</label>
-              <br>
-              <select class="form-select col-md-12" aria-label="entidades de producto" formControlName="entidad">
-                  <option *ngFor="let producto of productos" [value]="producto.id">{{producto.name}}</option>
-              </select>
-              
-          </div>
-          </div>
-
-          <div class="col">
-            <div class="form-group text-center">
-              <label for="deposito">Donde se Alamacenara?</label>
-              <br>
-              <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
-                  <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
-              </select>
-              
+          <div class="row">
+            <div class="col">
+              <div class="form-group text-center">
+                <label for="entidad"> Producto</label>
+                <br>
+                <select class="form-select col-md-12" aria-label="entidades de producto" formControlName="entidad">
+                    <option *ngFor="let producto of productos" [value]="producto.id">{{producto.name}}</option>
+                </select>
+                
             </div>
-
+            </div>
+  
+            <div class="col">
+              <div class="form-group text-center">
+                <label for="deposito">Deposito</label>
+                <br>
+                <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
+                    <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+                </select>
+                
+              </div>
+  
+            </div>
           </div>
-        </div>
+
+            <div class="form-group">
+              <label for="quantity" class="text-right">Cantidad</label>
+              <input formControlName="quantity" type="number" class="form-control col-md-6" placeholder="Cantidad">
+          </div>
+
+       
        
         
        

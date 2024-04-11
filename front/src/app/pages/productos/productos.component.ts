@@ -9,7 +9,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 })
 export class ProductosComponent {
   entidades: any[] = []
-  breadcrumbItems: string = 'Productos En Stock'
+  breadcrumbItems: string = 'Stock PT'
   cardData: any = {
     name: '',
     description: '',

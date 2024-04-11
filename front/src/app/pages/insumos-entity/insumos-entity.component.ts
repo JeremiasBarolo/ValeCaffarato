@@ -12,7 +12,7 @@ import { MaestroArticulosService } from 'src/app/services/maestro-articulos.serv
 export class InsumosEntityComponent {
   entidades: any[] = []
   filteredEntities: any[] = []
-  breadcrumbItems: string = 'Entidades de Insumos'
+  breadcrumbItems: string = 'Insumos'
   cardData: any = {
     name: '',
     description: '',

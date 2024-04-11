@@ -14,7 +14,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 
 })
 export class InsumosComponent implements OnInit {
-  breadcrumbItems: string = 'Insumos'
+  breadcrumbItems: string = 'Stock Insumos'
 	insumos_disp: any[] = []
   filteredInsumo: any[] = []
   cardData: any = {
