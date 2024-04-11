@@ -29,6 +29,14 @@ export class ProvinciasService {
     
     
   return this.http.post<any>(`${this.apiUrl}`, Entity)
+  .pipe(
+    catchError(error => {
+      this.toastr.error(error.error.error);
+      console.log(error.error.error);
+      
+      throw error;
+    })
+  );
     
 }
 

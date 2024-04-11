@@ -65,13 +65,23 @@ const createPersonas = async (dataUpdated) => {
       localidadId: parseInt(dataUpdated.localidadId,10),
     };
 
-    const newPersonas = await models.Personas.create(dataCreate);
+    const existe = await models.Personas.findOne({
+      where : { dni: dataUpdated.dni}
+    });
+
+    if(existe){
+      throw new Error ('Ya existe una Persona con ese DNI.')
+    }else{
+      return await models.Personas.create(dataCreate);
+    }
+
+    
 
 
     
-    console.log(`✅ Personas "${newPersonas.name}" was created with images`);
+    
 
-    return newPersonas;
+    
   } catch (err) {
     console.error('🛑 Error when creating Personas', err);
     throw err;

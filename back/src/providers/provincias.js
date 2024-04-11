@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 var models = require('../models');
 const uuid = require('uuid');
 const listAllProvincias= async () => {
@@ -39,16 +40,26 @@ const createProvincias = async (ProvinciasData) => {
         name: ProvinciasData.name,
         paisId: parseInt(ProvinciasData.paisId,10),
       };
-  
+      
+
       
       if (!dataProvincias.paisId) {
-        throw new Error('paisId is required.');
+        throw new Error('Seleccione un Pais');
+      }
+
+      const existe = models.Provincia.findOne({
+        where:{ name: ProvinciasData.name}
+      })
+      if(existe){
+        throw new Error ('Ya existe una Provincia con ese nombre.')
+      }else{
+        return await models.Provincia.create(dataProvincias);
       }
   
-      const newProvincias = await models.Provincia.create(dataProvincias);
+      
   
       console.log(`✅ Provincia "${newProvincias.id}" was created`);
-      return newProvincias;
+      
     } catch (err) {
       console.error('🛑 Error when creating Provincia', err);
       throw err;

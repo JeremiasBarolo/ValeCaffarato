@@ -77,7 +77,7 @@ module.exports = {
 
 
     // <=============================== Bancos ===============================> 
-    await queryInterface.addColumn('Localidads', 'localidadId', {
+    await queryInterface.addColumn('Bancos', 'localidadId', {
       type: Sequelize.INTEGER,
             allowNull: true,
             references:{
@@ -316,7 +316,7 @@ module.exports = {
     await queryInterface.removeColumn('Localidads', 'provinciaId');
     
     // <=============================== Bancos ===============================> 
-    await queryInterface.removeColumn('Localidads', 'localidadId');
+    await queryInterface.removeColumn('Bancos', 'localidadId');
     
     // <=============================== Documentos ===============================> 
     await queryInterface.removeColumn('Documentos', 'pedidoId');

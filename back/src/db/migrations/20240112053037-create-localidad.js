@@ -13,7 +13,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       codigo_postal:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        unique: true,
       },
       createdAt: {
         allowNull: false,

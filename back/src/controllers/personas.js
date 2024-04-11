@@ -30,7 +30,7 @@ const createPersonas = async (req, res) => {
     console.log(`✅ Personas "${newPersonas.name}" was created  `);
     res.json(newPersonas);
   } catch (error) {
-    res.status(500).json({ error: 'Unable to create Personas.' });
+    res.status(500).json({ error: error.message});
   }
 };
 

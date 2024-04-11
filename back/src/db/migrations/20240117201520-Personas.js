@@ -16,6 +16,7 @@ module.exports = {
       },
       dni: {
         type: Sequelize.BIGINT(100),
+        unique: true,
       },
       adress: {
         type: Sequelize.STRING(100),

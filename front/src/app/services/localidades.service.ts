@@ -27,6 +27,14 @@ export class LocalidadesService {
 // create
   create(Entity: any): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}`, Entity)
+  .pipe(
+    catchError(error => {
+      this.toastr.error(error.error.error);
+      console.log(error.error.error);
+      
+      throw error;
+    })
+  );
     
 }
 

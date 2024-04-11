@@ -34,13 +34,14 @@ export class CrearPersonaComponent {
   provinces:any[]= []
   localities:any[]= []
   localidades: any[] = [];
+  tipoArticulo: string = '';
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
     private personasService: PersonasService,
-
+    private route: ActivatedRoute,
     private tipoPersonasService: TipoPersonaService,
     private paisesService: PaisesService,
     private provinciasService: ProvinciasService,
@@ -64,17 +65,29 @@ export class CrearPersonaComponent {
       
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
+    
   }
   
 
   ngAfterViewInit(): void {
+    this.aRoute.queryParams.subscribe(params => {
+      this.tipoArticulo = params['tipoArticulo'];
+      console.log('Tipo de Artículo:', this.tipoArticulo);
+      
+    });
+  
     this.tipoPersonasService.getAll().subscribe((data)=>{
-      this.tipo = data
-    })
+      this.tipo = data;
+      console.log('Tipos de Persona:', this.tipo);
+    });
+
+    this.loadTipoPersona(this.tipoArticulo);
+
     this.condIvaService.getAll().subscribe((data)=>{
-      this.cond = data
-    })
-    this.loadLocalities()
+      this.cond = data;
+    });
+  
+    this.loadLocalities();
   }
 
 
@@ -209,6 +222,25 @@ getPersona(id: number) {
     });
     
   }
+
+  loadTipoPersona(tipoArticulo:string): void {
+    if (tipoArticulo === 'empleado') {
+      this.form.patchValue({
+        tipo_persona: 1
+      });
+    } else if (tipoArticulo === 'cliente') {
+      this.form.patchValue({
+        tipo_persona: 3
+      });
+    } else if (tipoArticulo === 'proveedor') {
+      this.form.patchValue({
+        tipo_persona: 2
+      });
+    }
+  }
+
+  
+  
   
   
   

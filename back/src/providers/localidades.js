@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 var models = require('../models');
 const uuid = require('uuid');
 const listAllLocalidades= async () => {
@@ -44,14 +45,25 @@ const createLocalidades= async (LocalidadesData) => {
       provinciaId: parseInt(LocalidadesData.provinciaId,10)
 
     };
+
+    const existe = models.Localidad.findOne({
+      where: { codigo_postal: LocalidadesData.codigo_postal}
+    })
+
+    if(existe){
+      throw new Error ('Ya existe una Localidad con ese Codigo Postal.')
+    }else{
+      return await models.Localidad.create(dataLocalidades);
+      console.log(`✅ Localidades"${newLocalidades.id}" was created`);
+    }
     
 
-    const newLocalidades= await models.Localidad.create(dataLocalidades);
     
     
     
-    console.log(`✅ Localidades"${newLocalidades.id}" was created`);
-    return newLocalidades;
+    
+    
+    
     
     
   } catch (err) {

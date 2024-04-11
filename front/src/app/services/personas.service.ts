@@ -29,6 +29,15 @@ export class PersonasService {
     
     
   return this.http.post<any>(`${this.apiUrl}`, Persona)
+
+  .pipe(
+    catchError(error => {
+      this.toastr.error(error.error.error);
+      console.log(error.error.error);
+      
+      throw error;
+    })
+  );
    
 }
 

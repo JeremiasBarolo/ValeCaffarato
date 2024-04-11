@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 var models = require('../models');
 const uuid = require('uuid');
 const listAllPaises= async () => {
@@ -44,14 +45,16 @@ const createPaises= async (PaisesData) => {
 
     };
     
+    const existe = await models.Pais.findOne({
+      where: {name: PaisesData.name}
+    })
 
-    const newPaises= await models.Pais.create(dataPaises);
-    
-    
-    
-    console.log(`✅ Paises"${newPaises.id}" was created`);
-    return newPaises;
-    
+    if(existe){
+      throw new Error ('Ya existe un Pais con ese nombre.')
+    }else{
+      return await models.Pais.create(dataPaises);
+    }
+
     
   } catch (err) {
     console.error('🛑 Error when creating Paises', err);

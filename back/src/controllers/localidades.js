@@ -30,7 +30,7 @@ const createLocalidades = async (req, res) => {
     console.log(`✅ Localidades "${newLocalidades.name}" was created  `);
     res.json(newLocalidades);
   } catch (error) {
-    res.status(500).json({ error: 'Unable to create Localidades.' });
+    res.status(500).json({ error: error.message });
   }
 };
 
