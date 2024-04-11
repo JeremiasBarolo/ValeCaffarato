@@ -15,6 +15,7 @@ const Cond_IvaController = require('./Cond_Iva');
 const MonedasController = require('./Monedas');
 const UsuarioController = require('./Usuario');
 const loginController = require('./login');
+const UnidadesDeMedidaController = require('./UnidadesDeMedida');
 
 
 
@@ -34,5 +35,6 @@ module.exports = {
     Cond_IvaController,
     MonedasController,
     UsuarioController,
-    loginController
+    loginController,
+    UnidadesDeMedidaController
 };

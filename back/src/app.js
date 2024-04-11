@@ -18,7 +18,8 @@ const {
     cond_ivaRouter,
     monedasRouter,
     usuarioRouter,
-    loginRouter
+    loginRouter,
+    unidadesDeMedidaRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -52,6 +53,7 @@ app.use('/cond_iva', cond_ivaRouter)
 app.use('/monedas', monedasRouter)
 app.use('/usuario', usuarioRouter)
 app.use('/login', loginRouter)
+app.use('/unidades-medida', unidadesDeMedidaRouter)
 
 
 

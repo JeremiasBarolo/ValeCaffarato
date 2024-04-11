@@ -22,6 +22,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',  
       });
+
+
+      ProductosEnStock.belongsTo(models.UnidadesDeMedida, {
+        foreignKey: 'uni_medida',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   ProductosEnStock.init({
@@ -32,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     antiguo_id: DataTypes.INTEGER,
     quantity_reserved: DataTypes.INTEGER,
-    unidad_medida: DataTypes.STRING,
     depositoId: DataTypes.INTEGER,
     type: DataTypes.STRING
   }, {

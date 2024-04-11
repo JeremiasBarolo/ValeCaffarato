@@ -15,12 +15,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'entidadId',
         onUpdate: 'CASCADE',
       });
+
+      MaestroDeArticulos.belongsTo(models.UnidadesDeMedida, {
+        foreignKey: 'uni_medida',
+        onUpdate: 'CASCADE',
+      });
+      
     }
+
+
   }
   MaestroDeArticulos.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    uni_medida: DataTypes.STRING,
     costo_unit: DataTypes.INTEGER,
     profit: DataTypes.INTEGER,
     tipoArticulo: DataTypes.STRING,

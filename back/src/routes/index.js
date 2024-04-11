@@ -16,6 +16,8 @@ const cond_ivaRouter = require('./Cond_Iva');
 const monedasRouter = require('./Monedas');
 const usuarioRouter = require('./usuario');
 const loginRouter = require('./login');
+const unidadesDeMedidaRouter = require('./UnidadesDeMedida');
+
 
 
 module.exports = {
@@ -35,5 +37,6 @@ module.exports = {
     cond_ivaRouter,
     monedasRouter,
     usuarioRouter,
-    loginRouter
+    loginRouter,
+    unidadesDeMedidaRouter
  };
