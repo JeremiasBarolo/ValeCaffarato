@@ -70,6 +70,10 @@ export class CrearPersonaComponent {
   
 
   ngAfterViewInit(): void {
+    if(this.id !== 0){
+      this.getPersona(this.id);
+    }
+    
     this.aRoute.queryParams.subscribe(params => {
       this.tipoArticulo = params['tipoArticulo'];
       console.log('Tipo de Artículo:', this.tipoArticulo);
@@ -112,26 +116,14 @@ export class CrearPersonaComponent {
     if (this.id !== 0) {
       // Es editar
       try {
+        console.log(this.Persona);
+        
           this.personasService.update(this.id,{
             ...this.Persona,
           }).subscribe(() => {
             
-            
-            if(this.Persona.tipo_persona === 1){
-              
-              this.router.navigate(['dashboard/proveedores']);
-            }else if (this.Persona.tipo_persona === 2){
-              this.router.navigate(['dashboard/clientes']);
-            }else if(this.Persona.tipo_persona === 3){
-              this.router.navigate(['dashboard/empleados']);
-            }else{
-              this.router.navigate(['dashboard/inicio']);
-            }
-            
-            
-            }
-            
-          );
+            this.router.navigate(['dashboard/inicio']);
+          });
         
         
     
@@ -196,8 +188,6 @@ getPersona(id: number) {
             cond_iva:data.Condicion_Iva.id,
             tipo_persona:data.Tipo_Persona.id,
             locality:data.localidadId,
-            country:provincia.paisId,
-            province:provincia.id
   
         });
 

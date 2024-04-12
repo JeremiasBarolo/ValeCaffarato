@@ -149,7 +149,7 @@ export class CrearEditarPedidoVentaComponent {
     })
 
     this.personasService.getAll().subscribe((data)=>{
-      this.personas= data.filter(persona => persona.tipoPersona !== 'EMPLEADO')
+      this.personas= data.filter(persona => persona.Tipo_Persona.description === 'Cliente')
       
     })
   }

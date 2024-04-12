@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
 
@@ -14,7 +15,10 @@ export class ProductEntityComponent {
   cardData: any = {
     name: '',
   }
-  constructor(private maestroArticulosService: MaestroArticulosService) {
+  constructor(
+    private maestroArticulosService: MaestroArticulosService,
+    private toastService: ToastrService,
+  ) {
     
   }
 
@@ -34,7 +38,8 @@ export class ProductEntityComponent {
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
-      this.entidades_disp = this.entidades_disp.filter(e => e.id !== id);
+      this.filteredInsumo = this.filteredInsumo.filter(e => e.id !== id);
+      this.toastService.success('Producto eliminado correctamente');
     });
   }
 

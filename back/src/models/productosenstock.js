@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
+      
       ProductosEnStock.belongsToMany(models.MaestroDeArticulos, {
         through: 'ProductQuantities',
         foreignKey: 'productoId',

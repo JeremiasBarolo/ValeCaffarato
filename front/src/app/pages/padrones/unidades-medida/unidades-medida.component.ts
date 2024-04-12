@@ -68,7 +68,7 @@ guardarNuevoTipo(){
     setTimeout(() => {
       window.location.reload();
     }, 600)
-    this.toastr.success('Pais Actualizado', 'Exito');
+    this.toastr.success('Unidad Actualizado', 'Exito');
   });
  } else{
   try {
@@ -77,7 +77,7 @@ guardarNuevoTipo(){
         window.location.reload();
       }, 600)
 
-      this.toastr.success('Pais Creado', 'Exito');
+      this.toastr.success('Unidad Creado', 'Exito');
 
     });
     

@@ -65,7 +65,7 @@ const createProductosADMIN= async (productosData) => {
         description: entidad.description,
         costo_unit: entidad.costo_unit,
         quantity_reserved: 0,
-        unidad_medida: entidad.uni_medida,
+        uni_medida: entidad.uni_medida,
         profit: entidad.profit,
         antiguo_id:parseInt(productosData.id, 10) ,
         type: productosData.type,
@@ -117,7 +117,7 @@ const createProductos= async (productosData) => {
           profit: producto.profit,
           antiguo_id: producto.id,
           type: productosData.type,
-          unidad_medida: producto.uni_medida,
+          uni_medida: producto.uni_medida,
           quantity_reserved: 0 ,
           depositoId: parseInt(productosData.depositoId, 10)
           

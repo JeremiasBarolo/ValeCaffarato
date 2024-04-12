@@ -39,35 +39,49 @@
                         </div>
                         </div>
                       </div>
-    
-                        <div class="form-group text-center">
-                            <label for="unidad_medida">Unidad de Medida</label>
-                            <input formControlName="unidad_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-                        </div>
+                      
 
-                        <div class="form-group text-center">
-                          <label for="deposito">Donde se Alamacenara?</label>
-                          <br>
-                          <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
-                              <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
-                          </select>
-                          
-                      </div>
-                    
-                    
-                        <span>
-    
-                            <div class="row mt-5 text-center">
-                                <div class="col-xs-12 col-md-6 col-lg-6">
-                                    <button routerLinkActive="router-link-active" type="submit"
-                                        class="btn btn-success">Aceptar </button>
-                                </div>
-                                <div class="col-xs-12 col-md-6 col-lg-6">
-                                    <button type="button" class="btn btn-info"> Volver </button>
-                                </div>
-  
+                      <div class="row">
+                        <div class="col">
+                            <div class="form-group text-center">
+                              <label for="deposito">Unidades De Medida</label>
+                              <br>
+                              <select class="form-select col-md-12" aria-label="Unidad de Medida" formControlName="uni_medida">
+                                <option *ngFor="let unidad of unidadesMedida " [value]="unidad.id"> {{unidad.descripcion}}</option>
+                              </select>
                             </div>
-                        </span>
+                          </div>
+
+                            <div class="col">
+                              <div class="form-group text-center">
+                                <label for="deposito">Donde se Alamacenara?</label>
+                                <br>
+                                <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
+                                    <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+                                </select>
+                              </div>
+                          </div>
+                      
+                    </div>
+                  
+                    
+                    <span>
+
+                      <div class="row mt-5 text-center">
+                          <div class="col-xs-12 col-md-6 col-lg-6">
+                              <button routerLinkActive="router-link-active" type="submit"
+                                  class="btn btn-success">Aceptar </button>
+                          </div>
+                          <div class="col-xs-12 col-md-6 col-lg-6">
+                              <a type="button" class="btn btn-info" href="dashboard/insumos"> Volver </a>
+                          </div>
+
+                          
+                          <!-- <div class="col-xs-12 col-md-6 col-lg-6">
+                              <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
+                          </div> -->
+                      </div>
+                  </span>
                     </span>
                 </form>
             </div>
@@ -81,18 +95,12 @@
     <div class="container mt-5">
         <div class="card mb-3 border border-0 mx-auto">
           <div class="card-body">
-            <form [formGroup]="form">
-
-
-              <div class="form-group text-center">
-                <label for="cantidad">Cantidad</label>
-                <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
-            </div>
+            <form [formGroup]="form" (submit)="addInsumo()">
 
               <div class="row">
                 <div class="col">
                   <div class="form-group text-center">
-                    <label for="cantidad">Entidad de Insumo</label>
+                    <label for="cantidad">Insumo</label>
                     <br>
                     <select class="form-select col-md-12" aria-label="entidades de insumos" formControlName="insumoEntity">
                         <option *ngFor="let insumo of productos" [value]="insumo.id">{{insumo.name}}</option>
@@ -113,6 +121,35 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="col col-md-6">
+                  <div class="form-group text-center">
+                    <label for="cantidad">Cantidad</label>
+                    <input formControlName="quantity" type="number" class="form-control col-md-12" placeholder="Cantidad">
+                </div>
+                </div>
+
+              </div>
+             
+
+            
+              <span>
+
+                <div class="row mt-5 text-center">
+                    <div class="col-xs-12 col-md-6 col-lg-6">
+                        <button routerLinkActive="router-link-active" type="submit"
+                            class="btn btn-success">Aceptar </button>
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-6">
+                        <a type="button" class="btn btn-info" href="dashboard/insumo"> Volver </a>
+                    </div>
+  
+                    
+                    <!-- <div class="col-xs-12 col-md-6 col-lg-6">
+                        <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
+                    </div> -->
+                </div>
+            </span>
 
     
          
@@ -122,18 +159,7 @@
        
     
             </form>
-          <div class="row mt-5">
-            <div class="col-md-6 offset-md-3 text-center">
-              <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addInsumo()">Aceptar</button>
-            </div>
-          </div>
-    
-          <div class="row mt-3">
-            <div class="col-md-6 offset-md-3 text-center">
-              <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
-            </div>
-          </div>
-          
+           
          
           
         </div>

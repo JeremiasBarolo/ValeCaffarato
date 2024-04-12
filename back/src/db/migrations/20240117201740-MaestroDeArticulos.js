@@ -18,10 +18,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      uni_medida: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       costo_unit: {
         type: Sequelize.INTEGER,
         allowNull: false

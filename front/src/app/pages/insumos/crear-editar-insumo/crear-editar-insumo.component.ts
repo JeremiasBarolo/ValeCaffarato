@@ -6,6 +6,7 @@ import { Insumo } from 'src/app/models/insumo';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
+import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     depositoId: 0
   }
   depositos: any[] = [];
+  unidadesMedida: any[] = [];
   
 
 
@@ -37,6 +39,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     private router: Router,
     private aRoute: ActivatedRoute,
     private ProductosEnStockService: ProductosEnStockService,
+    private unidadMedidaService: UnidadMedidaService,
     private maestroArticulosService: MaestroArticulosService,
     private depositosService: DepositosService,
 
@@ -48,7 +51,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
       quantity: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
-      unidad_medida: ['', Validators.required],
+      uni_medida: ['', Validators.required],
       deposito: ['', Validators.required],
     });
   }else{
@@ -86,7 +89,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
         quantity: this.form.value.quantity,
         description: this.form.value.description,
         costo_unit: this.form.value.price,
-        unidad_medida: this.form.value.unidad_medida,
+        uni_medida: this.form.value.uni_medida,
         depositoId: this.form.value.deposito,
         admin: 'yes',
         type: 'INSUMO'
@@ -121,13 +124,13 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   
 
   getInsumo(id: number) {
-    this.ProductosEnStockService.getById(id).subscribe((data: Insumo)=> {
+    this.ProductosEnStockService.getById(id).subscribe((data: any)=> {
       this.form.setValue({
         name: data.name,
         description: data.description,
         quantity: data.quantity,
         price: data.costo_unit,
-        unidad_medida: data.unidad_medida,
+        uni_medida: data.uni_medida,
         deposito: data.deposito.id
       });
       
@@ -147,6 +150,10 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
 
     this.depositosService.getAll().subscribe((data) => {
       this.depositos = data
+    })
+
+    this.unidadMedidaService.getAll().subscribe((data) => {
+      this.unidadesMedida = data
     })
   }
 

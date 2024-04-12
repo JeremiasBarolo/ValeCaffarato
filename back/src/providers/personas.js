@@ -104,6 +104,7 @@ const updatePersonas = async (Personas_id, dataUpdated) => {
       phone: dataUpdated.phone,
       cuil: dataUpdated.cuil,
       email: dataUpdated.email,
+      TipoPersonaId: parseInt(dataUpdated.tipo_persona, 10),
     };
 
     const newPersonas = await oldPersonas.update(dataUpdate);

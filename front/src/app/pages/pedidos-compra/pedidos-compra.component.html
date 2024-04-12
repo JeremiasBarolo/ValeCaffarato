@@ -97,8 +97,8 @@
                 <tr *ngFor="let item of cardData.productos">
                   <td>{{item.name}}</td>
                   <td>{{item.description}}</td>
-                  <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
-                  <td>{{item.PedidosProductos.quantity_requested}}</td>
+                  <td>{{item.costo_unit | currency}}</td>
+                  <td class="text-center">{{item.PedidosProductos.quantity_requested}}</td>
                 </tr>
               </tbody>
             </table>

@@ -41,10 +41,13 @@ export class InsumosEntityComponent {
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
-      this.entidades = this.entidades.filter(e => e.id !== id);
+      this.filteredEntities = this.filteredEntities.filter(e => e.id !== id);
       this.toastr.success('Entidad eliminada correctamente');
+    
     });
   }
+
+
   showCardDetails(card: any) {
     this.cardData = card;
     

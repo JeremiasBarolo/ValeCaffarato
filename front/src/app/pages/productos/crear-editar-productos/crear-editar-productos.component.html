@@ -37,35 +37,30 @@
                 </div>
                 </div>
               </div>
+ 
+                <div class="row">
+                  <div class="col">
+                      <div class="form-group text-center">
+                        <label for="deposito">Unidades De Medida</label>
+                        <br>
+                        <select class="form-select col-md-12" aria-label="Unidad de Medida" formControlName="uni_medida">
+                          <option *ngFor="let unidad of unidadesMedida " [value]="unidad.id"> {{unidad.descripcion}}</option>
+                        </select>
+                      </div>
+                    </div>
 
-              <div class="row">
-                <div class="col">
-                  <div class="form-group text-center">
-                    <label for="unidad_medida">Unidad de Medida:</label>
-                    <input formControlName="unidad_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-                  </div>
-                </div>
-
-                <div class="col">
-                  <div class="form-group text-center">
-                    <label for="quantity">Cantidad</label>
-                    <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
-                  </div>
-                </div>
-              </div>
-
-                 
-        
-        
-              <div class="form-group text-center">
-                <label for="deposito">Donde se Alamacenara?</label>
-                <br>
-                <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
-                    <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
-
-                </select>
+                      <div class="col">
+                        <div class="form-group text-center">
+                          <label for="deposito">Donde se Alamacenara?</label>
+                          <br>
+                          <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
+                              <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+                          </select>
+                        </div>
+                    </div>
                 
               </div>
+            
     
             </form>
           </div>
@@ -120,9 +115,14 @@
             </div>
           </div>
 
-            <div class="form-group">
-              <label for="quantity" class="text-right">Cantidad</label>
-              <input formControlName="quantity" type="number" class="form-control col-md-6" placeholder="Cantidad">
+          <div class="row">
+            <div class="col col-md-6">
+              <div class="form-group text-center">
+                <label for="cantidad">Cantidad</label>
+                <input formControlName="quantity" type="number" class="form-control col-md-12" placeholder="Cantidad">
+            </div>
+            </div>
+
           </div>
 
        

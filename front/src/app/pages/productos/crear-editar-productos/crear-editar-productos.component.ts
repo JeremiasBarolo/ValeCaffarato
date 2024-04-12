@@ -7,6 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
+import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class CrearEditarProductosComponent implements OnInit {
     admin: 'yes'
   }
   depositos: any[] =[]
+  unidadesMedida: any[] = [];
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
@@ -36,6 +38,7 @@ export class CrearEditarProductosComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private productService: ProductosEnStockService,
     private depositoService: DepositosService,
+    private unidadMedidaService: UnidadMedidaService,
     private toastr: ToastrService
   ) {
     if(this.aRoute.snapshot.paramMap.get('id') !== null){
@@ -45,7 +48,7 @@ export class CrearEditarProductosComponent implements OnInit {
         description: ['', Validators.required],
         profit: ['', Validators.required],
         costo_unit: ['', Validators.required],
-        unidad_medida: ['', Validators.required],
+        uni_medida: ['', Validators.required],
         quantity: ['', Validators.required],
         deposito: ['', Validators.required],
       });
@@ -92,7 +95,7 @@ export class CrearEditarProductosComponent implements OnInit {
         this.productoData.description = this.form.value.description;       
         this.productoData.profit = this.form.value.profit;    
         this.productoData.costo_unit = this.form.value.costo_unit;    
-        this.productoData.unidad_medida = this.form.value.unidad_medida;    
+        this.productoData.uni_medida = this.form.value.uni_medida;    
         this.productoData.quantity = this.form.value.quantity;
         this.productoData.type = 'PRODUCTO';
         this.productoData.depositoId = this.form.value.deposito;
@@ -136,7 +139,7 @@ export class CrearEditarProductosComponent implements OnInit {
         name: data.name,
         description: data.description,
         costo_unit: data.costo_unit,
-        unidad_medida: data.unidad_medida,
+        uni_medida: data.uni_medida,
         profit: data.profit,
         quantity: data.quantity,
         deposito: data.deposito.id
@@ -158,6 +161,12 @@ export class CrearEditarProductosComponent implements OnInit {
 
     this.depositoService.getAll().subscribe((data) => {
       this.depositos = data
-    }) 
+    })
+    
+    this.unidadMedidaService.getAll().subscribe((data) => {
+      this.unidadesMedida = data
+    })
   }
+
+  
 }

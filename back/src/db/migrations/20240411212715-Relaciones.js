@@ -40,7 +40,7 @@ module.exports = {
         onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addColumn('ProductosEnStock', 'uni_medidia', {
+    await queryInterface.addColumn('ProductosEnStock', 'uni_medida', {
       type: Sequelize.INTEGER,
         references:{
           model: 'UnidadesDeMedidas',
@@ -196,7 +196,7 @@ module.exports = {
             onUpdate: 'CASCADE',
     });
 
-    await queryInterface.addColumn('MaestroDeArticulos', 'uni_medidia', {
+    await queryInterface.addColumn('MaestroDeArticulos', 'uni_medida', {
       type: Sequelize.INTEGER,
         references:{
           model: 'UnidadesDeMedidas',
@@ -270,29 +270,29 @@ module.exports = {
 
 
 // <=============================== ProductQuantitites ===============================> 
-    await queryInterface.addColumn('ProductQuantities', 'entidadId', {
-      type: Sequelize.INTEGER,
-      references:{
-        model: 'MaestroDeArticulos',
-        key: 'id',
-        onDelete: 'SET NULL'
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
+      await queryInterface.addColumn('ProductQuantities', 'entidadId', {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'MaestroDeArticulos',
+          key: 'id',
+          onDelete: 'SET NULL'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
 
-    });
+      });
 
-    await queryInterface.addColumn('ProductQuantities', 'productoId', {
-      type: Sequelize.INTEGER,
-      references:{
-        model: 'ProductosEnStock',
-        key: 'id',
-        onDelete: 'CASCADE'
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
+      await queryInterface.addColumn('ProductQuantities', 'productoId', {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'ProductosEnStock',
+          key: 'id',
+          onDelete: 'CASCADE'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
 
-    });
+      });
 // <=============================== Fin ProductQuantitites ===============================> 
 
 

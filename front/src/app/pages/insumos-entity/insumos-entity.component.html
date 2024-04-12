@@ -1,7 +1,7 @@
 <app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 
 <div class="text-right">
-  <button type="button" class="btn btn-outline-success mr-2 " [routerLink]="['crear-editar']"> Agregar Entidad</button>
+  <button type="button" class="btn btn-outline-success mr-2 " [routerLink]="['crear-editar']"> Agregar Insumo</button>
 </div>
 
 
@@ -28,10 +28,7 @@
                 Precio Unit
                 <p-sortIcon field="costo_unit" style="margin: 16px"></p-sortIcon>
               </th>
-              <th pSortableColumn="profit">
-                Precio Unit
-                <p-sortIcon field="profit" style="margin: 16px"></p-sortIcon>
-              </th>
+             
              
               <th>
                 Acciones
@@ -40,11 +37,10 @@
       </ng-template>
       <ng-template pTemplate="body" let-rowData>
         <tr>
-          <td>{{ rowData.name }}</td>
-          <td>{{ rowData.description }}</td>
-          <td>{{rowData.uni_medida}}</td>
+          <td>{{ rowData?.name }}</td>
+          <td>{{ rowData?.description }}</td>
+          <td>{{rowData?.UnidadesDeMedida?.descripcion}}</td>
           <td>{{rowData.costo_unit | currency}}</td>
-          <td>{{rowData.profit }} %</td>
           <td>
             <button routerLinkActive="router-link-active"
               type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">
