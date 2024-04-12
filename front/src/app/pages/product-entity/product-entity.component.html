@@ -41,11 +41,11 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
       <tr>
-        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id)">{{ rowData.id }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id)">{{ rowData.name }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id)">{{ rowData.description }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id)">{{rowData.UnidadesDeMedida.descripcion}}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id)">{{rowData.costo_unit | currency}}  + {{rowData.profit}}%</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id, 'producto')">{{ rowData.id }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{ rowData.name }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{ rowData.description }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.UnidadesDeMedida.descripcion}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.costo_unit | currency}}  + {{rowData.profit}}%</td>
         <td>
           <button routerLinkActive="router-link-active"
             type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">

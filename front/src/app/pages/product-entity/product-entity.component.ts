@@ -59,8 +59,8 @@ export class ProductEntityComponent {
     });
   }
 
-  navigateToDetalle(id: number) {
-    this.router.navigate(['/dashboard/detalle', id]);
+  navigateToDetalle(id: number, accion?:any) {
+    this.router.navigate(['/dashboard/detalle', id, accion]);
   }
   
 }

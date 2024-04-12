@@ -185,4 +185,8 @@ eliminarPedido(id?: number){
 onAceptarClick() { 
   this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO');
 }
+
+navigateToDetalle(id: any) {
+  this.router.navigate(['/dashboard/detalle-pedido', id]);
+}
 }

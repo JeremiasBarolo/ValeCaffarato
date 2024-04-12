@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { TablaDetallesComponent } from './tabla-detalles/tabla-detalles.component';
 import { TableModule } from 'primeng/table';
+import { TablaPedidosComponent } from './tabla-pedidos/tabla-pedidos.component';
 
 
 
@@ -17,7 +18,8 @@ import { TableModule } from 'primeng/table';
     SidebarComponent,
     BreadcrumbsComponent,
     FooterComponent,
-    TablaDetallesComponent
+    TablaDetallesComponent,
+    TablaPedidosComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { TableModule } from 'primeng/table';
     BreadcrumbsComponent,
     FooterComponent,
     FontAwesomeModule,
-    TablaDetallesComponent
+    TablaDetallesComponent,
+    TablaPedidosComponent
   ],
   providers: [],
 })

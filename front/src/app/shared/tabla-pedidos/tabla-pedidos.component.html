@@ -1,14 +1,18 @@
 <div class="detalle">
     <h3 class="text-center">Detalles de Producto</h3>
     <div class="ml-2">
-        <h5><strong>Nombre:</strong>  {{ pedido?.name }}</h5>
-        <h5><strong>Descripción:</strong>  {{ pedido?.description }}</h5>
-        <h5><strong>Costo Unitario: </strong> {{ pedido?.costo_unit | currency}} + {{pedido?.profit}}%</h5>
-        <h5><strong>Unidad de Medida:</strong> {{ pedido?.UnidadesDeMedida.descripcion }}</h5>
+        <!-- <h5><strong>Nombre:</strong>  {{ pedido.name }}</h5> -->
+        <h5><strong>Tipo Pedido:</strong>  {{ pedido?.category }}</h5>
+        <h5><strong>Costo Unitario: </strong> {{ calcularSubtotal(pedido)| currency }}</h5>
+        <h5><strong>Pertenece a:</strong> {{ pedido?.Persona?.name }} {{ pedido?.Persona?.lastname}} </h5>
+        <h5><strong>Moneda Utilizada:</strong> {{pedido?.Moneda?.description}} </h5>
+        <h5><strong>Estado del Pedido:</strong> {{pedido?.state}} </h5>
+
     </div>
     <br>
     <br>
     <h3 class="text-center">Productos</h3>
+    <div class="ml-2">
         <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por nombre.." class="mb-3">
         <p-table #dt [value]="filteredProducto"[paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
           <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
@@ -39,8 +43,12 @@
           <td>{{ producto.name }}</td>
           <td>{{ producto.description }}</td>
           <td>{{ producto.costo_unit | currency}}</td>
-          <td>{{ producto.ProductQuantities.quantity_necessary}}</td>
+          <td>{{ producto.PedidosProductos?.quantity_requested}}</td>
         </tr>
       </ng-template>
     </p-table>
   </div>
+
+
+    </div>
+        

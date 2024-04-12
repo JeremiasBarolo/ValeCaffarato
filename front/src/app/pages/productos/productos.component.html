@@ -42,11 +42,11 @@
       <ng-template pTemplate="body" let-rowData>
         <tr>
 
-          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.name }}</td>
-          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.description }}</td>
-          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.UnidadesDeMedida.descripcion}}</td>
-          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.quantity}}</td>
-          <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.deposito.description}}</td>
+          <td data-target="#Modal" data-toggle="modal" >{{ rowData.name }}</td>
+          <td data-target="#Modal" data-toggle="modal" >{{ rowData.description }}</td>
+          <td data-target="#Modal" data-toggle="modal" >{{rowData.UnidadesDeMedida.descripcion}}</td>
+          <td data-target="#Modal" data-toggle="modal" >{{rowData.quantity}}</td>
+          <td data-target="#Modal" data-toggle="modal" >{{rowData.deposito.description}}</td>
 
           <td>
             <button routerLinkActive="router-link-active"

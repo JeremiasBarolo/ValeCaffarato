@@ -12,10 +12,12 @@ export class TablaDetallesComponent implements OnInit {
   pedido:any
   id:any
   filteredProducto:any
+  accion:any
   
 
 
   constructor(
+    private maestroService: MaestroArticulosService,
     private productoService: MaestroArticulosService,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -23,13 +25,20 @@ export class TablaDetallesComponent implements OnInit {
   ) {
 
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
+    this.accion = String(aRoute.snapshot.paramMap.get('accion'));
    }
 
   ngOnInit(): void {
-    this.productoService.getById(this.id).subscribe((data)=>{
-      this.pedido = data;
-      this.filteredProducto = this.pedido.ProductosEnStocks;
-    })
+    console.log(this.id);
+    
+    if(this.accion === 'producto'){
+      this.maestroService.getById(this.id).subscribe((data)=>{
+        this.pedido = data;
+        this.filteredProducto = this.pedido.ProductosEnStocks;
+      })
+    }
+
+    
 
 
   }

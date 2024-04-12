@@ -10,11 +10,11 @@
           
           
           <div class="card" *ngFor="let presupuesto of listPresupuesto" >
-            <div class="card-header presupuesto-card-header" (click)="showCardDetails(presupuesto)" data-target="#InsumoModal" data-toggle="modal"  >
+            <div class="card-header presupuesto-card-header"(click)="navigateToDetalle(presupuesto.id)" data-target="#InsumoModal" data-toggle="modal"  >
               {{presupuesto.createdAt | date}} || #{{presupuesto.id}}
             </div>
     
-            <div class="card-body" (click)="showCardDetails(presupuesto)" data-target="#presupuesto" data-toggle="modal">
+            <div class="card-body"(click)="navigateToDetalle(presupuesto.id)" data-target="#presupuesto" data-toggle="modal">
               {{presupuesto.Persona.name}} {{presupuesto.Persona.lastname}}
             </div>
             <div class="card-footer">
@@ -29,10 +29,10 @@
         <div class="col-md-3 border-right">
             <h4 class="mb-3">Aprobado</h4>
             <div class="card" *ngFor="let aprobado of listAprobado" >
-              <div class="card-header preparacion-card-header" (click)="showCardDetails(aprobado)" data-target="#InsumoModal" data-toggle="modal">
+              <div class="card-header preparacion-card-header" (click)="navigateToDetalle(aprobado.id)" data-target="#InsumoModal" data-toggle="modal">
                 {{aprobado.createdAt | date}} || #{{aprobado.id}}
               </div>
-              <div class="card-body" (click)="showCardDetails(aprobado)" data-target="#InsumoModal" data-toggle="modal">
+              <div class="card-body" (click)="navigateToDetalle(aprobado.id)" data-target="#InsumoModal" data-toggle="modal">
                 {{aprobado.Persona.name}} {{aprobado.Persona.lastname}}
               </div>
               <div class="card-footer">
@@ -47,11 +47,11 @@
           <h4 class="mb-3">Preparacion</h4>
     
           <div class="card" *ngFor="let preparacion of listPreparacion">
-            <div class="card-header preparacion-card-header"(click)="showCardDetails(preparacion)"data-target="#InsumoModal" data-toggle="modal">
-              {{preparacion.createdAt | date}} || #{{preparacion.id}}
+            <div class="card-header preparacion-card-header" (click)="navigateToDetalle(preparacion.id)" data-target="#InsumoModal" data-toggle="modal">
+              {{preparacion.createdAt | date}} || #{{preparacion.id}}preparacion
             </div>
     
-            <div class="card-body"(click)="showCardDetails(preparacion)"data-target="#InsumoModal" data-toggle="modal">
+            <div class="card-body" (click)="navigateToDetalle(preparacion.id)" data-target="#InsumoModal" data-toggle="modal">
               {{preparacion.Persona.name}} {{preparacion.Persona.lastname}}
             </div>
     
@@ -67,11 +67,11 @@
           <h4 class="mb-3">Finalizado</h4>
     
           <div class="card" *ngFor="let finalizado of listFinalizado">
-            <div class="card-header finalizado-card-header"(click)="showCardDetails(finalizado)" data-target="#InsumoModal" data-toggle="modal">
+            <div class="card-header finalizado-card-header"(click)="navigateToDetalle(finalizado.id)" data-target="#InsumoModal" data-toggle="modal">
               {{finalizado.createdAt | date}} || #{{finalizado.id}}
             </div>
     
-            <div class="card-body"(click)="showCardDetails(finalizado)"data-target="#InsumoModal" data-toggle="modal">
+            <div class="card-body"(click)="navigateToDetalle(finalizado.id)"data-target="#InsumoModal" data-toggle="modal">
               {{finalizado.Persona.name}} {{finalizado.Persona.lastname}}
             </div>
             <div class="card-footer">
