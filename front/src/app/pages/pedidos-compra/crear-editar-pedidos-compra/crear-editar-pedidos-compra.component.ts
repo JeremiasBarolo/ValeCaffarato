@@ -7,7 +7,6 @@ import { MaestroArticulosService } from 'src/app/services/maestro-articulos.serv
 import { MonedasService } from 'src/app/services/monedas.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { PersonasService } from 'src/app/services/personas.service';
-import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 
 @Component({
   selector: 'app-crear-editar-pedidos-compra',
@@ -36,7 +35,6 @@ export class CrearEditarPedidosCompraComponent {
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
-    private productosService: ProductosEnStockService,
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -134,7 +132,7 @@ export class CrearEditarPedidosCompraComponent {
   }
 
   loadAllEntities() {
-    this.productosService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().subscribe((data) => {
       data.forEach((insumo: any) => {
         if(insumo.tipoArticulo === 'INSUMO'){
           this.InsumosEntities.push(insumo);

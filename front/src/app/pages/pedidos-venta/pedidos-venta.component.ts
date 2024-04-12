@@ -158,9 +158,12 @@ calcularSubtotal(pedido: any): number {
   let subtotal = 0;
 
   if (pedido.productos && pedido.productos.length > 0) {
-    subtotal = pedido.productos.reduce((acc: number, producto: { PedidosProductos: { quantity_requested: number; }; costo_unit: number; profit: number; }) => {
+    subtotal = pedido.productos.reduce((acc: number, producto: any) => {
+      
       let precioUnitario = producto.costo_unit * producto.PedidosProductos.quantity_requested;
+      
       let ganancia = precioUnitario * (producto.profit / 100);
+      
       return acc + precioUnitario + ganancia;
     }, 0);
   }

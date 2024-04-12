@@ -16,7 +16,7 @@ import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
   styleUrls: ['./crear-editar-productos.component.css']
 })
 export class CrearEditarProductosComponent implements OnInit {
-  breadcrumbItems: string = 'Crear/Editar Producto'
+  breadcrumbItems: string = 'Crear/Editar Stock PT'
   PedidoCompra: Pedidos | any;
   form: FormGroup;
   productos: any[] = [];
