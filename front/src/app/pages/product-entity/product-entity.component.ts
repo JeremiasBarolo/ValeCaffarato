@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
@@ -18,6 +19,7 @@ export class ProductEntityComponent {
   constructor(
     private maestroArticulosService: MaestroArticulosService,
     private toastService: ToastrService,
+    private router: Router
   ) {
     
   }
@@ -55,6 +57,10 @@ export class ProductEntityComponent {
     this.filteredInsumo = this.entidades_disp.filter(insumo => {
       return insumo.name.toLowerCase().includes(value.toLowerCase());
     });
+  }
+
+  navigateToDetalle(id: number) {
+    this.router.navigate(['/dashboard/detalle', id]);
   }
   
 }

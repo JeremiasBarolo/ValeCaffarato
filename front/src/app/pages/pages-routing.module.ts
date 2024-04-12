@@ -41,6 +41,7 @@ import { EmpleadosComponent } from './personas/empleados/empleados.component';
 import { AuthGuard  } from '../auth/auth';
 import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { TablaDetallesComponent } from '../shared/tabla-detalles/tabla-detalles.component';
 
 
 
@@ -101,6 +102,7 @@ const routes: Routes = [
       { path: 'bancos', component: BancosComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'unidades-medida', component: UnidadesMedidaComponent },
+      { path: 'detalle/:id', component: TablaDetallesComponent},
       
       
 

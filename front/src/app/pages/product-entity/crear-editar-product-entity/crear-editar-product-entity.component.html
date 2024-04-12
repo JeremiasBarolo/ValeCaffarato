@@ -108,21 +108,13 @@
       </div>
   
      
-      <span>
-
-        <div class="row mt-5 text-center">
-            <div class="col-xs-12 col-md-6 col-lg-6">
-                <button routerLinkActive="router-link-active" type="submit"
-                    class="btn btn-success">Aceptar </button>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-6">
-                <a type="button" class="btn btn-info" href="dashboard/insumo"> Volver </a>
-            </div>
-
-            
-            <!-- <div class="col-xs-12 col-md-6 col-lg-6">
-                <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
-            </div> -->
-        </div>
-    </span>
+    <div class="row mt-5">
+      <div class="col-md-6 text-center mb-10">
+        <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
+      </div>
+      <div class="col-md-6 text-center mb-10">
+        <button [routerLink]="['/dashboard/product-entity']" type="button" class="btn btn-info">Volver</button>
+      </div>
+    </div>
+  </div>
 </div>
