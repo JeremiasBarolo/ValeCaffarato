@@ -15,7 +15,7 @@
             <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addDeposito()">Aceptar</button>
           </div>
           <div class="col-xs-12 col-md-6 col-lg-6">
-              <button type="button" class="btn btn-info"> Volver </button>
+              <button [routerLink]="['/dashboard/depositos']" type="button" class="btn btn-info"> Volver </button>
           </div>
       </div>
       </form>

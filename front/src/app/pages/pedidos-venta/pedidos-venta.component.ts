@@ -147,10 +147,7 @@ showCardDetails(card: Pedidos) {
   
 }
 
-updateEntidad(id:number){
-  this.pedidosService.update(id, this.cardData).subscribe(() => {
-
-  })
+updateEntidad(id:any){
   this.router.navigate(['dashboard/pedidos-venta/crear-editar', id]);
 }
 

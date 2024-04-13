@@ -20,7 +20,7 @@ import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
   styleUrls: ['./crear-editar-product-entity.component.css']
 })
 export class CrearEditarProductEntityComponent {
-  breadcrumbItems: string = 'Crear/Editar Pedido Produccion'
+  breadcrumbItems: string = 'Crear/Editar Producto'
   PedidoCompra: any | any;
   form: FormGroup;
   id: number;

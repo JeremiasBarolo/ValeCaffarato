@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'uni_medida',
         onUpdate: 'CASCADE',
       });
+
+      
       
     }
 

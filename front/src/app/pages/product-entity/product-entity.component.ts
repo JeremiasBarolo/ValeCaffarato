@@ -10,7 +10,7 @@ import { MaestroArticulosService } from 'src/app/services/maestro-articulos.serv
   styleUrls: ['./product-entity.component.css']
 })
 export class ProductEntityComponent {
-  breadcrumbItems: string = 'Entidades de Producto'
+  breadcrumbItems: string = 'Productos'
   entidades_disp: any[] = []
   filteredInsumo: any[] = []
   cardData: any = {

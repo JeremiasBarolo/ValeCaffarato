@@ -46,7 +46,6 @@
             <tr>
                 <th>Nombre</th>
                 <th>Cantidad</th>
-                <th>Unidad de Medida</th>
                 <th>Precio unit.</th>
                 <th>Subtotal</th>
                 <th>IVA</th>
@@ -58,7 +57,7 @@
                 <tr *ngFor="let item of productList">
                     <td>{{item.name}}</td>
                     <td>{{item.PedidosProductos.quantity_requested}}</td>
-                    <td>{{item.uni_medida}}</td>
+                    
                     <td>{{item.costo_unit | currency}}</td>
                     <td>{{calcularTotal(item.costo_unit, item.PedidosProductos.quantity_requested) | currency}}</td>
                     <td>{{documentoData.iva}}%</td>

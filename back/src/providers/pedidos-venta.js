@@ -18,7 +18,9 @@ const listAllPedidos= async () => {
 const listOnePedidos= async (pedidos_id) => {
   try {
     const onePedidos= await models.Pedidos.findByPk(pedidos_id, {
-      include: { all: true },
+      include: [
+        { all: true }, 
+      ],
     });
     if (!onePedidos) {
       console.error(`🛑 Pedidoswith id ${pedidos_id} not found`);

@@ -68,7 +68,7 @@ export class CrearEditarDocumentosComponent {
     });
 
     this.personasService.getAll().subscribe(persona => {
-      this.Clientes = persona
+      this.Clientes = persona.filter(persona => persona.Tipo_Persona.description === 'Cliente')
       
     });
     

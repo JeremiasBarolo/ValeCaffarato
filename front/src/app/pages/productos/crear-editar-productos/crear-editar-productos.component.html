@@ -63,20 +63,17 @@
             
     
             </form>
-          </div>
-      
-          
-      
-          <div class="row mt-5">
-            <div class="col-md-6  text-center">
-              <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addProducto()">Aceptar</button>
+            <div class="row mt-5">
+              <div class="col-md-6  text-center">
+                <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addProducto()">Aceptar</button>
+              </div>
+            
+            
+              <div class="col-md-6  text-center">
+                <button [routerLink]="['/dashboard/productos']" type="button" class="btn btn-info">Volver</button>
+              </div>
+  
             </div>
-          
-          
-            <div class="col-md-6  text-center">
-              <button [routerLink]="['/dashboard/productos']" type="button" class="btn btn-info">Volver</button>
-            </div>
-
           </div>
           </div>
         </div>
@@ -133,16 +130,14 @@
 
       </form>
       <div class="row mt-5">
-        <div class="col-md-6 offset-md-3 text-center">
+        <div class="col-md-6  text-center">
           <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addProducto()">Aceptar</button>
         </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col-md-6 offset-md-3 text-center">
-          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+      
+      
+        <div class="col-md-6  text-center">
+          <button [routerLink]="['/dashboard/productos']" type="button" class="btn btn-info">Volver</button>
         </div>
-      </div>
       
      
       

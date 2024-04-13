@@ -20,6 +20,7 @@
             <div class="card-footer">
               <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'APROBADO')">Aprobar</a>
               <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(presupuesto.id)" ><i class="fa-solid fa-trash"></i></a>
+              <button type="button" class="btn btn-outline-primary ml-1" data-dismiss="modal" (click)="updateEntidad(presupuesto.id)"><i class="fa-solid fa-pen-to-square"></i></button>
             </div>
           </div>
           
@@ -126,7 +127,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-            <button *ngIf="cardData.state=='PRESUPUESTADO'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateEntidad(cardData.id)"><i class="fa-solid fa-pen-to-square"></i></button>
+           
           </div>
         </div>
       </div>

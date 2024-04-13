@@ -136,7 +136,7 @@ showCardDetails(card: Pedidos) {
   
 }
 
-updateEntidad(id:number){
+updateEntidad(id:any){
   this.router.navigate(['dashboard/pedidos-compra/crear-editar', id]);
 }
 

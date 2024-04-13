@@ -7,7 +7,10 @@ const listAllProductos= async () => {
   try {
     const Productos = await models.ProductosEnStock.findAll(
       {
-        include: { all: true },
+        include: [
+          { all: true }, 
+          models.UnidadesDeMedida 
+        ],
       },
     );
     console.log('✅ PProductos were found');
@@ -21,7 +24,10 @@ const listAllProductos= async () => {
 const listOneProductos= async (productos_id) => {
   try {
     const oneProductos= await models.ProductosEnStock.findByPk(productos_id, {
-      include: { all: true },
+      include: [
+        { all: true }, 
+        models.UnidadesDeMedida 
+      ],
     });
     if (!oneProductos) {
       console.error(`🛑 Productoswith id ${productos_id} not found`);
