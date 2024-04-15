@@ -46,7 +46,7 @@ const createLocalidades= async (LocalidadesData) => {
 
     };
 
-    const existe = models.Localidad.findOne({
+    const existe = await models.Localidad.findOne({
       where: { codigo_postal: LocalidadesData.codigo_postal}
     })
 

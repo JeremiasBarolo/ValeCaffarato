@@ -47,7 +47,7 @@ const createProvincias = async (ProvinciasData) => {
         throw new Error('Seleccione un Pais');
       }
 
-      const existe = models.Provincia.findOne({
+      const existe = await models.Provincia.findOne({
         where:{ name: ProvinciasData.name}
       })
       if(existe){
