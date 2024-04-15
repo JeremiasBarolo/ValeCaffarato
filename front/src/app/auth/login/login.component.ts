@@ -32,6 +32,9 @@ export class LoginComponent {
       this.toastr.success('Bienvenido');
       localStorage.setItem('token', response.token);
       this.router.navigate(['dashboard/inicio']);
+      setTimeout(() => {
+        window.location.reload();
+      }, 200)
       
      
     }, error => {
