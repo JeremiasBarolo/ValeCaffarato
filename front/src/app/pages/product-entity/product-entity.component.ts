@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
 
@@ -8,13 +10,17 @@ import { MaestroArticulosService } from 'src/app/services/maestro-articulos.serv
   styleUrls: ['./product-entity.component.css']
 })
 export class ProductEntityComponent {
-  breadcrumbItems: string = 'Entidades de Producto'
+  breadcrumbItems: string = 'Productos'
   entidades_disp: any[] = []
   filteredInsumo: any[] = []
   cardData: any = {
     name: '',
   }
-  constructor(private maestroArticulosService: MaestroArticulosService) {
+  constructor(
+    private maestroArticulosService: MaestroArticulosService,
+    private toastService: ToastrService,
+    private router: Router
+  ) {
     
   }
 
@@ -34,7 +40,8 @@ export class ProductEntityComponent {
   }
   deleteEntidad(id: any) {
     this.maestroArticulosService.delete(id).subscribe(() => {
-      this.entidades_disp = this.entidades_disp.filter(e => e.id !== id);
+      this.filteredInsumo = this.filteredInsumo.filter(e => e.id !== id);
+      this.toastService.success('Producto eliminado correctamente');
     });
   }
 
@@ -50,6 +57,10 @@ export class ProductEntityComponent {
     this.filteredInsumo = this.entidades_disp.filter(insumo => {
       return insumo.name.toLowerCase().includes(value.toLowerCase());
     });
+  }
+
+  navigateToDetalle(id: number, accion?:any) {
+    this.router.navigate(['/dashboard/detalle', id, accion]);
   }
   
 }

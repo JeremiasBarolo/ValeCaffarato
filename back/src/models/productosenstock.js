@@ -16,11 +16,18 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
+      
       ProductosEnStock.belongsToMany(models.MaestroDeArticulos, {
         through: 'ProductQuantities',
         foreignKey: 'productoId',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',  
+      });
+
+
+      ProductosEnStock.belongsTo(models.UnidadesDeMedida, {
+        foreignKey: 'uni_medida',
+        onUpdate: 'CASCADE',
       });
     }
   }
@@ -32,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     antiguo_id: DataTypes.INTEGER,
     quantity_reserved: DataTypes.INTEGER,
-    unidad_medida: DataTypes.STRING,
     depositoId: DataTypes.INTEGER,
     type: DataTypes.STRING
   }, {

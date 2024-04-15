@@ -41,11 +41,11 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
       <tr>
-        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.id }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.name }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.description }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.uni_medida}}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.costo_unit | currency}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id, 'producto')">{{ rowData.id }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{ rowData.name }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{ rowData.description }}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.UnidadesDeMedida.descripcion}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.costo_unit | currency}}  + {{rowData.profit}}%</td>
         <td>
           <button routerLinkActive="router-link-active"
             type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">
@@ -62,41 +62,7 @@
   </p-table>
 
 </section>
-   <!-- <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Descripcion</th>
-        <th scope="col">Uni. Medida</th>
-        <th scope="col">Precio Unit</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="table" data-target="#Modal" data-toggle="modal" (click)="showCardDetails(entidad)"   *ngFor="let entidad of entidades" >
-        <th scope="row">{{entidad.id}}</th>
-        <td>{{entidad.name}}</td>
-        <td>{{entidad.description}}</td>
-        <td>{{entidad.uni_medida}}</td>
-        <td>{{entidad.costo_unit | currency}}</td>
-        <td>
-            <div class="wrapper d-flex justify-content-end">
-                <button [routerLink]="['crear-editar', entidad.id]" routerLinkActive="router-link-active"
-                    type="button" class="btn btn-outline-primary" aria-label="Editar Producto">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-
-                <button type="button" (click)="deleteEntidad(entidad.id)"
-                    class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
-                        class="fa-solid fa-trash"></i></button>
-            </div>
-        </td>
-
-      </tr>
-      
-    </tbody>
-  </table> -->
+ 
 
 
 
@@ -112,7 +78,7 @@
         <div class="modal-body">
           <p>{{ cardData.description }}</p>
           <p>Precio Unitario: {{ cardData.costo_unit | currency }} + {{cardData.profit}}%</p>
-          <p>Unidad de Medida: {{ cardData.uni_medida }} </p>
+          <p>Unidad de Medida: {{ cardData.UnidadesDeMedida?.descripcion}} </p>
           <table class="table table-bordered">
             <thead class="thead-light">
               <tr>
@@ -126,7 +92,7 @@
               <tr *ngFor="let item of cardData.ProductosEnStocks">
                 <td>{{item.name}}</td>
                 <td>{{item.description}}</td>
-                <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
+                <td>{{item.costo_unit | currency}}</td>
                 <td class="text-center">{{item.ProductQuantities.quantity_necessary}}</td>
               </tr>
             </tbody>

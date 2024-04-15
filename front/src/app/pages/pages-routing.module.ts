@@ -40,6 +40,9 @@ import { ClientesComponent } from './personas/clientes/clientes.component';
 import { EmpleadosComponent } from './personas/empleados/empleados.component';
 import { AuthGuard  } from '../auth/auth';
 import { UsuariosComponent } from './personas/usuarios/usuarios.component';
+import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { TablaDetallesComponent } from '../shared/tabla-detalles/tabla-detalles.component';
+import { TablaPedidosComponent } from '../shared/tabla-pedidos/tabla-pedidos.component';
 
 
 
@@ -99,6 +102,9 @@ const routes: Routes = [
       { path: 'clientes', component: ClientesComponent },
       { path: 'bancos', component: BancosComponent },
       { path: 'usuarios', component: UsuariosComponent },
+      { path: 'unidades-medida', component: UnidadesMedidaComponent },
+      { path: 'detalle/:id/:accion', component: TablaDetallesComponent},
+      { path: 'detalle-pedido/:id', component: TablaPedidosComponent},
       
       
 

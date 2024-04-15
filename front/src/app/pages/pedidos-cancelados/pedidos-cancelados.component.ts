@@ -33,6 +33,8 @@ export class PedidosCanceladosComponent {
       data.forEach(
         (element: any) => {
           if(element.state === 'CANCELADO'){
+            console.log(element);
+            
             this.listCancelado.push(element);
           
         }

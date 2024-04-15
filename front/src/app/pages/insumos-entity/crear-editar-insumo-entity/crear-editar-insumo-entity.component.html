@@ -33,19 +33,18 @@
 
                         <div class="col">
                             <div class="form-group text-center">
-                                <label for="profit">Ganancia %</label>
-                                <input formControlName="profit" type="number" class="form-control" placeholder="Ganancia">
+                                <label for="uni_medida">Unidad de Medida</label>
+                                <br>
+                                <select class="form-select text-center" aria-label="Unidad de Medida" formControlName="uni_medida" style="width: 100%; height: fit-content;">
+                                <option *ngFor="let unidad of unidadesMedida " [value]="unidad.id"> {{unidad.descripcion}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                    
                 
 
-                    <div class="form-group text-center">
-                        <label for="uni_medida">Unidad de Medida</label>
-                        <input formControlName="uni_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-                    </div>
-
+                    
                     
                 
                 

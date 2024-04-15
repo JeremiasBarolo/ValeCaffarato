@@ -1,0 +1,46 @@
+<div class="detalle">
+    <h3 class="text-center">Detalles de Producto</h3>
+    <div class="ml-2">
+        <h5><strong>Nombre:</strong>  {{ pedido?.name }}</h5>
+        <h5><strong>Descripción:</strong>  {{ pedido?.description }}</h5>
+        <h5><strong>Costo Unitario: </strong> {{ pedido?.costo_unit | currency}} + {{pedido?.profit}}%</h5>
+        <h5><strong>Unidad de Medida:</strong> {{ pedido?.UnidadesDeMedida.descripcion }}</h5>
+    </div>
+    <br>
+    <br>
+    <h3 class="text-center">Productos</h3>
+        <input pInputText type="text" (input)="applyFilter($event)" placeholder="Buscar por nombre.." class="mb-3">
+        <p-table #dt [value]="filteredProducto"[paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+          <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+              <tr class="table-header-color">
+    
+                  <th pSortableColumn="name">
+                    Nombre
+                    <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
+                </th>
+                  <th pSortableColumn="description">
+                      Descripción
+                      <p-sortIcon field="description" style="margin: 16px"></p-sortIcon>
+                  </th>
+      
+                  <th pSortableColumn="uni_medida">
+                    Precio Unit
+                    <p-sortIcon field="uni_medida" style="margin: 16px"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="costo_unit">
+                    Cant. Solicitada
+                    <p-sortIcon field="costo_unit" style="margin: 16px"></p-sortIcon>
+                  </th>
+                 
+              </tr>
+          </ng-template>
+      <ng-template pTemplate="body" let-producto>
+        <tr>
+          <td>{{ producto.name }}</td>
+          <td>{{ producto.description }}</td>
+          <td>{{ producto.costo_unit | currency}}</td>
+          <td>{{ producto.ProductQuantities.quantity_necessary}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>

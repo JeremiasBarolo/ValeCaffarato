@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 var models = require('../models');
 const listAllPedidos= async () => {
   try {
@@ -17,7 +18,9 @@ const listAllPedidos= async () => {
 const listOnePedidos= async (pedidos_id) => {
   try {
     const onePedidos= await models.Pedidos.findByPk(pedidos_id, {
-      include: { all: true },
+      include: [
+        { all: true }, 
+      ],
     });
     if (!onePedidos) {
       console.error(`🛑 Pedidoswith id ${pedidos_id} not found`);
@@ -195,43 +198,50 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         }
       });
     
-    if (pedidoFinalizado) {
-        
-        const productosPedido = await models.PedidosProductos.findAll({
-            where: {
-                pedidoId: pedidoFinalizado.id
-            }
-        });
-    
-        
-        let diferenciaSuficiente = true;
-        for (const productoPedido of productosPedido) {
-            const productoInsumo = await models.ProductosEnStock.findByPk(productoPedido.productId);
-            const diferencia = productoInsumo.quantity - productoInsumo.quantity_reserved;
-            if (diferencia < productoPedido.quantity_requested) {
-                diferenciaSuficiente = false;
-                break;
-            }
-        }
-    
-        if (diferenciaSuficiente) {
+        if (pedidoFinalizado  ) {
             
+            const productosPedido = await models.PedidosProductos.findAll({
+                where: {
+                    pedidoId: pedidoFinalizado.id
+                }
+            });
+        
+            
+            let diferenciaSuficiente = true;
             for (const productoPedido of productosPedido) {
-                const productoInsumo = await models.ProductosEnStock.findByPk(productoPedido.productId);
-                await productoInsumo.decrement('quantity', { by: productoPedido.quantity_requested });
-            }
 
-            await pedidoFinalizado.destroy();
-    
-            return "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock.";
+                const productoInsumo = await models.ProductosEnStock.findOne({
+                  where: { antiguo_id:productoPedido.productId }
+                })
+
+                const diferencia = productoInsumo.quantity - productoInsumo.quantity_reserved;
+                if (diferencia < productoPedido.quantity_requested) {
+                    diferenciaSuficiente = false;
+                    break;
+                }
+            }
+        
+            if (diferenciaSuficiente) {
+                
+                for (const productoPedido of productosPedido) {
+                    const productoInsumo = await models.ProductosEnStock.findOne({
+                        where: { antiguo_id:productoPedido.productId }
+                    })
+                    
+                    await productoInsumo.decrement('quantity', { by: productoPedido.quantity_requested });
+                }
+
+                await pedidoFinalizado.destroy();
+        
+                return "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock.";
+            } else {
+                return "No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.";
+            }
         } else {
-            return "No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.";
+            return "No se encontró un pedido finalizado con el ID proporcionado.";
         }
-    } else {
-        return "No se encontró un pedido finalizado con el ID proporcionado.";
-    }
-      
-    }
+          
+        }
 
     
 

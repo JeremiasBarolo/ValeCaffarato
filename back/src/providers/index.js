@@ -14,6 +14,7 @@ const Cond_IvaProvider = require('./Cond_Iva');
 const Tipo_PersonaProvider = require('./Tipo_Persona');
 const MonedasProvider = require('./Monedas');
 const UsuarioProvider = require('./Usuario');
+const UnidadesDeMedidaProvider = require('./UnidadesDeMedida');
 
 module.exports = { 
     personasProvider, 
@@ -31,5 +32,6 @@ module.exports = {
     Cond_IvaProvider,
     Tipo_PersonaProvider,
     MonedasProvider,
-    UsuarioProvider
+    UsuarioProvider,
+    UnidadesDeMedidaProvider
 };

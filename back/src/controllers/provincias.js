@@ -30,7 +30,7 @@ const createProvincias = async (req, res) => {
     console.log(`✅ Provincias "${newProvincias.name}" was created  `);
     res.json(newProvincias);
   } catch (error) {
-    res.status(500).json({ error: 'Unable to create Provincias.' });
+    res.status(500).json({ error: error.message });
   }
 };
 

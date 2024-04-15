@@ -97,19 +97,22 @@ export class PedidosCompraComponent implements OnInit {
     })
 
     }
-else if(estado === 'FINALIZADO'){
+    else if(estado === 'FINALIZADO'){
 
-      this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).subscribe(() => {
-        this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
+      console.log('pase');
+      
 
-      });
-      this.pedidosService.update(id, pedido).subscribe(() => {
-        this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
-        setTimeout(() => {
-          window.location.reload();
-        }, 100)
-      })
-      this.router.navigate(['dashboard/insumos']);
+          this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).subscribe(() => {
+            this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
+
+          });
+          this.pedidosService.update(id, pedido).subscribe(() => {
+            this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
+            setTimeout(() => {
+              window.location.reload();
+            }, 100)
+          })
+          this.router.navigate(['dashboard/insumos']);
 
 
     }else{
@@ -133,7 +136,7 @@ showCardDetails(card: Pedidos) {
   
 }
 
-updateEntidad(id:number){
+updateEntidad(id:any){
   this.router.navigate(['dashboard/pedidos-compra/crear-editar', id]);
 }
 
@@ -143,10 +146,7 @@ calcularSubtotal(pedido: any): number {
   if (pedido.productos && pedido.productos.length > 0) {
     subtotal = pedido.productos.reduce((acc: number, producto: any) => {
       
-      let precioUnitario = producto.costo_unit * (1 + producto.profit / 100);
-      
-      
-      let totalProducto = precioUnitario * producto.PedidosProductos.quantity_requested;
+      let totalProducto = producto.costo_unit * producto.PedidosProductos.quantity_requested;
 
     
       return acc + totalProducto;
@@ -184,6 +184,10 @@ eliminarPedido(id?: number, state?:any){
 
 onAceptarClick() {
   this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO', this.selectedDepositoId);
+}
+
+navigateToDetalle(id: any) {
+  this.router.navigate(['/dashboard/detalle-pedido', id]);
 }
 
 }

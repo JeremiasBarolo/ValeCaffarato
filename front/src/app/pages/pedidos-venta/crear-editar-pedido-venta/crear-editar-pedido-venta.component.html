@@ -40,7 +40,7 @@
   
         <!-- Lista de Combos -->
         <div class="col-md-5 text-center">
-          <h6>Entidades Seleccionadas</h6>
+          <h6>Entidades Seleccionados</h6>
           <div class="card mb-3" style="height: 550px; overflow-y: auto;">
             <div class="card-body">
               <ul class="list-group" *ngFor="let entidad of selectedEntities; let i = index">
@@ -68,7 +68,7 @@
           <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
         </div>
         <div class="col-md-6 text-center mb-10">
-          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+          <button [routerLink]="['/dashboard/pedidos-venta']" type="button" class="btn btn-info">Volver</button>
         </div>
       </div>
     </div>

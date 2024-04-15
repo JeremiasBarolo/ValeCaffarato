@@ -55,7 +55,7 @@
         <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.id }}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.name }}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{ rowData.description }}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.unidad_medida}}</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.UnidadesDeMedida?.descripcion}}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.costo_unit | currency}}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.quantity}}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="showCardDetails(rowData)">{{rowData.deposito.description}}</td>

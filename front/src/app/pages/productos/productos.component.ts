@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 
 
@@ -9,7 +10,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 })
 export class ProductosComponent {
   entidades: any[] = []
-  breadcrumbItems: string = 'Productos En Stock'
+  breadcrumbItems: string = 'Stock PT'
   cardData: any = {
     name: '',
     description: '',
@@ -20,7 +21,8 @@ export class ProductosComponent {
   filteredProductos:any[] = []
 
   constructor(
-    private productoService: ProductosEnStockService
+    private productoService: ProductosEnStockService,
+    private router: Router
     ) {
     
   }
@@ -55,4 +57,7 @@ export class ProductosComponent {
       return insumo.name.toLowerCase().includes(value.toLowerCase());
     });
   }
+
+  
+
 }

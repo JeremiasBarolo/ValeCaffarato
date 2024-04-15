@@ -5,6 +5,7 @@ import { PagesRoutingModule } from './pages/pages-routing.module';
 import { AuthRoutingModule } from './auth/auth-routing.module';
 import { CommonModule } from '@angular/common';
 import { AuthGuard  } from './auth/auth';
+import { TablaDetallesComponent } from './shared/tabla-detalles/tabla-detalles.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,7 +22,9 @@ const routes: Routes = [
   {
     path: 'shared',
     loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)
-  }
+  },
+
+  
 ];
 
 @NgModule({

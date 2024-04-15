@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
+import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
 
 
@@ -20,6 +21,7 @@ export class CrearEditarInsumoEntityComponent {
   operacion: string = 'Agregar ';
   selectedImage: File | any;
   InsumoEntityData: any | any;
+  unidadesMedida: any[] = [];
   
 
 
@@ -28,6 +30,7 @@ export class CrearEditarInsumoEntityComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private maestroArsticulosService: MaestroArticulosService,
+    private unidadMedidaService: UnidadMedidaService,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -41,7 +44,11 @@ export class CrearEditarInsumoEntityComponent {
   }
 
   ngAfterViewInit(): void {
-    if (this.id !== null) {
+    this.unidadMedidaService.getAll().subscribe((data) => {
+      this.unidadesMedida = data
+    })
+  
+    if (this.id !== 0) {
       this.operacion = 'Editar';
       this.getInsumoEntity(this.id);
     } else{
@@ -56,7 +63,7 @@ export class CrearEditarInsumoEntityComponent {
         description: this.form.value.description,
         costo_unit: this.form.value.costo_unit,
         uni_medida: this.form.value.uni_medida,
-        profit: this.form.value.profit,
+        profit: 0,
         tipoArticulo: 'INSUMO'
       };
 

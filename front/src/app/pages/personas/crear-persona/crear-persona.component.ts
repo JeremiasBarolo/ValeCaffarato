@@ -34,13 +34,14 @@ export class CrearPersonaComponent {
   provinces:any[]= []
   localities:any[]= []
   localidades: any[] = [];
+  tipoArticulo: string = '';
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
     private personasService: PersonasService,
-
+    private route: ActivatedRoute,
     private tipoPersonasService: TipoPersonaService,
     private paisesService: PaisesService,
     private provinciasService: ProvinciasService,
@@ -60,31 +61,37 @@ export class CrearPersonaComponent {
       tipo_persona: ['', Validators.required],
       cond_iva: ['', Validators.required],
       locality: ['', Validators.required],
-      country: ['', Validators.required],
-      province: ['', Validators.required],
+     
       
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
+    
   }
   
 
   ngAfterViewInit(): void {
-    this.tipoPersonasService.getAll().subscribe((data)=>{
-      this.tipo = data
-    })
-    this.condIvaService.getAll().subscribe((data)=>{
-      this.cond = data
-    })
-    this.loadCountries()
-    if (this.id !== 0) {
-      this.loadLocalities()
+    if(this.id !== 0){
       this.getPersona(this.id);
-    } else{
-      this.operacion = 'Agregar';
+    }
+    
+    this.aRoute.queryParams.subscribe(params => {
+      this.tipoArticulo = params['tipoArticulo'];
+      console.log('Tipo de Artículo:', this.tipoArticulo);
+      
+    });
+  
+    this.tipoPersonasService.getAll().subscribe((data)=>{
+      this.tipo = data;
+      console.log('Tipos de Persona:', this.tipo);
+    });
 
-      
-      
-    }   
+    this.loadTipoPersona(this.tipoArticulo);
+
+    this.condIvaService.getAll().subscribe((data)=>{
+      this.cond = data;
+    });
+  
+    this.loadLocalities();
   }
 
 
@@ -109,26 +116,14 @@ export class CrearPersonaComponent {
     if (this.id !== 0) {
       // Es editar
       try {
+        console.log(this.Persona);
+        
           this.personasService.update(this.id,{
             ...this.Persona,
           }).subscribe(() => {
             
-            
-            if(this.Persona.tipo_persona === 1){
-              
-              this.router.navigate(['dashboard/proveedores']);
-            }else if (this.Persona.tipo_persona === 2){
-              this.router.navigate(['dashboard/clientes']);
-            }else if(this.Persona.tipo_persona === 3){
-              this.router.navigate(['dashboard/empleados']);
-            }else{
-              this.router.navigate(['dashboard/inicio']);
-            }
-            
-            
-            }
-            
-          );
+            this.router.navigate(['dashboard/inicio']);
+          });
         
         
     
@@ -173,8 +168,7 @@ getPersona(id: number) {
         email: data.email,
       };
 
-      this.loadCountries()
-      this.loadProvinces(data.Localidad.provinciaId)
+      
       
 
 
@@ -194,8 +188,6 @@ getPersona(id: number) {
             cond_iva:data.Condicion_Iva.id,
             tipo_persona:data.Tipo_Persona.id,
             locality:data.localidadId,
-            country:provincia.paisId,
-            province:provincia.id
   
         });
 
@@ -210,81 +202,40 @@ getPersona(id: number) {
   }
   )}
 
-  loadCountries() {
-    this.paisesService.getAll().subscribe((countries) => {
-      this.countries = countries;
-    });
-  }
   
-  loadProvinces(countryId?: number) {
-    if(countryId){
-      this.provinciasService.getAll().subscribe((provinces) => {
-        this.provinces = provinces.filter(province => province.paisId === countryId);
-      });
-    }else{
-      this.provinciasService.getAll().subscribe((provinces) => {
-        this.provinces = provinces
-      });
-    }
-    
-  }
   
   loadLocalities(provinceId?: number) {
-    if(provinceId){
-      this.localidadesService.getAll().subscribe((localities) => {
-        this.localidades = localities.filter(locality => locality.provinciaId === provinceId);
-      });
-    }else{
-
-      this.localidadesService.getAll().subscribe((localities) => {
-        this.localidades = localities
-        
-        
-      });
-    }
+    this.localidadesService.getAll().subscribe((localities) => {
+      this.localidades = localities
+      
+      
+    });
     
   }
-  
-  
-  
-  
-  onPaisChange() {
-    const selectedCountryId = this.form.get('country')?.value;
 
-    if (selectedCountryId) {
-      this.provinciasService.filtradas(selectedCountryId).subscribe((provincias) => {
-        this.provinces = provincias;
+  loadTipoPersona(tipoArticulo:string): void {
+    if (tipoArticulo === 'empleado') {
+      this.form.patchValue({
+        tipo_persona: 1
+      });
+    } else if (tipoArticulo === 'cliente') {
+      this.form.patchValue({
+        tipo_persona: 3
+      });
+    } else if (tipoArticulo === 'proveedor') {
+      this.form.patchValue({
+        tipo_persona: 2
       });
     }
   }
 
-  onProvinciaChange() {
-    const selectedProvinceId = this.form.get('province')?.value;
-
-    if (selectedProvinceId) {
-      this.localidadesService.filtradas(selectedProvinceId).subscribe((localidades) => {
-        this.localities = localidades;
-      });
-    }
-  }
-  rellenarDatos(){
-    this.form.setValue({
-      name: 'jeremias',
-      lastname: 'barolo',
-      address:'la palito',
-      adress_number: 123,
-      dni: 44182,
-      cuil: 1903128,
-      phone: 111111,
-      email: "jere@jere.com",
-      tipo_persona: 1,
-      cond_iva: 1,
-      locality:0,
-      country:0,
-      province:0
-
-    });
-  }
+  
+  
+  
+  
+  
+  
+  
 
 }
 

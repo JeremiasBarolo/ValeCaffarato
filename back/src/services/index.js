@@ -12,6 +12,7 @@ const Tipo_PersonaService = require('./Tipo_Persona');
 const Cond_IvaService = require('./Cond_Iva');
 const MonedasService = require('./Monedas');
 const UsuarioService = require('./Usuario');
+const UnidadesDeMedidaService = require('./UnidadesDeMedida');
 
 module.exports = {
     personasService,
@@ -27,5 +28,6 @@ module.exports = {
     Tipo_PersonaService,
     Cond_IvaService,
     MonedasService,
-    UsuarioService
+    UsuarioService,
+    UnidadesDeMedidaService
 };

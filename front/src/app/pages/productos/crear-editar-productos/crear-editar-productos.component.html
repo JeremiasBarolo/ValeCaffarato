@@ -37,54 +37,47 @@
                 </div>
                 </div>
               </div>
+ 
+                <div class="row">
+                  <div class="col">
+                      <div class="form-group text-center">
+                        <label for="deposito">Unidades De Medida</label>
+                        <br>
+                        <select class="form-select col-md-12" aria-label="Unidad de Medida" formControlName="uni_medida">
+                          <option *ngFor="let unidad of unidadesMedida " [value]="unidad.id"> {{unidad.descripcion}}</option>
+                        </select>
+                      </div>
+                    </div>
 
-              <div class="row">
-                <div class="col">
-                  <div class="form-group text-center">
-                    <label for="unidad_medida">Unidad de Medida:</label>
-                    <input formControlName="unidad_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-                  </div>
-                </div>
-
-                <div class="col">
-                  <div class="form-group text-center">
-                    <label for="quantity">Cantidad</label>
-                    <input formControlName="quantity" type="text" class="form-control" placeholder="Cantidad">
-                  </div>
-                </div>
-              </div>
-
-                 
-        
-        
-              <div class="form-group text-center">
-                <label for="deposito">Donde se Alamacenara?</label>
-                <br>
-                <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
-                    <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
-
-                </select>
+                      <div class="col">
+                        <div class="form-group text-center">
+                          <label for="deposito">Donde se Alamacenara?</label>
+                          <br>
+                          <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
+                              <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+                          </select>
+                        </div>
+                    </div>
                 
               </div>
+            
     
             </form>
-          </div>
-      
-          
-      
-          <div class="row mt-5">
-            <div class="col-md-6 offset-md-3 text-center">
-              <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addProducto()">Aceptar</button>
+            <div class="row mt-5">
+              <div class="col-md-6  text-center">
+                <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addProducto()">Aceptar</button>
+              </div>
+            
+            
+              <div class="col-md-6  text-center">
+                <button [routerLink]="['/dashboard/productos']" type="button" class="btn btn-info">Volver</button>
+              </div>
+  
             </div>
           </div>
-          <div class="row mt-3">
-            <div class="col-md-6 offset-md-3 text-center">
-              <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
-            </div>
           </div>
-      
         </div>
-      </div>
+      
       
           
 </div>
@@ -95,51 +88,56 @@
       <div class="card-body">
         <form [formGroup]="form">
 
-            <div class="form-group text-center">
-              <label for="quantity">Cantidad</label>
-              <input formControlName="quantity" type="number" class="form-control" placeholder="Cantidad">
+          <div class="row">
+            <div class="col">
+              <div class="form-group text-center">
+                <label for="entidad"> Producto</label>
+                <br>
+                <select class="form-select col-md-12" aria-label="entidades de producto" formControlName="entidad">
+                    <option *ngFor="let producto of productos" [value]="producto.id">{{producto.name}}</option>
+                </select>
+                
+            </div>
+            </div>
+  
+            <div class="col">
+              <div class="form-group text-center">
+                <label for="deposito">Deposito</label>
+                <br>
+                <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
+                    <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
+                </select>
+                
+              </div>
+  
+            </div>
           </div>
 
-        <div class="row">
-          <div class="col">
-            <div class="form-group text-center">
-              <label for="entidad">Entidad de Producto</label>
-              <br>
-              <select class="form-select col-md-12" aria-label="entidades de producto" formControlName="entidad">
-                  <option *ngFor="let producto of productos" [value]="producto.id">{{producto.name}}</option>
-              </select>
-              
-          </div>
-          </div>
-
-          <div class="col">
-            <div class="form-group text-center">
-              <label for="deposito">Donde se Alamacenara?</label>
-              <br>
-              <select class="form-select col-md-12" aria-label="Depositos" formControlName="deposito">
-                  <option *ngFor="let deposito of depositos" [value]="deposito.id">{{deposito.description}}</option>
-              </select>
-              
+          <div class="row">
+            <div class="col col-md-6">
+              <div class="form-group text-center">
+                <label for="cantidad">Cantidad</label>
+                <input formControlName="quantity" type="number" class="form-control col-md-12" placeholder="Cantidad">
+            </div>
             </div>
 
           </div>
-        </div>
+
+       
        
         
        
 
       </form>
       <div class="row mt-5">
-        <div class="col-md-6 offset-md-3 text-center">
+        <div class="col-md-6  text-center">
           <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addProducto()">Aceptar</button>
         </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col-md-6 offset-md-3 text-center">
-          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
+      
+      
+        <div class="col-md-6  text-center">
+          <button [routerLink]="['/dashboard/productos']" type="button" class="btn btn-info">Volver</button>
         </div>
-      </div>
       
      
       

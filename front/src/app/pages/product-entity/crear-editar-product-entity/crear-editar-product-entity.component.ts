@@ -8,6 +8,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
+import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
 
 
@@ -19,7 +20,7 @@ import { PedidosService } from 'src/app/services/pedidos.service';
   styleUrls: ['./crear-editar-product-entity.component.css']
 })
 export class CrearEditarProductEntityComponent {
-  breadcrumbItems: string = 'Crear/Editar Pedido Produccion'
+  breadcrumbItems: string = 'Crear/Editar Producto'
   PedidoCompra: any | any;
   form: FormGroup;
   id: number;
@@ -29,6 +30,7 @@ export class CrearEditarProductEntityComponent {
   presupuestoData: any = {
   };
   ProductEntityData: any;
+  unidadesMedida: any[] = [];
 
   constructor(
     private productosEnStockService: ProductosEnStockService,
@@ -36,6 +38,7 @@ export class CrearEditarProductEntityComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private maestroArticulosService: MaestroArticulosService,
+    private unidadMedidaService: UnidadMedidaService,
 
     private toastr: ToastrService
   ) {
@@ -131,13 +134,19 @@ export class CrearEditarProductEntityComponent {
   }
   
   loadAllEntities() {
-    this.maestroArticulosService.getAll().subscribe((data) => {
+    this.productosEnStockService.getAll().subscribe((data) => {
+      console.log(data);
+      
       data.forEach((insumo: any) => {
-        if(insumo.tipoArticulo === 'INSUMO'){
+        if(insumo.type === 'INSUMO'){
           this.Insumos.push(insumo);
         }
       })
       this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
+    })
+
+    this.unidadMedidaService.getAll().subscribe((data) => {
+      this.unidadesMedida = data
     })
   }
 

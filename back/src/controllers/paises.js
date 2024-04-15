@@ -30,7 +30,7 @@ const createPaises = async (req, res) => {
     console.log(`✅ Paises "${newPaises.name}" was created  `);
     res.json(newPaises);
   } catch (error) {
-    res.status(500).json({ error: 'Unable to create Paises.' });
+    res.status(500).json({ error: error.message });
   }
 };
 

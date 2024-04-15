@@ -40,6 +40,18 @@ module.exports = {
         onUpdate: 'CASCADE',
     });
 
+    await queryInterface.addColumn('ProductosEnStock', 'uni_medida', {
+      type: Sequelize.INTEGER,
+        references:{
+          model: 'UnidadesDeMedidas',
+          key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    });
+
    
 // <=============================== Fin Producto en Stock ===============================> 
 
@@ -77,7 +89,7 @@ module.exports = {
 
 
     // <=============================== Bancos ===============================> 
-    await queryInterface.addColumn('Localidads', 'localidadId', {
+    await queryInterface.addColumn('Bancos', 'localidadId', {
       type: Sequelize.INTEGER,
             allowNull: true,
             references:{
@@ -184,6 +196,18 @@ module.exports = {
             onUpdate: 'CASCADE',
     });
 
+    await queryInterface.addColumn('MaestroDeArticulos', 'uni_medida', {
+      type: Sequelize.INTEGER,
+        references:{
+          model: 'UnidadesDeMedidas',
+          key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    });
+
 
     // <=============================== Fin Maestro de Articulos ===============================> 
 
@@ -246,29 +270,29 @@ module.exports = {
 
 
 // <=============================== ProductQuantitites ===============================> 
-    await queryInterface.addColumn('ProductQuantities', 'entidadId', {
-      type: Sequelize.INTEGER,
-      references:{
-        model: 'MaestroDeArticulos',
-        key: 'id',
-        onDelete: 'SET NULL'
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
+      await queryInterface.addColumn('ProductQuantities', 'entidadId', {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'MaestroDeArticulos',
+          key: 'id',
+          onDelete: 'SET NULL'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
 
-    });
+      });
 
-    await queryInterface.addColumn('ProductQuantities', 'productoId', {
-      type: Sequelize.INTEGER,
-      references:{
-        model: 'ProductosEnStock',
-        key: 'id',
-        onDelete: 'CASCADE'
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
+      await queryInterface.addColumn('ProductQuantities', 'productoId', {
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'ProductosEnStock',
+          key: 'id',
+          onDelete: 'CASCADE'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
 
-    });
+      });
 // <=============================== Fin ProductQuantitites ===============================> 
 
 
@@ -316,7 +340,7 @@ module.exports = {
     await queryInterface.removeColumn('Localidads', 'provinciaId');
     
     // <=============================== Bancos ===============================> 
-    await queryInterface.removeColumn('Localidads', 'localidadId');
+    await queryInterface.removeColumn('Bancos', 'localidadId');
     
     // <=============================== Documentos ===============================> 
     await queryInterface.removeColumn('Documentos', 'pedidoId');

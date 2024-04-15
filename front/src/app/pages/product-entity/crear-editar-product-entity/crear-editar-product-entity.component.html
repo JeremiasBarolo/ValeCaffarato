@@ -26,28 +26,40 @@
             <div class="col">
                   <div class="form-group text-center">
                     <label for="profit">Ganancia %</label> 
-                    <input formControlName="profit" type="text" class="form-control" placeholder="profit">
+                    <input formControlName="profit" type="number" class="form-control" placeholder="profit">
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group text-center">
                     <label for="costo_unit">Costo Unitario:</label>
-                    <input formControlName="costo_unit" type="text" class="form-control" placeholder="Costo Unitario">
+                    <input formControlName="costo_unit" type="number" class="form-control" placeholder="Costo Unitario">
                 </div>
             </div>
 
           </div>
 
         
-        <div class="row">
+          <div class="row">
             <div class="col">
-              <div class="form-group text-center">
-                <label for="uni_medida">Unidad de Medida:</label>
-                <input formControlName="uni_medida" type="text" class="form-control" placeholder="Unidad de Medida">
-            </div>
-          </div>
-        </div>  
+                <div class="form-group text-center">
+                  <label for="deposito">Unidades De Medida</label>
+                  <br>
+                  <select class="form-select col-md-12" aria-label="Unidad de Medida" formControlName="uni_medida">
+                    <option *ngFor="let unidad of unidadesMedida " [value]="unidad.id"> {{unidad.descripcion}}</option>
+                  </select>
+                </div>
+              </div>
+
+                <div class="col">
+                  <div class="form-group text-center">
+                    
+                    
+                  </div>
+              </div>
+          
+        </div>
+        
         
         </form>
       </div>

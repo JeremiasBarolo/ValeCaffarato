@@ -65,7 +65,6 @@ const generarPdf = async (documento) => {
                     <tr>
                         <td>${item.name}</td>
                         <td>${item.PedidosProductos.quantity_requested}</td>
-                        <td>${item.uni_medida}</td>
                         <td>$${item.costo_unit}</td>
                         <td>$${calcularTotal(item.costo_unit, item.PedidosProductos.quantity_requested)}</td>
                         <td>${documento.documento.iva}%</td>

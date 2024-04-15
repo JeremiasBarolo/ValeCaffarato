@@ -146,7 +146,9 @@ export class CrearEditarPedidosCompraComponent {
     })
 
     this.personasServices.getAll().subscribe((data)=>{
-      this.personas= data.filter(persona => persona.tipoPersona !== 'EMPLEADO')
+      console.log(data);
+      
+      this.personas= data.filter(persona => persona.Tipo_Persona.description === 'Proveedor')
       
     })
   }
