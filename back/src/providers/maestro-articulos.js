@@ -85,15 +85,45 @@ const updateMaestroArticulos= async (MaestroArticulos_id, dataUpdated) => {
 
     if(oldMaestroArticulos.tipoArticulo === "PRODUCTO"){
 
-      await dataUpdated.productos.forEach(async product => {
-        let editar = await models.ProductQuantities.findOne({
-          where: {entidadId:  MaestroArticulos_id, productoId: product.id}
-        })
-
-        editar.update({quantity_necessary: product.quantity})
-      });
-
-
+      
+        const productosExistente = await models.ProductQuantities.findAll({
+            where: {
+              entidadId:  MaestroArticulos_id
+            }
+        });
+    
+        const idsProductosExistente = productosExistente.map(producto => producto.productId);
+    
+        
+        for (const entidad of dataUpdated.productos) {
+           
+            if (idsProductosExistente.includes(entidad.id)) {
+                
+                const producto = productosExistente.find(p => p.productId === entidad.id);
+                await producto.update({
+                    quantity_necessary: entidad.cantidad
+                });
+                
+                const index = idsProductosExistente.indexOf(entidad.id);
+                if (index > -1) {
+                    idsProductosExistente.splice(index, 1);
+                }
+            } else {
+                
+                await models.ProductQuantities.create({
+                    entidadId: MaestroArticulos_id,
+                    productoId: entidad.id,
+                    quantity_necessary: entidad.quantity
+                });
+            }
+        }
+    
+        
+        for (const idProductoNoPresente of idsProductosExistente) {
+            const productoEliminar = productosExistente.find(p => p.productId === idProductoNoPresente);
+            await productoEliminar.destroy();
+        }
+    
     }
 
     const newMaestroArticulos= await oldMaestroArticulos.update(dataUpdated);

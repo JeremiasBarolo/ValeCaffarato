@@ -198,7 +198,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         }
       });
     
-        if (pedidoFinalizado  ) {
+        if (pedidoFinalizado && pedidoFinalizado.category === 'COMPRA' ) {
             
             const productosPedido = await models.PedidosProductos.findAll({
                 where: {
@@ -227,21 +227,60 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
                     const productoInsumo = await models.ProductosEnStock.findOne({
                         where: { antiguo_id:productoPedido.productId }
                     })
+
+                    let total = productoInsumo.quantity - productoPedido.quantity_requested 
                     
-                    await productoInsumo.decrement('quantity', { by: productoPedido.quantity_requested });
+                    if(total < 0 || total === 0 ){
+                      await productoInsumo.destroy()
+                    }else{
+                      await productoInsumo.update({
+                        quantity: total
+                      })
+                    }
                 }
 
-                await pedidoFinalizado.destroy();
+                await pedidoFinalizado.update({
+                  state: 'CANCELADO'
+                })
         
                 return "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock.";
             } else {
                 return "No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.";
             }
         } else {
-            return "No se encontró un pedido finalizado con el ID proporcionado.";
+          const productosPedido = await models.PedidosProductos.findAll({
+            where: {
+                pedidoId: pedidoFinalizado.id
+            }
+          });
+
+          for (const productoPedido of productosPedido) {
+
+            const productoInsumo = await models.ProductosEnStock.findOne({
+              where: { antiguo_id:productoPedido.productId }
+            })
+
+            const total = productoInsumo.quantity - productoPedido.quantity_requested
+
+            if(total < 0 || total === 0 ){
+              await productoInsumo.destroy()
+            }else{
+              await productoInsumo.update({
+                quantity: total
+              })
+            }
+        }
+
+        
+        await pedidoFinalizado.update({
+          state: 'CANCELADO'
+        })
+
+
+
         }
           
-        }
+      }
 
     
 

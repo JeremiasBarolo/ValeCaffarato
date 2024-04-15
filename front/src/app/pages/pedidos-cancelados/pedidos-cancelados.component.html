@@ -12,10 +12,10 @@
     </thead>
     <tbody>
       <tr class="table" *ngFor="let entidad of listCancelado" (click)="showCardDetails(entidad)" >
-        <th scope="row" data-target="#InsumoModal" data-toggle="modal">{{entidad.id}}</th>
-        <td data-target="#InsumoModal" data-toggle="modal">{{entidad.createdAt | date}} || #{{entidad.id}}</td>
-        <td data-target="#InsumoModal" data-toggle="modal">{{entidad?.Persona?.name}} {{entidad?.Persona?.lastname}}</td>
-        <td data-target="#InsumoModal" data-toggle="modal">{{entidad?.productos?.length}}</td>
+        <th scope="row" (click)="navigateToDetalle(entidad.id)">{{entidad.id}}</th>
+        <td (click)="navigateToDetalle(entidad.id)">{{entidad.createdAt | date}} || #{{entidad.id}}</td>
+        <td (click)="navigateToDetalle(entidad.id)">{{entidad?.Persona?.name}} {{entidad?.Persona?.lastname}}</td>
+        <td (click)="navigateToDetalle(entidad.id)">{{entidad?.productos?.length}}</td>
 
 
         <td>
@@ -33,51 +33,10 @@
 
 </section>
   
+  
+  
 
-  
-  <div class="modal fade modal" id="InsumoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center">{{cardData.createdAt | date}} || #{{cardData.id}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <p>Pertenecia A: {{cardData?.Persona?.name}} {{cardData?.Persona?.lastname}}<p>
-            <p>Categoria: {{ cardData.category }}</p>
-            <div class="table-container table-bordered">
-              <table class="table">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Costo</th>
-                    <th scope="col">Can. Solicitada</th>
-                  </tr>
-                </thead>
-                <tbody style="max-height: 300px; overflow-y: auto;">
-                  <tr *ngFor="let item of cardData.productos">
-                    <td>{{item.name}}</td>
-                    <td>{{item.description}}</td>
-                    <td>{{item.costo_unit | currency}} + {{item.profit}}%</td>
-                    <td>{{item.PedidosProductos.quantity_requested}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
-  
+
   
   
     

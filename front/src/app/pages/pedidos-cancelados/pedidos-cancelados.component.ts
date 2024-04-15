@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Pedidos } from 'src/app/models/pedidos'
 import { PedidosService } from 'src/app/services/pedidos.service';
@@ -10,7 +11,8 @@ import { PedidosService } from 'src/app/services/pedidos.service';
   styleUrls: ['./pedidos-cancelados.component.css']
 })
 export class PedidosCanceladosComponent {
-  listCancelado: Pedidos[] = []
+  listCancelado: any[] = []
+  filteredProductos: any = []
   breadcrumbItems: string = 'Pedidos Cancelados'
   cardData: any = {
     name: '',
@@ -23,7 +25,8 @@ export class PedidosCanceladosComponent {
   }
   constructor(
     private pedidosService: PedidosService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
     ) {
     
   }
@@ -33,9 +36,10 @@ export class PedidosCanceladosComponent {
       data.forEach(
         (element: any) => {
           if(element.state === 'CANCELADO'){
-            console.log(element);
+            
             
             this.listCancelado.push(element);
+            this.filteredProductos = this.listCancelado;
           
         }
     })
@@ -57,6 +61,18 @@ export class PedidosCanceladosComponent {
       
   
     })
+  }
+
+  navigateToDetalle(id: any) {
+    this.router.navigate(['/dashboard/detalle-pedido', id]);
+  }
+
+  applyFilter(event: any): void {
+    const value = event.target.value;
+    
+    this.filteredProductos = this.listCancelado.filter(insumo => {
+      return insumo.name.toLowerCase().includes(value.toLowerCase());
+    });
   }
 
 }
