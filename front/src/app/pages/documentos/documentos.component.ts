@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { ViewChild, ElementRef } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 
 
 
@@ -19,18 +20,11 @@ export class DocumentosComponent implements OnInit {
   pedido: any = {};
   facturas: any[] = [];
   remitos: any[] = [];
-  cardData: any = {
-    tipo: '',
-    totalIva: 0,
-    total: 0,
-    iva: 0,
-    condicionIva: '',
-    id: 0,
-    createdAt: ''
-  };
+  cardData: any = {};
+  private destroy$ = new Subject<void>();
 
   ngOnInit() {
-    this.documentosService.getAll().subscribe(data =>{
+    this.documentosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
       data.forEach(
         (element: any) => {
           if(element.tipo === 'REMITO'){
@@ -43,6 +37,10 @@ export class DocumentosComponent implements OnInit {
     });
     
   }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 
   showCardDetails(card: any) {  
@@ -52,7 +50,7 @@ export class DocumentosComponent implements OnInit {
   }
 
 borrarFactura(id: any){
-  this.documentosService.delete(id).subscribe(() => {
+  this.documentosService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
     this.facturas = this.facturas.filter(e => e.id !== id);
   });
 }

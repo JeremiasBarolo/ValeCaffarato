@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
@@ -23,15 +23,8 @@ export class CrearEditarDocumentosComponent {
   Pedidos: any[] = [];
   Clientes: any[] = [];
   subtotal: number[] = [];
-  documentoData: any = {
-    iva: 21,
-    condicionIva: '',
-    total: 0,
-    totalIva: 0,
-    tipo: '',
-    cliente: 0,
-    pedido: [],
-  };
+  documentoData: any = {};
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +49,7 @@ export class CrearEditarDocumentosComponent {
   ngOnInit(): void {
     this.loadSelectedProducts();
   
-    this.pedidosService.getAll().subscribe(data =>{
+    this.pedidosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
       data.forEach(
         (element: any) => {
           if(element.state === 'FINALIZADO' && element.category === 'VENTA'){
@@ -67,7 +60,7 @@ export class CrearEditarDocumentosComponent {
       );
     });
 
-    this.personasService.getAll().subscribe(persona => {
+    this.personasService.getAll().pipe(takeUntil(this.destroy$)).subscribe(persona => {
       this.Clientes = persona.filter(persona => persona.Tipo_Persona.description === 'Cliente')
       
     });
@@ -76,6 +69,11 @@ export class CrearEditarDocumentosComponent {
 
     
     
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   addDocumento() {
@@ -88,7 +86,7 @@ export class CrearEditarDocumentosComponent {
 
     if (this.id !== 0) {
       try {
-        this.documentoService.update(this.id, this.documentoData).subscribe(() => {
+        this.documentoService.update(this.id, this.documentoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/documentos']);
           this.toastr.success('Pedido Actualizado');
         });
@@ -97,7 +95,7 @@ export class CrearEditarDocumentosComponent {
       }
     } else {
       try {
-        this.documentoService.create(this.documentoData).subscribe(() => {
+        this.documentoService.create(this.documentoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/documentos']);
           this.toastr.success('Pedido Creado Exitosamente');
         });
@@ -130,14 +128,14 @@ export class CrearEditarDocumentosComponent {
   }
 
   loadAllEntities() {
-    this.pedidosService.getAll().subscribe((data) => {
+    this.pedidosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       
       this.Pedidos = data.filter(insumo => !this.selectedPedidos.some(selected => selected.id === insumo.id));
     })
   }
   loadSelectedProducts() {
     if (this.id) {
-      this.pedidosService.getById(this.id).subscribe(
+      this.pedidosService.getById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           if (res.InsumosEntities && res.InsumosEntities.length > 0) {
             

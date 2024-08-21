@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 
 
@@ -17,16 +18,9 @@ export class InsumosComponent implements OnInit {
   breadcrumbItems: string = 'Stock Insumos'
 	insumos_disp: any[] = []
   filteredInsumo: any[] = []
-  cardData: any = {
-    name: '',
-    deposito: '',
-    description: '',
-    quantity: 0,
-    price: 0,
-    unidad_medida: '',
-    profit: 0,
-    costo_unit: 0
-  }
+  cardData: any = {}
+  private destroy$ = new Subject<void>();
+
   constructor(
 
     private productosEnStockService: ProductosEnStockService,
@@ -37,7 +31,7 @@ export class InsumosComponent implements OnInit {
   
   
   ngOnInit(): void {
-    this.productosEnStockService.getAll().subscribe(insumos => 
+    this.productosEnStockService.getAll().pipe(takeUntil(this.destroy$)).subscribe(insumos => 
       insumos.forEach(element=>{
         if(element.type === "INSUMO"){
           this.insumos_disp.push(element)
@@ -48,11 +42,16 @@ export class InsumosComponent implements OnInit {
     
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
 
 
   deleteEntidad(id: any) {
-    this.productosEnStockService.delete(id).subscribe(() => {
+    this.productosEnStockService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filteredInsumo = this.insumos_disp.filter(e => e.id !== id);
       this.toastService.success('Insumo eliminado correctamente');
 

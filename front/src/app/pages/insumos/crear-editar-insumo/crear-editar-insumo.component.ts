@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
@@ -31,7 +31,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   }
   depositos: any[] = [];
   unidadesMedida: any[] = [];
-  
+  private destroy$ = new Subject<void>();
 
 
   constructor(
@@ -68,9 +68,14 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
     if (this.id !== null) {
       this.loadAllEntities()
       this.getInsumo(this.id);
-  }else{
-    this.loadAllEntities()
+    } else {
+      this.loadAllEntities()
+    }
   }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngAfterViewInit(): void {
@@ -96,7 +101,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
       }
         // Es editar
         try {
-          this.ProductosEnStockService.update(this.id, this.insumo).subscribe(() => {
+          this.ProductosEnStockService.update(this.id, this.insumo).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['dashboard/insumos']);
           });
       
@@ -112,7 +117,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
           type: 'INSUMO'
         }
         try {
-          this.ProductosEnStockService.create(this.insumoCreate).subscribe(() => {
+          this.ProductosEnStockService.create(this.insumoCreate).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['dashboard/insumos']);
           });
           
@@ -124,7 +129,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   
 
   getInsumo(id: number) {
-    this.ProductosEnStockService.getById(id).subscribe((data: any)=> {
+    this.ProductosEnStockService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       this.form.setValue({
         name: data.name,
         description: data.description,
@@ -139,7 +144,7 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
   }
 
   loadAllEntities() {
-    this.maestroArticulosService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       data.forEach((entity: any) => {
         if(entity.tipoArticulo === 'INSUMO'){
           this.productos.push(entity);
@@ -148,11 +153,11 @@ export class CrearEditarInsumoComponent implements OnInit , AfterViewInit{
       
     })
 
-    this.depositosService.getAll().subscribe((data) => {
+    this.depositosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.depositos = data
     })
 
-    this.unidadMedidaService.getAll().subscribe((data) => {
+    this.unidadMedidaService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.unidadesMedida = data
     })
   }

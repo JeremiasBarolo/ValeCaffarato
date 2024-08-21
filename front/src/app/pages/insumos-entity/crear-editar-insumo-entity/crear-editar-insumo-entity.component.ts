@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
@@ -22,7 +22,7 @@ export class CrearEditarInsumoEntityComponent {
   selectedImage: File | any;
   InsumoEntityData: any | any;
   unidadesMedida: any[] = [];
-  
+  private destroy$ = new Subject<void>();
 
 
   constructor(
@@ -44,7 +44,7 @@ export class CrearEditarInsumoEntityComponent {
   }
 
   ngAfterViewInit(): void {
-    this.unidadMedidaService.getAll().subscribe((data) => {
+    this.unidadMedidaService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.unidadesMedida = data
     })
   
@@ -55,6 +55,11 @@ export class CrearEditarInsumoEntityComponent {
       this.operacion = 'Agregar';
       
     }   
+  }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   addInsumoEntity() {
@@ -70,7 +75,7 @@ export class CrearEditarInsumoEntityComponent {
       if (this.id !== 0) {
         // Es editar
         try {
-          this.maestroArsticulosService.update(this.id, this.insumoEntity).subscribe(() => {
+          this.maestroArsticulosService.update(this.id, this.insumoEntity).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['dashboard/insumo-entity']);
           });
       
@@ -80,7 +85,7 @@ export class CrearEditarInsumoEntityComponent {
       } else {
         // Es agregar
         try {
-          this.maestroArsticulosService.create(this.insumoEntity).subscribe(() => {
+          this.maestroArsticulosService.create(this.insumoEntity).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['dashboard/insumo-entity']);
           });
           
@@ -92,7 +97,7 @@ export class CrearEditarInsumoEntityComponent {
   
 
   getInsumoEntity(id: number) {
-    this.maestroArsticulosService.getById(id).subscribe((data: any)=> {
+    this.maestroArsticulosService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       this.form.setValue({
         name: data.name,
         description: data.description,

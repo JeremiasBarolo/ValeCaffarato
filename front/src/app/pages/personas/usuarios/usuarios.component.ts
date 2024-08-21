@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { PaisesService } from 'src/app/services/paises.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -14,20 +15,12 @@ export class UsuariosComponent {
   usuarios: any[] = []
   filteredUsuarios: any[] = []
   form: FormGroup;
-  cardData: any = {
-    name: '',
-    deposito: '',
-    description: '',
-    quantity: 0,
-    price: 0,
-    unidad_medida: '',
-    profit: 0,
-    costo_unit: 0
-  }
+  cardData: any = {}
   tipo: any;
   DataArticulos: any={
     editar:false
   }
+  private destroy$ = new Subject<void>();
 
 
   constructor(
@@ -44,10 +37,15 @@ export class UsuariosComponent {
   }
   
   ngOnInit(): void {
-    this.usuariosService.getAll().subscribe(personas => {
+    this.usuariosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(personas => {
         this.usuarios = personas
         this.filteredUsuarios = [...personas];
       })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
  
@@ -61,7 +59,7 @@ guardarNuevoTipo(){
     rol: this.form.value.rol,
   }
   try {
-    this.usuariosService.create(this.tipo).subscribe(() => {
+    this.usuariosService.create(this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -79,7 +77,7 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.usuariosService.delete(id).subscribe(() => {
+    this.usuariosService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.usuarios = this.usuarios.filter(e => e.id !== id);
       this.toastr.success('Usuario Eliminado', 'Exito');
       this.filteredUsuarios = this.usuarios.filter(e => e.id !== id);

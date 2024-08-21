@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
@@ -35,6 +36,7 @@ export class CrearPersonaComponent {
   localities:any[]= []
   localidades: any[] = [];
   tipoArticulo: string = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -74,24 +76,28 @@ export class CrearPersonaComponent {
       this.getPersona(this.id);
     }
     
-    this.aRoute.queryParams.subscribe(params => {
+    this.aRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.tipoArticulo = params['tipoArticulo'];
       console.log('Tipo de Artículo:', this.tipoArticulo);
       
     });
   
-    this.tipoPersonasService.getAll().subscribe((data)=>{
+    this.tipoPersonasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.tipo = data;
       console.log('Tipos de Persona:', this.tipo);
     });
 
     this.loadTipoPersona(this.tipoArticulo);
 
-    this.condIvaService.getAll().subscribe((data)=>{
+    this.condIvaService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.cond = data;
     });
   
     this.loadLocalities();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 
@@ -120,7 +126,7 @@ export class CrearPersonaComponent {
         
           this.personasService.update(this.id,{
             ...this.Persona,
-          }).subscribe(() => {
+          }).pipe(takeUntil(this.destroy$)).subscribe(() => {
             
             this.router.navigate(['dashboard/inicio']);
           });
@@ -136,7 +142,7 @@ export class CrearPersonaComponent {
       try {
           this.personasService.create({
             ...this.Persona
-          }).subscribe(() => {
+          }).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['dashboard/inicio']);
           }
           );
@@ -154,7 +160,7 @@ getPersona(id: number) {
 
 
 
-    this.personasService.getById(id).subscribe((data: any) => {
+    this.personasService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       
   
       let persona: any = {
@@ -174,7 +180,7 @@ getPersona(id: number) {
 
 
 
-      this.provinciasService.getById(data.Localidad.provinciaId).subscribe((provincia)=>{
+      this.provinciasService.getById(data.Localidad.provinciaId).pipe(takeUntil(this.destroy$)).subscribe((provincia)=>{
         
           this.form.setValue({
             name: persona.name,
@@ -205,7 +211,7 @@ getPersona(id: number) {
   
   
   loadLocalities(provinceId?: number) {
-    this.localidadesService.getAll().subscribe((localities) => {
+    this.localidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe((localities) => {
       this.localidades = localities
       
       

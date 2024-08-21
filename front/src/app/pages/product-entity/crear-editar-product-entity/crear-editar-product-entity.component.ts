@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Insumo } from 'src/app/models/insumo';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
@@ -31,6 +31,7 @@ export class CrearEditarProductEntityComponent {
   };
   ProductEntityData: any;
   unidadesMedida: any[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private productosEnStockService: ProductosEnStockService,
@@ -67,6 +68,11 @@ export class CrearEditarProductEntityComponent {
    
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   addPedidoCompra() {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, quantity: entity.cantidad }));
     this.presupuestoData.name = this.form.value.name;
@@ -79,7 +85,7 @@ export class CrearEditarProductEntityComponent {
 
     if (this.id !== 0) {
       try {
-        this.maestroArticulosService.update(this.id, this.presupuestoData).subscribe(() => {
+        this.maestroArticulosService.update(this.id, this.presupuestoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
           this.toastr.success('Entidad Actualizada');
         });
@@ -90,7 +96,7 @@ export class CrearEditarProductEntityComponent {
       try {
         
         
-        this.maestroArticulosService.create(this.presupuestoData).subscribe(() => {
+        this.maestroArticulosService.create(this.presupuestoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/product-entity']);
           this.toastr.success('Entidad Creada Exitosamente');
         });
@@ -134,7 +140,7 @@ export class CrearEditarProductEntityComponent {
   }
   
   loadAllEntities() {
-    this.productosEnStockService.getAll().subscribe((data) => {
+    this.productosEnStockService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       console.log(data);
       
       data.forEach((insumo: any) => {
@@ -145,7 +151,7 @@ export class CrearEditarProductEntityComponent {
       this.Insumos.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
 
-    this.unidadMedidaService.getAll().subscribe((data) => {
+    this.unidadMedidaService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.unidadesMedida = data
     })
   }
@@ -153,7 +159,7 @@ export class CrearEditarProductEntityComponent {
 
   loadSelectedProducts() {
     if (this.id) {
-      this.maestroArticulosService.getById(this.id).subscribe(
+      this.maestroArticulosService.getById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           if (res.ProductosEnStocks && res.ProductosEnStocks.length > 0) {
             
@@ -173,7 +179,7 @@ export class CrearEditarProductEntityComponent {
   }
 
   getProductEntity(id: number) {
-    this.maestroArticulosService.getById(id).subscribe((data: any)=> {
+    this.maestroArticulosService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
       
       this.form.setValue({
         name: data.name,
