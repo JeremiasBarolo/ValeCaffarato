@@ -50,7 +50,6 @@ export class CrearEditarDepositosComponent {
     if (this.id !== null) {
       
       this.getProduct(this.id);
-    } else{
     }  
   }
 

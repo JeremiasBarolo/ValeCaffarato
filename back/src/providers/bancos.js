@@ -40,7 +40,7 @@ const createBancos= async (BancosData) => {
     
     const dataBancos= {
       name: BancosData.name,
-      localidadId: parseInt(BancosData.localidadId,10)
+      localidadId: parseInt(BancosData.localidad,10)
     };
     
 
@@ -67,7 +67,7 @@ const updateBancos= async (Bancos_id, dataUpdated) => {
       include: { all: true },
       });
     
-    let newBancos = await oldBancos.update(dataUpdated);
+    let newBancos = await oldBancos.update({...dataUpdated, localidadId: dataUpdated.localidad});
 
     return newBancos;
   } catch (err) {

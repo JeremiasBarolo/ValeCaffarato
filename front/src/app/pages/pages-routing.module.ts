@@ -43,6 +43,7 @@ import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
 import { TablaDetallesComponent } from '../shared/tabla-detalles/tabla-detalles.component';
 import { TablaPedidosComponent } from '../shared/tabla-pedidos/tabla-pedidos.component';
+import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-bancos/crear-editar-bancos.component';
 
 
 
@@ -101,6 +102,8 @@ const routes: Routes = [
       { path: 'empleados', component: EmpleadosComponent },
       { path: 'clientes', component: ClientesComponent },
       { path: 'bancos', component: BancosComponent },
+      { path: 'bancos/crear-editar', component: CrearEditarBancosComponent },
+      { path: 'bancos/crear-editar/:id', component: CrearEditarBancosComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'unidades-medida', component: UnidadesMedidaComponent },
       { path: 'detalle/:id/:accion', component: TablaDetallesComponent},

@@ -45,6 +45,7 @@ import { BancosComponent } from './padrones/bancos/bancos.component';
 import { TableModule } from 'primeng/table';
 import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-bancos/crear-editar-bancos.component';
 
 
 
@@ -96,7 +97,8 @@ import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-med
     ProovedoresComponent,
     BancosComponent,
     UsuariosComponent,
-    UnidadesMedidaComponent
+    UnidadesMedidaComponent,
+    CrearEditarBancosComponent
 
     
 
