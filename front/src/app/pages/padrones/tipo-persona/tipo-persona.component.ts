@@ -3,6 +3,7 @@ import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-tipo-persona',
   templateUrl: './tipo-persona.component.html',
@@ -13,20 +14,14 @@ export class TipoPersonaComponent {
   tipoPersona: any[] = []
   filteredTipoPersona: any[] = []
   form!: FormGroup;
-  cardData: any = {
-    name: '',
-    deposito: '',
-    description: '',
-    quantity: 0,
-    price: 0,
-    unidad_medida: '',
-    profit: 0,
-    costo_unit: 0
-  }
+  cardData: any = {}
   tipo: any;
   DataArticulos: any={
     editar:false
   }
+  private destroy$ = new Subject<void>();
+
+
   constructor(
 
     private tipoPersonasService: TipoPersonaService,
@@ -40,11 +35,16 @@ export class TipoPersonaComponent {
   }
   
   ngOnInit(): void {
-    this.tipoPersonasService.getAll().subscribe(tipo_personas => {
+    this.tipoPersonasService.getAll().pipe(takeUntil(this.destroy$)).subscribe(tipo_personas => {
         this.tipoPersona = tipo_personas
         this.filteredTipoPersona = [...tipo_personas];
       })
       
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   editarTipo(card: any) {  
@@ -64,7 +64,7 @@ guardarNuevoTipo(){
   }
 
  if(this.DataArticulos.editar === true){
-  this.tipoPersonasService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
+  this.tipoPersonasService.update(this.DataArticulos.id, this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
     setTimeout(() => {
       window.location.reload();
     }, 600)
@@ -72,7 +72,7 @@ guardarNuevoTipo(){
   });
  } else{
   try {
-    this.tipoPersonasService.create(this.tipo).subscribe(() => {
+    this.tipoPersonasService.create(this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -90,7 +90,7 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.tipoPersonasService.delete(id).subscribe(() => {
+    this.tipoPersonasService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filteredTipoPersona = this.tipoPersona.filter(e => e.id !== id);
       this.toastr.success('Tipo de Persona Eliminado', 'Exito');
     });

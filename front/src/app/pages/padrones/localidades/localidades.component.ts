@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import { LocalidadesService } from 'src/app/services/localidades.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-localidades',
@@ -15,20 +16,14 @@ export class LocalidadesComponent {
   filteredLocalidades: any[] = []
   form: FormGroup;
   listProvincias: any[] = []
-  cardData: any = {
-    name: '',
-    deposito: '',
-    description: '',
-    quantity: 0,
-    price: 0,
-    unidad_medida: '',
-    profit: 0,
-    costo_unit: 0
-  }
+  cardData: any = {}
   tipo: any;
   DataArticulos: any={
     editar:false
   }
+
+  private destroy$ = new Subject<void>();
+
   constructor(
 
     private lolacidadesService: LocalidadesService,
@@ -45,16 +40,21 @@ export class LocalidadesComponent {
   }
   
   ngOnInit(): void {
-    this.lolacidadesService.getAll().subscribe(localidad => {
+    this.lolacidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe(localidad => {
         this.localidades = localidad
         this.filteredLocalidades = [...localidad];
       })
 
-    this.provinciasService.getAll().subscribe(provincia =>{
+    this.provinciasService.getAll().pipe(takeUntil(this.destroy$)).subscribe(provincia =>{
       this.listProvincias = provincia
     })
       
 
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   editarTipo(card: any) {  
@@ -78,7 +78,7 @@ guardarNuevoTipo(){
   }
 
  if(this.DataArticulos.editar === true){
-  this.lolacidadesService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
+  this.lolacidadesService.update(this.DataArticulos.id, this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
     setTimeout(() => {
       window.location.reload();
     }, 600)
@@ -86,7 +86,7 @@ guardarNuevoTipo(){
   });
  } else{
   try {
-    this.lolacidadesService.create(this.tipo).subscribe(() => {
+    this.lolacidadesService.create(this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -104,7 +104,7 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.lolacidadesService.delete(id).subscribe(() => {
+    this.lolacidadesService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filteredLocalidades = this.localidades.filter(e => e.id !== id);
       this.toastr.success('Localidad Eliminada', 'Exito');
     });

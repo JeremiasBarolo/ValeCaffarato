@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { PaisesService } from 'src/app/services/paises.service';
 import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
@@ -29,6 +30,9 @@ export class UnidadesMedidaComponent {
   DataArticulos: any={
     editar:false
   }
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private unidadesService: UnidadMedidaService,
     private fb: FormBuilder,
@@ -41,10 +45,15 @@ export class UnidadesMedidaComponent {
   }
   
   ngOnInit(): void {
-    this.unidadesService.getAll().subscribe(unidades => {
+    this.unidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe(unidades => {
         this.paises = unidades
         this.filteredUnidades = [...unidades];
       })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   editarTipo(card: any) {  
@@ -64,7 +73,7 @@ guardarNuevoTipo(){
   }
 
  if(this.DataArticulos.editar === true){
-  this.unidadesService.update(this.DataArticulos.id, this.unidad).subscribe(() => {
+  this.unidadesService.update(this.DataArticulos.id, this.unidad).pipe(takeUntil(this.destroy$)).subscribe(() => {
     setTimeout(() => {
       window.location.reload();
     }, 600)
@@ -72,7 +81,7 @@ guardarNuevoTipo(){
   });
  } else{
   try {
-    this.unidadesService.create(this.unidad).subscribe(() => {
+    this.unidadesService.create(this.unidad).pipe(takeUntil(this.destroy$)).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -90,7 +99,7 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.unidadesService.delete(id).subscribe(() => {
+    this.unidadesService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.paises = this.paises.filter(e => e.id !== id);
       this.toastr.success('Unidad Eliminada', 'Exito');
       this.filteredUnidades = this.paises.filter(e => e.id !== id);

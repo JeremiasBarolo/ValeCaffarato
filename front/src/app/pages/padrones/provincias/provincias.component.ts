@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import { PaisesService } from 'src/app/services/paises.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-provincias',
@@ -16,21 +17,13 @@ export class ProvinciasComponent {
   filteredProvincias: any[] = []
   form: FormGroup;
   listPaises: any[] = []
-  
-  cardData: any = {
-    name: '',
-    deposito: '',
-    description: '',
-    quantity: 0,
-    price: 0,
-    unidad_medida: '',
-    profit: 0,
-    costo_unit: 0
-  }
+  cardData: any = {}
   tipo: any;
   DataArticulos: any={
     editar:false
   }
+
+  private destroy$ = new Subject<void>();
   constructor(
     private provinciasService: ProvinciasService,
     private paisService: PaisesService,
@@ -45,18 +38,22 @@ export class ProvinciasComponent {
   }
   
   ngOnInit(): void {
-    this.provinciasService.getAll().subscribe(tipo_personas => {
+    this.provinciasService.getAll().pipe(takeUntil(this.destroy$)).subscribe(tipo_personas => {
         this.provincias = tipo_personas
         this.filteredProvincias = [...tipo_personas];
       })
 
-    this.paisService.getAll().subscribe(paises =>{
+    this.paisService.getAll().pipe(takeUntil(this.destroy$)).subscribe(paises =>{
       this.listPaises = paises
     })
       
 
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
   editarTipo(card: any) {  
     this.DataArticulos = {...card, editar:true};  
     
@@ -76,7 +73,7 @@ guardarNuevoTipo(){
   }
 
  if(this.DataArticulos.editar === true){
-  this.provinciasService.update(this.DataArticulos.id, this.tipo).subscribe(() => {
+  this.provinciasService.update(this.DataArticulos.id, this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
     setTimeout(() => {
       window.location.reload();
     }, 600)
@@ -84,7 +81,7 @@ guardarNuevoTipo(){
   });
  } else{
   try {
-    this.provinciasService.create(this.tipo).subscribe(() => {
+    this.provinciasService.create(this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
       setTimeout(() => {
         window.location.reload();
       }, 600)
@@ -102,7 +99,7 @@ guardarNuevoTipo(){
 }
 
   deleteEntidad(id: any) {
-    this.provinciasService.delete(id).subscribe(() => {
+    this.provinciasService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filteredProvincias = this.provincias.filter(e => e.id !== id);
       this.toastr.success('Provincia Eliminada', 'Exito');
     });
