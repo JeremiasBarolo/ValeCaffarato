@@ -1,6 +1,6 @@
 var models = require('../models');
-const path = require('path');
-const fs = require('fs');
+const UtilsService = require('../classes/utils');
+const utilsService = new UtilsService();
 
 const listAllMaestroArticulos= async () => {
   try {
@@ -38,13 +38,15 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
 
   try {
     
+    let costo_unit = await utilsService.calcularCostoUnitarioEntidadProducto(MaestroArticulosData.profit, MaestroArticulosData.productos)
+    
     
     const dataMaestroArticulos= {
       name: MaestroArticulosData.name,
       description: MaestroArticulosData.description,
-      costo_unit: MaestroArticulosData.costo_unit,
+      costo_unit:  MaestroArticulosData.tipoArticulo === "PRODUCTO" ? costo_unit : MaestroArticulosData.costo_unit,
       uni_medida: MaestroArticulosData.uni_medida,
-      profit: MaestroArticulosData.profit,
+      profit:MaestroArticulosData.profit,
       tipoArticulo: MaestroArticulosData.tipoArticulo,
     };
 
@@ -126,7 +128,9 @@ const updateMaestroArticulos= async (MaestroArticulos_id, dataUpdated) => {
     
     }
 
-    const newMaestroArticulos= await oldMaestroArticulos.update(dataUpdated);
+    let costo_unit = await utilsService.calcularCostoUnitarioEntidadProducto(dataUpdated.profit, dataUpdated.productos)
+
+    const newMaestroArticulos= await oldMaestroArticulos.update({...dataUpdated, costo_unit: costo_unit });
 
     console.log(`✅ MaestroArticulos"${newMaestroArticulos.name}" was created with images`);
 

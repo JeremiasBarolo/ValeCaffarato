@@ -47,7 +47,6 @@ export class CrearEditarProductEntityComponent {
       name: ['', Validators.required],
       description: ['', Validators.required],
       profit: ['', Validators.required],
-      costo_unit: ['', Validators.required],
       uni_medida: ['', Validators.required],
     });
     this.id = Number(aRoute.snapshot.paramMap.get('id'));
@@ -133,7 +132,6 @@ export class CrearEditarProductEntityComponent {
         name: 'Cajon Negro',
         description: 'Cajon Negro',
         profit: '10',
-        costo_unit: '50000',
         uni_medida: 'Unidad'
         
     });
@@ -186,7 +184,6 @@ export class CrearEditarProductEntityComponent {
         description: data.description,
         uni_medida: data.uni_medida,
         profit: data.profit,
-        costo_unit: data.costo_unit,
 
       });
     });

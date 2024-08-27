@@ -301,6 +301,20 @@ class UtilsService {
         });
         
       }
+
+      async calcularCostoUnitarioEntidadProducto(ganancia, productos){
+        let subtotal = 0; 
+
+        for (const producto of productos) {
+            const entidad = await models.MaestroDeArticulos.findByPk(producto.id);
+            const costoTotalEntidad = entidad.costo_unit * producto.quantity;
+            const incremento = costoTotalEntidad * (ganancia / 100);
+            const CostoFinal = costoTotalEntidad + incremento;
+            subtotal += CostoFinal;
+        }
+    
+        return subtotal;
+      }
     
 }
 module.exports = UtilsService;

@@ -45,7 +45,7 @@
         <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{ rowData.name }}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{ rowData.description }}</td>
         <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.UnidadesDeMedida.descripcion}}</td>
-        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.costo_unit | currency}}  + {{rowData.profit}}%</td>
+        <td data-target="#Modal" data-toggle="modal" (click)="navigateToDetalle(rowData.id,'producto')">{{rowData.costo_unit | currency}}</td>
         <td>
           <button routerLinkActive="router-link-active"
             type="button" class="btn btn-outline-primary" [routerLink]="['crear-editar', rowData.id]" aria-label="Editar Producto">
@@ -77,7 +77,8 @@
         </div>
         <div class="modal-body">
           <p>{{ cardData.description }}</p>
-          <p>Precio Unitario: {{ cardData.costo_unit | currency }} + {{cardData.profit}}%</p>
+          <p>Precio Unitario: {{ cardData.costo_unit | currency }}</p>
+          <p>Ganancia: {{cardData.profit}}% (Ya Aplicada) </p>
           <p>Unidad de Medida: {{ cardData.UnidadesDeMedida?.descripcion}} </p>
           <table class="table table-bordered">
             <thead class="thead-light">
