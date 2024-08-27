@@ -46,6 +46,12 @@ import { TableModule } from 'primeng/table';
 import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
 import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-bancos/crear-editar-bancos.component';
+import { CrearEditarCondicionComponent } from './padrones/condicion-iva/crear-editar-condicion/crear-editar-condicion.component';
+import { CrearEditarLocalidadComponent } from './padrones/localidades/crear-editar-localidad/crear-editar-localidad.component';
+import { CrearEditarPaisesComponent } from './padrones/paises/crear-editar-paises/crear-editar-paises.component';
+import { CrearEditarProvinciasComponent } from './padrones/provincias/crear-editar-provincias/crear-editar-provincias.component';
+import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-editar-unidad/crear-editar-unidad.component';
+import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
 
 
 
@@ -98,7 +104,13 @@ import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-banco
     BancosComponent,
     UsuariosComponent,
     UnidadesMedidaComponent,
-    CrearEditarBancosComponent
+    CrearEditarBancosComponent,
+    CrearEditarCondicionComponent,
+    CrearEditarLocalidadComponent,
+    CrearEditarPaisesComponent,
+    CrearEditarProvinciasComponent,
+    CrearEditarUnidadComponent,
+    CrearEditarTipoPersonaComponent
 
     
 

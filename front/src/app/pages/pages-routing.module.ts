@@ -44,6 +44,12 @@ import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-med
 import { TablaDetallesComponent } from '../shared/tabla-detalles/tabla-detalles.component';
 import { TablaPedidosComponent } from '../shared/tabla-pedidos/tabla-pedidos.component';
 import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-bancos/crear-editar-bancos.component';
+import { CrearEditarCondicionComponent } from './padrones/condicion-iva/crear-editar-condicion/crear-editar-condicion.component';
+import { CrearEditarLocalidadComponent } from './padrones/localidades/crear-editar-localidad/crear-editar-localidad.component';
+import { CrearEditarPaisesComponent } from './padrones/paises/crear-editar-paises/crear-editar-paises.component';
+import { CrearEditarProvinciasComponent } from './padrones/provincias/crear-editar-provincias/crear-editar-provincias.component';
+import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-editar-unidad/crear-editar-unidad.component';
+import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
 
 
 
@@ -94,10 +100,20 @@ const routes: Routes = [
       { path: 'monedas/crear-editar', component: CrearEditarMonedasComponent },
       { path: 'monedas/crear-editar/:id', component: CrearEditarMonedasComponent },
       { path: 'tipo-personas', component: TipoPersonaComponent },
+      { path: 'tipo-personas/crear-editar', component: CrearEditarTipoPersonaComponent },
+      { path: 'tipo-personas/crear-editar/:id', component: CrearEditarTipoPersonaComponent },
       { path: 'condicion-iva', component: CondicionIvaComponent },
+      { path: 'condicion-iva/crear-editar', component: CrearEditarCondicionComponent },
+      { path: 'condicion-iva/crear-editar/:id', component: CrearEditarCondicionComponent },
       { path: 'paises', component: PaisesComponent },
+      { path: 'paises/crear-editar', component: CrearEditarPaisesComponent },
+      { path: 'paises/crear-editar/:id', component: CrearEditarPaisesComponent },
       { path: 'provincias', component: ProvinciasComponent },
+      { path: 'provincias/crear-editar', component: CrearEditarProvinciasComponent },
+      { path: 'provincias/crear-editar/:id', component: CrearEditarProvinciasComponent },
       { path: 'localidades', component: LocalidadesComponent },
+      { path: 'localidades/crear-editar', component: CrearEditarLocalidadComponent },
+      { path: 'localidades/crear-editar/:id', component: CrearEditarLocalidadComponent },
       { path: 'proveedores', component: ProovedoresComponent },
       { path: 'empleados', component: EmpleadosComponent },
       { path: 'clientes', component: ClientesComponent },
@@ -106,6 +122,8 @@ const routes: Routes = [
       { path: 'bancos/crear-editar/:id', component: CrearEditarBancosComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'unidades-medida', component: UnidadesMedidaComponent },
+      { path: 'unidades-medida/crear-editar', component: CrearEditarUnidadComponent },
+      { path: 'unidades-medida/crear-editar/:id', component: CrearEditarUnidadComponent },
       { path: 'detalle/:id/:accion', component: TablaDetallesComponent},
       { path: 'detalle-pedido/:id', component: TablaPedidosComponent},
       

@@ -56,47 +56,6 @@ export class UnidadesMedidaComponent {
     this.destroy$.complete();
   }
 
-  editarTipo(card: any) {  
-    this.DataArticulos = {...card, editar:true};  
-    
-    
-    this.form.patchValue({
-      descripcion: this.DataArticulos.descripcion
-    });
-}
-
-
-
-guardarNuevoTipo(){
-  this.unidad = {
-    descripcion: this.form.value.descripcion
-  }
-
- if(this.DataArticulos.editar === true){
-  this.unidadesService.update(this.DataArticulos.id, this.unidad).pipe(takeUntil(this.destroy$)).subscribe(() => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 600)
-    this.toastr.success('Unidad Actualizado', 'Exito');
-  });
- } else{
-  try {
-    this.unidadesService.create(this.unidad).pipe(takeUntil(this.destroy$)).subscribe(() => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 600)
-
-      this.toastr.success('Unidad Creado', 'Exito');
-
-    });
-    
-  } catch (error) {
-    console.log(error);
-  
-  }
-  
-  }
-}
 
   deleteEntidad(id: any) {
     this.unidadesService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {

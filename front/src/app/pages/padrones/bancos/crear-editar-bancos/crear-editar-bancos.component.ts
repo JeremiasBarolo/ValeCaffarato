@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { BancosService } from 'src/app/services/bancos.service';
 import { LocalidadesService } from 'src/app/services/localidades.service';
 
@@ -63,27 +62,28 @@ export class CrearEditarBancosComponent {
     }
     
     if (this.id !== 0) {
-        
-      try {
-        this.bancosService.update(this.id, this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.bancosService.update(this.id, this.tipo).pipe(takeUntil(this.destroy$)).subscribe({
+        next: () => {
           this.router.navigate(['dashboard/bancos']);
-          this.toastr.success('Banco Actualizado');
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      
+          this.toastr.success('Banco Actualizado', 'Éxito');
+        },
+        error: (error) => {
+          console.error('Error al actualizar el banco:', error);
+          this.toastr.error('Hubo un problema al actualizar el banco. Intenta nuevamente.', 'Error');
+        }
+      });
     } else {
-      try {
-      this.bancosService.create(this.tipo
-      ).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.bancosService.create(this.tipo).pipe(takeUntil(this.destroy$)).subscribe({
+        next: () => {
           this.router.navigate(['dashboard/bancos']);
-          this.toastr.success('Banco Creado Exitosamente');
-        });
-      } catch (error) {
-        console.log(error);
-      }
-  }
+          this.toastr.success('Banco Creado Exitosamente', 'Éxito');
+        },
+        error: (error) => {
+          console.error('Error al crear el banco:', error);
+          this.toastr.error('Hubo un problema al crear el banco. Intenta nuevamente.', 'Error');
+        }
+      });
+    }
 }
 
   getProduct(id: number) {

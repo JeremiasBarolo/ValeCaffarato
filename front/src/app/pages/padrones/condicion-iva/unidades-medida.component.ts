@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -15,7 +12,7 @@ export class CondicionIvaComponent {
   breadcrumbItems: string = 'Condicion de Iva'
   cond_iva: any[] = []
   filteredCond_iva: any[] = []
-  form: FormGroup;
+
   cardData: any = {}
   tipo: any;
   DataArticulos: any={
@@ -26,13 +23,9 @@ export class CondicionIvaComponent {
 
   constructor(
     private condIvaService: CondIvaService,
-    private fb: FormBuilder,
+
     private toastr: ToastrService,
     ) {
-      this.form = this.fb.group({
-        description: ['',Validators.required],
-        
-      });
   }
   
   ngOnInit(): void {
@@ -48,47 +41,11 @@ export class CondicionIvaComponent {
     this.destroy$.complete();
   }
 
-  editarTipo(card: any) {  
-    this.DataArticulos = {...card, editar:true};  
-    
-    
-    this.form.patchValue({
-      description: this.DataArticulos.description
-    });
-}
 
 
 
-guardarNuevoTipo(){
-  this.tipo = {
-    description: this.form.value.description
-  }
 
- if(this.DataArticulos.editar === true){
-  this.condIvaService.update(this.DataArticulos.id, this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 600)
-    this.toastr.success('Concicion Actualizada', 'Exito');
-  });
- } else{
-  try {
-    this.condIvaService.create(this.tipo).pipe(takeUntil(this.destroy$)).subscribe(() => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 600)
 
-      this.toastr.success('Concicion Creada', 'Exito');
-
-    });
-    
-  } catch (error) {
-    console.log(error);
-  
-  }
-  
-  }
-}
 
   deleteEntidad(id: any) {
     this.condIvaService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -96,6 +53,7 @@ guardarNuevoTipo(){
       this.toastr.success('Condicion Iva Eliminado', 'Exito');
     });
   } 
+
   showCardDetails(card: any) {
     this.cardData = card;
     
@@ -109,10 +67,5 @@ guardarNuevoTipo(){
     });
   }
 
-  QuitarId(){
-    this.DataArticulos = {
-      editar:false
-    }
-    this.form.reset()
-  }
+
 }
