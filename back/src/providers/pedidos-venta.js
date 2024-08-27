@@ -245,7 +245,7 @@ const updatePedidos= async (pedidos_id, dataUpdated) => {
         
                 return "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock.";
             } else {
-                return "No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.";
+              throw new Error("No se puede eliminar el pedido finalizado porque no hay suficiente cantidad disponible.");
             }
         } else {
           const productosPedido = await models.PedidosProductos.findAll({

@@ -34,6 +34,7 @@ export class CrearEditarPedidosCompraComponent {
     monedaId:0
   };
   private destroy$ = new Subject<void>();
+  fecha: any;
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
@@ -182,7 +183,7 @@ export class CrearEditarPedidosCompraComponent {
 
   getPedido(id: number) {
     this.pedidosService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
-      
+      this.fecha = data.createdAt
       this.form.setValue({
         moneda: data.monedaId,
         persona: data.personaId

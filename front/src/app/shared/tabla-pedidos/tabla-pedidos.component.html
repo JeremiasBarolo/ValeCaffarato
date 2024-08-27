@@ -1,3 +1,4 @@
+
 <div class="detalle">
     <h3 class="text-center">Detalles de Pedido</h3>
     <div class="ml-2">
@@ -7,6 +8,7 @@
         <h5><strong>Pertenece a:</strong> {{ pedido?.Persona?.name }} {{ pedido?.Persona?.lastname}} </h5>
         <h5><strong>Moneda Utilizada:</strong> {{pedido?.Moneda?.description}} </h5>
         <h5><strong>Estado del Pedido:</strong> {{pedido?.state}} </h5>
+        <h5><strong>Ultima Edicion:</strong> {{pedido?.updatedAt | date}}</h5>
 
     </div>
     <br>
@@ -47,6 +49,9 @@
         </tr>
       </ng-template>
     </p-table>
+  </div>
+  <div class="text-right">
+    <button type="button" class="btn btn-outline-danger mr-2 mt-2 " [routerLink]="[url]"> Volver a Pedidos</button>
   </div>
 
 

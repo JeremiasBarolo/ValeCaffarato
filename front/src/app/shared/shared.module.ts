@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { TablaDetallesComponent } from './tabla-detalles/tabla-detalles.component';
 import { TableModule } from 'primeng/table';
 import { TablaPedidosComponent } from './tabla-pedidos/tabla-pedidos.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -23,7 +24,8 @@ import { TablaPedidosComponent } from './tabla-pedidos/tabla-pedidos.component';
   ],
   imports: [
     CommonModule,
-    TableModule
+    TableModule,
+    RouterModule,
   ],
   exports: [
     HeaderComponent,

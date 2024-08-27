@@ -13,6 +13,7 @@ export class TablaPedidosComponent {
   pedido:any
   id:any
   filteredProducto:any
+  url:any
   
 
 
@@ -30,6 +31,15 @@ export class TablaPedidosComponent {
     this.pedidoService.getById(this.id).subscribe((data)=>{
       this.pedido = data;
       this.filteredProducto = this.pedido.productos;
+      if(data.category === 'COMPRA'){
+        this.url = '/dashboard/pedidos-compra'
+        console.log(this.url);
+        
+      }else{
+        this.url = '/dashboard/pedidos-venta'
+      }
+      
+      
     })
 
 

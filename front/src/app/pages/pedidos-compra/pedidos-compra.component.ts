@@ -63,11 +63,7 @@ export class PedidosCompraComponent implements OnInit {
     });
 
     this.depositosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      if (Array.isArray(data)) {
         this.depositos = data;
-      } else {
-        console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
-      }
     });
     
     
@@ -163,17 +159,28 @@ ngOnDestroy(): void {
 eliminarPedido(id?: number, state?:any){
 
   if(state ==='FINALIZADO'){
-    this.pedidosService.update(id!, {eliminarCantidad: true}).pipe(takeUntil(this.destroy$)).subscribe((res) => {
-       if(res = "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock."){
-        this.toastr.success('Entidad eliminado exitosamente')
-        setTimeout(() => {
-          window.location.reload();
-        }, 600)
-      }else{
-        this.toastr.info(res)
+    this.pedidosService.update(id!, { eliminarCantidad: true })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res) => {
+       
+  
+        if (res.action === true) {
+          this.toastr.info(res.message);
+        } else {
+          this.toastr.success('Entidad eliminada exitosamente');
+          setTimeout(() => {
+            window.location.reload();
+          }, 600);
+        }
+      },
+      error: (error) => {
+        console.error('Error recibido:', error); 
+        this.toastr.error(error.error.error
+          || 'Ocurrió un error inesperado al eliminar el pedido.');
       }
-      
-    })
+    });
+  
   }else{
     this.pedidosService.delete(id!).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('Entidad eliminado exitosamente')
