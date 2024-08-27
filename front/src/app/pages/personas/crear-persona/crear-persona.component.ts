@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
+import { Location } from '@angular/common';
 
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
@@ -49,7 +50,8 @@ export class CrearPersonaComponent {
     private provinciasService: ProvinciasService,
     private localidadesService: LocalidadesService,
     private condIvaService: CondIvaService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -72,19 +74,21 @@ export class CrearPersonaComponent {
   
 
   ngAfterViewInit(): void {
+   
+    
     if(this.id !== 0){
       this.getPersona(this.id);
     }
     
     this.aRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.tipoArticulo = params['tipoArticulo'];
-      console.log('Tipo de Artículo:', this.tipoArticulo);
+      
       
     });
   
     this.tipoPersonasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.tipo = data;
-      console.log('Tipos de Persona:', this.tipo);
+     
     });
 
     this.loadTipoPersona(this.tipoArticulo);
@@ -122,13 +126,29 @@ export class CrearPersonaComponent {
     if (this.id !== 0) {
       // Es editar
       try {
-        console.log(this.Persona);
+        
         
           this.personasService.update(this.id,{
             ...this.Persona,
           }).pipe(takeUntil(this.destroy$)).subscribe(() => {
+            console.log(this.Persona.tipo_persona);
             
-            this.router.navigate(['dashboard/inicio']);
+            switch (this.Persona.tipo_persona) {
+        
+              
+              case 1:
+                this.router.navigate(['dashboard/empleados']);
+                break;
+              case 3:
+                this.router.navigate(['dashboard/clientes']);
+                break;
+              case 2:
+                this.router.navigate(['dashboard/proveedores']);
+                break;
+              default:
+                this.router.navigate(['dashboard/inicio']);
+                break;
+            }
           });
         
         
@@ -143,7 +163,7 @@ export class CrearPersonaComponent {
           this.personasService.create({
             ...this.Persona
           }).pipe(takeUntil(this.destroy$)).subscribe(() => {
-            this.router.navigate(['dashboard/inicio']);
+            this.router.navigate(['dashboard']);
           }
           );
         
@@ -237,7 +257,9 @@ getPersona(id: number) {
 
   
   
-  
+  goBack() {
+    this.location.back()
+  }
   
   
   

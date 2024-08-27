@@ -66,11 +66,10 @@
 
           </div>
          
-        
-          
+  
 
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="id == 0">
               <div class="form-group text-center">
                 <label for="tipo_persona">Tipo de Persona:</label> <br>
                 <select class="form-select col-md-12" aria-label="Default select example" formControlName="tipo_persona">
@@ -107,13 +106,10 @@
             <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addPersona()">Aceptar</button>
           </div>
           <div class="col-xs-12 col-md-6 col-lg-6">
-              <button [routerLink]="['/dashboard']"type="button" class="btn btn-info"> Volver </button>
+              <button (click)="goBack()" type="button" class="btn btn-info"> Volver </button>
           </div>
 
-          
-          <!-- <div class="col-xs-12 col-md-6 col-lg-6">
-              <button type="button" class="btn btn-danger" (click)="rellenarDatos()">RELLENAR DATOS(ELIMINAR)</button>
-          </div> -->
+        
       </div>
       </form>
       </div>
