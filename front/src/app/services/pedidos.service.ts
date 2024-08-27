@@ -50,6 +50,18 @@ export class PedidosService {
     }
 }
 
+  enPreparacion(id: number, Pedidos: any): Observable<any> {
+      return this.http.put<Pedidos>(`${this.apiUrl}/venta/enpreparacion/${id}`, Pedidos)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleHttpError(error);
+          return throwError(error);
+        })
+
+      );
+    
+  }
+
 // update
   update(id: number, Pedidos: any): Observable<any> {
     

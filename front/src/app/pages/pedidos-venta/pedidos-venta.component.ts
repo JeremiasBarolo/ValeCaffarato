@@ -19,7 +19,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 export class PedidosVentaComponent {
   breadcrumbItems: string = 'Pedidos Venta'
   listPresupuesto: Pedidos[] = [];
-  listAprobado: Pedidos[] = [];
+  listListoParaFinalizar: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
   listFinalizado: Pedidos[] = [];
   listPreparacion: Pedidos[] = [];
@@ -53,12 +53,10 @@ export class PedidosVentaComponent {
         (element: any) => {
           if(element.state === 'PRESUPUESTADO' && element.category === 'VENTA'){
             this.listPresupuesto.push(element);
-          }else if(element.state === 'APROBADO' && element.category === 'VENTA'){
-            this.listAprobado.push(element);
-          }else if(element.state === 'CANCELADO' && element.category === 'VENTA'){
-            this.listCancelado.push(element);
           }else if(element.state === 'PREPARACION' && element.category === 'VENTA'){
             this.listPreparacion.push(element);
+          }else if(element.state === 'LISTO PARA FINALIZAR' && element.category === 'VENTA'){
+            this.listListoParaFinalizar.push(element);
           }else if(element.state === 'FINALIZADO' && element.category === 'VENTA'){
             this.listFinalizado.push(element);
           }
@@ -92,10 +90,10 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
     
 
 
-    if(estado === 'APROBADO'){
+    if(estado === 'LISTO PARA FINALIZAR'){
 
       pedido.subtotal = this.calcularSubtotal(pedido);
-      this.pedidosService.update(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.pedidosService.update(id, {...pedido, productos: pedido.productos, type: 'PRODUCTO', depositoId: this.selectedDepositoId  }).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
@@ -106,7 +104,7 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
     
     else if(estado === 'PREPARACION'){
 
-      this.pedidosService.update(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.pedidosService.enPreparacion(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         setTimeout(() => {
           window.location.reload();
@@ -126,7 +124,9 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
       
 
 
-      this.router.navigate(['dashboard/productos']);
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
 
 
     }else{
@@ -195,7 +195,7 @@ eliminarPedido(id?: number, eliminarCantidad?:any){
 }
 
 onAceptarClick() { 
-  this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO');
+  this.cambiarEstado(this.cardData.id, this.cardData, 'LISTO PARA FINALIZAR');
 }
 
 navigateToDetalle(id: any) {

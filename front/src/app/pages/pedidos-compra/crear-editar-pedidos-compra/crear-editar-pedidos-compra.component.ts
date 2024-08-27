@@ -130,14 +130,6 @@ export class CrearEditarPedidosCompraComponent {
     }
   }
 
-  rellenardatos() {
-    this.form.setValue({
-        name: 'Super pedido de Cajas',
-        description: 'Cajones negros',
-        moneda: 1
-        
-    });
-  }
 
   loadAllEntities() {
     this.maestroArticulosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {

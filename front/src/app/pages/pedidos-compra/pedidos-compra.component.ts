@@ -93,7 +93,6 @@ export class PedidosCompraComponent implements OnInit {
     }
     else if(estado === 'FINALIZADO'){
 
-      console.log('pase');
       
 
           this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -106,7 +105,7 @@ export class PedidosCompraComponent implements OnInit {
               window.location.reload();
             }, 100)
           })
-          this.router.navigate(['dashboard/insumos']);
+          
 
 
     }else{

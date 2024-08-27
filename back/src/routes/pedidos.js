@@ -24,6 +24,9 @@ router.put("/:Pedidos_id", pedidosController.updatePedidos);
 // update
 router.put("/venta/editar/:Pedidos_id", pedidoValidatorEditar ,pedidosController.updatePedidos);
 
+// update
+router.put("/venta/enpreparacion/:Pedidos_id", pedidoValidator ,pedidosController.updatePedidos);
+
 // delete 
 router.delete("/:Pedidos_id", pedidosController.deletePedidos);
 
