@@ -7,6 +7,7 @@ import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DocumentosService } from 'src/app/services/documentos.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { PersonasService } from 'src/app/services/personas.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -22,7 +23,6 @@ export class CrearEditarDocumentosComponent {
   selectedPedidos: any[] = [];
   Pedidos: any[] = [];
   Clientes: any[] = [];
-  subtotal: number[] = [];
   documentoData: any = {};
   private destroy$ = new Subject<void>();
 
@@ -31,7 +31,7 @@ export class CrearEditarDocumentosComponent {
     private router: Router,
     private aRoute: ActivatedRoute,
     private pedidosService: PedidosService,
-
+    private location: Location,
     private toastr: ToastrService,
     private personasService: PersonasService,
     private documentoService: DocumentosService
@@ -49,7 +49,9 @@ export class CrearEditarDocumentosComponent {
   ngOnInit(): void {
     this.loadSelectedProducts();
   
-    this.pedidosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
+    this.pedidosService.getAllFacturasReady().pipe(takeUntil(this.destroy$)).subscribe(data =>{
+
+      
       data.forEach(
         (element: any) => {
           if(element.state === 'FINALIZADO' && element.category === 'VENTA'){
@@ -81,13 +83,14 @@ export class CrearEditarDocumentosComponent {
     this.documentoData.tipo = this.form.value.selectedOptionDocumento;
     this.documentoData.cliente = parseInt(this.form.value.selectedOptionPersona, 10);
     this.documentoData.condicionIva = this.form.value.selectedOptionCondicion;
+    this.documentoData.totalIva = 25
 
     
 
     if (this.id !== 0) {
       try {
         this.documentoService.update(this.id, this.documentoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
-          this.router.navigate(['dashboard/documentos']);
+          this.goBack()
           this.toastr.success('Pedido Actualizado');
         });
       } catch (error) {
@@ -96,7 +99,7 @@ export class CrearEditarDocumentosComponent {
     } else {
       try {
         this.documentoService.create(this.documentoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
-          this.router.navigate(['dashboard/documentos']);
+          this.goBack()
           this.toastr.success('Pedido Creado Exitosamente');
         });
       } catch (error) {
@@ -148,7 +151,9 @@ export class CrearEditarDocumentosComponent {
     }
   }
 
-  
+  goBack(): void {
+    this.location.back();
+  }
   
 
 }

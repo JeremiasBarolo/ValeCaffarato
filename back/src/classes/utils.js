@@ -1,5 +1,5 @@
 var models = require('../models');
-var {createProductos }= require('../providers/producto')
+
 
 
 class UtilsService {
@@ -133,6 +133,37 @@ class UtilsService {
 
 
       }
+
+
+      const dataDocumento= {
+        iva: 1,
+        totalIva: 1,
+        total: dataUpdated.subtotal,
+        condicionIva: 'CONTADO',
+        tipo: ['FACTURA','REMITO'],
+      };
+      
+      for(const documento of dataDocumento.tipo){
+        const newDocumento= await models.Documentos.create({
+          ...dataDocumento,
+          tipo: documento
+        });
+
+        await models.PedidoDocumentos.create({
+          documentoId: newDocumento.id,
+            pedidoId: dataUpdated.id
+          })
+        
+    
+        await models.PersonaDocumentos.create({
+          personaId: dataUpdated.Persona.id,
+          documentoId: newDocumento.id
+        })
+      }
+  
+      
+     
+      
         
       
 

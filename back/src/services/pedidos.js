@@ -1,5 +1,15 @@
 const { pedidosVentaProvider, pedidosCompraProvider } = require('../providers');
 
+
+const listAllFacturaReady = async () => {
+    return await pedidosVentaProvider.listAllFacturaReady();
+};
+
+
+const listAllRemitoReady = async () => {
+    return await pedidosVentaProvider.listAllRemitoReady();
+};
+
 const listAllPedidos = async () => {
     return await pedidosVentaProvider.listAllPedidos();
 };
@@ -33,5 +43,5 @@ const deletePedidos = async (Pedidos_id) => {
 
 
 module.exports = {
-    listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, 
+    listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, listAllRemitoReady, listAllFacturaReady
 };

@@ -50,6 +50,8 @@ import { CrearEditarPaisesComponent } from './padrones/paises/crear-editar-paise
 import { CrearEditarProvinciasComponent } from './padrones/provincias/crear-editar-provincias/crear-editar-provincias.component';
 import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-editar-unidad/crear-editar-unidad.component';
 import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
+import { FacturaComponent } from './documentos/factura/factura.component';
+import { RemitoComponent } from './documentos/remito/remito.component';
 
 
 
@@ -83,9 +85,14 @@ const routes: Routes = [
       { path : 'productos', component : ProductosComponent},
       { path: 'productos/crear-editar', component: CrearEditarProductosComponent },
       { path: 'productos/crear-editar/:id', component: CrearEditarProductosComponent },
-      { path: 'documentos', component: DocumentosComponent },
-      { path: 'documentos/crear-editar', component: CrearEditarDocumentosComponent },
-      { path: 'documentos/crear-editar/:id', component: CrearEditarDocumentosComponent },
+      { path: 'facturas', component: FacturaComponent },
+      { path: 'facturas/crear-editar', component: CrearEditarDocumentosComponent },
+      { path: 'facturas/crear-editar/:id', component: CrearEditarDocumentosComponent },
+      { path: 'facturas/detalle/:id', component: FacturaRemitoComponent },
+      { path: 'remitos', component: RemitoComponent },
+      { path: 'remitos/crear-editar', component: CrearEditarDocumentosComponent },
+      { path: 'remitos/crear-editar/:id', component: CrearEditarDocumentosComponent },
+      
       { path: 'documentos/factura-remito/:id', component: FacturaRemitoComponent },
       { path: 'depositos', component: DepositosComponent },
       { path: 'depositos/crear-editar', component: CrearEditarDepositosComponent },

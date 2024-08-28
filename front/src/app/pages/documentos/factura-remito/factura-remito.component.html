@@ -3,10 +3,7 @@
     <button class="btn btn-primary button mr-4" (click)="generarDocumento()">Generar PDF</button>
 </div>
 
-<div class="container mt-4">
-    <h1 class="text-center">Detalle de Facturación</h1>
-    <br>
-
+<div class="container" #pdfContent>
     <div class="row firma-rectangulo-info">
         <div class="col-md-6">
             <div id="info-empresa" class="text-center">
@@ -29,11 +26,11 @@
         <div class="col-md-6">
             <p><strong>Nombre del Cliente:</strong> {{clienteData.name}}, {{clienteData.lastname}}</p>
             <p><strong>DNI del Cliente:</strong> {{clienteData.dni}}</p>
-            <p><strong>Condicion de Iva: </strong> {{clienteData.Condicion_Iva.description}}</p>
-            <p><strong>Codigo Postal: </strong> {{clienteData.Localidad.codigo_postal}}</p>
+            <p><strong>Condicion de Iva: </strong> {{clienteData.Condicion_Iva?.description}}</p>
+            <p><strong>Codigo Postal: </strong> {{clienteData.Localidad?.codigo_postal}}</p>
         </div>
         <div class="col-md-6 ">
-            <p><strong>Domicilio del Cliente</strong> {{clienteData.adress}} {{clienteData.adress_number}}, {{clienteData.Localidad.name}} </p>
+            <p><strong>Domicilio del Cliente</strong> {{clienteData.adress}} {{clienteData.adress_number}}, {{clienteData.Localidad?.name}} </p>
             <p><strong>Telefono del Cliente:</strong> {{clienteData.phone}}</p>
             <p><strong>CUIL del Cliente:</strong> {{clienteData.cuil}}</p>
             <p><strong>Email del Cliente:</strong> {{clienteData.email}}</p>
@@ -48,20 +45,16 @@
                 <th>Cantidad</th>
                 <th>Precio unit.</th>
                 <th>Subtotal</th>
-                <th>IVA</th>
-                <th>Subtotal con IVA</th>
             </tr>
         </thead>
         <tbody>
             <ng-container *ngFor="let productList of productData">
                 <tr *ngFor="let item of productList">
                     <td>{{item.name}}</td>
-                    <td>{{item.PedidosProductos.quantity_requested}}</td>
+                    <td>{{item.PedidosProductos?.quantity_requested}}</td>
                     
                     <td>{{item.costo_unit | currency}}</td>
-                    <td>{{calcularTotal(item.costo_unit, item.PedidosProductos.quantity_requested) | currency}}</td>
-                    <td>{{documentoData.iva}}%</td>
-                    <td>{{totalIva(item.costo_unit, item.PedidosProductos.quantity_requested, documentoData.iva) | currency}}</td>
+                    <td>{{calcularTotal(item.costo_unit, item.PedidosProductos.quantity_requested, item.profit) | currency}}</td>
                 </tr>
             </ng-container>
         </tbody>
@@ -71,9 +64,9 @@
     <div class="firma-rectangulo">
         <div class="text-right">
             <p class="text-left"><strong>Firma:</strong> <span id="subtotalBruto"></span></p>
-            <p><strong>Subtotal Neto:</strong> <span id="subtotalNeto">{{subtotalReal() | currency}}</span></p>
+            <p><strong>Subtotal Neto:</strong> <span id="subtotalNeto">{{documentoData.total | currency}}</span></p>
             <p><strong>Importe Otros Tributos:</strong> <span id="otrosTributos">$0.00</span></p>
-            <p ><strong>Importe Total:</strong> <span id="importeTotal">{{subtotalReal() | currency}}</span></p>
+            <p ><strong>Importe Total:</strong> <span id="importeTotal">{{documentoData.total | currency}}</span></p>
         </div>
     </div>
     <br>

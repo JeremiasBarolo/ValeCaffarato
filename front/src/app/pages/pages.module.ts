@@ -52,6 +52,8 @@ import { CrearEditarPaisesComponent } from './padrones/paises/crear-editar-paise
 import { CrearEditarProvinciasComponent } from './padrones/provincias/crear-editar-provincias/crear-editar-provincias.component';
 import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-editar-unidad/crear-editar-unidad.component';
 import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
+import { FacturaComponent } from './documentos/factura/factura.component';
+import { RemitoComponent } from './documentos/remito/remito.component';
 
 
 
@@ -110,7 +112,9 @@ import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-e
     CrearEditarPaisesComponent,
     CrearEditarProvinciasComponent,
     CrearEditarUnidadComponent,
-    CrearEditarTipoPersonaComponent
+    CrearEditarTipoPersonaComponent,
+    FacturaComponent,
+    RemitoComponent
 
     
 

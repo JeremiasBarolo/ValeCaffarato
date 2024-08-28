@@ -14,6 +14,16 @@ export class PedidosService {
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
   private apiUrl = `${this.appSettings.url_api}/pedidos`;
+
+
+  getAllFacturasReady(): Observable<Pedidos[]> {
+    return this.http.get<Pedidos[]>(`${this.apiUrl}/facturas-ready`);
+  }
+
+  getAllRemitoReady(): Observable<Pedidos[]> {
+    return this.http.get<Pedidos[]>(`${this.apiUrl}/remito-ready`);
+  }
+
  
   //get all
   getAll(): Observable<Pedidos[]> {

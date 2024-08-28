@@ -45,6 +45,14 @@
   .button:active {
     transform: translateY(-1px);
   }
+
+  .container {
+    width: 750px; 
+    margin: 0 auto;
+    padding: 20px; 
+    background-color: white; 
+  }
+  
   
   
 
