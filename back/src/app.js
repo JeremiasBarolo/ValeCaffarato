@@ -19,7 +19,8 @@ const {
     usuarioRouter,
     loginRouter,
     unidadesDeMedidaRouter,
-    reclamosRouter
+    reclamosRouter,
+    tipoReclamosRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -54,6 +55,7 @@ app.use('/usuario', usuarioRouter)
 app.use('/login', loginRouter)
 app.use('/unidades-medida', unidadesDeMedidaRouter)
 app.use('/reclamos', reclamosRouter)
+app.use('/tipo-reclamos', tipoReclamosRouter)
 
 
 

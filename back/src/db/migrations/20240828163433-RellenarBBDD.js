@@ -134,11 +134,30 @@ module.exports = {
 
     await queryInterface.bulkInsert('UnidadesDeMedidas', [
       {
-        description: 'Unidad',
+        descripcion: 'Unidad',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
   
+    ], {});
+
+
+    await queryInterface.bulkInsert('Tipo_Reclamos', [
+      {
+        des_reclamo: 'Compra',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+
+      {
+        des_reclamo: 'Venta',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      
+
+      
+        
     ], {});
  
   },

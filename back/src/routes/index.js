@@ -16,6 +16,8 @@ const monedasRouter = require('./Monedas');
 const usuarioRouter = require('./usuario');
 const loginRouter = require('./login');
 const unidadesDeMedidaRouter = require('./UnidadesDeMedida');
+const reclamosRouter = require('./reclamos');
+const tipoReclamosRouter = require('./Tipo_Reclamo');
 
 
 
@@ -37,5 +39,6 @@ module.exports = {
     usuarioRouter,
     loginRouter,
     unidadesDeMedidaRouter,
-    reclamosRouter
+    reclamosRouter,
+    tipoReclamosRouter
  };

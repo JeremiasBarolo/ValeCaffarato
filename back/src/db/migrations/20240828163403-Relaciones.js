@@ -25,6 +25,16 @@ module.exports = {
             },
             onUpdate: 'CASCADE',
         });
+
+        await queryInterface.addColumn('Pedidos', 'reclamoId', {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          references:{
+            model: 'Reclamos',
+            key: 'id',
+          },
+          onUpdate: 'CASCADE',
+      });
     // <=============================== Fin Pedidos ===============================> 
 
     // <=============================== Producto en Stock ===============================> 
@@ -335,6 +345,18 @@ module.exports = {
 
   });
 
+  await queryInterface.addColumn('Reclamos', 'id_persona', {
+    type: Sequelize.INTEGER,
+    references:{
+      model: 'Personas',
+      key: 'id',
+      onDelete: 'SET NULL'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+
+  });
+
 // <=============================== Fin Reclamos ===============================> 
   },
     
@@ -383,6 +405,7 @@ module.exports = {
 
      // <=============================== Reclamos ===============================> 
       await queryInterface.removeColumn('Reclamos', 'id_tipo_reclamo');
+      await queryInterface.removeColumn('Reclamos', 'id_persona');
      
    
   }

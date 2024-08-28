@@ -16,6 +16,8 @@ const MonedasController = require('./Monedas');
 const UsuarioController = require('./Usuario');
 const loginController = require('./login');
 const UnidadesDeMedidaController = require('./UnidadesDeMedida');
+const ReclamosController = require('./Reclamos');
+const Tipo_ReclamoController = require('./Tipo_Reclamo');
 
 
 
@@ -36,5 +38,7 @@ module.exports = {
     MonedasController,
     UsuarioController,
     loginController,
-    UnidadesDeMedidaController
+    UnidadesDeMedidaController,
+    ReclamosController,
+    Tipo_ReclamoController
 };

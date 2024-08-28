@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       });
+
+      Pedidos.belongsTo(models.Reclamos, {
+        foreignKey: 'reclamoId',
+        onUpdate: 'CASCADE',
+      });
       
     }
   }

@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'Localidad'
       });
 
+      Personas.hasMany(models.Reclamos, {
+        foreignKey: 'id_persona'
+      })
+
     }
   }
   Personas.init({
