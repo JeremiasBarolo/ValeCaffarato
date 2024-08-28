@@ -3,6 +3,16 @@ var models = require('../models');
 
 
 class UtilsService {
+  
+    async returnTipoPersonaId(tipoPersona){
+      if(tipoPersona === 'cliente'){
+        return 3
+      }else if(tipoPersona === 'proveedor'){
+        return 2
+      }else{
+        return 1
+      }
+    }
 
     async devolverInsumos(pedidos_id, dataUpdated, oldPedidos) {
       const insumosToUpdate = [];

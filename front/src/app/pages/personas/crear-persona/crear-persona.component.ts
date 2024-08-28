@@ -62,7 +62,7 @@ export class CrearPersonaComponent {
       adress_number: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', Validators.required],
-      tipo_persona: ['', Validators.required],
+  
       cond_iva: ['', Validators.required],
       locality: ['', Validators.required],
      
@@ -106,6 +106,8 @@ export class CrearPersonaComponent {
 
 
   addPersona() {
+    
+
     this.Persona = {
       name: this.form.value.name,
       lastname: this.form.value.lastname,
@@ -115,7 +117,7 @@ export class CrearPersonaComponent {
       adress_number: this.form.value.adress_number,
       phone: this.form.value.phone,
       email: this.form.value.email,
-      tipo_persona:this.form.value.tipo_persona,
+      tipo_persona: this.tipoArticulo,
       cond_iva:this.form.value.cond_iva,
       localidadId:this.form.value.locality
     };
@@ -133,22 +135,7 @@ export class CrearPersonaComponent {
           }).pipe(takeUntil(this.destroy$)).subscribe(() => {
             console.log(this.Persona.tipo_persona);
             
-            switch (this.Persona.tipo_persona) {
-        
-              
-              case 1:
-                this.router.navigate(['dashboard/empleados']);
-                break;
-              case 3:
-                this.router.navigate(['dashboard/clientes']);
-                break;
-              case 2:
-                this.router.navigate(['dashboard/proveedores']);
-                break;
-              default:
-                this.router.navigate(['dashboard/inicio']);
-                break;
-            }
+            this.goBack()
           });
         
         
@@ -163,7 +150,7 @@ export class CrearPersonaComponent {
           this.personasService.create({
             ...this.Persona
           }).pipe(takeUntil(this.destroy$)).subscribe(() => {
-            this.router.navigate(['dashboard']);
+            this.goBack()
           }
           );
         
@@ -181,8 +168,10 @@ getPersona(id: number) {
 
 
     this.personasService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+      console.log(data);
       
-  
+      this.tipoArticulo = data.TipoPersonaId
+
       let persona: any = {
         name: data.name,
         lastname: data.lastname,
@@ -212,7 +201,6 @@ getPersona(id: number) {
             phone: persona.phone,
             email: persona.email,
             cond_iva:data.Condicion_Iva.id,
-            tipo_persona:data.Tipo_Persona.id,
             locality:data.localidadId,
   
         });
