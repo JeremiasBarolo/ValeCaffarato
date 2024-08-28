@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Pais', [
       {
         id: 1,
@@ -9,7 +9,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-        
     ], {});
 
     await queryInterface.bulkInsert('Provincia', [
@@ -27,9 +26,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-        
     ], {});
-    
 
     await queryInterface.bulkInsert('Localidads', [
       {
@@ -46,7 +43,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
         name: 'General Deheza',
         codigo_postal: 5923,
@@ -54,7 +50,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
         name: 'Las Perdices',
         codigo_postal: 5921,
@@ -62,7 +57,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-        
     ], {});
 
     await queryInterface.bulkInsert('Tipo_Personas', [
@@ -76,15 +70,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
         description: 'Cliente',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
-      
-        
     ], {});
 
     await queryInterface.bulkInsert('Cond_Ivas', [
@@ -93,7 +83,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    
     ], {});
 
     await queryInterface.bulkInsert('Monedas', [
@@ -109,9 +98,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
-      
-        
     ], {});
 
     await queryInterface.bulkInsert('Depositos', [
@@ -120,16 +106,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
         description: 'Deposito BS',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      
-
-      
-        
     ], {});
 
     await queryInterface.bulkInsert('UnidadesDeMedidas', [
@@ -138,9 +119,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-  
     ], {});
-
 
     await queryInterface.bulkInsert('Tipo_Reclamos', [
       {
@@ -148,21 +127,23 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
         des_reclamo: 'Venta',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      
-
-      
-        
     ], {});
- 
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Products', null, {});
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('Tipo_Reclamos', null, {});
+    await queryInterface.bulkDelete('UnidadesDeMedidas', null, {});
+    await queryInterface.bulkDelete('Depositos', null, {});
+    await queryInterface.bulkDelete('Monedas', null, {});
+    await queryInterface.bulkDelete('Cond_Ivas', null, {});
+    await queryInterface.bulkDelete('Tipo_Personas', null, {});
+    await queryInterface.bulkDelete('Localidads', null, {});
+    await queryInterface.bulkDelete('Provincia', null, {});
+    await queryInterface.bulkDelete('Pais', null, {});
   }
 };
