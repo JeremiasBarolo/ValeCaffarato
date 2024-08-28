@@ -116,6 +116,7 @@ module.exports = {
     await queryInterface.bulkInsert('UnidadesDeMedidas', [
       {
         descripcion: 'Unidad',
+
         createdAt: new Date(),
         updatedAt: new Date(),
       },
