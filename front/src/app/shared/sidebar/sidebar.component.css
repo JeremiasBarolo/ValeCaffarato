@@ -1,0 +1,16 @@
+.brand-link {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar horizontalmente */
+    height: 60px; /* Ajusta la altura según tu diseño */
+    padding: 0 10px; /* Espaciado interno opcional */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+  }
+  
+  .brand-image {
+    max-height: 100%; /* Asegura que la imagen no se salga del contenedor */
+    max-width: 100%; /* Mantiene la relación de aspecto */
+    height: auto; /* Ajusta automáticamente la altura */
+    width: auto; /* Ajusta automáticamente el ancho */
+  }
+  
