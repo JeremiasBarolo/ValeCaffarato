@@ -53,6 +53,13 @@ import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-e
 import { FacturaComponent } from './documentos/factura/factura.component';
 import { RemitoComponent } from './documentos/remito/remito.component';
 
+import { TipoReclamosComponent } from './padrones/tipo-reclamos/tipo-reclamos.component';
+import { CrearEditarTipoReclamosComponent } from './padrones/tipo-reclamos/crear-editar-tipo-reclamos/crear-editar-tipo-reclamos.component';
+import { ReclamosVentaComponent } from './reclamos-venta/reclamos-venta.component';
+import { ReclamosCompraComponent } from './reclamos-compra/reclamos-compra.component';
+import { CrearEditarReclamoCompraComponent } from './reclamos-compra/crear-editar-reclamo-compra/crear-editar-reclamo-compra.component';
+import { CrearEditarReclamoVentaComponent } from './reclamos-venta/crear-editar-reclamo-venta/crear-editar-reclamo-venta.component';
+
 
 
 
@@ -109,7 +116,13 @@ import { RemitoComponent } from './documentos/remito/remito.component';
     CrearEditarUnidadComponent,
     CrearEditarTipoPersonaComponent,
     FacturaComponent,
-    RemitoComponent
+    RemitoComponent,
+    TipoReclamosComponent,
+    CrearEditarTipoReclamosComponent,
+    ReclamosVentaComponent,
+    ReclamosCompraComponent,
+    CrearEditarReclamoCompraComponent,
+    CrearEditarReclamoVentaComponent
 
     
     

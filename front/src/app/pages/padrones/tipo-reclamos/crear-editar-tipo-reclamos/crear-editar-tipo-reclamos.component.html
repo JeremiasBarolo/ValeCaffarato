@@ -5,8 +5,8 @@
         <form [formGroup]="form">
             <div class="form-group text-center">
                 <label for="nombreTipo">Descripcion</label>
-                <input type="text" class="form-control" id="description" formControlName="description">
-                <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+                <input type="text" class="form-control" id="des_reclamo" formControlName="des_reclamo">
+                <div *ngIf="form.get('des_reclamo')?.invalid && form.get('des_reclamo')?.touched" class="text-danger">
                   Descripcion del tipo es requerido
                 </div>
               </div>
@@ -15,7 +15,7 @@
             <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addCondicion()">Aceptar</button>
           </div>
           <div class="col-xs-12 col-md-6 col-lg-6">
-              <button [routerLink]="['/dashboard/tipo-personas']" type="button" class="btn btn-info"> Volver </button>
+              <button (click)="goBack()" type="button" class="btn btn-info"> Volver </button>
           </div>
       </div>
       </form>

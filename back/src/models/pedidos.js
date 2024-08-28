@@ -39,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE'
       });
 
-      Pedidos.belongsTo(models.Reclamos, {
-        foreignKey: 'reclamoId',
+      Pedidos.hasMany(models.Reclamos, {
+        foreignKey: 'id_pedido',
         onUpdate: 'CASCADE',
       });
       

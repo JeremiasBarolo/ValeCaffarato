@@ -37,18 +37,25 @@ const createMaestroArticulos= async (MaestroArticulosData) => {
 
 
   try {
-    
-    let costo_unit = await utilsService.calcularCostoUnitarioEntidadProducto(MaestroArticulosData.profit, MaestroArticulosData.productos)
-    
-    
-    const dataMaestroArticulos= {
+
+    let dataMaestroArticulos= {
       name: MaestroArticulosData.name,
       description: MaestroArticulosData.description,
-      costo_unit:  MaestroArticulosData.tipoArticulo === "PRODUCTO" ? costo_unit : MaestroArticulosData.costo_unit,
+      costo_unit: MaestroArticulosData.costo_unit,
       uni_medida: MaestroArticulosData.uni_medida,
       profit:MaestroArticulosData.profit,
       tipoArticulo: MaestroArticulosData.tipoArticulo,
     };
+
+    
+    if(MaestroArticulosData.tipoArticulo === "PRODUCTO"){
+      let costo_unit = await utilsService.calcularCostoUnitarioEntidadProducto(MaestroArticulosData.profit, MaestroArticulosData.productos)
+      dataMaestroArticulos = {...dataMaestroArticulos, costo_unit: costo_unit}
+    }
+    
+    
+    
+   
 
 
     const newMaestroArticulos= await models.MaestroDeArticulos.create(dataMaestroArticulos);

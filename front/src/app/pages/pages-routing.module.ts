@@ -50,6 +50,12 @@ import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-edi
 import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
 import { FacturaComponent } from './documentos/factura/factura.component';
 import { RemitoComponent } from './documentos/remito/remito.component';
+import { TipoReclamosComponent } from './padrones/tipo-reclamos/tipo-reclamos.component';
+import { CrearEditarTipoReclamosComponent } from './padrones/tipo-reclamos/crear-editar-tipo-reclamos/crear-editar-tipo-reclamos.component';
+import { ReclamosCompraComponent } from './reclamos-compra/reclamos-compra.component';
+import { ReclamosVentaComponent } from './reclamos-venta/reclamos-venta.component';
+import { CrearEditarReclamoCompraComponent } from './reclamos-compra/crear-editar-reclamo-compra/crear-editar-reclamo-compra.component';
+import { CrearEditarReclamoVentaComponent } from './reclamos-venta/crear-editar-reclamo-venta/crear-editar-reclamo-venta.component';
 
 
 
@@ -126,6 +132,15 @@ const routes: Routes = [
       { path: 'unidades-medida/crear-editar/:id', component: CrearEditarUnidadComponent },
       { path: 'detalle/:id/:accion', component: TablaDetallesComponent},
       { path: 'detalle-pedido/:id', component: TablaPedidosComponent},
+      { path: 'reclamos-compra', component: ReclamosCompraComponent },
+      { path: 'reclamos-compra/crear-editar', component: CrearEditarReclamoCompraComponent },
+      { path: 'reclamos-compra/crear-editar/:id', component: CrearEditarReclamoCompraComponent },
+      { path: 'reclamos-venta', component: ReclamosVentaComponent },
+      { path: 'reclamos-venta/crear-editar', component: CrearEditarReclamoVentaComponent },
+      { path: 'reclamos-venta/crear-editar/:id', component: CrearEditarReclamoVentaComponent },
+      { path: 'tipo-reclamos', component: TipoReclamosComponent },
+      { path: 'tipo-reclamos/crear-editar', component: CrearEditarTipoReclamosComponent },
+      { path: 'tipo-reclamos/crear-editar/:id', component: CrearEditarTipoReclamosComponent },
       
       
 

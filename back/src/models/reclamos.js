@@ -20,14 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
       });
 
-      Reclamos.hasMany(models.Pedidos, {
-        foreignKey: 'reclamoId'
+      Reclamos.belongsTo(models.Pedidos, {
+        foreignKey: 'id_pedido'
       })
     }
   }
   Reclamos.init({
-    detalles_reclamo: DataTypes.STRING,
-    category: DataTypes.STRING
+    detalles_reclamo: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Reclamos',

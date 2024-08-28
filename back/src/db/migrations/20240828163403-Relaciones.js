@@ -356,6 +356,17 @@ module.exports = {
     onUpdate: 'CASCADE',
 
   });
+  await queryInterface.addColumn('Reclamos', 'id_pedido', {
+    type: Sequelize.INTEGER,
+    references:{
+      model: 'Pedidos',
+      key: 'id',
+      onDelete: 'SET NULL'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+
+  });
 
 // <=============================== Fin Reclamos ===============================> 
   },
@@ -406,6 +417,7 @@ module.exports = {
      // <=============================== Reclamos ===============================> 
       await queryInterface.removeColumn('Reclamos', 'id_tipo_reclamo');
       await queryInterface.removeColumn('Reclamos', 'id_persona');
+      await queryInterface.removeColumn('Reclamos', 'id_pedido');
      
    
   }
