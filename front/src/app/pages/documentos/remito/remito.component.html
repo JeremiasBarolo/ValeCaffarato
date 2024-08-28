@@ -1,1 +1,51 @@
-<p>remito works!</p>
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
+<section style="margin: 16px">
+    
+  <p-table #dt [value]="remitos" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">
+    <ng-template pTemplate="header"  class="p-overlaypanel-header p-component-header">
+        <tr class="table-header-color">
+            <th pSortableColumn="id">
+                ID
+                <p-sortIcon field="id" style="margin: 16px"></p-sortIcon>
+            </th>
+            <th pSortableColumn="name">
+              Nombre del Cliente
+              <p-sortIcon field="name" style="margin: 16px"></p-sortIcon>
+          </th>
+            <th pSortableColumn="date">
+                Fecha
+                <p-sortIcon field="date" style="margin: 16px"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="total">
+              Total
+              <p-sortIcon field="total" style="margin: 16px"></p-sortIcon>
+            </th>
+            
+            <th>
+              Acciones
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td  (click)="showCardDetails(rowData)">{{ rowData.id }}</td>
+        <td  (click)="showCardDetails(rowData)">{{ rowData.user}}</td>
+        <td  (click)="showCardDetails(rowData)">{{ rowData.fecha | date}}</td>
+        <td  (click)="showCardDetails(rowData)">{{rowData.total | currency}}</td>
+
+       
+        <td>
+          
+        <button type="button" (click)="borrarFactura(rowData.id)"
+                  class="btn btn-outline-danger ms-4" aria-label="Borrar Producto"><i
+                      class="fa-solid fa-trash"></i></button>
+        </td>
+        
+      </tr>
+    </ng-template>
+  </p-table>
+  
+  
+
+</section>

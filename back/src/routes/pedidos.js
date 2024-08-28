@@ -10,11 +10,6 @@ const pedidoValidatorEditar = require('../validators/quantitieseditar');
 // get all
 router.get("/", pedidosController.listAllPedidos);
 
-router.get("/facturas-ready", pedidosController.listAllFacturaReady);
-
-router.get("/remito-ready", pedidosController.listAllRemitoReady);
-
-
 // create
 router.post("/compra", pedidosController.createPedidos);
 

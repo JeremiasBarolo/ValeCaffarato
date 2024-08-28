@@ -3,37 +3,6 @@ var models = require('../models');
 const UtilsService = require('../classes/utils');
 const utilsService = new UtilsService();
 
-const listAllFacturaReady= async () => {
-  try {
-    const Pedidos = await models.Pedidos.findAll({
-      where: {
-        state: 'FINALIZADO',
-        category: 'VENTA'
-      },
-      include: { all: true },
-    });
-    console.log('✅ Pedidos were found');
-    return Pedidos.filter(pedido => pedido.Documentos.length === 0);
-  } catch (err) {
-    console.error('🛑 Error when fetching Pedidos', err);
-    throw err;
-  }
-};
-
-const listAllRemitoReady= async () => {
-  try {
-    const Pedidos = await models.Pedidos.findAll(
-       {
-        include: { all: true },
-       },
-    );
-    console.log('✅ Pedidos were found');
-    return Pedidos;
-  } catch (err) {
-    console.error('🛑 Error when fetching Pedidos', err);
-    throw err;
-  }
-};
 
 const listAllPedidos= async () => {
   try {
@@ -239,5 +208,5 @@ const eliminarPedidoBBDD = async (pedidos_id) => {
 }
 
 module.exports = {
-  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, eliminarPedidoBBDD, listAllFacturaReady
+  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, eliminarPedidoBBDD, 
 };

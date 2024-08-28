@@ -1,9 +1,4 @@
 <app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
-<div class="text-right">
-  <button type="button" class="btn btn-outline-success mr-2 " [routerLink]="['crear-editar']"> Agregar Factura</button>
-</div>
-
-
 <section style="margin: 16px">
     
   <p-table #dt [value]="facturas" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{'max-width': '100vw'}">

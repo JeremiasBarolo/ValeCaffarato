@@ -7,7 +7,6 @@ const {
     cantidadesRouter,
     productosRouter,
     documentosRouter,
-    generarPdfRouter,
     maestroArticulosRouter,
     depositosRouter,
     paisesRouter,

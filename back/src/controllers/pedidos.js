@@ -1,24 +1,7 @@
 const { pedidosService } = require("../services");
 
 
-const listAllFacturaReady = async (req, res) => {
-  try {
-    const Pedidos = await pedidosService.listAllFacturaReady();
-    res.json(Pedidos);
-  } catch (err) {
-    res.status(500).json({ action: "listAll", error: err.message });
-  }
-};
 
-
-const listAllRemitoReady = async (req, res) => {
-  try {
-    const Pedidos = await pedidosService.listAllRemitoReady();
-    res.json(Pedidos);
-  } catch (err) {
-    res.status(500).json({ action: "listAll", error: err.message });
-  }
-};
 
 
 const listAllPedidos = async (req, res) => {
@@ -77,5 +60,5 @@ const deletePedidos = async (req, res) => {
 
 
 module.exports = {
-  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, listAllFacturaReady, listAllRemitoReady
+  listAllPedidos, listOnePedidos, createPedidos, updatePedidos, deletePedidos, 
 };
