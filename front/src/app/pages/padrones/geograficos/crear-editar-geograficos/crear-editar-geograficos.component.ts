@@ -6,6 +6,7 @@ import { PaisesService } from 'src/app/services/paises.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
 import { LocalidadesService } from 'src/app/services/localidades.service';
 import { BancosService } from 'src/app/services/bancos.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-crear-editar-geograficos',
@@ -22,7 +23,7 @@ export class CrearEditarGeograficosComponent {
   operacion: string = 'Agregar ';
   anyData: any | any;
   selectedId: number | undefined
- 
+  private destroy$ = new Subject<void>();
  
   
 
@@ -80,6 +81,11 @@ export class CrearEditarGeograficosComponent {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngAfterViewInit(): void {
     if (this.id) {
 
@@ -97,7 +103,7 @@ export class CrearEditarGeograficosComponent {
 
       let pais = {name: this.form.value.pais_name}
 
-      this.paisesService.create(pais).subscribe((data) => {
+      this.paisesService.create(pais).pipe(takeUntil(this.destroy$)).subscribe((data) => {
 
         this.router.navigate(['dashboard/geograficos']);
         
@@ -106,7 +112,7 @@ export class CrearEditarGeograficosComponent {
 
       let provincia = {name: this.form.value.provincia_name, paisId:this.form.value.paisId }
 
-      this.provinciasService.create(provincia).subscribe((data) => {
+      this.provinciasService.create(provincia).pipe(takeUntil(this.destroy$)).subscribe((data) => {
 
         this.router.navigate(['dashboard/geograficos']);
         
@@ -115,7 +121,7 @@ export class CrearEditarGeograficosComponent {
 
       let localidad = {name: this.form.value.localidad_name, codigo_postal: this.form.value.codigo_postal, provinciaId:this.form.value.provinciaId }
 
-      this.localidadesService.create(localidad).subscribe((data) => {
+      this.localidadesService.create(localidad).pipe(takeUntil(this.destroy$)).subscribe((data) => {
         
         this.router.navigate(['dashboard/geograficos']);
         
@@ -123,7 +129,7 @@ export class CrearEditarGeograficosComponent {
     }else{
 
       let banco = {name: this.form.value.banco_name, localidadId:this.form.value.localidadId }
-      this.bancosService.create(banco).subscribe((data) => {
+      this.bancosService.create(banco).pipe(takeUntil(this.destroy$)).subscribe((data) => {
         this.router.navigate(['dashboard/geograficos']);
         
       })
@@ -138,7 +144,7 @@ export class CrearEditarGeograficosComponent {
 
     if(accion=== 'PAIS'){
 
-      this.paisesService.getById(id).subscribe((data: any)=> {
+      this.paisesService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           pais_name: data.name
         });
@@ -146,7 +152,7 @@ export class CrearEditarGeograficosComponent {
 
     }else if(accion === "PROVINCIA"){
 
-      this.provinciasService.getById(id).subscribe((data: any)=> {
+      this.provinciasService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           provincia_name: data.name,
           paisId: data.paisId
@@ -156,7 +162,7 @@ export class CrearEditarGeograficosComponent {
     }else if(accion === "LOCALIDAD"){
       
       
-       this.localidadesService.getById(id).subscribe((data: any)=> {
+       this.localidadesService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           localidad_name: data.name,
           codigo_postal: data.codigo_postal,
@@ -165,7 +171,7 @@ export class CrearEditarGeograficosComponent {
         
       });
     }else if(accion === "BANCO"){
-      this.bancosService.getById(id).subscribe((data: any)=> {
+      this.bancosService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           banco_name: data.name,
           localidadId: data.localidadId
@@ -179,17 +185,17 @@ export class CrearEditarGeograficosComponent {
 
   loadAllEntities() {
     if(this.id === "PROVINCIA"){
-      this.paisesService.getAll().subscribe((data) => {
+      this.paisesService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
         this.listPadrones = data
         
       })
     }else if(this.id === "LOCALIDAD"){
-      this.provinciasService.getAll().subscribe((data) => {
+      this.provinciasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
         this.listPadrones = data
         
       })
     }else{
-      this.localidadesService.getAll().subscribe((data) => {
+      this.localidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
         this.listPadrones = data
         
       })

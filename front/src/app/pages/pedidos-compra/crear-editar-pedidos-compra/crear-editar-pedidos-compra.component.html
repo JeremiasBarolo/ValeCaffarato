@@ -2,76 +2,89 @@
 <div class="container mt-5">
   <div class="card mb-3 border border-0 mx-auto">
     <div class="card-body">
+      <p *ngIf="id != 0" ><strong>Identificador del Pedido: </strong> {{fecha | date}} / #{{id}}</p>
       <form [formGroup]="form">
         <div class="form-group text-center">
-          <label for="deposito">¿Qué Moneda Usará?</label>
-          <br>
-          <select class="form-select col-md-12" aria-label="Monedas" formControlName="moneda">
-            <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}} / {{moneda.simbolo}}</option>
-          </select>
+          <div class="row">
+
+
+            <div class="col">
+              <label for="deposito">Moneda</label>
+              <br>
+              <select class="form-select col-md-12" aria-label="Monedas" formControlName="moneda">
+                <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}}</option>
+              </select>
+            </div>
+
+            <div class="col">
+              <div class="form-group text-center">
+                <label for="deposito">Proveedor</label>
+                <br>
+                <select class="form-select col-md-12" aria-label="persona" formControlName="persona">
+                  <option *ngFor="let persona of personas" [value]="persona.id"> {{persona.name}} {{persona.lastname}} </option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          
         </div>
 
 
-        <div class="form-group text-center">
-          <label for="deposito">¿De Quien sera el Pedido?</label>
-          <br>
-          <select class="form-select col-md-12" aria-label="persona" formControlName="persona">
-            <option *ngFor="let persona of personas" [value]="persona.id"> {{persona.name}} {{persona.lastname}} </option>
-          </select>
-        </div>
+       
 
         
       </form>
-    </div>
+    
 
-    <div class="row mt-4">
-      <div class="col-md-6 text-center ml-5">
-        <h6>Insumos Disponibles</h6>
-        <div class="card mb-" style="height: 550px; overflow-y: auto;">
-          <div class="card-body">
-            <ul class="list-group" *ngFor="let entidad of InsumosEntities">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ entidad.name }}
-                <button class="btn btn-success" (click)="selectedEntity(entidad)">Agregar al Presupuesto</button>
-              </li>
-            </ul>
+      <div class="row mt-4">
+        <div class="col-md-6 text-center ml-5">
+          <h6>Insumos Disponibles</h6>
+          <div class="card mb-" style="height: 550px; overflow-y: auto;">
+            <div class="card-body">
+              <ul class="list-group" *ngFor="let entidad of InsumosEntities">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ entidad.name }}
+                  <button class="btn btn-success" (click)="selectedEntity(entidad)">Agregar al Presupuesto</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de Combos -->
+        <div class="col-md-5 text-center">
+          <h6>Insumos Seleccionados</h6>
+          <div class="card mb-3" style="height: 550px; overflow-y: auto;">
+            <div class="card-body">
+              <ul class="list-group" *ngFor="let entidad of selectedEntities; let i = index">
+                <li class="list-group-item">
+                  <div>
+                    <p>{{ entidad.name }}</p>
+                  </div>
+                  <div>
+                    <label for="quantity{{ i }}">Cantidad:</label>
+                    <input type="number" class="text-center mr-2 ml-2"name="quantity{{ i }}" [(ngModel)]="entidad.cantidad" />
+                    <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                  
+                  
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Lista de Combos -->
-      <div class="col-md-5 text-center">
-        <h6>Insumos Seleccionados</h6>
-        <div class="card mb-3" style="height: 550px; overflow-y: auto;">
-          <div class="card-body">
-            <ul class="list-group" *ngFor="let entidad of selectedEntities; let i = index">
-              <li class="list-group-item">
-                <div>
-                  <p>{{ entidad.name }}</p>
-                </div>
-                <div>
-                  <label for="quantity{{ i }}">Cantidad:</label>
-                  <input type="number" class="text-center mr-2 ml-2"name="quantity{{ i }}" [(ngModel)]="entidad.cantidad" />
-                  <button type="button" class="btn btn-outline-danger" aria-label="Eliminar Entidad" (click)="returnEntities(entidad)">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-                
-                
-              </li>
-            </ul>
-          </div>
+      <div class="row mt-5">
+        <div class="col-md-6 text-center mb-10">
+          <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
+        </div>
+        <div class="col-md-6 text-center mb-10">
+          <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
         </div>
       </div>
-    </div>
-
-    <div class="row mt-5">
-      <div class="col-md-6 text-center mb-10">
-        <button [disabled]="form.invalid" routerLinkActive="router-link-active" type="submit" class="btn btn-success" (click)="addPedidoCompra()">Aceptar</button>
-      </div>
-      <div class="col-md-6 text-center mb-10">
-        <button [routerLink]="['/dashboard/pedidos-compra']" type="button" class="btn btn-info">Volver</button>
-      </div>
-    </div>
   </div>
 </div>

@@ -2,24 +2,29 @@
 <div class="container mt-5">
   <div class="card mb-3 border border-0 mx-auto">
     <div class="card-body">
+      <p *ngIf="id != 0" ><strong>Identificador del Pedido: </strong> {{fecha | date}} / #{{id}}</p>
       <form [formGroup]="form">
         <div class="form-group text-center">
-          <label for="deposito">¿Qué Moneda Usará?</label>
-          <br>
-          <select class="form-select col-md-12" aria-label="Monedas" formControlName="moneda">
-            <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}}</option>
-          </select>
+          <div class="row">
+            <div class="col"> 
+              <label for="deposito">Moneda</label>
+              <br>
+              <select class="form-select col-md-12" aria-label="Monedas" formControlName="moneda">
+                <option *ngFor="let moneda of monedas" [value]="moneda.id">{{moneda.description}}</option>
+              </select>
+            </div>
+
+            <div class="col">
+              <label for="deposito">Cliente</label>
+              <br>
+              <select class="form-select col-md-12" aria-label="persona" formControlName="persona">
+                <option *ngFor="let persona of personas" [value]="persona.id"> {{persona.name}} {{persona.lastname}} </option>
+              </select>
+            </div>
+
+          </div>
+         
         </div>
-
-        <div class="form-group text-center">
-          <label for="deposito">¿De Quien sera el Pedido?</label>
-          <br>
-          <select class="form-select col-md-12" aria-label="persona" formControlName="persona">
-            <option *ngFor="let persona of personas" [value]="persona.id"> {{persona.name}} {{persona.lastname}} </option>
-          </select>
-        </div>
-
-
       </form>
     </div>
   

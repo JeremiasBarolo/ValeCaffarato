@@ -1,0 +1,38 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
+<div class="container mt-5">
+    <div class="card mb-3 border border-0 mx-auto">
+      <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group">
+                <label for="nombreTipo">Nombre</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+                  Este Campo es requerido
+                </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="pais">Pais al que estara enlazado:</label>
+                  <select class="form-control"  formControlName="pais">
+                      <option *ngFor="let pais of listPaises" [value]="pais.id">{{ pais.name }}</option>
+                  </select>
+                  <div *ngIf="form.get('pais')?.invalid && form.get('pais')?.touched" class="text-danger">
+                      Este Campo es requerido
+                  </div>
+          </div>
+        <div class="row mt-5 text-center">
+          <div class="col-xs-12 col-md-6 col-lg-6">
+            <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addPais()">Aceptar</button>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6">
+              <button [routerLink]="['/dashboard/provincias']" type="button" class="btn btn-info"> Volver </button>
+          </div>
+      </div>
+      </form>
+      </div>
+  
+      
+    </div>
+  </div>
+  
+

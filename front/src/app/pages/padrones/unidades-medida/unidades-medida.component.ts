@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { PaisesService } from 'src/app/services/paises.service';
 import { UnidadMedidaService } from 'src/app/services/unidad-medida.service';
 
@@ -29,6 +30,9 @@ export class UnidadesMedidaComponent {
   DataArticulos: any={
     editar:false
   }
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private unidadesService: UnidadMedidaService,
     private fb: FormBuilder,
@@ -41,56 +45,20 @@ export class UnidadesMedidaComponent {
   }
   
   ngOnInit(): void {
-    this.unidadesService.getAll().subscribe(unidades => {
+    this.unidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe(unidades => {
         this.paises = unidades
         this.filteredUnidades = [...unidades];
       })
   }
 
-  editarTipo(card: any) {  
-    this.DataArticulos = {...card, editar:true};  
-    
-    
-    this.form.patchValue({
-      descripcion: this.DataArticulos.descripcion
-    });
-}
-
-
-
-guardarNuevoTipo(){
-  this.unidad = {
-    descripcion: this.form.value.descripcion
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
- if(this.DataArticulos.editar === true){
-  this.unidadesService.update(this.DataArticulos.id, this.unidad).subscribe(() => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 600)
-    this.toastr.success('Unidad Actualizado', 'Exito');
-  });
- } else{
-  try {
-    this.unidadesService.create(this.unidad).subscribe(() => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 600)
-
-      this.toastr.success('Unidad Creado', 'Exito');
-
-    });
-    
-  } catch (error) {
-    console.log(error);
-  
-  }
-  
-  }
-}
 
   deleteEntidad(id: any) {
-    this.unidadesService.delete(id).subscribe(() => {
+    this.unidadesService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.paises = this.paises.filter(e => e.id !== id);
       this.toastr.success('Unidad Eliminada', 'Exito');
       this.filteredUnidades = this.paises.filter(e => e.id !== id);

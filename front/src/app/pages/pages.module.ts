@@ -21,8 +21,6 @@ import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
-import { DocumentosComponent } from './documentos/documentos.component';
-import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
 import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
 import { DepositosComponent } from './padrones/depositos/depositos.component';
 import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
@@ -45,6 +43,22 @@ import { BancosComponent } from './padrones/bancos/bancos.component';
 import { TableModule } from 'primeng/table';
 import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
+import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-bancos/crear-editar-bancos.component';
+import { CrearEditarCondicionComponent } from './padrones/condicion-iva/crear-editar-condicion/crear-editar-condicion.component';
+import { CrearEditarLocalidadComponent } from './padrones/localidades/crear-editar-localidad/crear-editar-localidad.component';
+import { CrearEditarPaisesComponent } from './padrones/paises/crear-editar-paises/crear-editar-paises.component';
+import { CrearEditarProvinciasComponent } from './padrones/provincias/crear-editar-provincias/crear-editar-provincias.component';
+import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-editar-unidad/crear-editar-unidad.component';
+import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
+import { FacturaComponent } from './documentos/factura/factura.component';
+import { RemitoComponent } from './documentos/remito/remito.component';
+
+import { TipoReclamosComponent } from './padrones/tipo-reclamos/tipo-reclamos.component';
+import { CrearEditarTipoReclamosComponent } from './padrones/tipo-reclamos/crear-editar-tipo-reclamos/crear-editar-tipo-reclamos.component';
+import { ReclamosVentaComponent } from './reclamos-venta/reclamos-venta.component';
+import { ReclamosCompraComponent } from './reclamos-compra/reclamos-compra.component';
+import { CrearEditarReclamoCompraComponent } from './reclamos-compra/crear-editar-reclamo-compra/crear-editar-reclamo-compra.component';
+import { CrearEditarReclamoVentaComponent } from './reclamos-venta/crear-editar-reclamo-venta/crear-editar-reclamo-venta.component';
 
 
 
@@ -74,8 +88,6 @@ import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-med
     CrearEditarPedidoVentaComponent,
     CrearEditarProductosComponent,
     PedidosCanceladosComponent,
-    DocumentosComponent,
-    CrearEditarDocumentosComponent,
     FacturaRemitoComponent,
     DepositosComponent,
     CrearEditarDepositosComponent,
@@ -85,7 +97,6 @@ import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-med
     CrearEditarPersonalesComponent,
     MonedasComponent,
     CrearEditarMonedasComponent,
-
     TipoPersonaComponent,
     CondicionIvaComponent,
     PaisesComponent,
@@ -96,9 +107,22 @@ import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-med
     ProovedoresComponent,
     BancosComponent,
     UsuariosComponent,
-    UnidadesMedidaComponent
-
-    
+    UnidadesMedidaComponent,
+    CrearEditarBancosComponent,
+    CrearEditarCondicionComponent,
+    CrearEditarLocalidadComponent,
+    CrearEditarPaisesComponent,
+    CrearEditarProvinciasComponent,
+    CrearEditarUnidadComponent,
+    CrearEditarTipoPersonaComponent,
+    FacturaComponent,
+    RemitoComponent,
+    TipoReclamosComponent,
+    CrearEditarTipoReclamosComponent,
+    ReclamosVentaComponent,
+    ReclamosCompraComponent,
+    CrearEditarReclamoCompraComponent,
+    CrearEditarReclamoVentaComponent
 
     
     

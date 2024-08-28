@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
@@ -32,6 +33,8 @@ export class CrearEditarPedidosCompraComponent {
     insumosEntity_id: [],
     monedaId:0
   };
+  private destroy$ = new Subject<void>();
+  fecha: any;
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
@@ -71,6 +74,11 @@ export class CrearEditarPedidosCompraComponent {
     
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   addPedidoCompra() {
     this.presupuestoData.productos = this.selectedEntities.map(entity => ({ id: entity.id, cantidad: entity.cantidad }));
     this.presupuestoData.name = 'PEDIDO COMPRA';
@@ -81,7 +89,7 @@ export class CrearEditarPedidosCompraComponent {
 
     if (this.id !== 0) {
       try {
-        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).subscribe(() => {
+        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-compra']);
           this.toastr.success('Pedido Actualizado');
         });
@@ -90,7 +98,7 @@ export class CrearEditarPedidosCompraComponent {
       }
     } else {
       try {
-        this.pedidosService.create(this.presupuestoData).subscribe(() => {
+        this.pedidosService.create(this.presupuestoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-compra']);
           this.toastr.success('Pedido Creado Exitosamente');
         });
@@ -122,17 +130,9 @@ export class CrearEditarPedidosCompraComponent {
     }
   }
 
-  rellenardatos() {
-    this.form.setValue({
-        name: 'Super pedido de Cajas',
-        description: 'Cajones negros',
-        moneda: 1
-        
-    });
-  }
 
   loadAllEntities() {
-    this.maestroArticulosService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       data.forEach((insumo: any) => {
         if(insumo.tipoArticulo === 'INSUMO'){
           this.InsumosEntities.push(insumo);
@@ -141,11 +141,11 @@ export class CrearEditarPedidosCompraComponent {
       this.InsumosEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
 
-    this.monedasService.getAll().subscribe((data)=>{
+    this.monedasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.monedas= data
     })
 
-    this.personasServices.getAll().subscribe((data)=>{
+    this.personasServices.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       console.log(data);
       
       this.personas= data.filter(persona => persona.Tipo_Persona.description === 'Proveedor')
@@ -156,7 +156,7 @@ export class CrearEditarPedidosCompraComponent {
 
   loadSelectedProducts() {
     if (this.id) {
-      this.pedidosService.getById(this.id).subscribe(
+      this.pedidosService.getById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           if (res.productos && res.productos.length > 0) {
             this.selectedEntities = res.productos.map((entidad: { PedidosProductos: { quantity_requested: any; }; }) => {
@@ -174,8 +174,8 @@ export class CrearEditarPedidosCompraComponent {
   }
 
   getPedido(id: number) {
-    this.pedidosService.getById(id).subscribe((data: any)=> {
-      
+    this.pedidosService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
+      this.fecha = data.createdAt
       this.form.setValue({
         moneda: data.monedaId,
         persona: data.personaId

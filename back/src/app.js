@@ -7,7 +7,6 @@ const {
     cantidadesRouter,
     productosRouter,
     documentosRouter,
-    generarPdfRouter,
     maestroArticulosRouter,
     depositosRouter,
     paisesRouter,
@@ -19,7 +18,9 @@ const {
     monedasRouter,
     usuarioRouter,
     loginRouter,
-    unidadesDeMedidaRouter
+    unidadesDeMedidaRouter,
+    reclamosRouter,
+    tipoReclamosRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -42,7 +43,6 @@ app.use('/pedidos', pedidosRouter)
 app.use('/cantidades', cantidadesRouter)
 app.use('/productos_en_stock', productosRouter)
 app.use('/documento', documentosRouter)
-app.use('/generar-factura', generarPdfRouter)
 app.use('/depositos', depositosRouter)
 app.use('/paises', paisesRouter)
 app.use('/provincias', provinciasRouter)
@@ -54,6 +54,8 @@ app.use('/monedas', monedasRouter)
 app.use('/usuario', usuarioRouter)
 app.use('/login', loginRouter)
 app.use('/unidades-medida', unidadesDeMedidaRouter)
+app.use('/reclamos', reclamosRouter)
+app.use('/tipo-reclamos', tipoReclamosRouter)
 
 
 

@@ -6,6 +6,7 @@ const pedidoValidator = require('../validators/quantities');
 const pedidoValidatorEditar = require('../validators/quantitieseditar');
 
 
+
 // get all
 router.get("/", pedidosController.listAllPedidos);
 
@@ -23,6 +24,9 @@ router.put("/:Pedidos_id", pedidosController.updatePedidos);
 
 // update
 router.put("/venta/editar/:Pedidos_id", pedidoValidatorEditar ,pedidosController.updatePedidos);
+
+// update
+router.put("/venta/enpreparacion/:Pedidos_id", pedidoValidator ,pedidosController.updatePedidos);
 
 // delete 
 router.delete("/:Pedidos_id", pedidosController.deletePedidos);

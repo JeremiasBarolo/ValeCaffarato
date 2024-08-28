@@ -1,0 +1,27 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
+<div class="container mt-5">
+    <div class="card mb-3 border border-0 mx-auto">
+      <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group">
+                <label for="nombreTipo">Descripcion</label>
+                <input type="text" class="form-control" id="description" formControlName="description">
+                <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+                  Descripcion del tipo es requerido
+                </div>
+              </div>
+        <div class="row mt-5 text-center">
+          <div class="col-xs-12 col-md-6 col-lg-6">
+            <button [disabled]="form.invalid" type="button" class="btn btn-success" (click)="addCondicion()">Aceptar</button>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6">
+              <button [routerLink]="['/dashboard/condicion-iva']" type="button" class="btn btn-info"> Volver </button>
+          </div>
+      </div>
+      </form>
+      </div>
+  
+      
+    </div>
+  </div>
+  

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
@@ -30,6 +30,7 @@ export class CrearEditarProductosComponent implements OnInit {
   }
   depositos: any[] =[]
   unidadesMedida: any[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
@@ -69,23 +70,14 @@ export class CrearEditarProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllEntities()
-    
-
     if (this.id !== null) {
-      
-      
       this.getProduct(this.id);
-    } else{
-      
-      
-      
-      
     }  
-
+  }
   
-
-    
-    
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   addProducto() {
@@ -103,7 +95,7 @@ export class CrearEditarProductosComponent implements OnInit {
         
         
       try {
-        this.productService.update(this.id, {...this.productoData, type: 'PRODUCTO'}).subscribe(() => {
+        this.productService.update(this.id, {...this.productoData, type: 'PRODUCTO'}).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/productos']);
           this.toastr.success('Entidad Actualizada');
         });
@@ -122,7 +114,7 @@ export class CrearEditarProductosComponent implements OnInit {
 
 
         this.productService.create({...this.dataCreate, type:'PRODUCTO' }
-      ).subscribe(() => {
+      ).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/productos']);
           this.toastr.success('Entidad Creada Exitosamente');
         });
@@ -133,7 +125,7 @@ export class CrearEditarProductosComponent implements OnInit {
 }
 
   getProduct(id: number) {
-    this.productService.getById(id).subscribe((data: any)=> {
+    this.productService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         
       this.form.setValue({
         name: data.name,
@@ -149,7 +141,7 @@ export class CrearEditarProductosComponent implements OnInit {
 }
   
   loadAllEntities() {
-    this.maestroArticulosService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
 
       data.forEach((entity: any) => {
         if(entity.tipoArticulo === 'PRODUCTO'){
@@ -159,11 +151,11 @@ export class CrearEditarProductosComponent implements OnInit {
     })
     
 
-    this.depositoService.getAll().subscribe((data) => {
+    this.depositoService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.depositos = data
     })
     
-    this.unidadMedidaService.getAll().subscribe((data) => {
+    this.unidadMedidaService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.unidadesMedida = data
     })
   }

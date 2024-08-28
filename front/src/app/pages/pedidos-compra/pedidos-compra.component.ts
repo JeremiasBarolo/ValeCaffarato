@@ -8,6 +8,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 import { PedidosService } from 'src/app/services/pedidos.service';
 
 import { DepositosService } from 'src/app/services/depositos.service';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -23,16 +24,13 @@ export class PedidosCompraComponent implements OnInit {
   listCancelado: Pedidos[] = [];
   listFinalizado: Pedidos[] = [];
   subtotal: number = 0
-
-  cardData: any = {
-    name: ''
-  }
-  cardDataGeneral: any = {
-    name: ''
-  }  
+  cardData: any = {}
+  cardDataGeneral: any = {}  
   IdsInsumosCantidad: any[] = []
   depositos: any[] = [] 
   selectedDepositoId: number | undefined;
+  private destroy$ = new Subject<void>();
+  
 
   constructor(
     private pedidosService: PedidosService,
@@ -48,7 +46,7 @@ export class PedidosCompraComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.pedidosService.getAll().subscribe(data =>{
+    this.pedidosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
       data.forEach(
         (element: any) => {
           if(element.state === 'PRESUPUESTADO' && element.category === 'COMPRA'){
@@ -64,16 +62,12 @@ export class PedidosCompraComponent implements OnInit {
       )
     });
 
-    this.depositosService.getAll().subscribe(data => {
-      if (Array.isArray(data)) {
+    this.depositosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data => {
         this.depositos = data;
-      } else {
-        console.error("La respuesta del servicio de depósitos no es un arreglo:", data);
-      }
     });
     
     
-    this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
     });
     
@@ -89,7 +83,7 @@ export class PedidosCompraComponent implements OnInit {
     if(estado === 'APROBADO'){
 
       pedido.subtotal = this.calcularSubtotal(pedido);
-      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.update(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
@@ -99,25 +93,24 @@ export class PedidosCompraComponent implements OnInit {
     }
     else if(estado === 'FINALIZADO'){
 
-      console.log('pase');
       
 
-          this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).subscribe(() => {
+          this.productosEnStockService.create({productos: pedido.productos, type: 'INSUMO', depositoId: selectedId }).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.toastr.success(`Pedido ${pedido.name} ${estado} con Exito`)
 
           });
-          this.pedidosService.update(id, pedido).subscribe(() => {
+          this.pedidosService.update(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
             setTimeout(() => {
               window.location.reload();
             }, 100)
           })
-          this.router.navigate(['dashboard/insumos']);
+          
 
 
     }else{
 
-      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.update(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
@@ -156,23 +149,39 @@ calcularSubtotal(pedido: any): number {
   return subtotal;
 }
 
+ngOnDestroy(): void {
+  this.destroy$.next();
+  this.destroy$.complete();
+}
+
 
 eliminarPedido(id?: number, state?:any){
 
   if(state ==='FINALIZADO'){
-    this.pedidosService.update(id!, {eliminarCantidad: true}).subscribe((res) => {
-       if(res = "Pedido finalizado eliminado y cantidad revertida en la tabla de productos en stock."){
-        this.toastr.success('Entidad eliminado exitosamente')
-        setTimeout(() => {
-          window.location.reload();
-        }, 600)
-      }else{
-        this.toastr.info(res)
+    this.pedidosService.update(id!, { eliminarCantidad: true })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res) => {
+       
+  
+        if (res.action === true) {
+          this.toastr.info(res.message);
+        } else {
+          this.toastr.success('Entidad eliminada exitosamente');
+          setTimeout(() => {
+            window.location.reload();
+          }, 600);
+        }
+      },
+      error: (error) => {
+        console.error('Error recibido:', error); 
+        this.toastr.error(error.error.error
+          || 'Ocurrió un error inesperado al eliminar el pedido.');
       }
-      
-    })
+    });
+  
   }else{
-    this.pedidosService.delete(id!).subscribe(() => {
+    this.pedidosService.delete(id!).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('Entidad eliminado exitosamente')
       setTimeout(() => {
         window.location.reload();

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Table } from 'primeng/table';
+import { Subject, takeUntil } from 'rxjs';
 import { Persona } from 'src/app/models/Persona';
 import { PersonasService } from 'src/app/services/personas.service';
 
@@ -13,20 +14,20 @@ export class EmpleadosComponent {
   breadcrumbItems: string = 'Empleados'
   proveedores: any[] = [];
   persona: any;
-  cardData: any = {
-    name: ''
-  }
+  cardData: any = {}
   
   @ViewChild('dt')
   table!: Table; 
   filteredProveedores: any[] = [];
+  private destroy$ = new Subject<void>();
+  
   
   constructor( 
     private personasService: PersonasService,
     private toastr: ToastrService, ) { }
 
   ngOnInit(): void {
-    this.personasService.getAll().subscribe(persona => {
+    this.personasService.getAll().pipe(takeUntil(this.destroy$)).subscribe(persona => {
       persona.forEach(element => {
         if(element.Tipo_Persona.description === 'Empleado'){
           this.proveedores.push(element)
@@ -35,11 +36,12 @@ export class EmpleadosComponent {
       }
       )
     })
-      
 
+  }
 
-
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   showCardDetails(card: any) {
@@ -49,7 +51,7 @@ export class EmpleadosComponent {
   }
 
   deleteDeposito(id: any): void {
-    this.personasService.delete(id).subscribe(() => {
+    this.personasService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filteredProveedores = this.filteredProveedores.filter(e => e.id !== id);
       this.toastr.success('Deposito Eliminado', 'Exito');
       this.table.reset(); 

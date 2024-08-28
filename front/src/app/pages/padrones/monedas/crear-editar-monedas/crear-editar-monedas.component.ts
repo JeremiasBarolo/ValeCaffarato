@@ -1,6 +1,7 @@
   import { AfterViewInit, Component, OnInit } from '@angular/core';
   import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
   import { DepositosService } from 'src/app/services/depositos.service';
   import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
@@ -27,34 +28,40 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
       depositoId: 0
     }
     depositos: any[] = [];
+    private destroy$ = new Subject<void>();
     
   
   
     constructor(
-      private fb: FormBuilder,
-      private router: Router,
-      private aRoute: ActivatedRoute,
-      private monedasService: MonedasService,
-      private maestroArticulosService: MaestroArticulosService,
-      private depositosService: DepositosService,
-    ) {
+          private fb: FormBuilder,
+          private router: Router,
+          private aRoute: ActivatedRoute,
+          private monedasService: MonedasService,
+          private maestroArticulosService: MaestroArticulosService,
+          private depositosService: DepositosService,
+        ) {
   
-      this.form = this.fb.group({
-        simbolo: ['', Validators.required],
-        description: ['', Validators.required],
-      });
-    
+          this.form = this.fb.group({
+            simbolo: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+        
+          
       
-   
-      this.id = Number(aRoute.snapshot.paramMap.get('id'));
+          this.id = Number(aRoute.snapshot.paramMap.get('id'));
     }
   
       ngOnInit(): void {
         
         if (this.id !== null) {
           this.getMoneda(this.id);
+        }
       }
-    }
+
+      ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+      }
   
     ngAfterViewInit(): void {
       if (this.id !== 0) {
@@ -77,7 +84,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
         
           // Es editar
           try {
-            this.monedasService.update(this.id, this.moneda).subscribe(() => {
+            this.monedasService.update(this.id, this.moneda).pipe(takeUntil(this.destroy$)).subscribe(() => {
               this.router.navigate(['dashboard/monedas']);
             });
         
@@ -87,7 +94,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
         } else {
 
           try {
-            this.monedasService.create(this.moneda).subscribe(() => {
+            this.monedasService.create(this.moneda).pipe(takeUntil(this.destroy$)).subscribe(() => {
               this.router.navigate(['dashboard/monedas']);
             });
             
@@ -99,7 +106,7 @@ export class CrearEditarMonedasComponent implements AfterViewInit, OnInit {
     
   
     getMoneda(id: number) {
-      this.monedasService.getById(id).subscribe((data: any)=> {
+      this.monedasService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           
           description: data.description,

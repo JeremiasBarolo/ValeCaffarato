@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-crear-editar-personales',
@@ -20,7 +21,7 @@ export class CrearEditarPersonalesComponent {
   operacion: string = 'Agregar ';
   anyData: any | any;
   selectedId: number | undefined
- 
+  private destroy$ = new Subject<void>();
  
   
 
@@ -54,8 +55,9 @@ export class CrearEditarPersonalesComponent {
 
   }
 
-  ngAfterViewInit(): void {
-    
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   addPadron() {
@@ -63,7 +65,7 @@ export class CrearEditarPersonalesComponent {
 
       let tipo = {description: this.form.value.description}
 
-      this.tipoPersonaService.create(tipo).subscribe((data) => {
+      this.tipoPersonaService.create(tipo).pipe(takeUntil(this.destroy$)).subscribe((data) => {
 
         this.router.navigate(['dashboard/personales']);
         
@@ -72,7 +74,7 @@ export class CrearEditarPersonalesComponent {
 
       let cond = {description: this.form.value.description}
 
-      this.condIvaService.create(cond).subscribe((data) => {
+      this.condIvaService.create(cond).pipe(takeUntil(this.destroy$)).subscribe((data) => {
 
         this.router.navigate(['dashboard/personales']);
         
@@ -89,7 +91,7 @@ export class CrearEditarPersonalesComponent {
 
     if(accion=== 'TIPO'){
 
-      this.tipoPersonaService.getById(id).subscribe((data: any)=> {
+      this.tipoPersonaService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           description: data.description
         });
@@ -97,7 +99,7 @@ export class CrearEditarPersonalesComponent {
 
     }else{
 
-      this.condIvaService.getById(id).subscribe((data: any)=> {
+      this.condIvaService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         this.form.setValue({
           description: data.description
         });

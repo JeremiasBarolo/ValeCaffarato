@@ -2,6 +2,7 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { LoginComponent } from 'src/app/auth/login/login.component';
 import { Pedidos } from 'src/app/models/pedidos';
 import { DepositosService } from 'src/app/services/depositos.service';
@@ -18,7 +19,7 @@ import { ProductosEnStockService } from 'src/app/services/productos-en-stock.ser
 export class PedidosVentaComponent {
   breadcrumbItems: string = 'Pedidos Venta'
   listPresupuesto: Pedidos[] = [];
-  listAprobado: Pedidos[] = [];
+  listListoParaFinalizar: Pedidos[] = [];
   listCancelado: Pedidos[] = [];
   listFinalizado: Pedidos[] = [];
   listPreparacion: Pedidos[] = [];
@@ -26,13 +27,10 @@ export class PedidosVentaComponent {
   selectedDepositoId: number | undefined;
   depositos:any[] = []
 
-  cardData: any = {
-    name: ''
-  }
-  cardDataGeneral: any = {
-    name: ''
-  }  
+  cardData: any = {}
+  cardDataGeneral: any = { }  
   IdsInsumosCantidad: any[] = []
+  private destroy$ = new Subject<void>();
 
   constructor(
 
@@ -50,17 +48,15 @@ export class PedidosVentaComponent {
 
   ngOnInit(): void {
 
-    this.pedidosService.getAll().subscribe(data =>{
+    this.pedidosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
       data.forEach(
         (element: any) => {
           if(element.state === 'PRESUPUESTADO' && element.category === 'VENTA'){
             this.listPresupuesto.push(element);
-          }else if(element.state === 'APROBADO' && element.category === 'VENTA'){
-            this.listAprobado.push(element);
-          }else if(element.state === 'CANCELADO' && element.category === 'VENTA'){
-            this.listCancelado.push(element);
           }else if(element.state === 'PREPARACION' && element.category === 'VENTA'){
             this.listPreparacion.push(element);
+          }else if(element.state === 'LISTO PARA FINALIZAR' && element.category === 'VENTA'){
+            this.listListoParaFinalizar.push(element);
           }else if(element.state === 'FINALIZADO' && element.category === 'VENTA'){
             this.listFinalizado.push(element);
           }
@@ -68,7 +64,7 @@ export class PedidosVentaComponent {
       )
     });
 
-    this.depositosService.getAll().subscribe(data => {
+    this.depositosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data => {
       if (Array.isArray(data)) {
         this.depositos = data;
       } else {
@@ -76,11 +72,16 @@ export class PedidosVentaComponent {
       }
     });
     
-    this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.viewport.scrollToPosition([0,0]);
     });
     
     
+  }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any, selectedId?:number) {
@@ -89,10 +90,10 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
     
 
 
-    if(estado === 'APROBADO'){
+    if(estado === 'LISTO PARA FINALIZAR'){
 
       pedido.subtotal = this.calcularSubtotal(pedido);
-      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.update(id, {...pedido, productos: pedido.productos, type: 'PRODUCTO', depositoId: this.selectedDepositoId  }).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
@@ -103,7 +104,7 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
     
     else if(estado === 'PREPARACION'){
 
-      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.enPreparacion(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         setTimeout(() => {
           window.location.reload();
@@ -112,10 +113,10 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
   }
     else if(estado === 'FINALIZADO'){
       
-      this.productosService.create({productos: pedido.productos, type: 'PRODUCTO', depositoId: this.selectedDepositoId  }).subscribe(() => {
+      this.productosService.create({productos: pedido.productos, type: 'PRODUCTO', depositoId: this.selectedDepositoId  }).pipe(takeUntil(this.destroy$)).subscribe(() => {
       });
 
-      this.pedidosService.update(id, pedido).subscribe(() => {
+      this.pedidosService.update(id, pedido).pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
         
       })
@@ -123,12 +124,14 @@ cambiarEstado(id?: number, pedido?: any, estado?: string, devolverInsumos?: any,
       
 
 
-      this.router.navigate(['dashboard/productos']);
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
 
 
     }else{
 
-      this.pedidosService.update(id, {...pedido, devolverInsumos:devolverInsumos}).subscribe(() => {
+      this.pedidosService.update(id, {...pedido, devolverInsumos:devolverInsumos}).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success(`Pedido ${pedido.name} ${estado} exitosamente`)
       setTimeout(() => {
         window.location.reload();
@@ -170,7 +173,7 @@ calcularSubtotal(pedido: any): number {
 
 eliminarPedido(id?: number, eliminarCantidad?:any){
   if(eliminarCantidad){
-    this.pedidosService.update(id!, {eliminarCantidad: eliminarCantidad}).subscribe(() => {
+    this.pedidosService.update(id!, {eliminarCantidad: eliminarCantidad}).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('Entidad eliminado exitosamente')
       setTimeout(() => {
         window.location.reload();
@@ -179,7 +182,7 @@ eliminarPedido(id?: number, eliminarCantidad?:any){
   
     })
   }else{
-    this.pedidosService.delete(id!).subscribe(() => {
+    this.pedidosService.delete(id!).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('Entidad eliminado exitosamente')
       setTimeout(() => {
         window.location.reload();
@@ -192,7 +195,7 @@ eliminarPedido(id?: number, eliminarCantidad?:any){
 }
 
 onAceptarClick() { 
-  this.cambiarEstado(this.cardData.id, this.cardData, 'FINALIZADO');
+  this.cambiarEstado(this.cardData.id, this.cardData, 'LISTO PARA FINALIZAR');
 }
 
 navigateToDetalle(id: any) {

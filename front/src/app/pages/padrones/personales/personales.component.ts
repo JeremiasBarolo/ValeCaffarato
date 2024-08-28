@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
 import { ProvinciasService } from 'src/app/services/provincias.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-personales',
@@ -23,6 +24,7 @@ export class PersonalesComponent {
     name: ''
   }
   selectedOption:string | undefined 
+  private destroy$ = new Subject<void>();
  
   
   constructor( 
@@ -44,15 +46,20 @@ export class PersonalesComponent {
   ngOnInit(): void {
 
 
-  this.condIvaService.getAll().subscribe(pais => {
+  this.condIvaService.getAll().pipe(takeUntil(this.destroy$)).subscribe(pais => {
     this.listCondIva= pais
   })
 
-  this.tipoPersonaService.getAll().subscribe(pais => {
+  this.tipoPersonaService.getAll().pipe(takeUntil(this.destroy$)).subscribe(pais => {
     this.listTipoPersona= pais
   })
 
   
+}
+
+ngOnDestroy(): void {
+  this.destroy$.next();
+  this.destroy$.complete();
 }
 
 showCardDetails(card: any) {
@@ -67,13 +74,13 @@ eliminarPadron(id: number, accion: string) {
   
   if (confirmacion) {
     if (accion === 'CONDICION') {
-      this.condIvaService.delete(id).subscribe(() => {
+      this.condIvaService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         setTimeout(() => {
           window.location.reload();
         }, 600);
       });
     } else {
-      this.tipoPersonaService.delete(id).subscribe(() => {
+      this.tipoPersonaService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         setTimeout(() => {
           window.location.reload();
         }, 600);

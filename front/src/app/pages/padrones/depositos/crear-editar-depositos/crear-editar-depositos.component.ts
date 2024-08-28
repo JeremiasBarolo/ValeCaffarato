@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { DepositosService } from 'src/app/services/depositos.service';
 
@@ -26,6 +26,8 @@ export class CrearEditarDepositosComponent {
   }
   depositos: any[] =[]
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -48,8 +50,12 @@ export class CrearEditarDepositosComponent {
     if (this.id !== null) {
       
       this.getProduct(this.id);
-    } else{
     }  
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   addDeposito() {
@@ -60,7 +66,7 @@ export class CrearEditarDepositosComponent {
     if (this.id !== 0) {
         
       try {
-        this.depositoService.update(this.id, this.productoData).subscribe(() => {
+        this.depositoService.update(this.id, this.productoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/depositos']);
           this.toastr.success('Deposito Actualizada');
         });
@@ -71,7 +77,7 @@ export class CrearEditarDepositosComponent {
     } else {
       try {
       this.depositoService.create(this.productoData
-      ).subscribe(() => {
+      ).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/depositos']);
           this.toastr.success('Deposito Creada Exitosamente');
         });
@@ -82,7 +88,7 @@ export class CrearEditarDepositosComponent {
 }
 
   getProduct(id: number) {
-    this.depositoService.getById(id).subscribe((data: any)=> {
+    this.depositoService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
         
       this.form.setValue({  
         description: data.description
@@ -91,7 +97,7 @@ export class CrearEditarDepositosComponent {
 }
   
   loadAllEntities() {
-    this.depositoService.getAll().subscribe((data) => {
+    this.depositoService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
 
       this.depositos = data
     }) 

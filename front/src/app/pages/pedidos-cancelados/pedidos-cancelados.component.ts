@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { Pedidos } from 'src/app/models/pedidos'
 import { PedidosService } from 'src/app/services/pedidos.service';
 
@@ -14,15 +15,9 @@ export class PedidosCanceladosComponent {
   listCancelado: any[] = []
   filteredProductos: any = []
   breadcrumbItems: string = 'Pedidos Cancelados'
-  cardData: any = {
-    name: '',
-    description: '',
-    subtotal: 0,
-    state: '',
-    category: '',
-    insumos: [],
-    productos: []
-  }
+  cardData: any = {}
+  private destroy$ = new Subject<void>();
+
   constructor(
     private pedidosService: PedidosService,
     private toastr: ToastrService,
@@ -32,7 +27,7 @@ export class PedidosCanceladosComponent {
   }
   
   ngOnInit(): void {
-    this.pedidosService.getAll().subscribe(data =>{
+    this.pedidosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
       data.forEach(
         (element: any) => {
           if(element.state === 'CANCELADO'){
@@ -52,8 +47,13 @@ export class PedidosCanceladosComponent {
     
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   eliminarPedido(id?: number){
-    this.pedidosService.delete(id!).subscribe(() => {
+    this.pedidosService.delete(id!).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.toastr.success('Entidad eliminado exitosamente')
       setTimeout(() => {
         window.location.reload();

@@ -5,7 +5,6 @@ const pedidosRouter = require('./pedidos');
 const cantidadesRouter = require('./cantidades');
 const productosRouter = require('./productos');
 const documentosRouter = require('./documentos');
-const generarPdfRouter = require('./generarPdf');
 const depositosRouter = require('./depositos');
 const paisesRouter = require('./paises');
 const provinciasRouter = require('./provincias');
@@ -17,6 +16,8 @@ const monedasRouter = require('./Monedas');
 const usuarioRouter = require('./usuario');
 const loginRouter = require('./login');
 const unidadesDeMedidaRouter = require('./UnidadesDeMedida');
+const reclamosRouter = require('./reclamos');
+const tipoReclamosRouter = require('./Tipo_Reclamo');
 
 
 
@@ -26,7 +27,6 @@ module.exports = {
     cantidadesRouter,
     productosRouter,
     documentosRouter,
-    generarPdfRouter,
     maestroArticulosRouter,
     depositosRouter,
     paisesRouter,
@@ -38,5 +38,7 @@ module.exports = {
     monedasRouter,
     usuarioRouter,
     loginRouter,
-    unidadesDeMedidaRouter
+    unidadesDeMedidaRouter,
+    reclamosRouter,
+    tipoReclamosRouter
  };

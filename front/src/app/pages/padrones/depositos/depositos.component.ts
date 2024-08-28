@@ -4,6 +4,7 @@ import { Persona } from 'src/app/models/Persona';
 import { Table } from 'primeng/table';
 import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-depositos',
@@ -22,6 +23,8 @@ export class DepositosComponent implements OnInit {
   table!: Table; 
   filteredDepositos: any[] = [];
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private depositosService: DepositosService,
     private confirmationService: ConfirmationService,
@@ -31,9 +34,13 @@ export class DepositosComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   loadData(): void {
-    this.depositosService.getAll().subscribe(deposito => {
+    this.depositosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(deposito => {
       this.depositos = deposito;
       this.filteredDepositos = [...this.depositos]; 
     });
@@ -45,7 +52,7 @@ export class DepositosComponent implements OnInit {
   }
 
   deleteDeposito(id: any): void {
-      this.depositosService.delete(id).subscribe(() => {
+      this.depositosService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.filteredDepositos = this.filteredDepositos.filter(e => e.id !== id);
         this.toastr.success('Deposito Eliminado', 'Exito');
         this.table.reset(); 

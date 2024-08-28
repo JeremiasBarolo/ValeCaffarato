@@ -1,5 +1,7 @@
 var models = require('../models');
-const uuid = require('uuid');
+const UtilsService = require('../classes/utils');
+const utilsService = new UtilsService();
+
 const listAllDocumento= async () => {
   try {
     const Documento = await models.Documentos.findAll(
@@ -8,7 +10,16 @@ const listAllDocumento= async () => {
       },
     );
     console.log('✅ Documento were found');
-    return Documento;
+    return Documento.map(documento => ({
+      id: documento.id,
+      user:`${documento.Personas[0].name} ${documento.Personas[0].lastname}`,
+      fecha: documento.createdAt,
+      total: documento.total,
+      Pedido: documento.Pedidos[0],
+      Documento: documento,
+      tipo: documento.tipo,
+    }))
+  
   } catch (err) {
     console.error('🛑 Error when fetching Documento', err);
     throw err;
@@ -35,23 +46,27 @@ const createDocumento= async (DocumentoData) => {
   
 
   try {
+
+    const pedido = await models.Pedidos.findByPk(DocumentoData.pedido, 
+      include= { all: true }
+    )
     
     const dataDocumento= {
-      iva: DocumentoData.iva,
-      totalIva: DocumentoData.totalIva,
-      total: DocumentoData.total,
+      iva: 1,
+      totalIva: 1,
+      total: pedido.subtotal,
       condicionIva: DocumentoData.condicionIva,
       tipo: DocumentoData.tipo,
     };
     
 
     const newDocumento= await models.Documentos.create(dataDocumento);
-    for(const pedido of DocumentoData.pedido){
-      await models.PedidoDocumentos.create({
-        documentoId: newDocumento.id,
-        pedidoId: pedido
+   
+    await models.PedidoDocumentos.create({
+      documentoId: newDocumento.id,
+        pedidoId: DocumentoData.pedido
       })
-    }
+    
 
     await models.PersonaDocumentos.create({
       personaId: DocumentoData.cliente,

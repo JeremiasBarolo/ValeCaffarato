@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import { Location } from '@angular/common';
 
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { CondIvaService } from 'src/app/services/cond-iva.service';
@@ -35,6 +37,7 @@ export class CrearPersonaComponent {
   localities:any[]= []
   localidades: any[] = [];
   tipoArticulo: string = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -47,7 +50,8 @@ export class CrearPersonaComponent {
     private provinciasService: ProvinciasService,
     private localidadesService: LocalidadesService,
     private condIvaService: CondIvaService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -58,7 +62,7 @@ export class CrearPersonaComponent {
       adress_number: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', Validators.required],
-      tipo_persona: ['', Validators.required],
+  
       cond_iva: ['', Validators.required],
       locality: ['', Validators.required],
      
@@ -70,32 +74,40 @@ export class CrearPersonaComponent {
   
 
   ngAfterViewInit(): void {
+   
+    
     if(this.id !== 0){
       this.getPersona(this.id);
     }
     
-    this.aRoute.queryParams.subscribe(params => {
+    this.aRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.tipoArticulo = params['tipoArticulo'];
-      console.log('Tipo de Artículo:', this.tipoArticulo);
+      
       
     });
   
-    this.tipoPersonasService.getAll().subscribe((data)=>{
+    this.tipoPersonasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.tipo = data;
-      console.log('Tipos de Persona:', this.tipo);
+     
     });
 
     this.loadTipoPersona(this.tipoArticulo);
 
-    this.condIvaService.getAll().subscribe((data)=>{
+    this.condIvaService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.cond = data;
     });
   
     this.loadLocalities();
   }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 
   addPersona() {
+    
+
     this.Persona = {
       name: this.form.value.name,
       lastname: this.form.value.lastname,
@@ -105,7 +117,7 @@ export class CrearPersonaComponent {
       adress_number: this.form.value.adress_number,
       phone: this.form.value.phone,
       email: this.form.value.email,
-      tipo_persona:this.form.value.tipo_persona,
+      tipo_persona: this.tipoArticulo,
       cond_iva:this.form.value.cond_iva,
       localidadId:this.form.value.locality
     };
@@ -116,13 +128,14 @@ export class CrearPersonaComponent {
     if (this.id !== 0) {
       // Es editar
       try {
-        console.log(this.Persona);
+        
         
           this.personasService.update(this.id,{
             ...this.Persona,
-          }).subscribe(() => {
+          }).pipe(takeUntil(this.destroy$)).subscribe(() => {
+            console.log(this.Persona.tipo_persona);
             
-            this.router.navigate(['dashboard/inicio']);
+            this.goBack()
           });
         
         
@@ -136,8 +149,8 @@ export class CrearPersonaComponent {
       try {
           this.personasService.create({
             ...this.Persona
-          }).subscribe(() => {
-            this.router.navigate(['dashboard/inicio']);
+          }).pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.goBack()
           }
           );
         
@@ -154,9 +167,11 @@ getPersona(id: number) {
 
 
 
-    this.personasService.getById(id).subscribe((data: any) => {
+    this.personasService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+      console.log(data);
       
-  
+      this.tipoArticulo = data.TipoPersonaId
+
       let persona: any = {
         name: data.name,
         lastname: data.lastname,
@@ -174,7 +189,7 @@ getPersona(id: number) {
 
 
 
-      this.provinciasService.getById(data.Localidad.provinciaId).subscribe((provincia)=>{
+      this.provinciasService.getById(data.Localidad.provinciaId).pipe(takeUntil(this.destroy$)).subscribe((provincia)=>{
         
           this.form.setValue({
             name: persona.name,
@@ -186,7 +201,6 @@ getPersona(id: number) {
             phone: persona.phone,
             email: persona.email,
             cond_iva:data.Condicion_Iva.id,
-            tipo_persona:data.Tipo_Persona.id,
             locality:data.localidadId,
   
         });
@@ -205,7 +219,7 @@ getPersona(id: number) {
   
   
   loadLocalities(provinceId?: number) {
-    this.localidadesService.getAll().subscribe((localities) => {
+    this.localidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe((localities) => {
       this.localidades = localities
       
       
@@ -231,7 +245,9 @@ getPersona(id: number) {
 
   
   
-  
+  goBack() {
+    this.location.back()
+  }
   
   
   

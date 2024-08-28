@@ -14,6 +14,16 @@ export class PedidosService {
   constructor(private http: HttpClient, private toastr: ToastrService ) { }
   appSettings: any = AppSettings.readAppSettings().ValeCaffarato;
   private apiUrl = `${this.appSettings.url_api}/pedidos`;
+
+
+  getAllFacturasReady(): Observable<Pedidos[]> {
+    return this.http.get<Pedidos[]>(`${this.apiUrl}/facturas-ready`);
+  }
+
+  getAllRemitoReady(): Observable<Pedidos[]> {
+    return this.http.get<Pedidos[]>(`${this.apiUrl}/remito-ready`);
+  }
+
  
   //get all
   getAll(): Observable<Pedidos[]> {
@@ -49,6 +59,18 @@ export class PedidosService {
       
     }
 }
+
+  enPreparacion(id: number, Pedidos: any): Observable<any> {
+      return this.http.put<Pedidos>(`${this.apiUrl}/venta/enpreparacion/${id}`, Pedidos)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleHttpError(error);
+          return throwError(error);
+        })
+
+      );
+    
+  }
 
 // update
   update(id: number, Pedidos: any): Observable<any> {

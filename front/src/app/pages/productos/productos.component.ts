@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { ProductosEnStockService } from 'src/app/services/productos-en-stock.service';
 
 
@@ -19,6 +20,7 @@ export class ProductosComponent {
 
   }
   filteredProductos:any[] = []
+  private destroy$ = new Subject<void>();
 
   constructor(
     private productoService: ProductosEnStockService,
@@ -28,7 +30,7 @@ export class ProductosComponent {
   }
   
   ngOnInit(): void {
-    this.productoService.getAll().subscribe(data =>{
+    this.productoService.getAll().pipe(takeUntil(this.destroy$)).subscribe(data =>{
       data.forEach(element => {
         if(element.type === "PRODUCTO"){
           this.entidades.push(element)
@@ -38,8 +40,15 @@ export class ProductosComponent {
       
     })
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
   deleteEntidad(id: any) {
-    this.productoService.delete(id).subscribe(() => {
+    this.productoService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.entidades = this.entidades.filter(e => e.id !== id);
     });
   } 

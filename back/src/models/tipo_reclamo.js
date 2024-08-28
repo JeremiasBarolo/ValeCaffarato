@@ -1,0 +1,25 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Tipo_Reclamo extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      Tipo_Reclamo.hasMany(models.Reclamos, {
+        foreignKey: 'id_tipo_reclamo'
+      })
+    }
+  }
+  Tipo_Reclamo.init({
+    des_reclamo: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Tipo_Reclamo',
+  });
+  return Tipo_Reclamo;
+};

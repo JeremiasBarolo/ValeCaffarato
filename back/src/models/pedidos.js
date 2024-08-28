@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       });
+
+      Pedidos.hasMany(models.Reclamos, {
+        foreignKey: 'id_pedido',
+        onUpdate: 'CASCADE',
+      });
       
     }
   }

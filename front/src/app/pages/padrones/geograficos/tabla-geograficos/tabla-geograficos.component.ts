@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Persona } from 'src/app/models/Persona';
 import { BancosService } from 'src/app/services/bancos.service';
 import { LocalidadesService } from 'src/app/services/localidades.service';
@@ -29,6 +30,8 @@ export class TablaGeograficosComponent {
     name: ''
   }
   selectedOption:string | undefined 
+
+  private destroy$ = new Subject<void>();
  
   
   constructor( 
@@ -53,21 +56,26 @@ export class TablaGeograficosComponent {
   ngOnInit(): void {
 
 
-  this.paisesService.getAll().subscribe(pais => {
+  this.paisesService.getAll().pipe(takeUntil(this.destroy$)).subscribe(pais => {
     this.paises= pais
   })
 
-  this.bancosService.getAll().subscribe(banco => {
+  this.bancosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(banco => {
     this.bancos= banco
   })
 
-  this.provinciasService.getAll().subscribe(pais => {
+  this.provinciasService.getAll().pipe(takeUntil(this.destroy$)).subscribe(pais => {
     this.provincias= pais
   })
 
-  this.localidadesService.getAll().subscribe(pais => {
+  this.localidadesService.getAll().pipe(takeUntil(this.destroy$)).subscribe(pais => {
     this.localidades= pais
   })
+}
+
+ngOnDestroy(): void {
+  this.destroy$.next();
+  this.destroy$.complete();
 }
 
 showCardDetails(card: any) {
@@ -82,25 +90,25 @@ eliminarPadron(id: number, accion: string) {
   
   if (confirmacion) {
     if (accion === 'PAIS') {
-      this.paisesService.delete(id).subscribe(() => {
+      this.paisesService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         setTimeout(() => {
           window.location.reload();
         }, 600);
       });
     } else if (accion === 'PROVINCIA') {
-      this.provinciasService.delete(id).subscribe(() => {
+      this.provinciasService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         setTimeout(() => {
           window.location.reload();
         }, 600);
       });
     } else if (accion === 'LOCALIDAD') {
-      this.localidadesService.delete(id).subscribe(() => {
+      this.localidadesService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         setTimeout(() => {
           window.location.reload();
         }, 600);
       });
     } else {
-      this.bancosService.delete(id).subscribe(() => {
+      this.bancosService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
         setTimeout(() => {
           window.location.reload();
         }, 600);

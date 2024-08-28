@@ -18,7 +18,7 @@
               {{presupuesto.Persona.name}} {{presupuesto.Persona.lastname}}
             </div>
             <div class="card-footer">
-              <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'APROBADO')">Aprobar</a>
+              <a class="btn btn-outline-dark mr-1"  (click)="cambiarEstado(presupuesto.id, presupuesto, 'PREPARACION')">Comenzar Pedido</a>
               <a class="btn btn-outline-danger ml-1" (click)="eliminarPedido(presupuesto.id)" ><i class="fa-solid fa-trash"></i></a>
               <button type="button" class="btn btn-outline-primary ml-1" data-dismiss="modal" (click)="updateEntidad(presupuesto.id)"><i class="fa-solid fa-pen-to-square"></i></button>
             </div>
@@ -27,29 +27,12 @@
         
         </div>
 
-        <div class="col-md-3 border-right">
-            <h4 class="mb-3">Aprobado</h4>
-            <div class="card" *ngFor="let aprobado of listAprobado" >
-              <div class="card-header preparacion-card-header" (click)="navigateToDetalle(aprobado.id)">
-                {{aprobado.createdAt | date}} || #{{aprobado.id}}
-              </div>
-              <div class="card-body" (click)="navigateToDetalle(aprobado.id)">
-                {{aprobado.Persona.name}} {{aprobado.Persona.lastname}}
-              </div>
-              <div class="card-footer">
-                <a class="btn btn-outline-dark mr-1" (click)="cambiarEstado(aprobado.id, aprobado, 'PREPARACION')">Comenzar Pedido</a>
-                <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(aprobado.id, aprobado, 'CANCELADO')">Cancelado</a>
-              </div>
-            </div>
-          </div>
-  
-  
         <div class="col-md-3 border-right" >
-          <h4 class="mb-3">Preparacion</h4>
+          <h4 class="mb-3"> En Preparacion</h4>
     
           <div class="card" *ngFor="let preparacion of listPreparacion">
             <div class="card-header preparacion-card-header" (click)="navigateToDetalle(preparacion.id)">
-              {{preparacion.createdAt | date}} || #{{preparacion.id}}preparacion
+              {{preparacion.createdAt | date}} || #{{preparacion.id}}
             </div>
     
             <div class="card-body" (click)="navigateToDetalle(preparacion.id)">
@@ -62,6 +45,25 @@
             </div>
           </div>
         </div>
+
+        <div class="col-md-3 border-right">
+            <h4 class="mb-3">Listo Para Finalizar</h4>
+            <div class="card" *ngFor="let listo of listListoParaFinalizar" >
+              <div class="card-header cancelado-card-header" (click)="navigateToDetalle(listo.id)">
+                {{listo.createdAt | date}} || #{{listo.id}}
+              </div>
+              <div class="card-body" (click)="navigateToDetalle(listo.id)">
+                {{listo.Persona.name}} {{listo.Persona.lastname}}
+              </div>
+              <div class="card-footer">
+                <a class="btn btn-outline-dark mr-1" (click)="cambiarEstado(listo.id, listo, 'FINALIZAR')">Finalizar Pedido</a>
+                <a class="btn btn-outline-danger ml-1" (click)="cambiarEstado(listo.id, listo, 'CANCELADO')">Cancelado</a>
+              </div>
+            </div>
+          </div>
+  
+  
+        
   
   
         <div class="col-md-3 border-right" >
@@ -75,10 +77,10 @@
             <div class="card-body"(click)="navigateToDetalle(finalizado.id)">
               {{finalizado.Persona.name}} {{finalizado.Persona.lastname}}
             </div>
-            <div class="card-footer">
+            <!-- <div class="card-footer">
               
               <a class="btn btn-outline-danger ml-1" (click)="showCardDetails(finalizado)" data-target="#eliminarFinalizado" data-toggle="modal" ><i class="fa-solid fa-trash"></i></a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

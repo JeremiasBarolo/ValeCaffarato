@@ -1,19 +1,8 @@
 var models = require('../models');
-const path = require('path');
-const fs = require('fs');
-const { where } = require('sequelize');
-// const { sequelize } = require('../db/connection')
+const UtilsService = require('../classes/utils');
+const utilsService = new UtilsService();
 
-// const serveImage = async (Personas_id) => {
-//   try {
-//     const Personas = await models.Personas.findByPk(Personas_id,
-//       { include: { all: true } });
-//     return Personas;
-//   } catch (err) {
-//     console.error('🛑 Error when fetching product', err);
-//     throw err;
-//   }
-// };
+
 
 const listAllPersonas = async () => {
   try {
@@ -50,6 +39,8 @@ const listOnePersonas = async (Personas_id) => {
 const createPersonas = async (dataUpdated) => {
   
   try {
+
+    const tipo = await utilsService.returnTipoPersonaId(dataUpdated.tipo_persona)
     
     const dataCreate = {
       name: dataUpdated.name,
@@ -61,7 +52,6 @@ const createPersonas = async (dataUpdated) => {
       cuil: dataUpdated.cuil,
       email: dataUpdated.email,
       CondIvaId:parseInt(dataUpdated.cond_iva,10),
-      TipoPersonaId:parseInt(dataUpdated.tipo_persona,10),
       localidadId: parseInt(dataUpdated.localidadId,10),
     };
 
@@ -72,7 +62,7 @@ const createPersonas = async (dataUpdated) => {
     if(existe){
       throw new Error ('Ya existe una Persona con ese DNI.')
     }else{
-      return await models.Personas.create(dataCreate);
+      return await models.Personas.create({...dataCreate, TipoPersonaId:tipo });
     }
 
     

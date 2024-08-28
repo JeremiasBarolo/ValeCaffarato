@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 
 
@@ -13,9 +14,9 @@ export class ProductEntityComponent {
   breadcrumbItems: string = 'Productos'
   entidades_disp: any[] = []
   filteredInsumo: any[] = []
-  cardData: any = {
-    name: '',
-  }
+  cardData: any = {}
+  private destroy$ = new Subject<void>();
+
   constructor(
     private maestroArticulosService: MaestroArticulosService,
     private toastService: ToastrService,
@@ -26,7 +27,7 @@ export class ProductEntityComponent {
 
   
   ngOnInit(): void {
-    this.maestroArticulosService.getAll().subscribe(entidades => 
+    this.maestroArticulosService.getAll().pipe(takeUntil(this.destroy$)).subscribe(entidades => 
       entidades.forEach(producto => {
         if(producto.tipoArticulo === 'PRODUCTO'){
           this.entidades_disp.push(producto);
@@ -38,8 +39,15 @@ export class ProductEntityComponent {
     
     
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
   deleteEntidad(id: any) {
-    this.maestroArticulosService.delete(id).subscribe(() => {
+    this.maestroArticulosService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filteredInsumo = this.filteredInsumo.filter(e => e.id !== id);
       this.toastService.success('Producto eliminado correctamente');
     });

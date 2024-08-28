@@ -1,5 +1,6 @@
 const { pedidosVentaProvider, pedidosCompraProvider } = require('../providers');
 
+
 const listAllPedidos = async () => {
     return await pedidosVentaProvider.listAllPedidos();
 };
@@ -19,7 +20,12 @@ const createPedidos = async (PedidosData) => {
 
 
 const updatePedidos = async (Pedidos_id, updatePedidos) => {
-    return await pedidosVentaProvider.updatePedidos(Pedidos_id, updatePedidos);
+    
+    if(updatePedidos.category === 'VENTA'){
+        return await pedidosVentaProvider.updatePedidos(Pedidos_id, updatePedidos);
+    }else{
+        return await pedidosCompraProvider.updatePedidos(Pedidos_id, updatePedidos)
+    }
 };
 
 const deletePedidos = async (Pedidos_id) => {

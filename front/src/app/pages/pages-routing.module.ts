@@ -18,8 +18,6 @@ import { PedidosVentaComponent } from './pedidos-venta/pedidos-venta.component';
 import { CrearEditarPedidoVentaComponent } from './pedidos-venta/crear-editar-pedido-venta/crear-editar-pedido-venta.component';
 import { CrearEditarProductosComponent } from './productos/crear-editar-productos/crear-editar-productos.component';
 import { PedidosCanceladosComponent } from './pedidos-cancelados/pedidos-cancelados.component';
-import { DocumentosComponent } from './documentos/documentos.component';
-import { CrearEditarDocumentosComponent } from './documentos/crear-editar-documentos/crear-editar-documentos.component';
 import { FacturaRemitoComponent } from './documentos/factura-remito/factura-remito.component';
 import { DepositosComponent } from './padrones/depositos/depositos.component';
 import { CrearEditarDepositosComponent } from './padrones/depositos/crear-editar-depositos/crear-editar-depositos.component';
@@ -43,6 +41,21 @@ import { UsuariosComponent } from './personas/usuarios/usuarios.component';
 import { UnidadesMedidaComponent } from './padrones/unidades-medida/unidades-medida.component';
 import { TablaDetallesComponent } from '../shared/tabla-detalles/tabla-detalles.component';
 import { TablaPedidosComponent } from '../shared/tabla-pedidos/tabla-pedidos.component';
+import { CrearEditarBancosComponent } from './padrones/bancos/crear-editar-bancos/crear-editar-bancos.component';
+import { CrearEditarCondicionComponent } from './padrones/condicion-iva/crear-editar-condicion/crear-editar-condicion.component';
+import { CrearEditarLocalidadComponent } from './padrones/localidades/crear-editar-localidad/crear-editar-localidad.component';
+import { CrearEditarPaisesComponent } from './padrones/paises/crear-editar-paises/crear-editar-paises.component';
+import { CrearEditarProvinciasComponent } from './padrones/provincias/crear-editar-provincias/crear-editar-provincias.component';
+import { CrearEditarUnidadComponent } from './padrones/unidades-medida/crear-editar-unidad/crear-editar-unidad.component';
+import { CrearEditarTipoPersonaComponent } from './padrones/tipo-persona/crear-editar-tipo-persona/crear-editar-tipo-persona.component';
+import { FacturaComponent } from './documentos/factura/factura.component';
+import { RemitoComponent } from './documentos/remito/remito.component';
+import { TipoReclamosComponent } from './padrones/tipo-reclamos/tipo-reclamos.component';
+import { CrearEditarTipoReclamosComponent } from './padrones/tipo-reclamos/crear-editar-tipo-reclamos/crear-editar-tipo-reclamos.component';
+import { ReclamosCompraComponent } from './reclamos-compra/reclamos-compra.component';
+import { ReclamosVentaComponent } from './reclamos-venta/reclamos-venta.component';
+import { CrearEditarReclamoCompraComponent } from './reclamos-compra/crear-editar-reclamo-compra/crear-editar-reclamo-compra.component';
+import { CrearEditarReclamoVentaComponent } from './reclamos-venta/crear-editar-reclamo-venta/crear-editar-reclamo-venta.component';
 
 
 
@@ -76,9 +89,9 @@ const routes: Routes = [
       { path : 'productos', component : ProductosComponent},
       { path: 'productos/crear-editar', component: CrearEditarProductosComponent },
       { path: 'productos/crear-editar/:id', component: CrearEditarProductosComponent },
-      { path: 'documentos', component: DocumentosComponent },
-      { path: 'documentos/crear-editar', component: CrearEditarDocumentosComponent },
-      { path: 'documentos/crear-editar/:id', component: CrearEditarDocumentosComponent },
+      { path: 'facturas', component: FacturaComponent },
+      { path: 'facturas/detalle/:id', component: FacturaRemitoComponent },
+      { path: 'remitos', component: RemitoComponent },
       { path: 'documentos/factura-remito/:id', component: FacturaRemitoComponent },
       { path: 'depositos', component: DepositosComponent },
       { path: 'depositos/crear-editar', component: CrearEditarDepositosComponent },
@@ -93,18 +106,41 @@ const routes: Routes = [
       { path: 'monedas/crear-editar', component: CrearEditarMonedasComponent },
       { path: 'monedas/crear-editar/:id', component: CrearEditarMonedasComponent },
       { path: 'tipo-personas', component: TipoPersonaComponent },
+      { path: 'tipo-personas/crear-editar', component: CrearEditarTipoPersonaComponent },
+      { path: 'tipo-personas/crear-editar/:id', component: CrearEditarTipoPersonaComponent },
       { path: 'condicion-iva', component: CondicionIvaComponent },
+      { path: 'condicion-iva/crear-editar', component: CrearEditarCondicionComponent },
+      { path: 'condicion-iva/crear-editar/:id', component: CrearEditarCondicionComponent },
       { path: 'paises', component: PaisesComponent },
+      { path: 'paises/crear-editar', component: CrearEditarPaisesComponent },
+      { path: 'paises/crear-editar/:id', component: CrearEditarPaisesComponent },
       { path: 'provincias', component: ProvinciasComponent },
+      { path: 'provincias/crear-editar', component: CrearEditarProvinciasComponent },
+      { path: 'provincias/crear-editar/:id', component: CrearEditarProvinciasComponent },
       { path: 'localidades', component: LocalidadesComponent },
+      { path: 'localidades/crear-editar', component: CrearEditarLocalidadComponent },
+      { path: 'localidades/crear-editar/:id', component: CrearEditarLocalidadComponent },
       { path: 'proveedores', component: ProovedoresComponent },
       { path: 'empleados', component: EmpleadosComponent },
       { path: 'clientes', component: ClientesComponent },
       { path: 'bancos', component: BancosComponent },
+      { path: 'bancos/crear-editar', component: CrearEditarBancosComponent },
+      { path: 'bancos/crear-editar/:id', component: CrearEditarBancosComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'unidades-medida', component: UnidadesMedidaComponent },
+      { path: 'unidades-medida/crear-editar', component: CrearEditarUnidadComponent },
+      { path: 'unidades-medida/crear-editar/:id', component: CrearEditarUnidadComponent },
       { path: 'detalle/:id/:accion', component: TablaDetallesComponent},
       { path: 'detalle-pedido/:id', component: TablaPedidosComponent},
+      { path: 'reclamos-compra', component: ReclamosCompraComponent },
+      { path: 'reclamos-compra/crear-editar', component: CrearEditarReclamoCompraComponent },
+      { path: 'reclamos-compra/crear-editar/:id', component: CrearEditarReclamoCompraComponent },
+      { path: 'reclamos-venta', component: ReclamosVentaComponent },
+      { path: 'reclamos-venta/crear-editar', component: CrearEditarReclamoVentaComponent },
+      { path: 'reclamos-venta/crear-editar/:id', component: CrearEditarReclamoVentaComponent },
+      { path: 'tipo-reclamos', component: TipoReclamosComponent },
+      { path: 'tipo-reclamos/crear-editar', component: CrearEditarTipoReclamosComponent },
+      { path: 'tipo-reclamos/crear-editar/:id', component: CrearEditarTipoReclamosComponent },
       
       
 

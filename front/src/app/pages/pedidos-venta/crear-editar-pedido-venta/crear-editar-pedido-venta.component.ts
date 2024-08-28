@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PedidoCompra as Pedidos } from 'src/app/models/pedidoCompra';
 import { MaestroArticulosService } from 'src/app/services/maestro-articulos.service';
 import { MonedasService } from 'src/app/services/monedas.service';
@@ -33,6 +33,8 @@ export class CrearEditarPedidoVentaComponent {
     subtotal: 0,
     productos: [],
   };
+  private destroy$ = new Subject<void>();
+  fecha: any;
 
   constructor(
     private maestroArticulosService: MaestroArticulosService,
@@ -61,19 +63,15 @@ export class CrearEditarPedidoVentaComponent {
           this.loadSelectedProducts();
         }, 50)
       }
-
-      
       this.getPedido(this.id);
     }else{
-
-      
       this.loadAllEntities();
     }
-    
-    
+  }
 
-    
-    
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   addPedidoCompra() {
@@ -86,7 +84,7 @@ export class CrearEditarPedidoVentaComponent {
 
     if (this.id !== 0) {
       try {
-        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).subscribe(() => {
+        this.pedidosService.update(this.id, {...this.presupuestoData, editPresupuesto: true}).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-venta']);
           this.toastr.success('Pedido Actualizado');
         });
@@ -95,7 +93,7 @@ export class CrearEditarPedidoVentaComponent {
       }
     } else {
       try {
-        this.pedidosService.create(this.presupuestoData).subscribe(() => {
+        this.pedidosService.create(this.presupuestoData).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.router.navigate(['dashboard/pedidos-venta']);
           this.toastr.success('Pedido Creado Exitosamente');
         });
@@ -135,7 +133,7 @@ export class CrearEditarPedidoVentaComponent {
     });
   }
   loadAllEntities() {
-    this.maestroArticulosService.getAll().subscribe((data) => {
+    this.maestroArticulosService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data) => {
       data.forEach((insumo: any) => {
         if(insumo.tipoArticulo === 'PRODUCTO'){
           this.ProductEntities.push(insumo);
@@ -144,11 +142,11 @@ export class CrearEditarPedidoVentaComponent {
       this.ProductEntities.filter(insumo => !this.selectedEntities.some(selected => selected.id === insumo.id));
     })
 
-    this.monedasService.getAll().subscribe((data)=>{
+    this.monedasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.monedas= data
     })
 
-    this.personasService.getAll().subscribe((data)=>{
+    this.personasService.getAll().pipe(takeUntil(this.destroy$)).subscribe((data)=>{
       this.personas= data.filter(persona => persona.Tipo_Persona.description === 'Cliente')
       
     })
@@ -157,7 +155,7 @@ export class CrearEditarPedidoVentaComponent {
 
   loadSelectedProducts() {
     if (this.id) {
-      this.pedidosService.getById(this.id).subscribe(
+      this.pedidosService.getById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           if (res.productos && res.productos.length > 0) {
             this.selectedEntities = res.productos.map((entidad: { PedidosProductos: { quantity_requested: any; }; }) => {
@@ -175,8 +173,8 @@ export class CrearEditarPedidoVentaComponent {
   }
 
   getPedido(id: number) {
-    this.pedidosService.getById(id).subscribe((data: any)=> {
-    
+    this.pedidosService.getById(id).pipe(takeUntil(this.destroy$)).subscribe((data: any)=> {
+      this.fecha = data.createdAt
       this.form.setValue({
         moneda: data.monedaId,
         persona: data.personaId,

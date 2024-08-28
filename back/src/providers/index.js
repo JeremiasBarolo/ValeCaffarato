@@ -15,6 +15,8 @@ const Tipo_PersonaProvider = require('./Tipo_Persona');
 const MonedasProvider = require('./Monedas');
 const UsuarioProvider = require('./Usuario');
 const UnidadesDeMedidaProvider = require('./UnidadesDeMedida');
+const ReclamosProvider = require('./Reclamos');
+const Tipo_ReclamoProvider = require('./Tipo_Reclamo');
 
 module.exports = { 
     personasProvider, 
@@ -33,5 +35,7 @@ module.exports = {
     Tipo_PersonaProvider,
     MonedasProvider,
     UsuarioProvider,
-    UnidadesDeMedidaProvider
+    UnidadesDeMedidaProvider,
+    ReclamosProvider,
+    Tipo_ReclamoProvider
 };

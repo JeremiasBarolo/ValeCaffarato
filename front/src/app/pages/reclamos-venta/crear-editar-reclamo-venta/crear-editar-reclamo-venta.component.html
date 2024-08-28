@@ -1,0 +1,51 @@
+<app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
+<div class="container mt-5">
+    <div class="card mb-3 border border-0 mx-auto">
+      <div class="card-body">
+        
+        <div class="form-container">
+            <form [formGroup]="form" (ngSubmit)="addCondicion()">
+                <span>
+                   
+
+                <div class="form-group text-center">
+                    <label for="detalles_reclamo">Detalle del Reclamo</label>
+                    <input formControlName="detalles_reclamo" type="text-area" class="form-control" placeholder="Detalle">
+                    <br>
+                    <br>
+                    <label for="deposito">Pedido</label>
+                    <br>
+                    <select class="form-select col-md-12" aria-label="Unidad de Medida" formControlName="pedidoId">
+                      <option *ngFor="let pedido of pedidos " [value]="pedido.id"> {{pedido.createdAt | date}} || #{{pedido.id}}</option>
+                    </select>
+                
+                </div>
+
+                
+                <span>
+
+                  <div class="row mt-5 text-center">
+                      <div class="col-xs-12 col-md-6 col-lg-6">
+                          <button routerLinkActive="router-link-active" type="submit"
+                              class="btn btn-success">Aceptar </button>
+                      </div>
+                      <div class="col-xs-12 col-md-6 col-lg-6">
+                          <a type="button" class="btn btn-info" (click)="goBack()"> Volver </a>
+                      </div>
+
+                      
+                      <!-- <div class="col-xs-12 col-md-6 col-lg-6">
+                          <button type="button" class="btn btn-danger" (click)="rellenardatos()">RELLENAR DATOS(ELIMINAR)</button>
+                      </div> -->
+                  </div>
+              </span>
+                </span>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+      
+    
+  
+  

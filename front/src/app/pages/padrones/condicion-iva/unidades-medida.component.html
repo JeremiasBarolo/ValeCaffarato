@@ -1,6 +1,6 @@
 <app-breadcrumbs [titulo]= 'breadcrumbItems' class="mb-3"></app-breadcrumbs>
 <div class="text-right">
-    <button type="button" class="btn btn-outline-success add mr-2" data-target="#crearTipo" data-toggle="modal"> Agregar Condicion de Iva</button>
+    <button type="button" class="btn btn-outline-success add mr-2" [routerLink]="['crear-editar']" routerLinkActive="router-link-active"> Agregar Condicion de Iva</button>
   </div>
   
   
@@ -29,8 +29,12 @@
             <td>{{ rowData.id }}</td>
             <td>{{ rowData.description }}</td>
             <td>
-              <button routerLinkActive="router-link-active"
-                type="button" class="btn btn-outline-primary" data-target="#crearTipo" data-toggle="modal" (click)="editarTipo(rowData)" aria-label="Editar Producto">
+              <button 
+                type="button" 
+                class="btn btn-outline-primary" 
+                [routerLink]="['crear-editar', rowData.id]" 
+                routerLinkActive="router-link-active" 
+                aria-label="Editar Producto">
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
     
@@ -50,34 +54,6 @@
   </section>
   
  
-  
-  
-  
-  <div class="modal fade" id="crearTipo" tabindex="-1" role="dialog" aria-labelledby="crearMesa" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalCrearTipoLabel">Crear/Editar Condicion De iva</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="form" (ngSubmit)="guardarNuevoTipo()">
-                    <div class="form-group">
-                      <label for="nombreTipo">Descripcion</label>
-                      <input type="text" class="form-control" id="description" formControlName="description">
-                      <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
-                        Descripcion del tipo es requerido
-                      </div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Completar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-  </div>
   
   
     
