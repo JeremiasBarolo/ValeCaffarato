@@ -18,7 +18,8 @@ const {
     monedasRouter,
     usuarioRouter,
     loginRouter,
-    unidadesDeMedidaRouter
+    unidadesDeMedidaRouter,
+    reclamosRouter
  } = require('./routes')
 const { initializeDB } = require('./db/initializeDB');
 const cors = require("cors");
@@ -52,6 +53,7 @@ app.use('/monedas', monedasRouter)
 app.use('/usuario', usuarioRouter)
 app.use('/login', loginRouter)
 app.use('/unidades-medida', unidadesDeMedidaRouter)
+app.use('/reclamos', reclamosRouter)
 
 
 

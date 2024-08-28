@@ -303,72 +303,9 @@ module.exports = {
       }
     });
 
-    await queryInterface.createTable('Reclamos', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      detalle_reclamo: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
-
-    await queryInterface.createTable('Tipo_Reclamo', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      desc_reclamo: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
 
     // <================================================================== Relaciones =====================================================================>
-    await queryInterface.addColumn('Reclamos', 'id_tipo_reclamo', {
-      type: Sequelize.INTEGER,
-      references:{
-        model: 'Tipo_Reclamo',
-        key: 'id',
-        onDelete: 'SET NULL'
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-
-    });
-
-    await queryInterface.addColumn('Facturas', 'id_datalle', {
-      type: Sequelize.INTEGER,
-      references:{
-        model: 'Detalle_doc_com',
-        key: 'id',
-        onDelete: 'CASCADE'
-      },
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-
-    });
+    
     await queryInterface.addColumn('Facturas', 'id_persona', {
       type: Sequelize.INTEGER,
       references:{

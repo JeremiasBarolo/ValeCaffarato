@@ -322,7 +322,20 @@ module.exports = {
     });
 // <=============================== Fin PedidoDocumentos ===============================> 
 
-    
+// <=============================== Reclamos ===============================> 
+  await queryInterface.addColumn('Reclamos', 'id_tipo_reclamo', {
+    type: Sequelize.INTEGER,
+    references:{
+      model: 'Tipo_Reclamos',
+      key: 'id',
+      onDelete: 'SET NULL'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+
+  });
+
+// <=============================== Fin Reclamos ===============================> 
   },
     
   down: async (queryInterface, Sequelize) => {
@@ -367,6 +380,10 @@ module.exports = {
      // <=============================== PedidoDocumentos ===============================> 
      await queryInterface.removeColumn('PedidoDocumentos', 'pedidoId');
      await queryInterface.removeColumn('PedidoDocumentos', 'documentoId');
+
+     // <=============================== Reclamos ===============================> 
+      await queryInterface.removeColumn('Reclamos', 'id_tipo_reclamo');
+     
    
   }
     

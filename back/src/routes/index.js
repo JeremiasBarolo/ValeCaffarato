@@ -36,5 +36,6 @@ module.exports = {
     monedasRouter,
     usuarioRouter,
     loginRouter,
-    unidadesDeMedidaRouter
+    unidadesDeMedidaRouter,
+    reclamosRouter
  };
